@@ -1,12 +1,22 @@
 import './App.scss';
-import {Button} from "@mui/material";
+import {BrowserRouter, Routes, Route} from 'react-router';
+import Home from './views/home/Home';
+import Gradebook from "./views/gradebook/Gradebook";
+import Calendar from "./views/calendar/Calendar";
+import NotFound from "./views/not-found/NotFound";
+
 
 function App() {
     return (
-        <div className="App">
-            <Button variant="text" className="button">Text</Button>
-            <Button variant="text" disabled={true} className="button">Text</Button>
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route index element={<Home/>}/>
+                <Route path="/gradebook" element={<Gradebook/>}/>
+                <Route path="/calendar" element={<Calendar/>}/>
+
+                <Route path="*" element={<NotFound/>}/>
+            </Routes>
+        </BrowserRouter>
     );
 }
 
