@@ -28,7 +28,7 @@ const Sidebar = () => {
         : [HomePath, CalendarPath, GradebookPath];
 
     return (
-        <Box className={`sidebar ${open ? 'open' : 'closed'}`}>
+        <Box className={`sidebar ${open ? 'open' : ''}`}>
             <List>
                 <ListItem className="drawer-toggle" onClick={handleDrawerToggle}>
                     <MenuIcon/>
@@ -36,11 +36,12 @@ const Sidebar = () => {
                 <Divider/>
                 {routes.map(({text, icon, path}) => (
                     <ListItemButton
+                        className="route-button"
                         key={text}
                         onClick={() => navigation(path)}
                         selected={location.pathname === path}
                     >
-                        <ListItemIcon>{icon}</ListItemIcon>
+                        <ListItemIcon className="route-icon">{icon}</ListItemIcon>
                         {open && <ListItemText className="route-text" primary={text}/>}
                     </ListItemButton>
                 ))}
