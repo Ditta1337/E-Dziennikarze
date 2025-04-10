@@ -1,4 +1,3 @@
-import './App.scss';
 import {BrowserRouter, Routes, Route} from 'react-router';
 import Home from './views/home/Home';
 import Gradebook from "./views/gradebook/Gradebook";
