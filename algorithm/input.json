@@ -1,0 +1,169 @@
+{
+  "max_hours_per_day": 5,
+  "groups": [
+    {
+      "group_id": 0,
+      "subjects": [
+        {
+          "subject_id": 0,
+          "teacher": 0,
+          "hours": 4
+        },
+        {
+          "subject_id": 1,
+          "teacher": 1,
+          "hours": 4
+        },
+        {
+          "subject_id": 2,
+          "teacher": 2,
+          "hours": 3
+        },
+        {
+          "subject_id": 3,
+          "teacher": 3,
+          "hours": 1
+        },
+        {
+          "subject_id": 4,
+          "teacher": 4,
+          "hours": 1
+        },
+        {
+          "subject_id": 5,
+          "teacher": 5,
+          "hours": 1
+        },
+        {
+          "subject_id": 6,
+          "teacher": 6,
+          "hours": 1
+        }
+      ]
+    },
+    {
+      "group_id": 1,
+      "subjects": [
+        {
+          "subject_id": 0,
+          "teacher": 0,
+          "hours": 4
+        },
+        {
+          "subject_id": 1,
+          "teacher": 1,
+          "hours": 4
+        },
+        {
+          "subject_id": 2,
+          "teacher": 2,
+          "hours": 3
+        },
+        {
+          "subject_id": 3,
+          "teacher": 3,
+          "hours": 1
+        },
+        {
+          "subject_id": 4,
+          "teacher": 4,
+          "hours": 1
+        },
+        {
+          "subject_id": 5,
+          "teacher": 5,
+          "hours": 1
+        },
+        {
+          "subject_id": 6,
+          "teacher": 6,
+          "hours": 1
+        }
+      ]
+    },
+    {
+      "group_id": 2,
+      "subjects": [
+        {
+          "subject_id": 0,
+          "teacher": 0,
+          "hours": 4
+        },
+        {
+          "subject_id": 1,
+          "teacher": 1,
+          "hours": 4
+        },
+        {
+          "subject_id": 2,
+          "teacher": 2,
+          "hours": 3
+        },
+        {
+          "subject_id": 3,
+          "teacher": 3,
+          "hours": 1
+        },
+        {
+          "subject_id": 4,
+          "teacher": 4,
+          "hours": 1
+        },
+        {
+          "subject_id": 5,
+          "teacher": 5,
+          "hours": 1
+        },
+        {
+          "subject_id": 6,
+          "teacher": 6,
+          "hours": 1
+        }
+      ]
+    }
+  ],
+  "teachers": [
+    {
+      "teacher_id": 0,
+      "availability": [
+        "format will be considered later"
+      ]
+    },
+    {
+      "teacher_id": 1,
+      "availability": [
+        "format will be considered later"
+      ]
+    },
+    {
+      "teacher_id": 2,
+      "availability": [
+        "format will be considered later"
+      ]
+    },
+    {
+      "teacher_id": 3,
+      "availability": [
+        "format will be considered later"
+      ]
+    },
+    {
+      "teacher_id": 4,
+      "availability": [
+        "format will be considered later"
+      ]
+    },
+    {
+      "teacher_id": 5,
+      "availability": [
+        "format will be considered later"
+      ]
+    },
+    {
+      "teacher_id": 6,
+      "availability": [
+        "format will be considered later"
+      ]
+    }
+  ]
+}
