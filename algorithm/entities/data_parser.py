@@ -24,6 +24,7 @@ class DataParser:
         for group_data in groups_list:
             DataParser.get_group_by_uuid(group_data["group_uuid"], group_data["subjects"])
 
+
     @classmethod
     def get_teacher_by_uuid(cls, teacher_uuid: str) -> Teacher:
         if not teacher_uuid in cls._teachers_by_uuid:
