@@ -5,6 +5,7 @@ import numpy as np
 from algorithm.entities import Group,Teacher, DataParser
 WORKING_DAYS=5
 #TODO create function that will read number of subjeacts from file
+# class CpSolverSolutionCallback(ortools.sat.python.cp_model_helper.SolutionCallback):
 NUM_OF_SUBJECTS=7
 
 
@@ -20,17 +21,23 @@ def create_schedule(model, num_of_groups, num_of_teachers,num_of_subjects, max_h
 
     return schedule
 
-def prepare_output(array3d):
+def groups_3d_to_2d(array3d):
     res={}
     for idx,array2d in enumerate(array3d):
-        res[idx]=array2d.tolist()
+        res[DataParser.get_group_by_id(idx).uuid]=array2d.tolist()
+    return res
+
+def teachers_3d_to_2d(array3d):
+    res={}
+    for idx,array2d in enumerate(array3d):
+        res[DataParser.get_teacher_by_id(idx).uuid]=array2d.tolist()
     return res
 
 
 def read_schedule_values(schedule, solver):
 
-    groups=np.full((schedule.shape[0],*schedule.shape[3:]),-1)
-    teachers=np.full((schedule.shape[1],*schedule.shape[3:]),-1)
+    groups=np.full((schedule.shape[0],*schedule.shape[3:]),None)
+    teachers=np.full((schedule.shape[1],*schedule.shape[3:]),None)
     for idx in np.ndindex(schedule.shape):
         group_id, teacher_id , subject, day, hour = idx
         # print(idx)
@@ -38,14 +45,15 @@ def read_schedule_values(schedule, solver):
 
         if value:
             # print(value)
-            if groups[group_id,day,hour]!=-1 or teachers[teacher_id,day,hour]!=-1 :
+            if  (not groups[group_id,day,hour] is None) or(not  teachers[teacher_id,day,hour]is None) :
                 print("Wrong implementation")
                 break
             else:
-                groups[group_id, day, hour]=subject
-                teachers[teacher_id, day, hour]=subject
+                # print("\t",DataParser.get_subject_by_id(subject).uuid)
+                groups[group_id, day, hour]=DataParser.get_subject_by_id(subject).uuid
+                teachers[teacher_id, day, hour]=DataParser.get_subject_by_id(subject).uuid
 
-    return {"classes":prepare_output(groups),  "teachers":prepare_output(teachers)}
+    return {"classes":groups_3d_to_2d(groups),  "teachers":teachers_3d_to_2d(teachers)}
 
 def solve(groups:list[Group],teachers:list[Teacher],num_of_subjects:int, max_hours_per_day:int, WORKING_DAYS:int):
     model = cp_model.CpModel()
@@ -54,7 +62,7 @@ def solve(groups:list[Group],teachers:list[Teacher],num_of_subjects:int, max_hou
     #ensure that each class have enough lessons
     for group in groups:
         for subject in group.subjects:
-            available_slots=schedule[group.id,subject.teacher,subject.id,:,:]
+            available_slots=schedule[group.id,subject.teacher.id,subject.id,:,:]
             model.add(np.sum(available_slots)==subject.hours)
 
     #ensure that each class in each hour in each day have no more than one lesson

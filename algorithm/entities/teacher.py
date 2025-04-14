@@ -1,7 +1,18 @@
+from itertools import count
 
 class Teacher:
-    def __init__(self, teacher_data):
-        self._id = teacher_data["teacher_id"]
+    id_iterator = count()
+    def __init__(self, uuid):
+        self._uuid = uuid
+        self._id=next(self.id_iterator)
+
+    @classmethod
+    def reset_counter(cls):
+        cls.id_iterator = count()
+
+    @property
+    def uuid(self):
+        return self._uuid
 
     @property
     def id(self):

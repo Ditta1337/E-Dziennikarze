@@ -1,14 +1,28 @@
+from itertools import count
+
+from algorithm.entities import Teacher
 
 
 class Subject:
-    def __init__(self, subject_data):
-        self._id = subject_data["subject_id"]
-        self._teacher = subject_data["teacher"]
-        self._hours = subject_data["hours"]
+    id_iterator = count()
+
+    def __init__(self, uuid:str,hours:int,teacher:Teacher):
+        self._uuid = uuid
+        self._teacher = teacher
+        self._hours = hours
+        self._id = next(self.id_iterator)
+
+    @classmethod
+    def reset_counter(cls):
+        cls.id_iterator = count()
 
     @property
     def id(self):
         return self._id
+
+    @property
+    def uuid(self):
+        return self._uuid
 
     @property
     def teacher(self):
@@ -23,4 +37,3 @@ class Subject:
 
     def __repr__(self):
         return self.__str__()
-

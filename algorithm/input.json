@@ -2,121 +2,121 @@
   "max_hours_per_day": 5,
   "groups": [
     {
-      "group_id": 0,
+      "group_uuid": "91985048-00a7-49b6-87df-e32744e059cb",
       "subjects": [
         {
-          "subject_id": 0,
-          "teacher": 0,
+          "subject_uuid": "19eb4a3b-0e95-4c00-b4af-84d634875d12",
+          "teacher_uuid": "810b4b68-4404-4aa6-bbb9-2bf83dc5dda7",
           "hours": 4
         },
         {
-          "subject_id": 1,
-          "teacher": 1,
+          "subject_uuid": "8e4d7d9a-6a84-4b98-8772-cb46aaf358db",
+          "teacher_uuid": "f36bc4ef-2f6d-490e-86cb-aa2918b62dc3",
           "hours": 4
         },
         {
-          "subject_id": 2,
-          "teacher": 2,
+          "subject_uuid": "083a0121-cbaf-43b2-9823-5877829cb7d2",
+          "teacher_uuid": "8542b914-fb2b-4f18-b97b-fdc59730e375",
           "hours": 3
         },
         {
-          "subject_id": 3,
-          "teacher": 3,
+          "subject_uuid": "8dade54d-94f4-4130-8f4f-21d371d9f4a0",
+          "teacher_uuid": "b3d6524c-619d-425f-a5aa-c003d819e755",
           "hours": 1
         },
         {
-          "subject_id": 4,
-          "teacher": 4,
+          "subject_uuid": "ef8c8c40-88e8-457d-a579-2e94d3500c1d",
+          "teacher_uuid": "683d0c6b-86ac-4c3e-b1e9-f5326ffbcb8d",
           "hours": 1
         },
         {
-          "subject_id": 5,
-          "teacher": 5,
+          "subject_uuid": "e2a4414a-77e9-42eb-8698-f170ca55b1bf",
+          "teacher_uuid": "7d097f1f-83d5-496e-b110-539bcaebb2d6",
           "hours": 1
         },
         {
-          "subject_id": 6,
-          "teacher": 6,
+          "subject_uuid": "92d7b487-74ab-4dc0-9f13-8385cebe0299",
+          "teacher_uuid": "f30ad712-91d2-4fec-ae79-49d0f86d8369",
           "hours": 1
         }
       ]
     },
     {
-      "group_id": 1,
+      "group_uuid": "25c50410-7129-43c2-abee-72900425c987",
       "subjects": [
         {
-          "subject_id": 0,
-          "teacher": 0,
+          "subject_uuid": "19eb4a3b-0e95-4c00-b4af-84d634875d12",
+          "teacher_uuid": "810b4b68-4404-4aa6-bbb9-2bf83dc5dda7",
           "hours": 4
         },
         {
-          "subject_id": 1,
-          "teacher": 1,
+          "subject_uuid": "8e4d7d9a-6a84-4b98-8772-cb46aaf358db",
+          "teacher_uuid": "f36bc4ef-2f6d-490e-86cb-aa2918b62dc3",
           "hours": 4
         },
         {
-          "subject_id": 2,
-          "teacher": 2,
+          "subject_uuid": "083a0121-cbaf-43b2-9823-5877829cb7d2",
+          "teacher_uuid": "8542b914-fb2b-4f18-b97b-fdc59730e375",
           "hours": 3
         },
         {
-          "subject_id": 3,
-          "teacher": 3,
+          "subject_uuid": "8dade54d-94f4-4130-8f4f-21d371d9f4a0",
+          "teacher_uuid": "b3d6524c-619d-425f-a5aa-c003d819e755",
           "hours": 1
         },
         {
-          "subject_id": 4,
-          "teacher": 4,
+          "subject_uuid": "ef8c8c40-88e8-457d-a579-2e94d3500c1d",
+          "teacher_uuid": "683d0c6b-86ac-4c3e-b1e9-f5326ffbcb8d",
           "hours": 1
         },
         {
-          "subject_id": 5,
-          "teacher": 5,
+          "subject_uuid": "e2a4414a-77e9-42eb-8698-f170ca55b1bf",
+          "teacher_uuid": "7d097f1f-83d5-496e-b110-539bcaebb2d6",
           "hours": 1
         },
         {
-          "subject_id": 6,
-          "teacher": 6,
+          "subject_uuid": "92d7b487-74ab-4dc0-9f13-8385cebe0299",
+          "teacher_uuid": "f30ad712-91d2-4fec-ae79-49d0f86d8369",
           "hours": 1
         }
       ]
     },
     {
-      "group_id": 2,
+      "group_uuid": "95af362d-285b-4acd-b4d0-0b75fed1dfd0",
       "subjects": [
         {
-          "subject_id": 0,
-          "teacher": 0,
+          "subject_uuid": "19eb4a3b-0e95-4c00-b4af-84d634875d12",
+          "teacher_uuid": "810b4b68-4404-4aa6-bbb9-2bf83dc5dda7",
           "hours": 4
         },
         {
-          "subject_id": 1,
-          "teacher": 1,
+          "subject_uuid": "8e4d7d9a-6a84-4b98-8772-cb46aaf358db",
+          "teacher_uuid": "f36bc4ef-2f6d-490e-86cb-aa2918b62dc3",
           "hours": 4
         },
         {
-          "subject_id": 2,
-          "teacher": 2,
+          "subject_uuid": "083a0121-cbaf-43b2-9823-5877829cb7d2",
+          "teacher_uuid": "8542b914-fb2b-4f18-b97b-fdc59730e375",
           "hours": 3
         },
         {
-          "subject_id": 3,
-          "teacher": 3,
+          "subject_uuid": "8dade54d-94f4-4130-8f4f-21d371d9f4a0",
+          "teacher_uuid": "b3d6524c-619d-425f-a5aa-c003d819e755",
           "hours": 1
         },
         {
-          "subject_id": 4,
-          "teacher": 4,
+          "subject_uuid": "ef8c8c40-88e8-457d-a579-2e94d3500c1d",
+          "teacher_uuid": "683d0c6b-86ac-4c3e-b1e9-f5326ffbcb8d",
           "hours": 1
         },
         {
-          "subject_id": 5,
-          "teacher": 5,
+          "subject_uuid": "e2a4414a-77e9-42eb-8698-f170ca55b1bf",
+          "teacher_uuid": "7d097f1f-83d5-496e-b110-539bcaebb2d6",
           "hours": 1
         },
         {
-          "subject_id": 6,
-          "teacher": 6,
+          "subject_uuid": "92d7b487-74ab-4dc0-9f13-8385cebe0299",
+          "teacher_uuid": "f30ad712-91d2-4fec-ae79-49d0f86d8369",
           "hours": 1
         }
       ]
@@ -124,43 +124,43 @@
   ],
   "teachers": [
     {
-      "teacher_id": 0,
+      "teacher_uuid": "810b4b68-4404-4aa6-bbb9-2bf83dc5dda7",
       "availability": [
         "format will be considered later"
       ]
     },
     {
-      "teacher_id": 1,
+      "teacher_uuid": "f36bc4ef-2f6d-490e-86cb-aa2918b62dc3",
       "availability": [
         "format will be considered later"
       ]
     },
     {
-      "teacher_id": 2,
+      "teacher_uuid": "8542b914-fb2b-4f18-b97b-fdc59730e375",
       "availability": [
         "format will be considered later"
       ]
     },
     {
-      "teacher_id": 3,
+      "teacher_uuid": "b3d6524c-619d-425f-a5aa-c003d819e755",
       "availability": [
         "format will be considered later"
       ]
     },
     {
-      "teacher_id": 4,
+      "teacher_uuid": "683d0c6b-86ac-4c3e-b1e9-f5326ffbcb8d",
       "availability": [
         "format will be considered later"
       ]
     },
     {
-      "teacher_id": 5,
+      "teacher_uuid": "7d097f1f-83d5-496e-b110-539bcaebb2d6",
       "availability": [
         "format will be considered later"
       ]
     },
     {
-      "teacher_id": 6,
+      "teacher_uuid": "f30ad712-91d2-4fec-ae79-49d0f86d8369",
       "availability": [
         "format will be considered later"
       ]
