@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
     List,
     ListItem,
@@ -14,15 +14,10 @@ import {useStore} from "../../store";
 import {HomePath, CalendarPath, GradebookPath, ProfilePath} from "./paths";
 import './Sidebar.scss';
 
-const Sidebar = () => {
-    const [open, setOpen] = useState(false); // Drawer starts closed
+const Sidebar = ({open, toggle}) => {
     const role = useStore((state) => state.role);
     const navigation = useNavigate();
     const location = useLocation();
-
-    const handleDrawerToggle = () => {
-        setOpen(!open);
-    };
 
     const routes = role === "admin" ? [HomePath, CalendarPath, GradebookPath, ProfilePath]
         : [HomePath, CalendarPath, GradebookPath];
@@ -30,7 +25,7 @@ const Sidebar = () => {
     return (
         <Box className={`sidebar ${open ? 'open' : ''}`}>
             <List>
-                <ListItem className="drawer-toggle" onClick={handleDrawerToggle}>
+                <ListItem className="drawer-toggle" onClick={toggle}>
                     <MenuIcon/>
                 </ListItem>
                 <Divider/>
