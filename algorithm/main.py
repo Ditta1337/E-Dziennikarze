@@ -21,7 +21,7 @@ def create_schedule(model, num_of_groups, num_of_teachers,num_of_subjects, max_h
 
     return schedule
 
-def groups_3d_to_2d(array3d):
+def teachers_3d_to_2d(array3d):
     res=[]
     for idx,array2d in enumerate(array3d):
 
@@ -32,7 +32,7 @@ def groups_3d_to_2d(array3d):
         # res[DataParser.get_group_by_id(idx).uuid]=array2d.tolist()
     return res
 
-def teachers_3d_to_2d(array3d):
+def groups_3d_to_2d(array3d):
     res=[]
     for idx,array2d in enumerate(array3d):
         group_dict={}
