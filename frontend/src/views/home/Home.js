@@ -1,8 +1,7 @@
 import React from 'react';
 import './Home.scss';
 import {useStore} from "../../store";
-import {Button, Chip} from "@mui/material";
-import Sidebar from "../../components/sidebar/Sidebar";
+import {Box, Button, Chip} from "@mui/material";
 
 function Home() {
     const test = useStore((state) => state.test);
@@ -10,12 +9,17 @@ function Home() {
     const decreaseTest = useStore((state) => state.decreaseTest);
 
     return (
-        <div className="home">
-            <Sidebar/>
-            {/*<Chip label={"Current test: " + test}/>*/}
-            {/*<Button onClick={increaseTest} variant="contained">Add to test</Button>*/}
-            {/*<Button onClick={decreaseTest} variant="contained">Subtract from test</Button>*/}
-        </div>
+        <Box className="home">
+            <Chip className="text-value" label={`Test Value: ${test}`}/>
+            <Box className="button-container">
+                <Button className="test-button success" onClick={increaseTest}>
+                    Increase
+                </Button>
+                <Button className="test-button error" onClick={decreaseTest}>
+                    Decrease
+                </Button>
+            </Box>
+        </Box>
     );
 }
 
