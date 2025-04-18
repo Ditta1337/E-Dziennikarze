@@ -3,7 +3,8 @@ import './Gradebook.scss';
 
 function Gradebook() {
     return (
-        <div className="gradebook">Gradebook</div>
+        <div className="gradebook">
+        </div>
     )
 }
 

@@ -1,0 +1,42 @@
+.card {
+    display: flex;
+    height: 100vh;
+
+    .content {
+        transition: margin-left 0.3s ease;
+        flex: 1;
+        width: 100%;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        margin-left: 60px;
+
+        .header {
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: gray;
+        }
+
+        .main {
+            flex: 1;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .footer {
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: dimgray;
+        }
+    }
+
+    &.sidebar-open {
+        .content {
+            margin-left: 240px;
+        }
+    }
+}
