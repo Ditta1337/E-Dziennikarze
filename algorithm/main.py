@@ -22,15 +22,24 @@ def create_schedule(model, num_of_groups, num_of_teachers,num_of_subjects, max_h
     return schedule
 
 def groups_3d_to_2d(array3d):
-    res={}
+    res=[]
     for idx,array2d in enumerate(array3d):
-        res[DataParser.get_group_by_id(idx).uuid]=array2d.tolist()
+
+        teacher_dict={}
+        teacher_dict["teacher_id"]=DataParser.get_group_by_id(idx).uuid
+        teacher_dict["schedule"]=array2d.tolist()
+        res.append(teacher_dict)
+        # res[DataParser.get_group_by_id(idx).uuid]=array2d.tolist()
     return res
 
 def teachers_3d_to_2d(array3d):
-    res={}
+    res=[]
     for idx,array2d in enumerate(array3d):
-        res[DataParser.get_teacher_by_id(idx).uuid]=array2d.tolist()
+        group_dict={}
+        group_dict["group_id"]=DataParser.get_teacher_by_id(idx).uuid
+        group_dict["schedule"]=array2d.tolist()
+        res.append(group_dict)
+        # res[DataParser.get_teacher_by_id(idx).uuid]=array2d.tolist()
     return res
 
 
@@ -53,7 +62,7 @@ def read_schedule_values(schedule, solver):
                 groups[group_id, day, hour]=DataParser.get_subject_by_id(subject).uuid
                 teachers[teacher_id, day, hour]=DataParser.get_subject_by_id(subject).uuid
 
-    return {"classes":groups_3d_to_2d(groups),  "teachers":teachers_3d_to_2d(teachers)}
+    return {"groups":groups_3d_to_2d(groups),  "teachers":teachers_3d_to_2d(teachers)}
 
 def solve(groups:list[Group],teachers:list[Teacher],num_of_subjects:int, max_hours_per_day:int, WORKING_DAYS:int):
     model = cp_model.CpModel()
