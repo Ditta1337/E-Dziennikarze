@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Box, Typography} from '@mui/material';
 import Sidebar from '../sidebar/Sidebar';
+import Breadcrumb from "../breadcrumb/Breadcrumb";
 import './Card.scss';
 
 const Card = ({children, className = ''}) => {
@@ -13,7 +14,7 @@ const Card = ({children, className = ''}) => {
                 <Box className="header">
                     <Typography>Here will be header content like school name, user icon and logout button</Typography>
                 </Box>
-
+                <Breadcrumb/>
                 <Box className="main">
                     {children}
                 </Box>
