@@ -1,4 +1,4 @@
-package com.edziennikarze.gradebook.user.config;
+package com.edziennikarze.gradebook.config;
 
 import javax.sql.DataSource;
 

@@ -1,4 +1,4 @@
-package com.edziennikarze.gradebook.user.config;
+package com.edziennikarze.gradebook.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -12,7 +12,7 @@ import java.util.UUID;
 @RequestMapping("/office/worker")
 @AllArgsConstructor
 public class OfficeWorkerController {
-    private OfficeWorkerService officeWorkerService;
+    private final OfficeWorkerService officeWorkerService;
 
     @PostMapping("/create/{principalPrivileges}")
     public Mono<User> createOfficeWorker(@RequestBody Mono<User> userMono, @PathVariable("principalPrivileges") boolean principalPrivileges){
@@ -24,7 +24,7 @@ public class OfficeWorkerController {
         return officeWorkerService.getOfficeWorker(uuid);
     }
 
-    @GetMapping("get/all")
+    @GetMapping("/get/all")
     public Flux<User> getAllOfficeWorkers(){
         return officeWorkerService.getAllOfficeWorkers();
     }
