@@ -1,4 +1,4 @@
-package com.edziennikarze.gradebook.user.config;
+package com.edziennikarze.gradebook.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;

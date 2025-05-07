@@ -1,8 +1,9 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE
+EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users
 (
-    id           uuid NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id           uuid         NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
     name         varchar(40)  NOT NULL,
     surname      varchar(40)  NOT NULL,
     created_at   date         NOT NULL,
@@ -17,13 +18,13 @@ CREATE TABLE users
 
 CREATE TABLE admins
 (
-    id      uuid NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id      uuid        NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id uuid UNIQUE NOT NULL
 );
 
 CREATE TABLE office_workers
 (
-    id                   uuid NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id                   uuid        NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id              uuid UNIQUE NOT NULL,
     principal_priviledge boolean     NOT NULL
 );
@@ -36,10 +37,16 @@ CREATE TABLE guardians
 
 CREATE TABLE students
 (
-    id                     uuid NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id                     uuid        NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id                uuid UNIQUE NOT NULL,
     guardian_id            uuid,
     can_choose_preferences boolean     NOT NULL
+);
+
+CREATE TABLE teachers
+(
+    id      uuid        NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id uuid UNIQUE NOT NULL
 );
 
 ALTER TABLE office_workers
@@ -74,3 +81,10 @@ ALTER TABLE students
             REFERENCES guardians (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE;
+
+ALTER TABLE teachers
+    ADD CONSTRAINT teacher_to_user
+        FOREIGN KEY (user_id)
+            REFERENCES users (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
