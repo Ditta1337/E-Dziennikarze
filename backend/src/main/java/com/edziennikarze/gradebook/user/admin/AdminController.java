@@ -15,7 +15,7 @@ import java.util.UUID;
 public class AdminController {
     private AdminService adminService;
 
-    @PostMapping("")
+    @PostMapping()
     public Mono<User> createAdmin(@RequestBody Mono<User> userMono){
         return adminService.createAdmin(userMono);
     }
