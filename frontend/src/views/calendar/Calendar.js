@@ -3,7 +3,8 @@ import './Calendar.scss';
 
 function Calendar() {
     return (
-        <div className="calendar">Calendar</div>
+        <div className="calendar">
+        </div>
     )
 }
 
