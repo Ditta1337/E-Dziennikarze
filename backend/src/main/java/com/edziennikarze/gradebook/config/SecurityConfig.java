@@ -16,15 +16,13 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         return http
-                .csrf(csrf -> csrf.disable())
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
-                        // you can choose to lock down /actuator/** too:
                         .pathMatchers("/actuator/health", "/actuator/info").permitAll()
-                        //.pathMatchers("/actuator/**").hasRole("ADMIN")
 
                         .anyExchange().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults())   // or formLogin(), oauth2Login(), whatever
+                .httpBasic(Customizer.withDefaults())
                 .build();
     }
 

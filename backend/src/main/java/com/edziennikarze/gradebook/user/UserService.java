@@ -10,17 +10,17 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class UserService {
-    UserRepository userRepository;
-    public Mono<User> createUser(Mono<User> userMono){
-        return userMono.flatMap(user -> {
-            return userRepository.save(user);
-        });
+    private UserRepository userRepository;
+
+    public Mono<User> createUser(Mono<User> userMono) {
+        return userMono.flatMap(user -> userRepository.save(user));
     }
 
-    public Flux<User> getAllUsers(){
+    public Flux<User> getAllUsers() {
         return userRepository.findAll();
     }
-    public Mono<User> getUser(UUID uuid){
+
+    public Mono<User> getUser(UUID uuid) {
         return userRepository.findById(uuid);
     }
 
@@ -41,7 +41,7 @@ public class UserService {
                         }));
     }
 
-    public Mono<User> deactivateUser(UUID uuid){
+    public Mono<User> deactivateUser(UUID uuid) {
         return userRepository.findById(uuid)
                 .flatMap(exisitingUser -> {
                     exisitingUser.setIsActive(false);
@@ -49,7 +49,7 @@ public class UserService {
                 });
     }
 
-    public Mono<User> activateUser(UUID uuid){
+    public Mono<User> activateUser(UUID uuid) {
         return userRepository.findById(uuid)
                 .flatMap(exisitingUser -> {
                     exisitingUser.setIsActive(true);
@@ -57,11 +57,9 @@ public class UserService {
                 });
     }
 
-    public Mono<User> deleteUser(UUID uuid){
+    public Mono<User> deleteUser(UUID uuid) {
         return userRepository.findById(uuid)
-                .flatMap(user -> {
-                    return userRepository.deleteById(uuid)
-                            .thenReturn(user);
-                });
+                .flatMap(user -> userRepository.deleteById(uuid)
+                        .thenReturn(user));
     }
 }

@@ -15,23 +15,23 @@ import java.util.UUID;
 public class AdminController {
     private AdminService adminService;
 
-    @PostMapping("/create")
+    @PostMapping("")
     public Mono<User> createAdmin(@RequestBody Mono<User> userMono){
         return adminService.createAdmin(userMono);
     }
 
-    @GetMapping("/get/{uuid}")
+    @GetMapping("/{uuid}")
     public Mono<User> getAdmin(@PathVariable("uuid") UUID uuid){
         return adminService.getAdmin(uuid);
     }
 
-    @GetMapping("/get/all")
+    @GetMapping("/all")
     public Flux<User> getAllAdmins(){
         return adminService.getAllAdmins();
     }
 
-    @DeleteMapping("delete/{uuid}")
+    @DeleteMapping("/{uuid}/delete")
     public Mono<User> deleteAdmin(@PathVariable("uuid") UUID uuid){
-        return adminService.delteAdmin(uuid);
+        return adminService.deleteAdmin(uuid);
     }
 }

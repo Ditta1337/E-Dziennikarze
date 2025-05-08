@@ -19,10 +19,11 @@ public class StudentService {
     public Mono<User> createStudent(Mono<User> userMono) {
         return userService.createUser(userMono)
                 .flatMap(savedUser -> {
-                    Student student = new Student();
-                    student.setUserId(savedUser.getId());
-                    student.setCanChoosePreferences(false);
-                    student.setGuardianId(null);
+                    Student student = Student.builder()
+                            .userId(savedUser.getId())
+                            .canChoosePreferences(false)
+                            .guardianId(null)
+                            .build();
 
                     return studentRepository
                             .save(student)

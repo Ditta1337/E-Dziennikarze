@@ -1,22 +1,21 @@
 package com.edziennikarze.gradebook;
 
+import com.edziennikarze.gradebook.user.User;
 import com.edziennikarze.gradebook.user.admin.AdminService;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import reactor.core.publisher.Mono;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class MockitoSetUpTests { //Test exists for showcase purpouses, delete later
-    private static AdminService service;
 
-//    @BeforeAll
-//    static void mockitoSetUpTest(){
-//        service = mock(AdminService.class);
-//        when(service.createUser(null)).thenReturn(null);
-//    }
-//
-//    @Test
-//    void mockitoRunTest(){
-//        Mono<User> createdUser =
-//        assertNull(createdUser);
-//    }
+    @Test
+    void mockitoRunTest(){
+        AdminService service = mock(AdminService.class);
+        when(service.createAdmin(null)).thenReturn(null);
+        Mono<User> result = service.createAdmin(null);
+        Assertions.assertNull(result);
+    }
 }
