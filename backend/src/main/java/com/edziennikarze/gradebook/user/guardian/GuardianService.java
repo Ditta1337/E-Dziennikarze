@@ -18,8 +18,9 @@ public class GuardianService {
     public Mono<User> createGuardian(Mono<User> userMono) {
         return userService.createUser(userMono)
                 .flatMap(savedUser -> {
-                    Guardian guardian = new Guardian();
-                    guardian.setUserId(savedUser.getId());
+                    Guardian guardian = Guardian.builder()
+                            .userId(savedUser.getId())
+                            .build();
 
                     return guardianRepository
                             .save(guardian)

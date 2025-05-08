@@ -15,22 +15,22 @@ import java.util.UUID;
 public class StudentController {
     private StudentService studentService;
 
-    @PostMapping("/create")
+    @PostMapping("")
     public Mono<User> createStudent(@RequestBody Mono<User> userMono){
         return studentService.createStudent(userMono);
     }
 
-    @GetMapping("/get/{uuid}")
+    @GetMapping("/{uuid}")
     public Mono<User> getStudent(@PathVariable("uuid") UUID uuid){
         return studentService.getStudent(uuid);
     }
 
-    @GetMapping("/get/all")
+    @GetMapping("/all")
     public Flux<User> getAllStudents(){
         return studentService.getAllStudents();
     }
 
-    @DeleteMapping("/delete/{uuid}")
+    @DeleteMapping("/{uuid}/delete")
     public Mono<User> deleteStudent(@PathVariable("uuid") UUID uuid){
         return studentService.deleteStudent(uuid);
     }

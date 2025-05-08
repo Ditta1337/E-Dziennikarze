@@ -9,27 +9,27 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/office/worker")
+@RequestMapping("/worker")
 @AllArgsConstructor
 public class OfficeWorkerController {
     private final OfficeWorkerService officeWorkerService;
 
-    @PostMapping("/create/{principalPrivileges}")
+    @PostMapping("/{principalPrivileges}")
     public Mono<User> createOfficeWorker(@RequestBody Mono<User> userMono, @PathVariable("principalPrivileges") boolean principalPrivileges){
         return officeWorkerService.createOfficeWorker(userMono, principalPrivileges);
     }
 
-    @GetMapping("/get/{uuid}")
+    @GetMapping("/{uuid}")
     public Mono<User> getOfficeWorker(@PathVariable("uuid") UUID uuid){
         return officeWorkerService.getOfficeWorker(uuid);
     }
 
-    @GetMapping("/get/all")
+    @GetMapping("/all")
     public Flux<User> getAllOfficeWorkers(){
         return officeWorkerService.getAllOfficeWorkers();
     }
 
-    @DeleteMapping("delete/{uuid}")
+    @DeleteMapping("/{uuid}/delete")
     public Mono<User> deleteOfficeWorker(@PathVariable("uuid") UUID uuid){
         return officeWorkerService.deleteOfficeWorker(uuid);
     }

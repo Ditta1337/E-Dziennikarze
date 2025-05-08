@@ -13,22 +13,22 @@ import java.util.UUID;
 @AllArgsConstructor
 public class GuardianController {
     private GuardianService guardianService;
-    @PostMapping("/create")
+    @PostMapping("")
     public Mono<User> createGuardian(@RequestBody Mono<User> userMono){
         return guardianService.createGuardian(userMono);
     }
 
-    @GetMapping("/get/{uuid}")
+    @GetMapping("/{uuid}")
     public Mono<User> getGuardian(@PathVariable("uuid") UUID uuid){
         return guardianService.getGuardian(uuid);
     }
 
-    @GetMapping("/get/all")
+    @GetMapping("/all")
     public Flux<User> getAllGuardians(){
         return guardianService.getAllGuardians();
     }
 
-    @DeleteMapping("/delete/{uuid}")
+    @DeleteMapping("/{uuid}/delete")
     public Mono<User> deleteGuardian(@PathVariable("uuid") UUID uuid){
         return guardianService.deleteGuardian(uuid);
     }

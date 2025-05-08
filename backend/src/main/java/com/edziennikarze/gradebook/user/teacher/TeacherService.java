@@ -18,8 +18,9 @@ public class TeacherService {
     public Mono<User> createTeacher(Mono<User> userMono) {
         return userService.createUser(userMono)
                 .flatMap(savedUser -> {
-                    Teacher teacher = new Teacher();
-                    teacher.setUserId(savedUser.getId());
+                    Teacher teacher = Teacher.builder()
+                            .userId(savedUser.getId())
+                            .build();
 
                     return teacherRepository
                             .save(teacher)

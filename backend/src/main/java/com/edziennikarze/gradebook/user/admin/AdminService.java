@@ -18,8 +18,9 @@ public class AdminService {
     public Mono<User> createAdmin(Mono<User> userMono) {
         return userService.createUser(userMono)
                 .flatMap(savedUser -> {
-                    Admin admin = new Admin();
-                    admin.setUserId(savedUser.getId());
+                    Admin admin = Admin.builder()
+                            .userId(savedUser.getId())
+                            .build();
 
                     return adminRepository
                             .save(admin)
@@ -37,7 +38,7 @@ public class AdminService {
         return adminFlux.flatMap(admin -> userService.getUser(admin.getUserId()));
     }
 
-    public Mono<User> delteAdmin(UUID uuid) {
+    public Mono<User> deleteAdmin(UUID uuid) {
         return adminRepository.findById(uuid)
                 .flatMap(admin -> adminRepository.deleteById(uuid)
                         .then(userService.deleteUser(admin.getUserId())));

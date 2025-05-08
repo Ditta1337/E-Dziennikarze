@@ -15,12 +15,13 @@ public class OfficeWorkerService {
     OfficeWorkerRepository officeWorkerRepository;
     UserService userService;
 
-    public Mono<User> createOfficeWorker(Mono<User> userMono, boolean principalPriviledges){
+    public Mono<User> createOfficeWorker(Mono<User> userMono, boolean principalPrivileges){
         return userService.createUser(userMono)
                 .flatMap(savedUser -> {
-                    OfficeWorker officeWorker = new OfficeWorker();
-                    officeWorker.setUserId(savedUser.getId());
-                    officeWorker.setPrincipalPriviledge(principalPriviledges);
+                    OfficeWorker officeWorker = OfficeWorker.builder()
+                            .userId(savedUser.getId())
+                            .principalPriviledge(principalPrivileges)
+                            .build();
 
                     return officeWorkerRepository
                             .save(officeWorker)
