@@ -6,10 +6,11 @@ from algorithm.entities import Teacher
 class Subject:
     id_iterator = count()
 
-    def __init__(self, uuid:str,hours:int,teacher:Teacher):
+    def __init__(self, uuid: str, name: str, hours: int, teacher: Teacher):
         self._uuid = uuid
         self._teacher = teacher
         self._hours = hours
+        self._name = name
         self._id = next(self.id_iterator)
 
     @classmethod
@@ -19,6 +20,10 @@ class Subject:
     @property
     def id(self):
         return self._id
+
+    @property
+    def name(self):
+        return self._name
 
     @property
     def uuid(self):
@@ -33,7 +38,7 @@ class Subject:
         return self._hours
 
     def __str__(self):
-        return f"id:{self._id} teacher:{self._teacher} hours:{self._hours}"
+        return f"id:{self._id} name:{self._name} teacher:{self._teacher} hours:{self._hours}"
 
     def __repr__(self):
         return self.__str__()

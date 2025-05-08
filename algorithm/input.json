@@ -2,168 +2,1162 @@
   "max_hours_per_day": 5,
   "groups": [
     {
-      "group_uuid": "91985048-00a7-49b6-87df-e32744e059cb",
+      "group_uuid": "0a64a408-722c-4dbe-a8ed-c7822c2fc45b",
+      "group_name": "4a",
       "subjects": [
         {
-          "subject_uuid": "19eb4a3b-0e95-4c00-b4af-84d634875d12",
-          "teacher_uuid": "810b4b68-4404-4aa6-bbb9-2bf83dc5dda7",
-          "hours": 4
+          "subject_uuid": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+          "teacher_uuid": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
+          "hours": 5,
+          "subject_name": "Język polski",
+          "teacher_name": "Anna Nowak"
         },
         {
-          "subject_uuid": "8e4d7d9a-6a84-4b98-8772-cb46aaf358db",
-          "teacher_uuid": "f36bc4ef-2f6d-490e-86cb-aa2918b62dc3",
-          "hours": 4
+          "subject_uuid": "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+          "teacher_uuid": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
+          "hours": 3,
+          "subject_name": "Język angielski",
+          "teacher_name": "Piotr Kowalski"
         },
         {
-          "subject_uuid": "083a0121-cbaf-43b2-9823-5877829cb7d2",
-          "teacher_uuid": "8542b914-fb2b-4f18-b97b-fdc59730e375",
-          "hours": 3
+          "subject_uuid": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+          "teacher_uuid": "871ec8de-e26c-4f0b-a9e0-6c76a2dee798",
+          "hours": 1,
+          "subject_name": "Muzyka",
+          "teacher_name": "Małgorzata Wiśniewska"
         },
         {
-          "subject_uuid": "8dade54d-94f4-4130-8f4f-21d371d9f4a0",
-          "teacher_uuid": "b3d6524c-619d-425f-a5aa-c003d819e755",
-          "hours": 1
+          "subject_uuid": "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+          "teacher_uuid": "12c0066e-6783-48b6-8a36-e1d2cae5ccf3",
+          "hours": 1,
+          "subject_name": "Plastyka",
+          "teacher_name": "Katarzyna Lewandowska"
         },
         {
-          "subject_uuid": "ef8c8c40-88e8-457d-a579-2e94d3500c1d",
-          "teacher_uuid": "683d0c6b-86ac-4c3e-b1e9-f5326ffbcb8d",
-          "hours": 1
+          "subject_uuid": "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+          "teacher_uuid": "e3dee382-9796-4436-8259-3c4d2bdc04f3",
+          "hours": 1,
+          "subject_name": "Historia",
+          "teacher_name": "Tomasz Wójcik"
         },
         {
-          "subject_uuid": "e2a4414a-77e9-42eb-8698-f170ca55b1bf",
-          "teacher_uuid": "7d097f1f-83d5-496e-b110-539bcaebb2d6",
-          "hours": 1
+          "subject_uuid": "a881dc8f-e4e9-4841-abf3-7780ff5cda88",
+          "teacher_uuid": "46a53905-16fb-4e6e-81c8-ed92150ac502",
+          "hours": 2,
+          "subject_name": "Przyroda",
+          "teacher_name": "Ewa Zielińska"
         },
         {
-          "subject_uuid": "92d7b487-74ab-4dc0-9f13-8385cebe0299",
-          "teacher_uuid": "f30ad712-91d2-4fec-ae79-49d0f86d8369",
-          "hours": 1
+          "subject_uuid": "050c388c-5177-47ca-8761-73fa9463522a",
+          "teacher_uuid": "e91f63ca-39ec-4c6c-9ae4-3efe12408049",
+          "hours": 4,
+          "subject_name": "Matematyka",
+          "teacher_name": "Marek Kamiński"
+        },
+        {
+          "subject_uuid": "1c147da0-38fd-4490-82e1-9954f942a03c",
+          "teacher_uuid": "ab45feb6-1d21-4d7e-9471-0bfaa2abae29",
+          "hours": 1,
+          "subject_name": "Informatyka",
+          "teacher_name": "Joanna Nowakowska"
+        },
+        {
+          "subject_uuid": "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
+          "teacher_uuid": "2dfe2d51-b265-4f80-b537-ebee42f8b787",
+          "hours": 1,
+          "subject_name": "Technika",
+          "teacher_name": "Adam Krawczyk"
+        },
+        {
+          "subject_uuid": "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+          "teacher_uuid": "da0411eb-62c4-416b-b595-cf8987974a43",
+          "hours": 4,
+          "subject_name": "Wychowanie fizyczne",
+          "teacher_name": "Krzysztof Mazur"
+        },
+        {
+          "subject_uuid": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+          "teacher_uuid": "68ab9161-97b9-4bca-baa7-2d9d798efa26",
+          "hours": 1,
+          "subject_name": "Religia",
+          "teacher_name": "Jan Kowalski"
+        },
+        {
+          "subject_uuid": "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+          "teacher_uuid": "bb1dcff2-5c94-4b66-aa51-1e18b512fd6d",
+          "hours": 1,
+          "subject_name": "Zajęcia z wychowawcą",
+          "teacher_name": "Beata Szymańska"
         }
       ]
     },
     {
-      "group_uuid": "25c50410-7129-43c2-abee-72900425c987",
+      "group_uuid": "48007ea6-e78a-4a27-b853-d45a72337203",
+      "group_name": "4b",
       "subjects": [
         {
-          "subject_uuid": "19eb4a3b-0e95-4c00-b4af-84d634875d12",
-          "teacher_uuid": "810b4b68-4404-4aa6-bbb9-2bf83dc5dda7",
-          "hours": 4
+          "subject_uuid": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+          "teacher_uuid": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
+          "hours": 5,
+          "subject_name": "Język polski",
+          "teacher_name": "Anna Nowak"
         },
         {
-          "subject_uuid": "8e4d7d9a-6a84-4b98-8772-cb46aaf358db",
-          "teacher_uuid": "f36bc4ef-2f6d-490e-86cb-aa2918b62dc3",
-          "hours": 4
+          "subject_uuid": "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+          "teacher_uuid": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
+          "hours": 3,
+          "subject_name": "Język angielski",
+          "teacher_name": "Piotr Kowalski"
         },
         {
-          "subject_uuid": "083a0121-cbaf-43b2-9823-5877829cb7d2",
-          "teacher_uuid": "8542b914-fb2b-4f18-b97b-fdc59730e375",
-          "hours": 3
+          "subject_uuid": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+          "teacher_uuid": "871ec8de-e26c-4f0b-a9e0-6c76a2dee798",
+          "hours": 1,
+          "subject_name": "Muzyka",
+          "teacher_name": "Małgorzata Wiśniewska"
         },
         {
-          "subject_uuid": "8dade54d-94f4-4130-8f4f-21d371d9f4a0",
-          "teacher_uuid": "b3d6524c-619d-425f-a5aa-c003d819e755",
-          "hours": 1
+          "subject_uuid": "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+          "teacher_uuid": "12c0066e-6783-48b6-8a36-e1d2cae5ccf3",
+          "hours": 1,
+          "subject_name": "Plastyka",
+          "teacher_name": "Katarzyna Lewandowska"
         },
         {
-          "subject_uuid": "ef8c8c40-88e8-457d-a579-2e94d3500c1d",
-          "teacher_uuid": "683d0c6b-86ac-4c3e-b1e9-f5326ffbcb8d",
-          "hours": 1
+          "subject_uuid": "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+          "teacher_uuid": "e3dee382-9796-4436-8259-3c4d2bdc04f3",
+          "hours": 2,
+          "subject_name": "Historia",
+          "teacher_name": "Tomasz Wójcik"
         },
         {
-          "subject_uuid": "e2a4414a-77e9-42eb-8698-f170ca55b1bf",
-          "teacher_uuid": "7d097f1f-83d5-496e-b110-539bcaebb2d6",
-          "hours": 1
+          "subject_uuid": "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+          "teacher_uuid": "46a53905-16fb-4e6e-81c8-ed92150ac502",
+          "hours": 1,
+          "subject_name": "Geografia",
+          "teacher_name": "Ewa Zielińska"
         },
         {
-          "subject_uuid": "92d7b487-74ab-4dc0-9f13-8385cebe0299",
-          "teacher_uuid": "f30ad712-91d2-4fec-ae79-49d0f86d8369",
-          "hours": 1
+          "subject_uuid": "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+          "teacher_uuid": "ddd483d5-d156-4a03-982a-2c12af47b6c8",
+          "hours": 1,
+          "subject_name": "Biologia",
+          "teacher_name": "Marta Woźniak"
+        },
+        {
+          "subject_uuid": "050c388c-5177-47ca-8761-73fa9463522a",
+          "teacher_uuid": "e91f63ca-39ec-4c6c-9ae4-3efe12408049",
+          "hours": 4,
+          "subject_name": "Matematyka",
+          "teacher_name": "Marek Kamiński"
+        },
+        {
+          "subject_uuid": "1c147da0-38fd-4490-82e1-9954f942a03c",
+          "teacher_uuid": "ab45feb6-1d21-4d7e-9471-0bfaa2abae29",
+          "hours": 1,
+          "subject_name": "Informatyka",
+          "teacher_name": "Joanna Nowakowska"
+        },
+        {
+          "subject_uuid": "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
+          "teacher_uuid": "2dfe2d51-b265-4f80-b537-ebee42f8b787",
+          "hours": 1,
+          "subject_name": "Technika",
+          "teacher_name": "Adam Krawczyk"
+        },
+        {
+          "subject_uuid": "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+          "teacher_uuid": "da0411eb-62c4-416b-b595-cf8987974a43",
+          "hours": 4,
+          "subject_name": "Wychowanie fizyczne",
+          "teacher_name": "Krzysztof Mazur"
+        },
+        {
+          "subject_uuid": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+          "teacher_uuid": "68ab9161-97b9-4bca-baa7-2d9d798efa26",
+          "hours": 1,
+          "subject_name": "Religia",
+          "teacher_name": "Jan Kowalski"
+        },
+        {
+          "subject_uuid": "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+          "teacher_uuid": "bb1dcff2-5c94-4b66-aa51-1e18b512fd6d",
+          "hours": 1,
+          "subject_name": "Zajęcia z wychowawcą",
+          "teacher_name": "Beata Szymańska"
         }
       ]
     },
     {
-      "group_uuid": "95af362d-285b-4acd-b4d0-0b75fed1dfd0",
+      "group_uuid": "4c83ba42-e996-4ab9-9567-3076ca28a077",
+      "group_name": "5a",
       "subjects": [
         {
-          "subject_uuid": "19eb4a3b-0e95-4c00-b4af-84d634875d12",
-          "teacher_uuid": "810b4b68-4404-4aa6-bbb9-2bf83dc5dda7",
-          "hours": 4
+          "subject_uuid": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+          "teacher_uuid": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
+          "hours": 5,
+          "subject_name": "Język polski",
+          "teacher_name": "Anna Nowak"
         },
         {
-          "subject_uuid": "8e4d7d9a-6a84-4b98-8772-cb46aaf358db",
-          "teacher_uuid": "f36bc4ef-2f6d-490e-86cb-aa2918b62dc3",
-          "hours": 4
+          "subject_uuid": "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+          "teacher_uuid": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
+          "hours": 3,
+          "subject_name": "Język angielski",
+          "teacher_name": "Piotr Kowalski"
         },
         {
-          "subject_uuid": "083a0121-cbaf-43b2-9823-5877829cb7d2",
-          "teacher_uuid": "8542b914-fb2b-4f18-b97b-fdc59730e375",
-          "hours": 3
+          "subject_uuid": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+          "teacher_uuid": "871ec8de-e26c-4f0b-a9e0-6c76a2dee798",
+          "hours": 1,
+          "subject_name": "Muzyka",
+          "teacher_name": "Małgorzata Wiśniewska"
         },
         {
-          "subject_uuid": "8dade54d-94f4-4130-8f4f-21d371d9f4a0",
-          "teacher_uuid": "b3d6524c-619d-425f-a5aa-c003d819e755",
-          "hours": 1
+          "subject_uuid": "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+          "teacher_uuid": "12c0066e-6783-48b6-8a36-e1d2cae5ccf3",
+          "hours": 1,
+          "subject_name": "Plastyka",
+          "teacher_name": "Katarzyna Lewandowska"
         },
         {
-          "subject_uuid": "ef8c8c40-88e8-457d-a579-2e94d3500c1d",
-          "teacher_uuid": "683d0c6b-86ac-4c3e-b1e9-f5326ffbcb8d",
-          "hours": 1
+          "subject_uuid": "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+          "teacher_uuid": "e3dee382-9796-4436-8259-3c4d2bdc04f3",
+          "hours": 2,
+          "subject_name": "Historia",
+          "teacher_name": "Tomasz Wójcik"
         },
         {
-          "subject_uuid": "e2a4414a-77e9-42eb-8698-f170ca55b1bf",
-          "teacher_uuid": "7d097f1f-83d5-496e-b110-539bcaebb2d6",
-          "hours": 1
+          "subject_uuid": "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+          "teacher_uuid": "46a53905-16fb-4e6e-81c8-ed92150ac502",
+          "hours": 1,
+          "subject_name": "Geografia",
+          "teacher_name": "Ewa Zielińska"
         },
         {
-          "subject_uuid": "92d7b487-74ab-4dc0-9f13-8385cebe0299",
-          "teacher_uuid": "f30ad712-91d2-4fec-ae79-49d0f86d8369",
-          "hours": 1
+          "subject_uuid": "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+          "teacher_uuid": "ddd483d5-d156-4a03-982a-2c12af47b6c8",
+          "hours": 1,
+          "subject_name": "Biologia",
+          "teacher_name": "Marta Woźniak"
+        },
+        {
+          "subject_uuid": "050c388c-5177-47ca-8761-73fa9463522a",
+          "teacher_uuid": "e91f63ca-39ec-4c6c-9ae4-3efe12408049",
+          "hours": 4,
+          "subject_name": "Matematyka",
+          "teacher_name": "Marek Kamiński"
+        },
+        {
+          "subject_uuid": "1c147da0-38fd-4490-82e1-9954f942a03c",
+          "teacher_uuid": "ab45feb6-1d21-4d7e-9471-0bfaa2abae29",
+          "hours": 1,
+          "subject_name": "Informatyka",
+          "teacher_name": "Joanna Nowakowska"
+        },
+        {
+          "subject_uuid": "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
+          "teacher_uuid": "2dfe2d51-b265-4f80-b537-ebee42f8b787",
+          "hours": 1,
+          "subject_name": "Technika",
+          "teacher_name": "Adam Krawczyk"
+        },
+        {
+          "subject_uuid": "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+          "teacher_uuid": "da0411eb-62c4-416b-b595-cf8987974a43",
+          "hours": 4,
+          "subject_name": "Wychowanie fizyczne",
+          "teacher_name": "Krzysztof Mazur"
+        },
+        {
+          "subject_uuid": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+          "teacher_uuid": "68ab9161-97b9-4bca-baa7-2d9d798efa26",
+          "hours": 1,
+          "subject_name": "Religia",
+          "teacher_name": "Jan Kowalski"
+        },
+        {
+          "subject_uuid": "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+          "teacher_uuid": "bb1dcff2-5c94-4b66-aa51-1e18b512fd6d",
+          "hours": 1,
+          "subject_name": "Zajęcia z wychowawcą",
+          "teacher_name": "Beata Szymańska"
+        }
+      ]
+    },
+    {
+      "group_uuid": "bdb823d6-5ad9-432b-a669-cf5d012f20ff",
+      "group_name": "5b",
+      "subjects": [
+        {
+          "subject_uuid": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+          "teacher_uuid": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
+          "hours": 5,
+          "subject_name": "Język polski",
+          "teacher_name": "Anna Nowak"
+        },
+        {
+          "subject_uuid": "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+          "teacher_uuid": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
+          "hours": 3,
+          "subject_name": "Język angielski",
+          "teacher_name": "Piotr Kowalski"
+        },
+        {
+          "subject_uuid": "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+          "teacher_uuid": "e362eaf1-66ae-46ad-b4fc-fa056dc5b6a3",
+          "hours": 2,
+          "subject_name": "Drugi język obcy (niemiecki)",
+          "teacher_name": "Monika Wójcik"
+        },
+        {
+          "subject_uuid": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+          "teacher_uuid": "871ec8de-e26c-4f0b-a9e0-6c76a2dee798",
+          "hours": 1,
+          "subject_name": "Muzyka",
+          "teacher_name": "Małgorzata Wiśniewska"
+        },
+        {
+          "subject_uuid": "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+          "teacher_uuid": "12c0066e-6783-48b6-8a36-e1d2cae5ccf3",
+          "hours": 1,
+          "subject_name": "Plastyka",
+          "teacher_name": "Katarzyna Lewandowska"
+        },
+        {
+          "subject_uuid": "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+          "teacher_uuid": "e3dee382-9796-4436-8259-3c4d2bdc04f3",
+          "hours": 2,
+          "subject_name": "Historia",
+          "teacher_name": "Tomasz Wójcik"
+        },
+        {
+          "subject_uuid": "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+          "teacher_uuid": "46a53905-16fb-4e6e-81c8-ed92150ac502",
+          "hours": 2,
+          "subject_name": "Geografia",
+          "teacher_name": "Ewa Zielińska"
+        },
+        {
+          "subject_uuid": "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+          "teacher_uuid": "ddd483d5-d156-4a03-982a-2c12af47b6c8",
+          "hours": 2,
+          "subject_name": "Biologia",
+          "teacher_name": "Marta Woźniak"
+        },
+        {
+          "subject_uuid": "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+          "teacher_uuid": "81e6bb6e-4ce7-4c6b-a353-5b924b9dedd0",
+          "hours": 2,
+          "subject_name": "Chemia",
+          "teacher_name": "Paweł Jasiński"
+        },
+        {
+          "subject_uuid": "e755c09a-b71e-4464-8bdc-19c4318c92d5",
+          "teacher_uuid": "412ec56d-3c0a-48ff-9c48-6b342f4756df",
+          "hours": 2,
+          "subject_name": "Fizyka",
+          "teacher_name": "Aleksandra Kaczmarek"
+        },
+        {
+          "subject_uuid": "050c388c-5177-47ca-8761-73fa9463522a",
+          "teacher_uuid": "e91f63ca-39ec-4c6c-9ae4-3efe12408049",
+          "hours": 4,
+          "subject_name": "Matematyka",
+          "teacher_name": "Marek Kamiński"
+        },
+        {
+          "subject_uuid": "1c147da0-38fd-4490-82e1-9954f942a03c",
+          "teacher_uuid": "ab45feb6-1d21-4d7e-9471-0bfaa2abae29",
+          "hours": 1,
+          "subject_name": "Informatyka",
+          "teacher_name": "Joanna Nowakowska"
+        },
+        {
+          "subject_uuid": "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+          "teacher_uuid": "da0411eb-62c4-416b-b595-cf8987974a43",
+          "hours": 4,
+          "subject_name": "Wychowanie fizyczne",
+          "teacher_name": "Krzysztof Mazur"
+        },
+        {
+          "subject_uuid": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+          "teacher_uuid": "68ab9161-97b9-4bca-baa7-2d9d798efa26",
+          "hours": 1,
+          "subject_name": "Religia",
+          "teacher_name": "Jan Kowalski"
+        },
+        {
+          "subject_uuid": "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+          "teacher_uuid": "bb1dcff2-5c94-4b66-aa51-1e18b512fd6d",
+          "hours": 1,
+          "subject_name": "Zajęcia z wychowawcą",
+          "teacher_name": "Beata Szymańska"
+        }
+      ]
+    },
+    {
+      "group_uuid": "9310ad70-f904-4f3b-85c1-6f8d01a4956e",
+      "group_name": "6a",
+      "subjects": [
+        {
+          "subject_uuid": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+          "teacher_uuid": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
+          "hours": 5,
+          "subject_name": "Język polski",
+          "teacher_name": "Anna Nowak"
+        },
+        {
+          "subject_uuid": "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+          "teacher_uuid": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
+          "hours": 3,
+          "subject_name": "Język angielski",
+          "teacher_name": "Piotr Kowalski"
+        },
+        {
+          "subject_uuid": "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+          "teacher_uuid": "e362eaf1-66ae-46ad-b4fc-fa056dc5b6a3",
+          "hours": 2,
+          "subject_name": "Drugi język obcy (niemiecki)",
+          "teacher_name": "Monika Wójcik"
+        },
+        {
+          "subject_uuid": "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+          "teacher_uuid": "e3dee382-9796-4436-8259-3c4d2bdc04f3",
+          "hours": 2,
+          "subject_name": "Historia",
+          "teacher_name": "Tomasz Wójcik"
+        },
+        {
+          "subject_uuid": "bb4ede90-5c36-4c67-b229-7b67c986ad3d",
+          "teacher_uuid": "f7868ae6-f15d-4334-a919-d54c5e18d341",
+          "hours": 2,
+          "subject_name": "Wiedza o społeczeństwie",
+          "teacher_name": "Łukasz Michalak"
+        },
+        {
+          "subject_uuid": "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+          "teacher_uuid": "46a53905-16fb-4e6e-81c8-ed92150ac502",
+          "hours": 1,
+          "subject_name": "Geografia",
+          "teacher_name": "Ewa Zielińska"
+        },
+        {
+          "subject_uuid": "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+          "teacher_uuid": "ddd483d5-d156-4a03-982a-2c12af47b6c8",
+          "hours": 1,
+          "subject_name": "Biologia",
+          "teacher_name": "Marta Woźniak"
+        },
+        {
+          "subject_uuid": "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+          "teacher_uuid": "81e6bb6e-4ce7-4c6b-a353-5b924b9dedd0",
+          "hours": 2,
+          "subject_name": "Chemia",
+          "teacher_name": "Paweł Jasiński"
+        },
+        {
+          "subject_uuid": "e755c09a-b71e-4464-8bdc-19c4318c92d5",
+          "teacher_uuid": "412ec56d-3c0a-48ff-9c48-6b342f4756df",
+          "hours": 2,
+          "subject_name": "Fizyka",
+          "teacher_name": "Aleksandra Kaczmarek"
+        },
+        {
+          "subject_uuid": "050c388c-5177-47ca-8761-73fa9463522a",
+          "teacher_uuid": "e91f63ca-39ec-4c6c-9ae4-3efe12408049",
+          "hours": 4,
+          "subject_name": "Matematyka",
+          "teacher_name": "Marek Kamiński"
+        },
+        {
+          "subject_uuid": "1c147da0-38fd-4490-82e1-9954f942a03c",
+          "teacher_uuid": "ab45feb6-1d21-4d7e-9471-0bfaa2abae29",
+          "hours": 1,
+          "subject_name": "Informatyka",
+          "teacher_name": "Joanna Nowakowska"
+        },
+        {
+          "subject_uuid": "8800d681-9665-415a-a88c-4aef48a76e49",
+          "teacher_uuid": "c9f0c62d-b8be-42bf-bf67-c0c6e60049dc",
+          "hours": 1,
+          "subject_name": "Edukacja dla bezpieczeństwa",
+          "teacher_name": "Marta Pawlak"
+        },
+        {
+          "subject_uuid": "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+          "teacher_uuid": "da0411eb-62c4-416b-b595-cf8987974a43",
+          "hours": 4,
+          "subject_name": "Wychowanie fizyczne",
+          "teacher_name": "Krzysztof Mazur"
+        },
+        {
+          "subject_uuid": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+          "teacher_uuid": "68ab9161-97b9-4bca-baa7-2d9d798efa26",
+          "hours": 1,
+          "subject_name": "Religia",
+          "teacher_name": "Jan Kowalski"
+        },
+        {
+          "subject_uuid": "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+          "teacher_uuid": "bb1dcff2-5c94-4b66-aa51-1e18b512fd6d",
+          "hours": 1,
+          "subject_name": "Zajęcia z wychowawcą",
+          "teacher_name": "Beata Szymańska"
+        }
+      ]
+    },
+    {
+      "group_uuid": "6e47e648-9b56-451e-90db-34c4325773ac",
+      "group_name": "6b",
+      "subjects": [
+        {
+          "subject_uuid": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+          "teacher_uuid": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
+          "hours": 5,
+          "subject_name": "Język polski",
+          "teacher_name": "Anna Nowak"
+        },
+        {
+          "subject_uuid": "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+          "teacher_uuid": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
+          "hours": 3,
+          "subject_name": "Język angielski",
+          "teacher_name": "Piotr Kowalski"
+        },
+        {
+          "subject_uuid": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+          "teacher_uuid": "871ec8de-e26c-4f0b-a9e0-6c76a2dee798",
+          "hours": 1,
+          "subject_name": "Muzyka",
+          "teacher_name": "Małgorzata Wiśniewska"
+        },
+        {
+          "subject_uuid": "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+          "teacher_uuid": "12c0066e-6783-48b6-8a36-e1d2cae5ccf3",
+          "hours": 1,
+          "subject_name": "Plastyka",
+          "teacher_name": "Katarzyna Lewandowska"
+        },
+        {
+          "subject_uuid": "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+          "teacher_uuid": "e3dee382-9796-4436-8259-3c4d2bdc04f3",
+          "hours": 1,
+          "subject_name": "Historia",
+          "teacher_name": "Tomasz Wójcik"
+        },
+        {
+          "subject_uuid": "a881dc8f-e4e9-4841-abf3-7780ff5cda88",
+          "teacher_uuid": "46a53905-16fb-4e6e-81c8-ed92150ac502",
+          "hours": 2,
+          "subject_name": "Przyroda",
+          "teacher_name": "Ewa Zielińska"
+        },
+        {
+          "subject_uuid": "050c388c-5177-47ca-8761-73fa9463522a",
+          "teacher_uuid": "e91f63ca-39ec-4c6c-9ae4-3efe12408049",
+          "hours": 4,
+          "subject_name": "Matematyka",
+          "teacher_name": "Marek Kamiński"
+        },
+        {
+          "subject_uuid": "1c147da0-38fd-4490-82e1-9954f942a03c",
+          "teacher_uuid": "ab45feb6-1d21-4d7e-9471-0bfaa2abae29",
+          "hours": 1,
+          "subject_name": "Informatyka",
+          "teacher_name": "Joanna Nowakowska"
+        },
+        {
+          "subject_uuid": "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
+          "teacher_uuid": "2dfe2d51-b265-4f80-b537-ebee42f8b787",
+          "hours": 1,
+          "subject_name": "Technika",
+          "teacher_name": "Adam Krawczyk"
+        },
+        {
+          "subject_uuid": "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+          "teacher_uuid": "da0411eb-62c4-416b-b595-cf8987974a43",
+          "hours": 4,
+          "subject_name": "Wychowanie fizyczne",
+          "teacher_name": "Krzysztof Mazur"
+        },
+        {
+          "subject_uuid": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+          "teacher_uuid": "68ab9161-97b9-4bca-baa7-2d9d798efa26",
+          "hours": 1,
+          "subject_name": "Religia",
+          "teacher_name": "Jan Kowalski"
+        },
+        {
+          "subject_uuid": "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+          "teacher_uuid": "bb1dcff2-5c94-4b66-aa51-1e18b512fd6d",
+          "hours": 1,
+          "subject_name": "Zajęcia z wychowawcą",
+          "teacher_name": "Beata Szymańska"
+        }
+      ]
+    },
+    {
+      "group_uuid": "eded15c2-0e39-4e04-9a91-302315942249",
+      "group_name": "7a",
+      "subjects": [
+        {
+          "subject_uuid": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+          "teacher_uuid": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
+          "hours": 5,
+          "subject_name": "Język polski",
+          "teacher_name": "Anna Nowak"
+        },
+        {
+          "subject_uuid": "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+          "teacher_uuid": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
+          "hours": 3,
+          "subject_name": "Język angielski",
+          "teacher_name": "Piotr Kowalski"
+        },
+        {
+          "subject_uuid": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+          "teacher_uuid": "871ec8de-e26c-4f0b-a9e0-6c76a2dee798",
+          "hours": 1,
+          "subject_name": "Muzyka",
+          "teacher_name": "Małgorzata Wiśniewska"
+        },
+        {
+          "subject_uuid": "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+          "teacher_uuid": "12c0066e-6783-48b6-8a36-e1d2cae5ccf3",
+          "hours": 1,
+          "subject_name": "Plastyka",
+          "teacher_name": "Katarzyna Lewandowska"
+        },
+        {
+          "subject_uuid": "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+          "teacher_uuid": "e3dee382-9796-4436-8259-3c4d2bdc04f3",
+          "hours": 2,
+          "subject_name": "Historia",
+          "teacher_name": "Tomasz Wójcik"
+        },
+        {
+          "subject_uuid": "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+          "teacher_uuid": "46a53905-16fb-4e6e-81c8-ed92150ac502",
+          "hours": 1,
+          "subject_name": "Geografia",
+          "teacher_name": "Ewa Zielińska"
+        },
+        {
+          "subject_uuid": "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+          "teacher_uuid": "ddd483d5-d156-4a03-982a-2c12af47b6c8",
+          "hours": 1,
+          "subject_name": "Biologia",
+          "teacher_name": "Marta Woźniak"
+        },
+        {
+          "subject_uuid": "050c388c-5177-47ca-8761-73fa9463522a",
+          "teacher_uuid": "e91f63ca-39ec-4c6c-9ae4-3efe12408049",
+          "hours": 4,
+          "subject_name": "Matematyka",
+          "teacher_name": "Marek Kamiński"
+        },
+        {
+          "subject_uuid": "1c147da0-38fd-4490-82e1-9954f942a03c",
+          "teacher_uuid": "ab45feb6-1d21-4d7e-9471-0bfaa2abae29",
+          "hours": 1,
+          "subject_name": "Informatyka",
+          "teacher_name": "Joanna Nowakowska"
+        },
+        {
+          "subject_uuid": "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
+          "teacher_uuid": "2dfe2d51-b265-4f80-b537-ebee42f8b787",
+          "hours": 1,
+          "subject_name": "Technika",
+          "teacher_name": "Adam Krawczyk"
+        },
+        {
+          "subject_uuid": "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+          "teacher_uuid": "da0411eb-62c4-416b-b595-cf8987974a43",
+          "hours": 4,
+          "subject_name": "Wychowanie fizyczne",
+          "teacher_name": "Krzysztof Mazur"
+        },
+        {
+          "subject_uuid": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+          "teacher_uuid": "68ab9161-97b9-4bca-baa7-2d9d798efa26",
+          "hours": 1,
+          "subject_name": "Religia",
+          "teacher_name": "Jan Kowalski"
+        },
+        {
+          "subject_uuid": "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+          "teacher_uuid": "bb1dcff2-5c94-4b66-aa51-1e18b512fd6d",
+          "hours": 1,
+          "subject_name": "Zajęcia z wychowawcą",
+          "teacher_name": "Beata Szymańska"
+        }
+      ]
+    },
+    {
+      "group_uuid": "dba2944a-12cd-49cc-9d6c-e1f2d3933182",
+      "group_name": "7b",
+      "subjects": [
+        {
+          "subject_uuid": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+          "teacher_uuid": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
+          "hours": 5,
+          "subject_name": "Język polski",
+          "teacher_name": "Anna Nowak"
+        },
+        {
+          "subject_uuid": "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+          "teacher_uuid": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
+          "hours": 3,
+          "subject_name": "Język angielski",
+          "teacher_name": "Piotr Kowalski"
+        },
+        {
+          "subject_uuid": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+          "teacher_uuid": "871ec8de-e26c-4f0b-a9e0-6c76a2dee798",
+          "hours": 1,
+          "subject_name": "Muzyka",
+          "teacher_name": "Małgorzata Wiśniewska"
+        },
+        {
+          "subject_uuid": "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+          "teacher_uuid": "12c0066e-6783-48b6-8a36-e1d2cae5ccf3",
+          "hours": 1,
+          "subject_name": "Plastyka",
+          "teacher_name": "Katarzyna Lewandowska"
+        },
+        {
+          "subject_uuid": "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+          "teacher_uuid": "e3dee382-9796-4436-8259-3c4d2bdc04f3",
+          "hours": 2,
+          "subject_name": "Historia",
+          "teacher_name": "Tomasz Wójcik"
+        },
+        {
+          "subject_uuid": "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+          "teacher_uuid": "46a53905-16fb-4e6e-81c8-ed92150ac502",
+          "hours": 1,
+          "subject_name": "Geografia",
+          "teacher_name": "Ewa Zielińska"
+        },
+        {
+          "subject_uuid": "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+          "teacher_uuid": "ddd483d5-d156-4a03-982a-2c12af47b6c8",
+          "hours": 1,
+          "subject_name": "Biologia",
+          "teacher_name": "Marta Woźniak"
+        },
+        {
+          "subject_uuid": "050c388c-5177-47ca-8761-73fa9463522a",
+          "teacher_uuid": "e91f63ca-39ec-4c6c-9ae4-3efe12408049",
+          "hours": 4,
+          "subject_name": "Matematyka",
+          "teacher_name": "Marek Kamiński"
+        },
+        {
+          "subject_uuid": "1c147da0-38fd-4490-82e1-9954f942a03c",
+          "teacher_uuid": "ab45feb6-1d21-4d7e-9471-0bfaa2abae29",
+          "hours": 1,
+          "subject_name": "Informatyka",
+          "teacher_name": "Joanna Nowakowska"
+        },
+        {
+          "subject_uuid": "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
+          "teacher_uuid": "2dfe2d51-b265-4f80-b537-ebee42f8b787",
+          "hours": 1,
+          "subject_name": "Technika",
+          "teacher_name": "Adam Krawczyk"
+        },
+        {
+          "subject_uuid": "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+          "teacher_uuid": "da0411eb-62c4-416b-b595-cf8987974a43",
+          "hours": 4,
+          "subject_name": "Wychowanie fizyczne",
+          "teacher_name": "Krzysztof Mazur"
+        },
+        {
+          "subject_uuid": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+          "teacher_uuid": "68ab9161-97b9-4bca-baa7-2d9d798efa26",
+          "hours": 1,
+          "subject_name": "Religia",
+          "teacher_name": "Jan Kowalski"
+        },
+        {
+          "subject_uuid": "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+          "teacher_uuid": "bb1dcff2-5c94-4b66-aa51-1e18b512fd6d",
+          "hours": 1,
+          "subject_name": "Zajęcia z wychowawcą",
+          "teacher_name": "Beata Szymańska"
+        }
+      ]
+    },
+    {
+      "group_uuid": "25f11463-debc-42bc-b77e-91648ff9029b",
+      "group_name": "8a",
+      "subjects": [
+        {
+          "subject_uuid": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+          "teacher_uuid": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
+          "hours": 5,
+          "subject_name": "Język polski",
+          "teacher_name": "Anna Nowak"
+        },
+        {
+          "subject_uuid": "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+          "teacher_uuid": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
+          "hours": 3,
+          "subject_name": "Język angielski",
+          "teacher_name": "Piotr Kowalski"
+        },
+        {
+          "subject_uuid": "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+          "teacher_uuid": "e362eaf1-66ae-46ad-b4fc-fa056dc5b6a3",
+          "hours": 2,
+          "subject_name": "Drugi język obcy (niemiecki)",
+          "teacher_name": "Monika Wójcik"
+        },
+        {
+          "subject_uuid": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+          "teacher_uuid": "871ec8de-e26c-4f0b-a9e0-6c76a2dee798",
+          "hours": 1,
+          "subject_name": "Muzyka",
+          "teacher_name": "Małgorzata Wiśniewska"
+        },
+        {
+          "subject_uuid": "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+          "teacher_uuid": "12c0066e-6783-48b6-8a36-e1d2cae5ccf3",
+          "hours": 1,
+          "subject_name": "Plastyka",
+          "teacher_name": "Katarzyna Lewandowska"
+        },
+        {
+          "subject_uuid": "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+          "teacher_uuid": "e3dee382-9796-4436-8259-3c4d2bdc04f3",
+          "hours": 2,
+          "subject_name": "Historia",
+          "teacher_name": "Tomasz Wójcik"
+        },
+        {
+          "subject_uuid": "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+          "teacher_uuid": "46a53905-16fb-4e6e-81c8-ed92150ac502",
+          "hours": 2,
+          "subject_name": "Geografia",
+          "teacher_name": "Ewa Zielińska"
+        },
+        {
+          "subject_uuid": "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+          "teacher_uuid": "ddd483d5-d156-4a03-982a-2c12af47b6c8",
+          "hours": 2,
+          "subject_name": "Biologia",
+          "teacher_name": "Marta Woźniak"
+        },
+        {
+          "subject_uuid": "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+          "teacher_uuid": "81e6bb6e-4ce7-4c6b-a353-5b924b9dedd0",
+          "hours": 2,
+          "subject_name": "Chemia",
+          "teacher_name": "Paweł Jasiński"
+        },
+        {
+          "subject_uuid": "e755c09a-b71e-4464-8bdc-19c4318c92d5",
+          "teacher_uuid": "412ec56d-3c0a-48ff-9c48-6b342f4756df",
+          "hours": 2,
+          "subject_name": "Fizyka",
+          "teacher_name": "Aleksandra Kaczmarek"
+        },
+        {
+          "subject_uuid": "050c388c-5177-47ca-8761-73fa9463522a",
+          "teacher_uuid": "e91f63ca-39ec-4c6c-9ae4-3efe12408049",
+          "hours": 4,
+          "subject_name": "Matematyka",
+          "teacher_name": "Marek Kamiński"
+        },
+        {
+          "subject_uuid": "1c147da0-38fd-4490-82e1-9954f942a03c",
+          "teacher_uuid": "ab45feb6-1d21-4d7e-9471-0bfaa2abae29",
+          "hours": 1,
+          "subject_name": "Informatyka",
+          "teacher_name": "Joanna Nowakowska"
+        },
+        {
+          "subject_uuid": "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+          "teacher_uuid": "da0411eb-62c4-416b-b595-cf8987974a43",
+          "hours": 4,
+          "subject_name": "Wychowanie fizyczne",
+          "teacher_name": "Krzysztof Mazur"
+        },
+        {
+          "subject_uuid": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+          "teacher_uuid": "68ab9161-97b9-4bca-baa7-2d9d798efa26",
+          "hours": 1,
+          "subject_name": "Religia",
+          "teacher_name": "Jan Kowalski"
+        },
+        {
+          "subject_uuid": "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+          "teacher_uuid": "bb1dcff2-5c94-4b66-aa51-1e18b512fd6d",
+          "hours": 1,
+          "subject_name": "Zajęcia z wychowawcą",
+          "teacher_name": "Beata Szymańska"
+        }
+      ]
+    },
+    {
+      "group_uuid": "cc4c43ac-7cd5-40a9-a5de-3187662c1214",
+      "group_name": "8b",
+      "subjects": [
+        {
+          "subject_uuid": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+          "teacher_uuid": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
+          "hours": 5,
+          "subject_name": "Język polski",
+          "teacher_name": "Anna Nowak"
+        },
+        {
+          "subject_uuid": "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+          "teacher_uuid": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
+          "hours": 3,
+          "subject_name": "Język angielski",
+          "teacher_name": "Piotr Kowalski"
+        },
+        {
+          "subject_uuid": "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+          "teacher_uuid": "e362eaf1-66ae-46ad-b4fc-fa056dc5b6a3",
+          "hours": 2,
+          "subject_name": "Drugi język obcy (niemiecki)",
+          "teacher_name": "Monika Wójcik"
+        },
+        {
+          "subject_uuid": "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+          "teacher_uuid": "e3dee382-9796-4436-8259-3c4d2bdc04f3",
+          "hours": 2,
+          "subject_name": "Historia",
+          "teacher_name": "Tomasz Wójcik"
+        },
+        {
+          "subject_uuid": "bb4ede90-5c36-4c67-b229-7b67c986ad3d",
+          "teacher_uuid": "f7868ae6-f15d-4334-a919-d54c5e18d341",
+          "hours": 2,
+          "subject_name": "Wiedza o społeczeństwie",
+          "teacher_name": "Łukasz Michalak"
+        },
+        {
+          "subject_uuid": "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+          "teacher_uuid": "46a53905-16fb-4e6e-81c8-ed92150ac502",
+          "hours": 1,
+          "subject_name": "Geografia",
+          "teacher_name": "Ewa Zielińska"
+        },
+        {
+          "subject_uuid": "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+          "teacher_uuid": "ddd483d5-d156-4a03-982a-2c12af47b6c8",
+          "hours": 1,
+          "subject_name": "Biologia",
+          "teacher_name": "Marta Woźniak"
+        },
+        {
+          "subject_uuid": "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+          "teacher_uuid": "81e6bb6e-4ce7-4c6b-a353-5b924b9dedd0",
+          "hours": 2,
+          "subject_name": "Chemia",
+          "teacher_name": "Paweł Jasiński"
+        },
+        {
+          "subject_uuid": "e755c09a-b71e-4464-8bdc-19c4318c92d5",
+          "teacher_uuid": "412ec56d-3c0a-48ff-9c48-6b342f4756df",
+          "hours": 2,
+          "subject_name": "Fizyka",
+          "teacher_name": "Aleksandra Kaczmarek"
+        },
+        {
+          "subject_uuid": "050c388c-5177-47ca-8761-73fa9463522a",
+          "teacher_uuid": "e91f63ca-39ec-4c6c-9ae4-3efe12408049",
+          "hours": 4,
+          "subject_name": "Matematyka",
+          "teacher_name": "Marek Kamiński"
+        },
+        {
+          "subject_uuid": "1c147da0-38fd-4490-82e1-9954f942a03c",
+          "teacher_uuid": "ab45feb6-1d21-4d7e-9471-0bfaa2abae29",
+          "hours": 1,
+          "subject_name": "Informatyka",
+          "teacher_name": "Joanna Nowakowska"
+        },
+        {
+          "subject_uuid": "8800d681-9665-415a-a88c-4aef48a76e49",
+          "teacher_uuid": "c9f0c62d-b8be-42bf-bf67-c0c6e60049dc",
+          "hours": 1,
+          "subject_name": "Edukacja dla bezpieczeństwa",
+          "teacher_name": "Marta Pawlak"
+        },
+        {
+          "subject_uuid": "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+          "teacher_uuid": "da0411eb-62c4-416b-b595-cf8987974a43",
+          "hours": 4,
+          "subject_name": "Wychowanie fizyczne",
+          "teacher_name": "Krzysztof Mazur"
+        },
+        {
+          "subject_uuid": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+          "teacher_uuid": "68ab9161-97b9-4bca-baa7-2d9d798efa26",
+          "hours": 1,
+          "subject_name": "Religia",
+          "teacher_name": "Jan Kowalski"
+        },
+        {
+          "subject_uuid": "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+          "teacher_uuid": "bb1dcff2-5c94-4b66-aa51-1e18b512fd6d",
+          "hours": 1,
+          "subject_name": "Zajęcia z wychowawcą",
+          "teacher_name": "Beata Szymańska"
         }
       ]
     }
   ],
   "teachers": [
     {
-      "teacher_uuid": "810b4b68-4404-4aa6-bbb9-2bf83dc5dda7",
+      "teacher_name": "Anna Nowak",
+      "teacher_uuid": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
       "availability": [
         "format will be considered later"
-      ]
+      ],
+      "hours": 25
     },
     {
-      "teacher_uuid": "f36bc4ef-2f6d-490e-86cb-aa2918b62dc3",
+      "teacher_name": "Piotr Kowalski",
+      "teacher_uuid": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
       "availability": [
         "format will be considered later"
-      ]
+      ],
+      "hours": 15
     },
     {
-      "teacher_uuid": "8542b914-fb2b-4f18-b97b-fdc59730e375",
+      "teacher_name": "Małgorzata Wiśniewska",
+      "teacher_uuid": "871ec8de-e26c-4f0b-a9e0-6c76a2dee798",
       "availability": [
         "format will be considered later"
-      ]
+      ],
+      "hours": 4
     },
     {
-      "teacher_uuid": "b3d6524c-619d-425f-a5aa-c003d819e755",
+      "teacher_name": "Katarzyna Lewandowska",
+      "teacher_uuid": "12c0066e-6783-48b6-8a36-e1d2cae5ccf3",
       "availability": [
         "format will be considered later"
-      ]
+      ],
+      "hours": 4
     },
     {
-      "teacher_uuid": "683d0c6b-86ac-4c3e-b1e9-f5326ffbcb8d",
+      "teacher_name": "Tomasz Wójcik",
+      "teacher_uuid": "e3dee382-9796-4436-8259-3c4d2bdc04f3",
       "availability": [
         "format will be considered later"
-      ]
+      ],
+      "hours": 9
     },
     {
-      "teacher_uuid": "7d097f1f-83d5-496e-b110-539bcaebb2d6",
+      "teacher_name": "Ewa Zielińska",
+      "teacher_uuid": "46a53905-16fb-4e6e-81c8-ed92150ac502",
       "availability": [
         "format will be considered later"
-      ]
+      ],
+      "hours": 7
     },
     {
-      "teacher_uuid": "f30ad712-91d2-4fec-ae79-49d0f86d8369",
+      "teacher_name": "Marek Kamiński",
+      "teacher_uuid": "e91f63ca-39ec-4c6c-9ae4-3efe12408049",
       "availability": [
         "format will be considered later"
-      ]
+      ],
+      "hours": 20
+    },
+    {
+      "teacher_name": "Joanna Nowakowska",
+      "teacher_uuid": "ab45feb6-1d21-4d7e-9471-0bfaa2abae29",
+      "availability": [
+        "format will be considered later"
+      ],
+      "hours": 5
+    },
+    {
+      "teacher_name": "Adam Krawczyk",
+      "teacher_uuid": "2dfe2d51-b265-4f80-b537-ebee42f8b787",
+      "availability": [
+        "format will be considered later"
+      ],
+      "hours": 5
+    },
+    {
+      "teacher_name": "Krzysztof Mazur",
+      "teacher_uuid": "da0411eb-62c4-416b-b595-cf8987974a43",
+      "availability": [
+        "format will be considered later"
+      ],
+      "hours": 20
+    },
+    {
+      "teacher_name": "Beata Szymańska",
+      "teacher_uuid": "bb1dcff2-5c94-4b66-aa51-1e18b512fd6d",
+      "availability": [
+        "format will be considered later"
+      ],
+      "hours": 5
+    },
+    {
+      "teacher_name": "Marta Woźniak",
+      "teacher_uuid": "ddd483d5-d156-4a03-982a-2c12af47b6c8",
+      "availability": [
+        "format will be considered later"
+      ],
+      "hours": 5
+    },
+    {
+      "teacher_name": "Monika Wójcik",
+      "teacher_uuid": "e362eaf1-66ae-46ad-b4fc-fa056dc5b6a3",
+      "availability": [
+        "format will be considered later"
+      ],
+      "hours": 4
+    },
+    {
+      "teacher_name": "Paweł Jasiński",
+      "teacher_uuid": "81e6bb6e-4ce7-4c6b-a353-5b924b9dedd0",
+      "availability": [
+        "format will be considered later"
+      ],
+      "hours": 4
+    },
+    {
+      "teacher_name": "Aleksandra Kaczmarek",
+      "teacher_uuid": "412ec56d-3c0a-48ff-9c48-6b342f4756df",
+      "availability": [
+        "format will be considered later"
+      ],
+      "hours": 4
+    },
+    {
+      "teacher_name": "Łukasz Michalak",
+      "teacher_uuid": "f7868ae6-f15d-4334-a919-d54c5e18d341",
+      "availability": [
+        "format will be considered later"
+      ],
+      "hours": 2
+    },
+    {
+      "teacher_name": "Marta Pawlak",
+      "teacher_uuid": "c9f0c62d-b8be-42bf-bf67-c0c6e60049dc",
+      "availability": [
+        "format will be considered later"
+      ],
+      "hours": 1
+    },
+    {
+      "teacher_name": "Jan Kowalski",
+      "teacher_uuid": "68ab9161-97b9-4bca-baa7-2d9d798efa26",
+      "availability": [
+        "format will be considered later"
+      ],
+      "hours": 5
     }
   ]
 }

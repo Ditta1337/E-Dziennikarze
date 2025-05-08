@@ -1,5 +1,5 @@
 
-class Mode():
+class Mode:
     def __init__(self, subject_data):
         pass
     def prepare_model(self,data):

@@ -12,16 +12,18 @@ class DataParser:
     _subjects_by_id = {}
 
     @classmethod
-    def parse_input(cls, filename: str) -> tuple[list["Group"], list["Teacher"], int]:
+    def parse_input(cls, filename: str) -> tuple[list["Group"], list["Teacher"],list["Subject"], int]:
         data = json.load(open(filename))
         DataParser._parse_all_groups(data["groups"])
         return ([group for _, group in cls._groups_by_uuid.items()],
                 [teacher for _, teacher in cls._teachers_by_uuid.items()],
+                [subject for _, subject in cls._subjects_by_uuid.items()],
                 data["max_hours_per_day"])
 
     @staticmethod
     def _parse_all_groups(groups_list) -> None:
         for group_data in groups_list:
+            print(group_data)
             DataParser._parse_group_by_uuid(group_data["group_uuid"], group_data["subjects"])
 
     @classmethod
