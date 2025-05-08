@@ -15,7 +15,7 @@ import java.util.UUID;
 public class StudentController {
     private StudentService studentService;
 
-    @PostMapping("")
+    @PostMapping()
     public Mono<User> createStudent(@RequestBody Mono<User> userMono){
         return studentService.createStudent(userMono);
     }

@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class GuardianController {
     private GuardianService guardianService;
-    @PostMapping("")
+    @PostMapping()
     public Mono<User> createGuardian(@RequestBody Mono<User> userMono){
         return guardianService.createGuardian(userMono);
     }
