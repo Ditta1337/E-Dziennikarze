@@ -5,7 +5,7 @@ import numpy as np
 from algorithm.entities import Group, Teacher, DataParser,Subject
 
 WORKING_DAYS = 5
-# TODO create function that will read number of subjeacts from file
+# TODO create function that will read number of subjeacts from file.
 # class CpSolverSolutionCallback(ortools.sat.python.cp_model_helper.SolutionCallback):
 NUM_OF_SUBJECTS = 7
 
