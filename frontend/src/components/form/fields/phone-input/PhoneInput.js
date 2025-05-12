@@ -1,6 +1,6 @@
 import React from "react";
-import {useField} from "formik";
-import {MuiTelInput} from "mui-tel-input";
+import { useField } from "formik";
+import { MuiTelInput } from "mui-tel-input";
 import * as Yup from "yup";
 import "./PhoneInput.scss";
 
@@ -9,7 +9,7 @@ export const PhoneSchema = Yup.string()
     .matches(/^\d+$/, "Telefon nie może zawierać liter")
     .required("Telefon jest wymagany");
 
-const PhoneInput = ({label, readOnly = false, shouldShrink = false, ...props}) => {
+const PhoneInput = ({ label, ...props }) => {
     const [field, meta, helpers] = useField(props);
 
     const handleChange = (newValue) => {
@@ -17,14 +17,10 @@ const PhoneInput = ({label, readOnly = false, shouldShrink = false, ...props}) =
     };
 
     return (
-        <div className="phone-input">
+        <div className="input-wrapper">
             <MuiTelInput
                 className="input"
                 id={props.name}
-                disabled={readOnly}
-                InputLabelProps={{
-                    shrink: shouldShrink,
-                }}
                 name={props.name}
                 label={label}
                 value={field.value}

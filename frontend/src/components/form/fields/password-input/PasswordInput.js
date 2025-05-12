@@ -35,7 +35,7 @@ const PasswordInput = ({ label, allowGenerate = false, ...props }) => {
 
     return (
         <TextField
-            className="password-input"
+            className="input"
             id={field.name}
             label={label}
             variant="outlined"

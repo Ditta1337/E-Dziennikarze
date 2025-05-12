@@ -8,19 +8,15 @@ export const EmailSchema = Yup.string()
     .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Podaj poprawny adres email")
     .required("Email jest wymagany");
 
-const EmailInput = ({label, readOnly = false, shouldShrink = false, ...props}) => {
+const EmailInput = ({label, ...props}) => {
     const [field, meta] = useField(props);
 
     return (
         <TextField
-            className="email-input"
+            className="input"
             id={props.name}
-            disabled={readOnly}
             label={label}
             variant="outlined"
-            InputLabelProps={{
-                shrink: shouldShrink,
-            }}
             {...field}
             error={meta.touched && Boolean(meta.error)}
             helperText={meta.touched && meta.error}
