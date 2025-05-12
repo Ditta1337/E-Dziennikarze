@@ -11,7 +11,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import {useLocation, useNavigate} from 'react-router';
 import {useStore} from "../../store";
-import {HomePath, CalendarPath, GradebookPath, ProfilePath} from "./paths";
+import {HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser} from "./paths";
 import './Sidebar.scss';
 
 const Sidebar = ({open, toggle}) => {
@@ -19,7 +19,7 @@ const Sidebar = ({open, toggle}) => {
     const navigation = useNavigate();
     const location = useLocation();
 
-    const routes = role === "admin" ? [HomePath, CalendarPath, GradebookPath, ProfilePath]
+    const routes = role === "admin" ? [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser]
         : [HomePath, CalendarPath, GradebookPath];
 
     return (
