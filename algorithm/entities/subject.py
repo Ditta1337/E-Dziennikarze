@@ -38,7 +38,7 @@ class Subject:
         return self._hours
 
     def __str__(self):
-        return f"id:{self._id} name:{self._name} teacher:{self._teacher} hours:{self._hours}"
+        return f"name:{self._name} id:{self._id} hours:{self._hours} teacher_name:{self._teacher.name}"
 
     def __repr__(self):
         return self.__str__()
