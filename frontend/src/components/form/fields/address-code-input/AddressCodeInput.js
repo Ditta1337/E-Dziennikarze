@@ -13,7 +13,7 @@ const AddressCodeInput = ({ label, ...props }) => {
 
     return (
         <TextField
-            className="input"
+            className="address-code-input"
             id={props.name}
             label={label}
             variant="outlined"

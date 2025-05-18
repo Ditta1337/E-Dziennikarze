@@ -1,19 +1,41 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useFormik, FormikProvider, Form} from "formik";
 import * as Yup from "yup";
-import {Button, Typography} from "@mui/material";
+import {Button, Typography, CircularProgress} from "@mui/material";
 import NameInput, {NameSchema} from "../../../components/form/fields/name-input/NameInput";
 import SurnameInput, {SurnameSchema} from "../../../components/form/fields/surname-input/SurnameInput";
 import PhoneInput, {PhoneSchema} from "../../../components/form/fields/phone-input/PhoneInput";
-import CountryInput, {CitySchema} from "../../../components/form/fields/city-input/CityInput";
+import CountryInput, {CountrySchema} from "../../../components/form/fields/country-input/CountryInput";
 import AddressCodeInput, {AddressCodeSchema} from "../../../components/form/fields/address-code-input/AddressCodeInput";
-import CityInput, {CountrySchema} from "../../../components/form/fields/country-input/CountryInput";
+import CityInput, {CitySchema} from "../../../components/form/fields/city-input/CityInput";
 import AddressInput, {AddressSchema} from "../../../components/form/fields/address-input/AddressInput";
 import EmailInput, {EmailSchema} from "../../../components/form/fields/email-input/EmailInput";
 import PasswordInput, {PasswordSchema} from "../../../components/form/fields/password-input/PasswordInput";
+import SelectInput, {SelectSchema} from "../../../components/form/fields/select-input/SelectInput";
+import SwitchInput, {SwitchSchema} from "../../../components/form/fields/switch-input/SwitchInput";
+import {roles, StudentRole, TeacherRole, WorkerRole} from "../roles";
+import {submitUser} from "./submitUser";
 import "./AddUser.scss";
 
-const AddUser = () => {
+const AddUserPage = () => {
+    const [guardians, setGuardians] = useState([]);
+    const [subjects, setSubjects] = useState([]);
+
+    useEffect(() => {
+        // TODO: get from backend
+        setGuardians([
+            {label: "guardian1@gmail.com", value: "guardian1uuid"},
+            {label: "guardian2@gmail.com", value: "guardian2uuid"},
+            {label: "guardian3@gmail.com", value: "guardian3uuid"},
+        ]);
+        setSubjects([
+            {label: "Matematyka", value: "matematykauuid"},
+            {label: "J. Polski", value: "polskiuuid"},
+            {label: "Informatyka", value: "informatykauuid"},
+            {label: "Fizyka", value: "fizykauuid"},
+        ]);
+    }, []);
+
     const validationSchema = Yup.object({
         name: NameSchema,
         surname: SurnameSchema,
@@ -23,14 +45,52 @@ const AddUser = () => {
         country: CountrySchema,
         address_code: AddressCodeSchema,
         city: CitySchema,
-        address: AddressSchema
+        address: AddressSchema,
+        role: SelectSchema,
+        guardian_id: Yup.string()
+            .when("role", (role, schema) =>
+                role === StudentRole
+                    ? schema.required("Wybór opiekuna jest wymagany")
+                    : schema.notRequired()
+            ),
+        can_choose_preferences: SwitchSchema,
+        principal_privileges: SwitchSchema,
+        subjects: Yup.array().when("role", (role, schema) =>
+            role === TeacherRole
+                ? schema.min(1, "Wybór conajmniej jednego przedmiotu jest wymagany")
+                : schema.notRequired()
+        ),
     });
 
     const formik = useFormik({
-        initialValues: {name: "", surname: "", email: "", password: "", phone: "", country: "", address_code: "", city: "", address: ""},
+        initialValues: {
+            name: "Artur",
+            surname: "Dwornik",
+            email: "a@a.a",
+            password: "wn5A6LQc3E",
+            phone: "+48 12 312 31 23",
+            country: "Polska",
+            address_code: "31-230",
+            city: "Kraków",
+            address: "Ulica 32/2",
+            role: "",
+            guardian_id: "",
+            can_choose_preferences: false,
+            principal_privileges: false,
+            subjects: [],
+        },
         validationSchema,
-        onSubmit: (values) => {
-            console.log("form:", values);
+        onSubmit: async (values, {setSubmitting}) => {
+            try {
+                console.log(values)
+                // await submitUser(values);
+                // TODO: Add toast notification
+            } catch (error) {
+                console.error(error);
+                // TODO: Add toast error notification
+            } finally {
+                setSubmitting(false);
+            }
         },
     });
 
@@ -42,17 +102,58 @@ const AddUser = () => {
                     <NameInput label="Imię" name="name"/>
                     <SurnameInput label="Nazwisko" name="surname"/>
                     <EmailInput label="Email" name="email"/>
-                    <PasswordInput label="Hasło" name="password" allowGenerate={true}/>
+                    <PasswordInput label="Hasło" name="password" allowGenerate/>
                     <PhoneInput label="Telefon" name="phone"/>
                     <CountryInput label="Państwo" name="country"/>
                     <AddressCodeInput label="Kod pocztowy" name="address_code"/>
                     <CityInput label="Miasto" name="city"/>
                     <AddressInput label="Adres" name="address"/>
-                    <Button className="submit" variant="contained" type="submit">Add user</Button>
+                    <SelectInput label="Rola" name="role" options={roles}/>
+
+                    {formik.values.role === StudentRole && (
+                        <>
+                            <SelectInput
+                                label="Opiekun"
+                                name="guardian_id"
+                                options={guardians}
+                            />
+                            <SwitchInput
+                                label="Sam wybiera preferencje"
+                                name="can_choose_preferences"
+                            />
+                        </>
+                    )}
+
+                    {formik.values.role === WorkerRole && (
+                        <SwitchInput
+                            label="Jest osobą dyrektorską"
+                            name="principal_privileges"
+                        />
+                    )}
+
+                    {formik.values.role === TeacherRole && (
+                        <SelectInput
+                            label="Nauczane przedmioty"
+                            name="subjects"
+                            options={subjects}
+                            multi
+                        />
+                    )}
+
+                    <Button
+                        className="submit"
+                        variant="contained"
+                        type="submit"
+                        disabled={formik.isSubmitting}
+                    >
+                        {formik.isSubmitting ? (
+                            <CircularProgress size={24}/>
+                        ) : ("Dodaj użytkownika")}
+                    </Button>
                 </Form>
             </FormikProvider>
         </div>
     );
 };
 
-export default AddUser;
+export default AddUserPage;
