@@ -13,7 +13,7 @@ const CountryInput = ({ label, ...props }) => {
 
     return (
         <TextField
-            className="input"
+            className="country-input"
             id={props.name}
             label={label}
             variant="outlined"
