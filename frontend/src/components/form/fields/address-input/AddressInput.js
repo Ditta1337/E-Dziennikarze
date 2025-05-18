@@ -12,7 +12,7 @@ const AddressInput = ({ label, ...props }) => {
 
     return (
         <TextField
-            className="input"
+            className="address-input"
             id={props.name}
             label={label}
             variant="outlined"

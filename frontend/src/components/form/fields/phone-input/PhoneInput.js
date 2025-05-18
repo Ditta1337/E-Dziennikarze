@@ -17,7 +17,7 @@ const PhoneInput = ({ label, ...props }) => {
     };
 
     return (
-        <div className="input-wrapper">
+        <div className="phone-input">
             <MuiTelInput
                 className="input"
                 id={props.name}

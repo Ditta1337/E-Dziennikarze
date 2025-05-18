@@ -1,10 +1,10 @@
-export const AdminRole = "ADMIN"
-export const GuardianRole = "GUARDIAN"
-export const StudentRole = "STUDENT"
-export const TeacherRole = "TEACHER"
-export const WorkerRole = "OFFICEWORKER"
+export const AdminRole = "admin"
+export const GuardianRole = "guardian"
+export const StudentRole = "student"
+export const TeacherRole = "teacher"
+export const WorkerRole = "worker"
 
-export const rolesToPolish = [
+export const roles = [
     { label: "Administrator", value: AdminRole },
     { label: "Opiekun", value: GuardianRole },
     { label: "Uczeń", value: StudentRole },
