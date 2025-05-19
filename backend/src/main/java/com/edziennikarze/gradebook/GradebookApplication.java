@@ -9,8 +9,8 @@ import org.springframework.boot.actuate.autoconfigure.security.servlet.Managemen
 )
 public class GradebookApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GradebookApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GradebookApplication.class, args);
+    }
 
 }
