@@ -39,7 +39,9 @@ public class OfficeWorkerService {
         return officeWorkerFlux.flatMap(officeWorker -> userService.getUser(officeWorker.getUserId()));
     }
 
-    public Mono<OfficeWorker> getOfficeWorkerByUserId(UUID userId) {
-        return officeWorkerRepository.findByUserId(userId);
+    public Mono<User> deleteOfficeWorker(UUID uuid) {
+        return officeWorkerRepository.findById(uuid)
+                .flatMap(officeWorker -> officeWorkerRepository.deleteById(uuid)
+                        .then(userService.deleteUser(officeWorker.getUserId())));
     }
 }

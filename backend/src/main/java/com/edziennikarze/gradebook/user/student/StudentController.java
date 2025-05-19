@@ -20,14 +20,19 @@ public class StudentController {
         return studentService.createStudent(userMono);
     }
 
+    @GetMapping("/{uuid}")
+    public Mono<User> getStudent(@PathVariable("uuid") UUID uuid) {
+        return studentService.getStudent(uuid);
+    }
+
     @GetMapping("/all")
     public Flux<User> getAllStudents() {
         return studentService.getAllStudents();
     }
 
-    @GetMapping("/get/guardian")
-    public Mono<User> getStudentGuardian(@RequestParam("id") UUID studentUserId) {
-        return studentService.getStudentGuardian(studentUserId);
+    @DeleteMapping("/{uuid}/delete")
+    public Mono<User> deleteStudent(@PathVariable("uuid") UUID uuid) {
+        return studentService.deleteStudent(uuid);
     }
 
     @PatchMapping("/add/guardian")
