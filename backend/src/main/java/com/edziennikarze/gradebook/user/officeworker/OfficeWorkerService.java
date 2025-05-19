@@ -15,7 +15,7 @@ public class OfficeWorkerService {
     OfficeWorkerRepository officeWorkerRepository;
     UserService userService;
 
-    public Mono<User> createOfficeWorker(Mono<User> userMono, boolean principalPrivileges){
+    public Mono<User> createOfficeWorker(Mono<User> userMono, boolean principalPrivileges) {
         return userService.createUser(userMono)
                 .flatMap(savedUser -> {
                     OfficeWorker officeWorker = OfficeWorker.builder()
@@ -29,7 +29,7 @@ public class OfficeWorkerService {
                 });
     }
 
-    public Mono<User> getOfficeWorker(UUID uuid){
+    public Mono<User> getOfficeWorker(UUID uuid) {
         Mono<OfficeWorker> officeWorkerMono = officeWorkerRepository.findById(uuid);
         return officeWorkerMono.flatMap(officeWorker -> userService.getUser(officeWorker.getUserId()));
     }
@@ -39,9 +39,9 @@ public class OfficeWorkerService {
         return officeWorkerFlux.flatMap(officeWorker -> userService.getUser(officeWorker.getUserId()));
     }
 
-    public Mono<User> deleteOfficeWorker(UUID uuid){
+    public Mono<User> deleteOfficeWorker(UUID uuid) {
         return officeWorkerRepository.findById(uuid)
                 .flatMap(officeWorker -> officeWorkerRepository.deleteById(uuid)
-                .then(userService.deleteUser(officeWorker.getUserId())));
+                        .then(userService.deleteUser(officeWorker.getUserId())));
     }
 }

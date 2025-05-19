@@ -16,22 +16,22 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping()
-    public Mono<User> createAdmin(@RequestBody Mono<User> userMono){
+    public Mono<User> createAdmin(@RequestBody Mono<User> userMono) {
         return adminService.createAdmin(userMono);
     }
 
     @GetMapping("/{uuid}")
-    public Mono<User> getAdmin(@PathVariable("uuid") UUID uuid){
+    public Mono<User> getAdmin(@PathVariable("uuid") UUID uuid) {
         return adminService.getAdmin(uuid);
     }
 
     @GetMapping("/all")
-    public Flux<User> getAllAdmins(){
+    public Flux<User> getAllAdmins() {
         return adminService.getAllAdmins();
     }
 
     @DeleteMapping("/{uuid}/delete")
-    public Mono<User> deleteAdmin(@PathVariable("uuid") UUID uuid){
+    public Mono<User> deleteAdmin(@PathVariable("uuid") UUID uuid) {
         return adminService.deleteAdmin(uuid);
     }
 }
