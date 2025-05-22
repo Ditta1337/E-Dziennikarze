@@ -1,6 +1,5 @@
 package com.edziennikarze.gradebook.config;
 
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -12,12 +11,18 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Configuration
 public class PostgresTestContainerConfig {
 
+    private static final String USERNAME =
+            System.getProperty("spring.r2dbc.username", "testgradebookuser");
+    private static final String PASSWORD =
+            System.getProperty("spring.r2dbc.password", "testgradebookpassword");
+
     @Container
     public static final PostgreSQLContainer<?> POSTGRES_CONTAINER =
             new PostgreSQLContainer<>("postgres:16")
                     .withDatabaseName("gradebookdb")
-                    .withUsername("gradebookuser")
-                    .withPassword("gradebookpassword");
+                    .withUsername(USERNAME)
+                    .withPassword(PASSWORD);
+
     @DynamicPropertySource
     static void overrideProps(DynamicPropertyRegistry registry) {
         registry.add("spring.r2dbc.url", () ->
