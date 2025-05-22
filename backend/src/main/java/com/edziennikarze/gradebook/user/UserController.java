@@ -12,25 +12,29 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserController {
     private UserService userService;
+
     @GetMapping("/all")
-    public Flux<User> getAllUsers(){
+    public Flux<User> getAllUsers() {
         return userService.getAllUsers();
     }
+
     @GetMapping("/{uuid}")
-    public Mono<User> getUser(@PathVariable("uuid") UUID uuid){
+    public Mono<User> getUser(@PathVariable("uuid") UUID uuid) {
         return userService.getUser(uuid);
     }
+
     @PutMapping("/update")
-    public Mono<User> updateUser(@RequestBody Mono<User> userMono){
+    public Mono<User> updateUser(@RequestBody Mono<User> userMono) {
         return userService.updateUser(userMono);
     }
+
     @PatchMapping("/{uuid}/deactivate")
-    public Mono<User> deactivateUser(@PathVariable("uuid") UUID uuid){
+    public Mono<User> deactivateUser(@PathVariable("uuid") UUID uuid) {
         return userService.deactivateUser(uuid);
     }
 
     @PatchMapping("/{uuid}/activate")
-    public Mono<User> activateUser(@PathVariable("uuid") UUID uuid){
+    public Mono<User> activateUser(@PathVariable("uuid") UUID uuid) {
         return userService.activateUser(uuid);
     }
 }

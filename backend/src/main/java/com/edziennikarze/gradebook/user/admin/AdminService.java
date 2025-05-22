@@ -38,9 +38,7 @@ public class AdminService {
         return adminFlux.flatMap(admin -> userService.getUser(admin.getUserId()));
     }
 
-    public Mono<User> deleteAdmin(UUID uuid) {
-        return adminRepository.findById(uuid)
-                .flatMap(admin -> adminRepository.deleteById(uuid)
-                        .then(userService.deleteUser(admin.getUserId())));
+    public Mono<Admin> getAdminByUserId(UUID userId) {
+        return adminRepository.findByUserId(userId);
     }
 }

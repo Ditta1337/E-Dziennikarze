@@ -38,9 +38,7 @@ public class GuardianService {
         return guardianFlux.flatMap(guardian -> userService.getUser(guardian.getUserId()));
     }
 
-    public Mono<User> deleteGuardian(UUID uuid) {
-        return guardianRepository.findById(uuid)
-                .flatMap(guardian -> guardianRepository.deleteById(uuid)
-                        .then(userService.deleteUser(guardian.getUserId())));
+    public Mono<Guardian> getGuardianByUserId(UUID userId) {
+        return guardianRepository.findByUserId(userId);
     }
 }
