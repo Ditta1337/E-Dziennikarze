@@ -38,9 +38,7 @@ public class TeacherService {
         return teacherFlux.flatMap(teacher -> userService.getUser(teacher.getUserId()));
     }
 
-    public Mono<User> deleteTeacher(UUID uuid) {
-        return teacherRepository.findById(uuid)
-                .flatMap(teacher -> teacherRepository.deleteById(uuid)
-                        .then(userService.deleteUser(teacher.getUserId())));
+    public Mono<Teacher> getTeacherByUserId(UUID userId) {
+        return teacherRepository.findByUserId(userId);
     }
 }

@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/admin")
 @AllArgsConstructor
@@ -20,18 +18,8 @@ public class AdminController {
         return adminService.createAdmin(userMono);
     }
 
-    @GetMapping("/{uuid}")
-    public Mono<User> getAdmin(@PathVariable("uuid") UUID uuid) {
-        return adminService.getAdmin(uuid);
-    }
-
     @GetMapping("/all")
     public Flux<User> getAllAdmins() {
         return adminService.getAllAdmins();
-    }
-
-    @DeleteMapping("/{uuid}/delete")
-    public Mono<User> deleteAdmin(@PathVariable("uuid") UUID uuid) {
-        return adminService.deleteAdmin(uuid);
     }
 }
