@@ -1,18 +1,14 @@
 package com.edziennikarze.gradebook.user;
 
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
-import org.junit.jupiter.api.BeforeAll;
+import com.edziennikarze.gradebook.user.utils.TestDatabaseCleaner;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -33,18 +29,16 @@ class UserControllerIntTest {
     private List<User> users;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserController userController;
 
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TestDatabaseCleaner testDatabaseCleaner;
+
     @BeforeEach
     void setup() {
-        userRepository.deleteAll().block();
-
         List<User> usersToAdd = List.of(
                 User.builder()
                         .name("Andrzej")
@@ -80,6 +74,11 @@ class UserControllerIntTest {
         }
     }
 
+    @AfterEach
+    void tearDown() {
+        testDatabaseCleaner.cleanAll();
+    }
+
     @Test
     void shouldGetAllUsers() {
         //when
@@ -98,7 +97,7 @@ class UserControllerIntTest {
         assertEquals(user1, users.get(0));
         assertEquals(user2, users.get(1));
     }
-    
+
     @Test
     void updateUser() {
         //when
@@ -129,6 +128,7 @@ class UserControllerIntTest {
         //then
         assertTrue(userController.getUser(users.get(1).getId()).block().getIsActive());
     }
+
     @Test
     void shouldDeactivateUser() {
         //when

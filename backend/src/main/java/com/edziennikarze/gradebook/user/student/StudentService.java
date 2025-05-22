@@ -1,7 +1,10 @@
 package com.edziennikarze.gradebook.user.student;
 
+import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.User;
 import com.edziennikarze.gradebook.user.UserService;
+import com.edziennikarze.gradebook.user.guardian.Guardian;
+import com.edziennikarze.gradebook.user.guardian.GuardianService;
 import com.edziennikarze.gradebook.user.student.dto.StudentsGuardianDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import java.util.UUID;
 public class StudentService {
     private final UserService userService;
     private final StudentRepository studentRepository;
+    private final GuardianService guardianService;
 
     public Mono<User> createStudent(Mono<User> userMono) {
         return userService.createUser(userMono)
@@ -41,18 +45,35 @@ public class StudentService {
         return studentFlux.flatMap(student -> userService.getUser(student.getUserId()));
     }
 
-    public Mono<User> deleteStudent(UUID uuid) {
-        return studentRepository.findById(uuid)
-                .flatMap(student -> studentRepository.deleteById(uuid)
-                        .then(userService.deleteUser(student.getUserId())));
-    }
-
     public Mono<Student> setStudentsGuardian(Mono<StudentsGuardianDTO> studentsGuardianMono) {
-        return studentsGuardianMono.flatMap(studentsGuardianDTO -> studentRepository.findById(studentsGuardianDTO.getStudentId())
-                .flatMap(student -> {
-                    student.setGuardianId(studentsGuardianDTO.getGuardianId());
-                    return studentRepository.save(student);
-                }));
+        return studentsGuardianMono.flatMap(studentsGuardianDTO ->
+                Mono.zip(
+                        userService.getUser(studentsGuardianDTO.getStudentId()),
+                        userService.getUser(studentsGuardianDTO.getGuardianId())
+                ).flatMap(tuple -> {
+                    User studentUser = tuple.getT1();
+                    User guardianUser = tuple.getT2();
+
+                    if (studentUser.getRole() != Role.STUDENT) {
+                        return Mono.error(new IllegalArgumentException("User is not a student"));
+                    }
+
+                    if (guardianUser.getRole() != Role.GUARDIAN) {
+                        return Mono.error(new IllegalArgumentException("User is not a guardian"));
+                    }
+
+                    return Mono.zip(
+                            guardianService.getGuardianByUserId(guardianUser.getId()),
+                            getStudentByUserId(studentUser.getId())
+                    ).flatMap(data -> {
+                        Guardian guardian = data.getT1();
+                        Student student = data.getT2();
+
+                        student.setGuardianId(guardian.getId());
+                        return studentRepository.save(student);
+                    });
+                })
+        );
     }
 
     public Mono<Student> setStudentPreferencesCapabilities(UUID uuid, boolean capabilities) {
@@ -61,5 +82,13 @@ public class StudentService {
                     student.setCanChoosePreferences(capabilities);
                     return studentRepository.save(student);
                 });
+    }
+
+    public Mono<Student> getStudentByUserId(UUID userId) {
+        return studentRepository.findByUserId(userId);
+    }
+
+    public Mono<User> getStudentGuardian(UUID studentUserId) {
+        return getStudentByUserId(studentUserId).flatMap(student -> guardianService.getGuardian(student.getGuardianId()));
     }
 }
