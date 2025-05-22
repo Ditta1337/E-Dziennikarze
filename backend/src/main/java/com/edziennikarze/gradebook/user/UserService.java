@@ -56,10 +56,4 @@ public class UserService {
                     return userRepository.save(exisitingUser);
                 });
     }
-
-    public Mono<User> deleteUser(UUID uuid) {
-        return userRepository.findById(uuid)
-                .flatMap(user -> userRepository.deleteById(uuid)
-                        .thenReturn(user));
-    }
 }
