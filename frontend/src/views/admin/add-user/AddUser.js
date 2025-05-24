@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useFormik, FormikProvider, Form} from "formik";
 import * as Yup from "yup";
-import {Button, Typography, CircularProgress} from "@mui/material";
+import {Button, Typography, CircularProgress, Snackbar, Alert} from "@mui/material";
 import NameInput, {NameSchema} from "../../../components/form/fields/name-input/NameInput";
 import SurnameInput, {SurnameSchema} from "../../../components/form/fields/surname-input/SurnameInput";
 import PhoneInput, {PhoneSchema} from "../../../components/form/fields/phone-input/PhoneInput";
@@ -20,6 +20,10 @@ import "./AddUser.scss";
 const AddUserPage = () => {
     const [guardians, setGuardians] = useState([]);
     const [subjects, setSubjects] = useState([]);
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
     useEffect(() => {
         // TODO: get from backend
@@ -80,35 +84,47 @@ const AddUserPage = () => {
             subjects: [],
         },
         validationSchema,
-        onSubmit: async (values, {setSubmitting}) => {
+        onSubmit: async (values, {setSubmitting, resetForm}) => {
             try {
-                console.log(values)
-                // await submitUser(values);
-                // TODO: Add toast notification
+                console.log(values);
+                await submitUser(values);
+                setSnackbarMessage("Użytkownik został dodany pomyślnie");
+                setSnackbarSeverity("success");
+                setSnackbarOpen(true);
+                resetForm();
             } catch (error) {
                 console.error(error);
-                // TODO: Add toast error notification
+                setSnackbarMessage("Wystąpił błąd podczas dodawania użytkownika");
+                setSnackbarSeverity("error");
+                setSnackbarOpen(true);
             } finally {
                 setSubmitting(false);
             }
         },
     });
 
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setSnackbarOpen(false);
+    };
+
     return (
         <div className="add-user">
             <Typography className="title">Add user</Typography>
             <FormikProvider value={formik}>
                 <Form className="form">
-                    <NameInput label="Imię" name="name"/>
-                    <SurnameInput label="Nazwisko" name="surname"/>
-                    <EmailInput label="Email" name="email"/>
-                    <PasswordInput label="Hasło" name="password" allowGenerate/>
-                    <PhoneInput label="Telefon" name="phone"/>
-                    <CountryInput label="Państwo" name="country"/>
-                    <AddressCodeInput label="Kod pocztowy" name="address_code"/>
-                    <CityInput label="Miasto" name="city"/>
-                    <AddressInput label="Adres" name="address"/>
-                    <SelectInput label="Rola" name="role" options={roles}/>
+                    <NameInput label="Imię" name="name" />
+                    <SurnameInput label="Nazwisko" name="surname" />
+                    <EmailInput label="Email" name="email" />
+                    <PasswordInput label="Hasło" name="password" allowGenerate />
+                    <PhoneInput label="Telefon" name="phone" />
+                    <CountryInput label="Państwo" name="country" />
+                    <AddressCodeInput label="Kod pocztowy" name="address_code" />
+                    <CityInput label="Miasto" name="city" />
+                    <AddressInput label="Adres" name="address" />
+                    <SelectInput label="Rola" name="role" options={roles} />
 
                     {formik.values.role === StudentRole && (
                         <>
@@ -147,11 +163,24 @@ const AddUserPage = () => {
                         disabled={formik.isSubmitting}
                     >
                         {formik.isSubmitting ? (
-                            <CircularProgress size={24}/>
-                        ) : ("Dodaj użytkownika")}
+                            <CircularProgress size={24} />
+                        ) : (
+                            "Dodaj użytkownika"
+                        )}
                     </Button>
                 </Form>
             </FormikProvider>
+
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            >
+                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </div>
     );
 };
