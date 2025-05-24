@@ -1,0 +1,25 @@
+.modal-overlay {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    .modal-content {
+        position: relative;
+        overflow: visible !important;
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        padding: 10px 20px 20px 20px;
+        width: 100%;
+        max-width: 80%;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+        .modal-close {
+            margin-left: auto;
+            color: black;
+            display: flex;
+            align-items: center;
+        }
+    }
+}

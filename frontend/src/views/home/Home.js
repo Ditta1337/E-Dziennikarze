@@ -2,6 +2,7 @@ import React from 'react';
 import './Home.scss';
 import {useStore} from "../../store";
 import {Box, Button, Chip} from "@mui/material";
+import ImageAdder from "../../components/image-adder/ImageAdder";
 
 function Home() {
     const test = useStore((state) => state.test);
@@ -19,6 +20,8 @@ function Home() {
                     Decrease
                 </Button>
             </Box>
+
+            <ImageAdder/>
         </Box>
     );
 }
