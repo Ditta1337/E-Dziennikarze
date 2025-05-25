@@ -5,6 +5,8 @@ import Calendar from "./views/calendar/Calendar";
 import NotFound from "./views/not-found/NotFound";
 import Card from "./components/card/Card";
 import AddUser from "./views/admin/add-user/AddUser";
+import EditUser from "./views/admin/edit-user/EditUser"
+import ListUsers from "./views/admin/list-users/ListUsers"
 
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
 
                 {/* Admin endpoints */}
                 <Route path={"/admin/add-user"} element={<Card><AddUser/></Card>}/>
+                <Route path={"/admin/edit-user"} element={<Card><EditUser/></Card>}/>
+                <Route path={"/admin/list-users"} element={<Card><ListUsers/></Card>}/>
 
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
