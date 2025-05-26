@@ -13,7 +13,7 @@ import EmailInput, {EmailSchema} from "../../../components/form/fields/email-inp
 import PasswordInput, {PasswordSchema} from "../../../components/form/fields/password-input/PasswordInput";
 import SelectInput, {SelectSchema} from "../../../components/form/fields/select-input/SelectInput";
 import SwitchInput, {SwitchSchema} from "../../../components/form/fields/switch-input/SwitchInput";
-import {roles, StudentRole, TeacherRole, WorkerRole} from "../roles";
+import {rolesToPolish, StudentRole, TeacherRole, WorkerRole} from "../roles";
 import {submitUser} from "./submitUser";
 import "./AddUser.scss";
 
@@ -112,7 +112,7 @@ const AddUserPage = () => {
 
     return (
         <div className="add-user">
-            <Typography className="title">Add user</Typography>
+            <Typography className="title">Dodaj użytkownika</Typography>
             <FormikProvider value={formik}>
                 <Form className="form">
                     <NameInput label="Imię" name="name" />
@@ -124,7 +124,7 @@ const AddUserPage = () => {
                     <AddressCodeInput label="Kod pocztowy" name="address_code" />
                     <CityInput label="Miasto" name="city" />
                     <AddressInput label="Adres" name="address" />
-                    <SelectInput label="Rola" name="role" options={roles} />
+                    <SelectInput label="Rola" name="role" options={rolesToPolish} />
 
                     {formik.values.role === StudentRole && (
                         <>

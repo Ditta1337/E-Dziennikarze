@@ -5,12 +5,12 @@ function EditUserButton ( {id} ) {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/edit-user/${id}`);
+        navigate(`/admin/list-users/edit-user/${id}`);
     }
 
     return (
         <Button variant = "contained" size = "small" onClick={handleClick}>
-            EDIT
+            EDYTUJ
         </Button>
     )
 
