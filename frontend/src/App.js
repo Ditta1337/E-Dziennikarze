@@ -19,8 +19,8 @@ function App() {
 
                 {/* Admin endpoints */}
                 <Route path={"/admin/add-user"} element={<Card><AddUser/></Card>}/>
-                <Route path={"/admin/edit-user"} element={<Card><EditUser/></Card>}/>
                 <Route path={"/admin/list-users"} element={<Card><ListUsers/></Card>}/>
+                <Route path="/admin/list-users/edit-user/:id" element={<Card><EditUser/></Card>} />
 
                 <Route path="*" element={<NotFound/>}/>
             </Routes>

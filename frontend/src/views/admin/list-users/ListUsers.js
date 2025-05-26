@@ -1,6 +1,6 @@
 import UsersDataGrid from "../../../components/users-data-grid/UsersDataGrid";
 import React, {useEffect, useState} from "react";
-import {Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import './ListUsers.scss'
 
 function ListUsers() {
@@ -61,12 +61,12 @@ function ListUsers() {
         ])
     }, [])
 
-    return <>
-        <div className="list-users">
+    return (
+        <Box className="list-users">
             <Typography className="title">Users List</Typography>
             <UsersDataGrid rows = {users}/>
-        </div>
-    </>
+        </Box>
+    )
 }
 
 export default ListUsers;

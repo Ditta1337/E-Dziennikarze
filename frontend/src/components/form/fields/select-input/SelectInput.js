@@ -7,7 +7,7 @@ import "./SelectInput.scss";
 export const SelectSchema = Yup.string()
     .required("Wybór jest wymagany");
 
-const SelectInput = ({ name, label, options, multi = false, ...props }) => {
+const SelectInput = ({ name, label, options, multi = false, readOnly = false, ...props }) => {
     const [field, meta] = useField(name);
     const { setFieldValue } = useFormikContext();
 
@@ -37,6 +37,7 @@ const SelectInput = ({ name, label, options, multi = false, ...props }) => {
             openOnFocus
             clearOnEscape
             clearOnBlur
+            disabled ={readOnly}
             renderInput={(params) => (
                 <TextField
                     {...params}
