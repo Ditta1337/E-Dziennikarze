@@ -1,0 +1,75 @@
+.user-profile {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .title {
+    padding: 20px;
+    font-size: x-large;
+    font-weight: bold;
+  }
+
+  .user-data {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .edit-avatar {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin-right: 40px;
+
+      .avatar {
+        width: 300px;
+        height: 300px;
+      }
+
+      .edit-avatar {
+        margin: 20px;
+      }
+    }
+
+    .edit-user-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        min-width: 400px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .password-form{
+        display: flex;
+        flex-direction: column;
+        min-width: 400px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .change-password {
+        margin: 20px;
+      }
+
+      .yes-no-answer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 20px;
+        width: 100%;
+
+        .statement {
+          width: 90%;
+        }
+        .answer {
+          width: 10%;
+        }
+      }
+    }
+  }
+}

@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Modal from "../modal/Modal";
 import "./ImageAdder.scss";
 
-function ImageAdder() {
+function ImageAdder( { onImageCropped }) {
     const [imageSrc, setImageSrc] = useState(null);
     const [crop, setCrop] = useState({x: 0, y: 0});
     const [zoom, setZoom] = useState(1);
@@ -59,12 +59,11 @@ function ImageAdder() {
         );
 
         return new Promise((resolve) => {
-            canvas.toBlob((blob) => {
-                const croppedUrl = URL.createObjectURL(blob);
-                resolve(croppedUrl);
-            }, "image/jpeg");
+            const base64Image = canvas.toDataURL("image/jpeg");
+            resolve(base64Image);
         });
     }
+
 
 
     const handleCrop = async () => {
@@ -72,6 +71,10 @@ function ImageAdder() {
             const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
             setImageSrc(croppedImage);
             setShowModal(false);
+
+            if (onImageCropped) {
+                onImageCropped(croppedImage)
+            }
         } catch (e) {
             console.error("Błąd przy wycinaniu obrazka:", e);
         }
