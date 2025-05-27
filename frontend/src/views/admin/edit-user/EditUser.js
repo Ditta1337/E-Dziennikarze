@@ -89,13 +89,13 @@ function EditUser() {
             try {
                 console.log(values);
                 await submitUser(values);
-                setSnackbarMessage("Użytkownik został dodany pomyślnie");
+                setSnackbarMessage("Dane użytkownika zostały zaktualizowane pomyślnie");
                 setSnackbarSeverity("success");
                 setSnackbarOpen(true);
                 resetForm();
             } catch (error) {
                 console.error(error);
-                setSnackbarMessage("Wystąpił błąd podczas dodawania użytkownika");
+                setSnackbarMessage("Wystąpił błąd podczas aktualizacji danych użytkownika");
                 setSnackbarSeverity("error");
                 setSnackbarOpen(true);
             } finally {
@@ -140,15 +140,15 @@ function EditUser() {
                 <Box className="edit-user-form">
                     <FormikProvider value={formik}>
                         <Form className="form">
-                            <NameInput label="Imię" name="name"/>
-                            <SurnameInput label="Nazwisko" name="surname" shrink={true}/>
-                            <EmailInput label="Email" name="email"/>
-                            <PhoneInput label="Telefon" name="phone"/>
-                            <CountryInput label="Państwo" name="country"/>
-                            <AddressCodeInput label="Kod pocztowy" name="address_code"/>
-                            <CityInput label="Miasto" name="city"/>
-                            <AddressInput label="Adres" name="address"/>
-                            <SelectInput label="Rola" name="role" options={rolesToPolish} readOnly={true}/>
+                            <NameInput label="Imię" name="name" shouldShrink={true}/>
+                            <SurnameInput label="Nazwisko" name="surname" shouldShrink={true}/>
+                            <EmailInput label="Email" name="email" shouldShrink={true}/>
+                            <PhoneInput label="Telefon" name="phone" shouldShrink={true}/>
+                            <CountryInput label="Państwo" name="country" shouldShrink={true}/>
+                            <AddressCodeInput label="Kod pocztowy" name="address_code" shouldShrink={true}/>
+                            <CityInput label="Miasto" name="city" shouldShrink={true}/>
+                            <AddressInput label="Adres" name="address" shouldShrink={true}/>
+                            <SelectInput label="Rola" name="role" options={rolesToPolish} readOnly={true} shouldShrink={true}/>
 
                             {formik.values.role === StudentRole && (
                                 <>
