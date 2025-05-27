@@ -1,5 +1,5 @@
 {
-  "max_hours_per_day": 5,
+  "max_hours_per_day": 7,
   "groups": [
     {
       "group_id": "0a64a408-722c-4dbe-a8ed-c7822c2fc45b",
@@ -1021,7 +1021,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 25
+      "hours": 250
     },
     {
       "teacher_name": "Piotr Kowalski",
@@ -1029,7 +1029,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 15
+      "hours": 150
     },
     {
       "teacher_name": "Małgorzata Wiśniewska",
@@ -1037,7 +1037,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 4
+      "hours": 40
     },
     {
       "teacher_name": "Katarzyna Lewandowska",
@@ -1045,7 +1045,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 4
+      "hours": 40
     },
     {
       "teacher_name": "Tomasz Wójcik",
@@ -1053,7 +1053,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 9
+      "hours": 90
     },
     {
       "teacher_name": "Ewa Zielińska",
@@ -1061,7 +1061,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 7
+      "hours": 70
     },
     {
       "teacher_name": "Marek Kamiński",
@@ -1069,7 +1069,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 20
+      "hours": 200
     },
     {
       "teacher_name": "Joanna Nowakowska",
@@ -1077,7 +1077,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 5
+      "hours": 50
     },
     {
       "teacher_name": "Adam Krawczyk",
@@ -1085,7 +1085,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 5
+      "hours": 50
     },
     {
       "teacher_name": "Krzysztof Mazur",
@@ -1093,7 +1093,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 20
+      "hours": 200
     },
     {
       "teacher_name": "Beata Szymańska",
@@ -1101,7 +1101,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 5
+      "hours": 50
     },
     {
       "teacher_name": "Marta Woźniak",
@@ -1109,7 +1109,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 5
+      "hours": 50
     },
     {
       "teacher_name": "Monika Wójcik",
@@ -1117,7 +1117,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 4
+      "hours": 40
     },
     {
       "teacher_name": "Paweł Jasiński",
@@ -1125,7 +1125,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 4
+      "hours": 40
     },
     {
       "teacher_name": "Aleksandra Kaczmarek",
@@ -1133,7 +1133,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 4
+      "hours": 40
     },
     {
       "teacher_name": "Łukasz Michalak",
@@ -1141,7 +1141,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 2
+      "hours": 200
     },
     {
       "teacher_name": "Marta Pawlak",
@@ -1149,7 +1149,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 1
+      "hours": 100
     },
     {
       "teacher_name": "Jan Kowalski",
@@ -1157,7 +1157,7 @@
       "availability": [
         "format will be considered later"
       ],
-      "hours": 5
+      "hours": 500
     }
   ]
 }

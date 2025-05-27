@@ -39,13 +39,11 @@ class DataParser:
         for group_data in groups_list:
             subjects = []
             for subject_data in group_data["subjects"]:
-                print(subject_data)
                 subject = DataParser._parse_subject(subject_data["subject_id"],
                                                     subject_data["subject_name"],
                                                     subject_data["hours"],
                                                     subject_data["teacher_id"])
                 subjects.append(subject)
-            print(group_data)
             DataParser._parse_group(group_data["group_id"],group_data["group_name"], subjects)
 
     @classmethod
