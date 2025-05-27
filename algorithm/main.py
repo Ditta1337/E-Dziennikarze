@@ -10,9 +10,6 @@ app = FastAPI()
 async def root():
     return {"message": "Hello World"}
 
-# @app.post("/model/create",status_code=201)
-# async def prepare_model(data):
-#     pass
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
