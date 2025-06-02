@@ -85,6 +85,7 @@ def solve(groups: list[Group], teachers: list[Teacher], subjects: list[Subject],
     solver = cp_model.CpSolver()
     status = solver.Solve(model)
 
+
     result = read_schedule_values(schedule, solver, subjects)
     return result
 
