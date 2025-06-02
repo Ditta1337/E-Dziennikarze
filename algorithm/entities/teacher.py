@@ -1,12 +1,18 @@
 from itertools import count
+from algorithm.entities.unavailability import Unavailability
 
 class Teacher:
     id_iterator = count()
-    def __init__(self, uuid,name,hours):
+    def __init__(self, uuid,name,hours,unavailability):
         self._uuid = uuid
         self._id=next(self.id_iterator)
         self._name=name
         self._hours=hours
+
+        self._unavailability=[]
+        for day,hour in unavailability:
+            self._unavailability.append(Unavailability(day,hour))
+
 
     @classmethod
     def reset_counter(cls):
@@ -15,6 +21,10 @@ class Teacher:
     @property
     def uuid(self):
         return self._uuid
+
+    @property
+    def unavailability(self):
+        return self._unavailability
 
     @property
     def hours(self):
