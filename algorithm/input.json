@@ -1,5 +1,6 @@
 {
-  "max_hours_per_day": 7,
+  "max_hours_per_day": 10,
+  "teaching_days": 5,
   "groups": [
     {
       "group_id": "0a64a408-722c-4dbe-a8ed-c7822c2fc45b",
@@ -1018,144 +1019,230 @@
     {
       "teacher_name": "Anna Nowak",
       "teacher_id": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
       ],
       "hours": 250
     },
     {
       "teacher_name": "Piotr Kowalski",
       "teacher_id": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
+        {
+          "day": 0,
+          "hour": 0
+        }
       ],
       "hours": 150
     },
     {
       "teacher_name": "Małgorzata Wiśniewska",
       "teacher_id": "871ec8de-e26c-4f0b-a9e0-6c76a2dee798",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
       ],
       "hours": 40
     },
     {
       "teacher_name": "Katarzyna Lewandowska",
       "teacher_id": "12c0066e-6783-48b6-8a36-e1d2cae5ccf3",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
       ],
       "hours": 40
     },
     {
       "teacher_name": "Tomasz Wójcik",
       "teacher_id": "e3dee382-9796-4436-8259-3c4d2bdc04f3",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
       ],
       "hours": 90
     },
     {
       "teacher_name": "Ewa Zielińska",
       "teacher_id": "46a53905-16fb-4e6e-81c8-ed92150ac502",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
       ],
       "hours": 70
     },
     {
       "teacher_name": "Marek Kamiński",
       "teacher_id": "e91f63ca-39ec-4c6c-9ae4-3efe12408049",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
       ],
       "hours": 200
     },
     {
       "teacher_name": "Joanna Nowakowska",
       "teacher_id": "ab45feb6-1d21-4d7e-9471-0bfaa2abae29",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
       ],
       "hours": 50
     },
     {
       "teacher_name": "Adam Krawczyk",
       "teacher_id": "2dfe2d51-b265-4f80-b537-ebee42f8b787",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
       ],
       "hours": 50
     },
     {
       "teacher_name": "Krzysztof Mazur",
       "teacher_id": "da0411eb-62c4-416b-b595-cf8987974a43",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
       ],
       "hours": 200
     },
     {
       "teacher_name": "Beata Szymańska",
       "teacher_id": "bb1dcff2-5c94-4b66-aa51-1e18b512fd6d",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
       ],
       "hours": 50
     },
     {
       "teacher_name": "Marta Woźniak",
       "teacher_id": "ddd483d5-d156-4a03-982a-2c12af47b6c8",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
       ],
       "hours": 50
     },
     {
       "teacher_name": "Monika Wójcik",
       "teacher_id": "e362eaf1-66ae-46ad-b4fc-fa056dc5b6a3",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
       ],
       "hours": 40
     },
     {
       "teacher_name": "Paweł Jasiński",
       "teacher_id": "81e6bb6e-4ce7-4c6b-a353-5b924b9dedd0",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
+        {
+          "day": 0,
+          "hour": 0
+        },
+        {
+          "day": 1,
+          "hour": 1
+        },
+        {
+          "day": 2,
+          "hour": 2
+        },
+        {
+          "day": 3,
+          "hour": 3
+        },
+        {
+          "day": 4,
+          "hour": 4
+        }
       ],
       "hours": 40
     },
     {
       "teacher_name": "Aleksandra Kaczmarek",
       "teacher_id": "412ec56d-3c0a-48ff-9c48-6b342f4756df",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
+        {
+          "day": 0,
+          "hour": 0
+        },
+        {
+          "day": 1,
+          "hour": 1
+        },
+        {
+          "day": 2,
+          "hour": 2
+        },
+        {
+          "day": 3,
+          "hour": 3
+        },
+        {
+          "day": 4,
+          "hour": 4
+        }
       ],
       "hours": 40
     },
     {
       "teacher_name": "Łukasz Michalak",
       "teacher_id": "f7868ae6-f15d-4334-a919-d54c5e18d341",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
+        {
+          "day": 0,
+          "hour": 0
+        },
+        {
+          "day": 1,
+          "hour": 1
+        },
+        {
+          "day": 2,
+          "hour": 2
+        },
+        {
+          "day": 3,
+          "hour": 3
+        },
+        {
+          "day": 4,
+          "hour": 4
+        }
       ],
       "hours": 200
     },
     {
       "teacher_name": "Marta Pawlak",
       "teacher_id": "c9f0c62d-b8be-42bf-bf67-c0c6e60049dc",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
+        {
+          "day": 0,
+          "hour": 0
+        },
+        {
+          "day": 1,
+          "hour": 1
+        },
+        {
+          "day": 2,
+          "hour": 2
+        },
+        {
+          "day": 3,
+          "hour": 3
+        },
+        {
+          "day": 4,
+          "hour": 4
+        }
       ],
       "hours": 100
     },
     {
       "teacher_name": "Jan Kowalski",
       "teacher_id": "68ab9161-97b9-4bca-baa7-2d9d798efa26",
-      "availability": [
-        "format will be considered later"
+      "unavailability": [
+        {
+          "day": 0,
+          "hour": 0
+        },
+        {
+          "day": 1,
+          "hour": 1
+        },
+        {
+          "day": 2,
+          "hour": 2
+        },
+        {
+          "day": 3,
+          "hour": 3
+        },
+        {
+          "day": 4,
+          "hour": 4
+        }
       ],
       "hours": 500
     }

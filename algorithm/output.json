@@ -4,38 +4,51 @@
             "group_id": "0a64a408-722c-4dbe-a8ed-c7822c2fc45b",
             "schedule": [
                 [
-                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
                     "ca777abd-4584-4994-92a0-c3e6682e4d2b",
-                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
-                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
-                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a"
-                ],
-                [
-                    "1c147da0-38fd-4490-82e1-9954f942a03c",
                     "050c388c-5177-47ca-8761-73fa9463522a",
-                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
-                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
-                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34"
-                ],
-                [
-                    "a881dc8f-e4e9-4841-abf3-7780ff5cda88",
-                    "a881dc8f-e4e9-4841-abf3-7780ff5cda88",
-                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
                     "050c388c-5177-47ca-8761-73fa9463522a",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
                     "050c388c-5177-47ca-8761-73fa9463522a"
                 ],
                 [
-                    "050c388c-5177-47ca-8761-73fa9463522a",
-                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    null,
+                    null,
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
-                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
-                    "0529e07d-4189-4420-b53b-90fb8bd57a7c"
+                    null,
+                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+                    "a881dc8f-e4e9-4841-abf3-7780ff5cda88"
                 ],
                 [
-                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
-                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
                     null,
                     null,
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "050c388c-5177-47ca-8761-73fa9463522a"
+                ],
+                [
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    null,
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
+                    "a881dc8f-e4e9-4841-abf3-7780ff5cda88",
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
                     null
                 ],
                 [
@@ -43,14 +56,12 @@
                     null,
                     null,
                     null,
-                    null
-                ],
-                [
-                    null,
-                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     null,
                     null,
-                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae"
+                    null,
+                    null,
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9"
                 ]
             ]
         },
@@ -58,53 +69,519 @@
             "group_id": "48007ea6-e78a-4a27-b853-d45a72337203",
             "schedule": [
                 [
-                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
-                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
-                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
-                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34"
-                ],
-                [
-                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
-                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
-                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
-                    "1c147da0-38fd-4490-82e1-9954f942a03c",
-                    "050c388c-5177-47ca-8761-73fa9463522a"
-                ],
-                [
-                    "050c388c-5177-47ca-8761-73fa9463522a",
-                    "050c388c-5177-47ca-8761-73fa9463522a",
-                    "050c388c-5177-47ca-8761-73fa9463522a",
-                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
-                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6"
+                    null,
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    null,
+                    null,
+                    null
                 ],
                 [
                     "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
+                    null,
+                    null,
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a"
+                ],
+                [
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c"
+                ],
+                [
                     "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+                    null,
+                    null,
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a"
+                ],
+                [
+                    null,
+                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    null,
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+                    null,
+                    null,
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852"
+                ]
+            ]
+        },
+        {
+            "group_id": "4c83ba42-e996-4ab9-9567-3076ca28a077",
+            "schedule": [
+                [
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+                    null,
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+                    null
+                ],
+                [
+                    null,
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
+                    null,
+                    null,
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+                    null
+                ],
+                [
+                    "050c388c-5177-47ca-8761-73fa9463522a",
                     "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
                     "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a"
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    null,
+                    null,
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null
+                ]
+            ]
+        },
+        {
+            "group_id": "bdb823d6-5ad9-432b-a669-cf5d012f20ff",
+            "schedule": [
+                [
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
                     "9782cc5a-23f9-4007-8ba0-95a1694d879b"
                 ],
                 [
+                    "e755c09a-b71e-4464-8bdc-19c4318c92d5",
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a"
+                ],
+                [
+                    null,
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
+                    null,
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+                    null,
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+                    "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c"
+                ],
+                [
+                    null,
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "e755c09a-b71e-4464-8bdc-19c4318c92d5",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c"
+                ]
+            ]
+        },
+        {
+            "group_id": "9310ad70-f904-4f3b-85c1-6f8d01a4956e",
+            "schedule": [
+                [
+                    null,
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34"
+                ],
+                [
+                    null,
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "8800d681-9665-415a-a88c-4aef48a76e49",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    "e755c09a-b71e-4464-8bdc-19c4318c92d5",
+                    null
+                ],
+                [
+                    "bb4ede90-5c36-4c67-b229-7b67c986ad3d",
+                    null,
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    null,
+                    null,
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+                    "bb4ede90-5c36-4c67-b229-7b67c986ad3d",
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+                    null,
+                    null
+                ],
+                [
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+                    null,
+                    null,
+                    "e755c09a-b71e-4464-8bdc-19c4318c92d5",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34"
+                ],
+                [
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+                    null
+                ]
+            ]
+        },
+        {
+            "group_id": "6e47e648-9b56-451e-90db-34c4325773ac",
+            "schedule": [
+                [
+                    null,
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null
+                ],
+                [
+                    null,
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    null,
+                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
+                    "a881dc8f-e4e9-4841-abf3-7780ff5cda88",
+                    null,
+                    null
+                ],
+                [
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    null,
+                    null,
+                    "a881dc8f-e4e9-4841-abf3-7780ff5cda88",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34"
+                ],
+                [
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    null,
+                    null,
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    null
+                ]
+            ]
+        },
+        {
+            "group_id": "eded15c2-0e39-4e04-9a91-302315942249",
+            "schedule": [
+                [
+                    null,
+                    null,
+                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+                    null,
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
+                    null,
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null
+                ],
+                [
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+                    null,
+                    null
+                ],
+                [
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    null,
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+                    null
+                ],
+                [
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
+                    null,
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+                    null
+                ]
+            ]
+        },
+        {
+            "group_id": "dba2944a-12cd-49cc-9d6c-e1f2d3933182",
+            "schedule": [
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    null,
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c"
                 ],
                 [
                     null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     null,
                     null,
-                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
                     null
                 ],
                 [
                     null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b"
+                ],
+                [
+                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
+                    "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
                     null,
                     null,
                     null,
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5"
+                ]
+            ]
+        },
+        {
+            "group_id": "25f11463-debc-42bc-b77e-91648ff9029b",
+            "schedule": [
+                [
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    null,
+                    null,
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c"
+                ],
+                [
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "e755c09a-b71e-4464-8bdc-19c4318c92d5"
+                ],
+                [
+                    null,
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    null,
+                    null,
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "e755c09a-b71e-4464-8bdc-19c4318c92d5"
+                ],
+                [
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
                     null
+                ],
+                [
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+                    null,
+                    "ca777abd-4584-4994-92a0-c3e6682e4d2b"
                 ]
             ]
         },
@@ -112,51 +589,62 @@
             "group_id": "cc4c43ac-7cd5-40a9-a5de-3187662c1214",
             "schedule": [
                 [
-                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
                     "8800d681-9665-415a-a88c-4aef48a76e49",
-                    "bb4ede90-5c36-4c67-b229-7b67c986ad3d",
-                    "bb4ede90-5c36-4c67-b229-7b67c986ad3d",
-                    "e755c09a-b71e-4464-8bdc-19c4318c92d5"
+                    "e755c09a-b71e-4464-8bdc-19c4318c92d5",
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00"
+                ],
+                [
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    null,
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+                    null,
+                    null,
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    null
                 ],
                 [
                     "e755c09a-b71e-4464-8bdc-19c4318c92d5",
-                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
-                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
-                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
-                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a"
-                ],
-                [
-                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    null,
                     "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
-                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
-                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
-                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34"
+                    null
                 ],
                 [
-                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+                    "bb4ede90-5c36-4c67-b229-7b67c986ad3d",
+                    null,
                     "1c147da0-38fd-4490-82e1-9954f942a03c",
-                    "050c388c-5177-47ca-8761-73fa9463522a",
-                    "050c388c-5177-47ca-8761-73fa9463522a",
-                    "050c388c-5177-47ca-8761-73fa9463522a"
-                ],
-                [
-                    "050c388c-5177-47ca-8761-73fa9463522a",
-                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
-                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
-                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
-                    "9782cc5a-23f9-4007-8ba0-95a1694d879b"
-                ],
-                [
-                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
-                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
-                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
-                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
-                    "0529e07d-4189-4420-b53b-90fb8bd57a7c"
-                ],
-                [
-                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null
+                ],
+                [
+                    "050c388c-5177-47ca-8761-73fa9463522a",
                     null,
+                    "bb4ede90-5c36-4c67-b229-7b67c986ad3d",
+                    null,
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
                     null,
                     null
                 ]
@@ -168,34 +656,11 @@
             "teacher_id": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
             "schedule": [
                 [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    null,
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
-                    "0529e07d-4189-4420-b53b-90fb8bd57a7c"
-                ],
-                [
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
@@ -207,14 +672,48 @@
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c"
                 ],
                 [
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
                     "0529e07d-4189-4420-b53b-90fb8bd57a7c",
-                    null,
-                    null,
-                    null
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c"
+                ],
+                [
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c"
+                ],
+                [
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+                    "0529e07d-4189-4420-b53b-90fb8bd57a7c"
                 ]
             ]
         },
@@ -224,25 +723,45 @@
                 [
                     null,
                     null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
                     null,
                     null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b"
+                ],
+                [
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
                     null
                 ],
                 [
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
                     null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
                     null,
-                    null,
-                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
                     null
                 ],
                 [
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
                     null,
                     null,
                     null,
-                    null,
-                    null
-                ],
-                [
                     null,
                     "9782cc5a-23f9-4007-8ba0-95a1694d879b",
                     "9782cc5a-23f9-4007-8ba0-95a1694d879b",
@@ -251,21 +770,12 @@
                 ],
                 [
                     "9782cc5a-23f9-4007-8ba0-95a1694d879b",
+                    null,
+                    null,
                     "9782cc5a-23f9-4007-8ba0-95a1694d879b",
-                    null,
                     "9782cc5a-23f9-4007-8ba0-95a1694d879b",
-                    "9782cc5a-23f9-4007-8ba0-95a1694d879b"
-                ],
-                [
                     "9782cc5a-23f9-4007-8ba0-95a1694d879b",
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    null,
+                    "9782cc5a-23f9-4007-8ba0-95a1694d879b",
                     null,
                     null,
                     null
@@ -276,31 +786,15 @@
             "teacher_id": "871ec8de-e26c-4f0b-a9e0-6c76a2dee798",
             "schedule": [
                 [
-                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
                     null,
                     "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
                     null
                 ],
                 [
@@ -308,9 +802,7 @@
                     null,
                     null,
                     null,
-                    null
-                ],
-                [
+                    null,
                     null,
                     null,
                     null,
@@ -322,7 +814,36 @@
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+                    null,
                     null
+                ],
+                [
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+                    null,
+                    "3ed2f1bd-ff59-43eb-8447-beb83508f1b9"
                 ]
             ]
         },
@@ -330,24 +851,15 @@
             "teacher_id": "12c0066e-6783-48b6-8a36-e1d2cae5ccf3",
             "schedule": [
                 [
+                    "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+                    null,
+                    null,
+                    null,
                     null,
                     "ca777abd-4584-4994-92a0-c3e6682e4d2b",
                     null,
                     null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
+                    "ca777abd-4584-4994-92a0-c3e6682e4d2b",
                     null
                 ],
                 [
@@ -355,9 +867,7 @@
                     null,
                     null,
                     null,
-                    null
-                ],
-                [
+                    null,
                     null,
                     null,
                     null,
@@ -369,6 +879,11 @@
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
                 ],
                 [
@@ -376,7 +891,24 @@
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+                    null,
                     null
+                ],
+                [
+                    null,
+                    "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "ca777abd-4584-4994-92a0-c3e6682e4d2b",
+                    "ca777abd-4584-4994-92a0-c3e6682e4d2b"
                 ]
             ]
         },
@@ -384,6 +916,23 @@
             "teacher_id": "e3dee382-9796-4436-8259-3c4d2bdc04f3",
             "schedule": [
                 [
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    null,
+                    null,
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    null,
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -392,26 +941,10 @@
                 ],
                 [
                     null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
                     null,
                     null,
                     "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
                     null,
-                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6"
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
                     null,
                     null,
                     "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
@@ -422,6 +955,11 @@
                     null,
                     null,
                     null,
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null
                 ],
@@ -429,6 +967,11 @@
                     null,
                     null,
                     null,
+                    null,
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
+                    null,
+                    null,
+                    "c4e2809a-2905-459b-a1d4-aa868ddedcd6",
                     null,
                     null
                 ]
@@ -441,18 +984,45 @@
                     null,
                     null,
                     null,
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null
                 ],
                 [
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
                     null,
                     null,
                     null,
                     null,
-                    null
-                ],
-                [
+                    null,
+                    null,
                     "a881dc8f-e4e9-4841-abf3-7780ff5cda88",
+                    null,
+                    "a881dc8f-e4e9-4841-abf3-7780ff5cda88"
+                ],
+                [
+                    null,
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+                    null,
+                    null,
+                    "a881dc8f-e4e9-4841-abf3-7780ff5cda88",
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+                    null,
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     "a881dc8f-e4e9-4841-abf3-7780ff5cda88",
                     null,
                     "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
@@ -463,28 +1033,12 @@
                     null,
                     null,
                     null,
-                    null
-                ],
-                [
                     null,
                     "6bed034c-1fdf-4aa9-9f20-8c5279dfc852",
                     null,
                     null,
-                    null
-                ],
-                [
                     null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
+                    "6bed034c-1fdf-4aa9-9f20-8c5279dfc852"
                 ]
             ]
         },
@@ -492,20 +1046,11 @@
             "teacher_id": "e91f63ca-39ec-4c6c-9ae4-3efe12408049",
             "schedule": [
                 [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
                     "050c388c-5177-47ca-8761-73fa9463522a",
                     null,
                     null,
-                    "050c388c-5177-47ca-8761-73fa9463522a"
-                ],
-                [
                     "050c388c-5177-47ca-8761-73fa9463522a",
                     "050c388c-5177-47ca-8761-73fa9463522a",
                     "050c388c-5177-47ca-8761-73fa9463522a",
@@ -513,6 +1058,11 @@
                     "050c388c-5177-47ca-8761-73fa9463522a"
                 ],
                 [
+                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
                     "050c388c-5177-47ca-8761-73fa9463522a",
                     null,
                     "050c388c-5177-47ca-8761-73fa9463522a",
@@ -521,23 +1071,38 @@
                 ],
                 [
                     "050c388c-5177-47ca-8761-73fa9463522a",
-                    null,
-                    null,
-                    null,
-                    null
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a"
                 ],
                 [
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
                     null,
                     null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
                     null,
                     null,
-                    null
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a"
                 ],
                 [
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
                     null,
-                    null,
-                    null,
-                    null,
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
+                    "050c388c-5177-47ca-8761-73fa9463522a",
                     null
                 ]
             ]
@@ -546,37 +1111,14 @@
             "teacher_id": "ab45feb6-1d21-4d7e-9471-0bfaa2abae29",
             "schedule": [
                 [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
                     "1c147da0-38fd-4490-82e1-9954f942a03c",
                     null,
                     null,
-                    "1c147da0-38fd-4490-82e1-9954f942a03c",
-                    null
-                ],
-                [
                     null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
                     null,
                     "1c147da0-38fd-4490-82e1-9954f942a03c",
                     null,
                     null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
                     null,
                     null
                 ],
@@ -585,6 +1127,35 @@
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    null,
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    null,
+                    null,
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    null,
+                    null,
                     null
                 ],
                 [
@@ -592,6 +1163,11 @@
                     null,
                     null,
                     null,
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
+                    null,
+                    null,
+                    null,
+                    "1c147da0-38fd-4490-82e1-9954f942a03c",
                     null
                 ]
             ]
@@ -604,18 +1180,21 @@
                     null,
                     null,
                     null,
-                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a"
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
                 ],
                 [
+                    null,
+                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
                     null,
                     null,
                     "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
                     null,
-                    null
-                ],
-                [
-                    null,
-                    null,
+                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
                     null,
                     null,
                     null
@@ -625,9 +1204,7 @@
                     null,
                     null,
                     null,
-                    null
-                ],
-                [
+                    null,
                     null,
                     null,
                     null,
@@ -639,9 +1216,19 @@
                     null,
                     null,
                     null,
-                    null
+                    null,
+                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
+                    null,
+                    null,
+                    null,
+                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a"
                 ],
                 [
+                    "9e4c4bb0-8e30-4c45-8a49-ff34204b987a",
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -654,7 +1241,36 @@
             "teacher_id": "da0411eb-62c4-416b-b595-cf8987974a43",
             "schedule": [
                 [
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34"
+                ],
+                [
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
                     null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    null
+                ],
+                [
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
                     null,
                     "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
                     "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
@@ -665,10 +1281,8 @@
                     "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
                     "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
                     "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
-                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34"
-                ],
-                [
-                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
                     null,
                     "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
                     "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
@@ -676,29 +1290,13 @@
                 ],
                 [
                     "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
                     null,
                     null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
+                    "51488b7c-3b51-4d0d-9a27-5a8d8dcdbd34",
                     null,
                     null
                 ]
@@ -710,11 +1308,9 @@
                 [
                     null,
                     null,
-                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
-                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
-                    null
-                ],
-                [
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -726,9 +1322,7 @@
                     "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
                     null,
                     null,
-                    null
-                ],
-                [
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
                     null,
                     null,
                     null,
@@ -738,23 +1332,38 @@
                 [
                     null,
                     null,
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    null
+                ],
+                [
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    null,
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null
                 ],
                 [
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
                     null,
                     null,
                     null,
                     null,
-                    null
-                ],
-                [
+                    null,
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
                     null,
                     null,
-                    null,
-                    null,
-                    null
+                    "0fa1f416-65c1-4c53-a4c2-78046d2acaf5"
                 ]
             ]
         },
@@ -762,10 +1371,27 @@
             "teacher_id": "ddd483d5-d156-4a03-982a-2c12af47b6c8",
             "schedule": [
                 [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
                     "b1dbe56e-c3d6-409e-8406-c68b246f2742",
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
                     null
                 ],
                 [
@@ -773,18 +1399,21 @@
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
                 ],
                 [
+                    null,
+                    null,
+                    null,
                     "b1dbe56e-c3d6-409e-8406-c68b246f2742",
                     null,
                     null,
                     null,
-                    null
-                ],
-                [
-                    null,
-                    null,
                     null,
                     null,
                     null
@@ -792,21 +1421,12 @@
                 [
                     null,
                     null,
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
                     null,
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
                     null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
+                    "b1dbe56e-c3d6-409e-8406-c68b246f2742",
                     null,
                     null
                 ]
@@ -817,6 +1437,11 @@
             "schedule": [
                 [
                     null,
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -826,7 +1451,12 @@
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
                     "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+                    null,
+                    null,
                     "d96c0d5a-b847-428d-8c13-e22ce87cef9a"
                 ],
                 [
@@ -834,17 +1464,8 @@
                     null,
                     null,
                     null,
-                    null
-                ],
-                [
                     null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
                     null,
                     null,
                     null,
@@ -853,6 +1474,11 @@
                 [
                     null,
                     null,
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null
@@ -862,6 +1488,11 @@
                     null,
                     null,
                     null,
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+                    null,
+                    null,
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
+                    "d96c0d5a-b847-428d-8c13-e22ce87cef9a",
                     null
                 ]
             ]
@@ -872,15 +1503,25 @@
                 [
                     null,
                     null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
                     "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
                     null,
+                    null,
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+                    null,
+                    null,
+                    null,
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00"
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
                 ],
                 [
@@ -888,30 +1529,31 @@
                     null,
                     null,
                     null,
-                    null
-                ],
-                [
                     null,
                     null,
                     null,
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
                     null,
                     null
                 ],
                 [
                     null,
                     null,
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
                     null,
                     null,
-                    null
-                ],
-                [
-                    null,
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
                     null,
                     null,
                     null,
                     null
                 ],
                 [
+                    null,
+                    null,
+                    null,
+                    "35f9c3f5-e4e9-49b5-820b-ba8556c5cf00",
+                    null,
                     null,
                     null,
                     null,
@@ -927,7 +1569,24 @@
                     null,
                     null,
                     null,
+                    "e755c09a-b71e-4464-8bdc-19c4318c92d5",
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    "e755c09a-b71e-4464-8bdc-19c4318c92d5",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "e755c09a-b71e-4464-8bdc-19c4318c92d5",
                     "e755c09a-b71e-4464-8bdc-19c4318c92d5"
                 ],
                 [
@@ -935,37 +1594,31 @@
                     null,
                     null,
                     null,
-                    null
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "e755c09a-b71e-4464-8bdc-19c4318c92d5"
                 ],
                 [
                     null,
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "e755c09a-b71e-4464-8bdc-19c4318c92d5",
                     null
                 ],
                 [
                     null,
                     null,
                     null,
+                    "e755c09a-b71e-4464-8bdc-19c4318c92d5",
                     null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
                     null,
                     null,
                     null,
@@ -980,13 +1633,35 @@
                 [
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
                     "bb4ede90-5c36-4c67-b229-7b67c986ad3d",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     "bb4ede90-5c36-4c67-b229-7b67c986ad3d",
-                    null
-                ],
-                [
-                    null,
-                    null,
                     null,
                     null,
                     null
@@ -996,9 +1671,7 @@
                     null,
                     null,
                     null,
-                    null
-                ],
-                [
+                    "bb4ede90-5c36-4c67-b229-7b67c986ad3d",
                     null,
                     null,
                     null,
@@ -1008,18 +1681,9 @@
                 [
                     null,
                     null,
+                    "bb4ede90-5c36-4c67-b229-7b67c986ad3d",
                     null,
                     null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
                     null,
                     null,
                     null,
@@ -1033,12 +1697,10 @@
             "schedule": [
                 [
                     null,
+                    null,
                     "8800d681-9665-415a-a88c-4aef48a76e49",
                     null,
                     null,
-                    null
-                ],
-                [
                     null,
                     null,
                     null,
@@ -1049,17 +1711,8 @@
                     null,
                     null,
                     null,
+                    "8800d681-9665-415a-a88c-4aef48a76e49",
                     null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                [
                     null,
                     null,
                     null,
@@ -1071,9 +1724,31 @@
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null
                 ],
                 [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -1086,16 +1761,14 @@
             "teacher_id": "68ab9161-97b9-4bca-baa7-2d9d798efa26",
             "schedule": [
                 [
+                    null,
+                    null,
                     "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
                     "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
                     null,
                     null,
-                    null
-                ],
-                [
-                    null,
-                    null,
-                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
                     null,
                     null
                 ],
@@ -1104,6 +1777,11 @@
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
                     null
                 ],
                 [
@@ -1111,6 +1789,11 @@
                     null,
                     null,
                     null,
+                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+                    null,
+                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
                     null
                 ],
                 [
@@ -1118,21 +1801,24 @@
                     null,
                     null,
                     null,
+                    null,
+                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+                    null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
                     null
                 ],
                 [
                     null,
                     null,
+                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null
-                ],
-                [
-                    null,
-                    null,
-                    null,
-                    null,
-                    "575f1dc4-3276-4a79-a0d4-9aac0559bfae"
                 ]
             ]
         }
