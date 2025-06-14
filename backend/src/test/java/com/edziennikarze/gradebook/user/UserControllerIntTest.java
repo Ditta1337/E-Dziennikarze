@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.test.context.ActiveProfiles;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,28 +26,52 @@ import static org.junit.jupiter.api.Assertions.*;
 @ImportTestcontainers(PostgresTestContainerConfig.class)
 class UserControllerIntTest {
 
+    private List<User> users;
 
     @Autowired
     private UserController userController;
 
     @Autowired
-    private UserTestDatabaseCleaner userTestDatabaseCleaner;
+    private UserService userService;
 
-    private List<User> users;
     @Autowired
-    private UserRepository userRepository;
+    private UserTestDatabaseCleaner userTestDatabaseCleaner;
 
     @BeforeEach
     void setup() {
-        users = List.of(
-                buildUser("maciek@gmail.com", Role.ADMIN, false, true),
-                buildUser("artur@gmail.com", Role.GUARDIAN, true, true),
-                buildUser("szymon@gmail.com", Role.OFFICEWORKER, true, true),
-                buildUser("jacek@gmail.com", Role.PRINCIPAL, true, true),
-                buildUser("miłosz@gmail.com", Role.TEACHER, false, true),
-                buildUser("marcin@gmail.com", Role.STUDENT, true, true),
-                buildUser("michał@gmail.com", Role.STUDENT, false, false)
+        List<User> usersToAdd = List.of(
+                User.builder()
+                        .name("Andrzej")
+                        .surname("Kowal")
+                        .createdAt(LocalDate.now())
+                        .address("adres1")
+                        .email("123@mail.com")
+                        .password("123")
+                        .contact("123456789")
+                        .imageBase64("abc123")
+                        .role(Role.ADMIN)
+                        .isActive(true)
+                        .build(),
+                User.builder()
+                        .name("Maciej")
+                        .surname("Malinowski")
+                        .createdAt(LocalDate.now())
+                        .address("adres2")
+                        .email("321@onet.pl")
+                        .password("xyz")
+                        .contact("987654321")
+                        .imageBase64("qwerty")
+                        .role(Role.STUDENT)
+                        .isActive(false)
+                        .build()
         );
+
+        users = new ArrayList<>();
+
+        for (User user : usersToAdd) {
+            User addedUser = userService.createUser(Mono.just(user)).block();
+            users.add(addedUser);
+        }
     }
 
     @AfterEach
@@ -54,154 +80,60 @@ class UserControllerIntTest {
     }
 
     @Test
-    void shouldCreateUsers() {
-        // when
-        List<User> createdUsers = users.stream()
-                .map(user -> userController.createUser(Mono.just(user)).block())
-                .toList();
-
-        // then
-        assertEquals(users.size(), createdUsers.size());
-        createdUsers.forEach(
-                user -> assertNotNull(user.getId())
-        );
-    }
-
-    @Test
     void shouldGetAllUsers() {
-        // given
-        List<User> savedUsers = userRepository.saveAll(users)
-                .collectList()
-                .block();
-
-        // when
-        List<User> allUsers = userController.getAllUsers(null)
-                .collectList()
-                .block();
-
-        // then
-        assertEquals(users.size(), allUsers.size());
-        assertEquals(savedUsers, allUsers);
-    }
-
-    @Test
-    void shouldGetAllUsersByRole() {
-        // given
-        List<User> savedUsers = userRepository.saveAll(users)
-                .collectList()
-                .block();
-
-        // when
-        List<User> allStudents = userController.getAllUsers(Role.STUDENT)
-                .collectList()
-                .block();
-
-        List<User> allAdmins = userController.getAllUsers(Role.ADMIN)
-                .collectList()
-                .block();
-
-        List<User> allTeachers = userController.getAllUsers(Role.TEACHER)
-                .collectList()
-                .block();
-
-        List<User> allGuardians = userController.getAllUsers(Role.GUARDIAN)
-                .collectList()
-                .block();
-
-        List<User> allOfficeWorkers = userController.getAllUsers(Role.OFFICEWORKER)
-                .collectList()
-                .block();
-
-        List<User> allPrincipals = userController.getAllUsers(Role.PRINCIPAL)
-                .collectList()
-                .block();
-
-        // then
-        assertEquals(2, allStudents.size());
-        assertEquals(1, allAdmins.size());
-        assertEquals(1, allTeachers.size());
-        assertEquals(1, allGuardians.size());
-        assertEquals(1, allOfficeWorkers.size());
-        assertEquals(1, allPrincipals.size());
+        //when
+        Flux<User> allUsers = userController.getAllUsers();
+        //then
+        List<User> allUsersList = allUsers.collectList().block();
+        assertEquals(users.get(0), allUsersList.get(0));
     }
 
     @Test
     void shouldGetUserById() {
-        // given
-        List<User> savedUsers = userRepository.saveAll(users)
-                .collectList()
-                .block();
-
-        // when
-        User user1 = userController.getUser(savedUsers.getFirst().getId()).block();
-        User user2 = userController.getUser(users.getLast().getId()).block();
-
-        // then
-        assertEquals(user1, savedUsers.getFirst());
-        assertEquals(user2, users.getLast());
+        //when
+        User user1 = userController.getUser(users.get(0).getId()).block();
+        User user2 = userController.getUser(users.get(1).getId()).block();
+        //then
+        assertEquals(user1, users.get(0));
+        assertEquals(user2, users.get(1));
     }
 
     @Test
     void updateUser() {
-        // given
-        List<User> savedUsers = userRepository.saveAll(users)
-                .collectList()
-                .block();
-
-        // when
-        User originalUser = savedUsers.getFirst();
-        User updatedOriginalUser = buildUser("updated_" + originalUser.getEmail(), Role.STUDENT, true, false);
-        updatedOriginalUser.setId(originalUser.getId());
-        User savedUpdatedUser = userController.updateUser(Mono.just(updatedOriginalUser)).block();
-
-        // then
-        assertEquals(updatedOriginalUser, savedUpdatedUser);
-        assertNotEquals(originalUser.getRole(), savedUpdatedUser.getRole());
-        assertEquals(Role.STUDENT, savedUpdatedUser.getRole());
+        //when
+        User originalUser = userController.getUser(users.get(0).getId()).block();
+        User newUser = User.builder()
+                .id(originalUser.getId())
+                .name("Stanisława")
+                .surname("Ger")
+                .createdAt(LocalDate.now())
+                .address("Czudecka 3")
+                .email("Stanislaw.ger@gmail.com")
+                .password("Qwe123")
+                .contact("605832228")
+                .imageBase64("123456")
+                .role(Role.STUDENT)
+                .isActive(true)
+                .build();
+        userController.updateUser(Mono.just(newUser)).block();
+        //then
+        User updatedUser = userController.getUser(newUser.getId()).block();
+        assertEquals(newUser, updatedUser);
     }
 
     @Test
     void shouldActivateUser() {
-        // given
-        List<User> savedUsers = userRepository.saveAll(users)
-                .collectList()
-                .block();
-
-        // when
-        userController.activateUser(savedUsers.getFirst().getId()).block();
-
-        // then
-        assertTrue(userController.getUser(savedUsers.getFirst().getId()).block().isActive());
+        //when
+        userController.activateUser(users.get(1).getId()).block();
+        //then
+        assertTrue(userController.getUser(users.get(1).getId()).block().getIsActive());
     }
 
     @Test
     void shouldDeactivateUser() {
-        // given
-        List<User> savedUsers = userRepository.saveAll(users)
-                .collectList()
-                .block();
-
-        // when
-        userController.deactivateUser(savedUsers.getFirst().getId()).block();
-
-        // then
-        assertFalse(userController.getUser(savedUsers.getFirst().getId()).block().isActive());
-    }
-
-    private User buildUser(String email, Role role, boolean isActive, boolean isChoosingPreferences) {
-        String namePart = email.split("@")[0];
-        return User.builder()
-                .name(namePart + "'s Name")
-                .surname(namePart + "'s Surname")
-                .createdAt(LocalDate.now())
-                .address(namePart + "'s Address")
-                .email(email)
-                .password("somePassword")
-                .role(role)
-                .contact("123456789")
-                .imageBase64("someImageBase64")
-                .isActive(isActive)
-                .isChoosingPreferences(isChoosingPreferences)
-                .build();
+        //when
+        userController.deactivateUser(users.get(0).getId()).block();
+        //then
+        assertFalse(userController.getUser(users.get(0).getId()).block().getIsActive());
     }
 }

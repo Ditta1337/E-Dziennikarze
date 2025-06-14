@@ -6,6 +6,7 @@ import com.edziennikarze.gradebook.subject.SubjectController;
 import com.edziennikarze.gradebook.subject.utils.SubjectTestDatabaseCleaner;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.User;
+import com.edziennikarze.gradebook.user.teacher.TeacherController;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ public class SubjectTaughtControllerIntTest {
     @Autowired
     private SubjectController subjectController;
 
+    @Autowired
+    private TeacherController teacherController;
 
     @Autowired
     private SubjectTaughtController subjectTaughtController;
@@ -54,29 +57,29 @@ public class SubjectTaughtControllerIntTest {
                 .map(subject -> subjectController.createSubject(Mono.just(subject)).block())
                 .toList();
 
-//        teacherController.createTeacher(
-//                Mono.just(
-//                        User.builder()
-//                                .name("Maciej")
-//                                .surname("Malinowski")
-//                                .createdAt(LocalDate.now())
-//                                .address("adres2")
-//                                .email("321@onet.pl")
-//                                .password("xyz")
-//                                .contact("987654321")
-//                                .imageBase64("qwerty")
-//                                .role(Role.TEACHER)
-//                                .isActive(false)
-//                                .build()
-//                )
-//        ).block();
-//        UUID teacherId = teacherController.getAllTeachers().blockFirst().getId();
-//
-//        subjectsTaught = List.of(
-//                buildSubjectTaught(teacherId, savedSubjects.get(0).getId()),
-//                buildSubjectTaught(teacherId, savedSubjects.get(1).getId()),
-//                buildSubjectTaught(teacherId, savedSubjects.get(2).getId())
-//        );
+        teacherController.createTeacher(
+                Mono.just(
+                        User.builder()
+                                .name("Maciej")
+                                .surname("Malinowski")
+                                .createdAt(LocalDate.now())
+                                .address("adres2")
+                                .email("321@onet.pl")
+                                .password("xyz")
+                                .contact("987654321")
+                                .imageBase64("qwerty")
+                                .role(Role.TEACHER)
+                                .isActive(false)
+                                .build()
+                )
+        ).block();
+        UUID teacherId = teacherController.getAllTeachers().blockFirst().getId();
+
+        subjectsTaught = List.of(
+                buildSubjectTaught(teacherId, savedSubjects.get(0).getId()),
+                buildSubjectTaught(teacherId, savedSubjects.get(1).getId()),
+                buildSubjectTaught(teacherId, savedSubjects.get(2).getId())
+        );
     }
 
     @AfterEach

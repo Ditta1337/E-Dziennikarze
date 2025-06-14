@@ -3,18 +3,18 @@ EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users
 (
-    id                      uuid         NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name                    varchar(40)  NOT NULL,
-    surname                 varchar(40)  NOT NULL,
-    created_at              date         NOT NULL,
-    address                 varchar(50)  NOT NULL,
-    email                   varchar(320) NOT NULL,
-    password                varchar(20)  NOT NULL,
-    contact                 text         NOT NULL,
-    image_base64            text,
-    role                    varchar(20)  NOT NULL,
-    is_active               boolean      NOT NULL,
-    is_choosing_preferences boolean      NOT NULL
+    id                     uuid         NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name                   varchar(40)  NOT NULL,
+    surname                varchar(40)  NOT NULL,
+    created_at             date         NOT NULL,
+    address                varchar(50)  NOT NULL,
+    email                  varchar(320) NOT NULL,
+    password               varchar(20)  NOT NULL,
+    contact                text         NOT NULL,
+    image_base64           text,
+    role                   varchar(20)  NOT NULL,
+    is_active              boolean      NOT NULL,
+    can_choose_preferences boolean      NOT NULL
 );
 
 CREATE TABLE student_guardians

@@ -58,9 +58,7 @@ CREATE TABLE modified_lessons
     teacher_id         uuid NOT NULL,
     start_time         time NOT NULL,
     end_time           time NOT NULL,
-    group_id           uuid NOT NULL,
-    room_id            uuid NOT NULL,
-    subject_id         uuid NOT NULL
+    group_id           uuid NOT NULL
 );
 
 CREATE TABLE rooms

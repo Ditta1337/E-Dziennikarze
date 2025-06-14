@@ -21,12 +21,8 @@ public class UserService {
         return userMono.flatMap(user -> userRepository.save(user));
     }
 
-    public Flux<User> getAllUsers(Role role) {
-        return role != null ? userRepository.findAllByRole(role) : userRepository.findAll();
-    }
-
-    public Flux<User> getAllUsersByRole(Role role) {
-        return userRepository.findAllByRole(role);
+    public Flux<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     public Mono<User> getUser(UUID uuid) {
@@ -45,8 +41,7 @@ public class UserService {
                             existingUser.setContact(user.getContact());
                             existingUser.setImageBase64(user.getImageBase64());
                             existingUser.setRole(user.getRole());
-                            existingUser.setActive(user.isActive());
-                            existingUser.setChoosingPreferences(user.isChoosingPreferences());
+                            existingUser.setIsActive(user.getIsActive());
                             return userRepository.save(existingUser);
                         }));
     }
@@ -62,14 +57,14 @@ public class UserService {
             subjectTaughtService.deleteSubjectsTaughtByTeacher(foundUser.getId());
         }
 
-        foundUser.setActive(false);
+        foundUser.setIsActive(false);
         return userRepository.save(foundUser);
     }
 
     public Mono<User> activateUser(UUID uuid) {
         return userRepository.findById(uuid)
                 .flatMap(exisitingUser -> {
-                    exisitingUser.setActive(true);
+                    exisitingUser.setIsActive(true);
                     return userRepository.save(exisitingUser);
                 });
     }
