@@ -1,7 +1,7 @@
 package com.edziennikarze.gradebook.user;
 
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
-import com.edziennikarze.gradebook.user.utils.TestDatabaseCleaner;
+import com.edziennikarze.gradebook.user.utils.UserTestDatabaseCleaner;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ class UserControllerIntTest {
     private UserService userService;
 
     @Autowired
-    private TestDatabaseCleaner testDatabaseCleaner;
+    private UserTestDatabaseCleaner userTestDatabaseCleaner;
 
     @BeforeEach
     void setup() {
@@ -76,7 +76,7 @@ class UserControllerIntTest {
 
     @AfterEach
     void tearDown() {
-        testDatabaseCleaner.cleanAll();
+        userTestDatabaseCleaner.cleanAll();
     }
 
     @Test

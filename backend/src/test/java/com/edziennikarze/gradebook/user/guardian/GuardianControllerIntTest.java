@@ -3,8 +3,7 @@ package com.edziennikarze.gradebook.user.guardian;
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.User;
-import com.edziennikarze.gradebook.user.UserRepository;
-import com.edziennikarze.gradebook.user.utils.TestDatabaseCleaner;
+import com.edziennikarze.gradebook.user.utils.UserTestDatabaseCleaner;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -59,11 +58,11 @@ class GuardianControllerIntTest {
     private GuardianController guardianController;
 
     @Autowired
-    private TestDatabaseCleaner testDatabaseCleaner;
+    private UserTestDatabaseCleaner userTestDatabaseCleaner;
 
     @AfterEach
     void tearDown() {
-        testDatabaseCleaner.cleanAll();
+        userTestDatabaseCleaner.cleanAll();
     }
 
     @Test

@@ -9,7 +9,7 @@ import com.edziennikarze.gradebook.user.teacher.TeacherRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TestDatabaseCleaner {
+public class UserTestDatabaseCleaner {
     private final AdminRepository adminRepo;
     private final GuardianRepository guardianRepo;
     private final StudentRepository studentRepo;
@@ -17,9 +17,9 @@ public class TestDatabaseCleaner {
     private final TeacherRepository teacherRepo;
     private final UserRepository userRepo;
 
-    public TestDatabaseCleaner(AdminRepository a, GuardianRepository g, StudentRepository s,
-                               OfficeWorkerRepository o, TeacherRepository t,
-                               UserRepository u) {
+    public UserTestDatabaseCleaner(AdminRepository a, GuardianRepository g, StudentRepository s,
+                                   OfficeWorkerRepository o, TeacherRepository t,
+                                   UserRepository u) {
         this.adminRepo = a;
         this.guardianRepo = g;
         this.studentRepo  = s;

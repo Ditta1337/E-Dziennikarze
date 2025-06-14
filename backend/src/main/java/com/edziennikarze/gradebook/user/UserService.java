@@ -1,5 +1,7 @@
 package com.edziennikarze.gradebook.user;
 
+import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
+import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaughtService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -10,7 +12,10 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class UserService {
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
+
+    private final SubjectTaughtService subjectTaughtService;
 
     public Mono<User> createUser(Mono<User> userMono) {
         return userMono.flatMap(user -> userRepository.save(user));
@@ -42,11 +47,18 @@ public class UserService {
     }
 
     public Mono<User> deactivateUser(UUID uuid) {
-        return userRepository.findById(uuid)
-                .flatMap(exisitingUser -> {
-                    exisitingUser.setIsActive(false);
-                    return userRepository.save(exisitingUser);
-                });
+        User foundUser = userRepository.findById(uuid).block();
+
+        if (foundUser == null) {
+            return Mono.error(new ResourceNotFoundException("User with id " + uuid + " not found"));
+        }
+
+        if (foundUser.getRole() == Role.TEACHER) {
+            subjectTaughtService.deleteSubjectsTaughtByTeacher(foundUser.getId());
+        }
+
+        foundUser.setIsActive(false);
+        return userRepository.save(foundUser);
     }
 
     public Mono<User> activateUser(UUID uuid) {

@@ -3,11 +3,9 @@ package com.edziennikarze.gradebook.user.student;
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.User;
-import com.edziennikarze.gradebook.user.UserRepository;
 import com.edziennikarze.gradebook.user.guardian.GuardianController;
-import com.edziennikarze.gradebook.user.guardian.GuardianRepository;
 import com.edziennikarze.gradebook.user.student.dto.StudentsGuardianDTO;
-import com.edziennikarze.gradebook.user.utils.TestDatabaseCleaner;
+import com.edziennikarze.gradebook.user.utils.UserTestDatabaseCleaner;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -67,11 +65,11 @@ class StudentControllerIntTest {
     private StudentService studentService;
 
     @Autowired
-    private TestDatabaseCleaner testDatabaseCleaner;
+    private UserTestDatabaseCleaner userTestDatabaseCleaner;
 
     @AfterEach
     void tearDown() {
-        testDatabaseCleaner.cleanAll();
+        userTestDatabaseCleaner.cleanAll();
     }
 
     @Test

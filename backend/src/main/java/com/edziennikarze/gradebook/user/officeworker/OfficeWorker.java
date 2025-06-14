@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Data
@@ -13,6 +14,9 @@ import java.util.UUID;
 public class OfficeWorker {
     @Id
     private UUID id;
+
+    @NotNull
     private UUID userId;
+
     private boolean principalPriviledge;
 }

@@ -1,4 +1,4 @@
-package com.edziennikarze.gradebook.user.student;
+package com.edziennikarze.gradebook.subject;
 
 import lombok.Builder;
 import lombok.Data;
@@ -9,17 +9,12 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Data
-@Table("students")
+@Table("subjects")
 @Builder
-public class Student {
-
+public class Subject {
     @Id
     private UUID id;
 
     @NotNull
-    private UUID userId;
-
-    private UUID guardianId;
-
-    private boolean canChoosePreferences;
+    private String name;
 }

@@ -115,16 +115,16 @@ const AddUserPage = () => {
             <Typography className="title">Dodaj użytkownika</Typography>
             <FormikProvider value={formik}>
                 <Form className="form">
-                    <NameInput label="Imię" name="name" />
-                    <SurnameInput label="Nazwisko" name="surname" />
-                    <EmailInput label="Email" name="email" />
-                    <PasswordInput label="Hasło" name="password" allowGenerate />
-                    <PhoneInput label="Telefon" name="phone" />
-                    <CountryInput label="Państwo" name="country" />
-                    <AddressCodeInput label="Kod pocztowy" name="address_code" />
-                    <CityInput label="Miasto" name="city" />
-                    <AddressInput label="Adres" name="address" />
-                    <SelectInput label="Rola" name="role" options={rolesToPolish} />
+                    <NameInput label="Imię" name="name" shouldShrink={true} />
+                    <SurnameInput label="Nazwisko" name="surname" shouldShrink={true} />
+                    <EmailInput label="Email" name="email" shouldShrink={true} />
+                    <PasswordInput label="Hasło" name="password" allowGenerate shouldShrink={true} />
+                    <PhoneInput label="Telefon" name="phone" shouldShrink={true} />
+                    <CountryInput label="Państwo" name="country" shouldShrink={true} />
+                    <AddressCodeInput label="Kod pocztowy" name="address_code" shouldShrink={true} />
+                    <CityInput label="Miasto" name="city" shouldShrink={true} />
+                    <AddressInput label="Adres" name="address" shouldShrink={true} />
+                    <SelectInput label="Rola" name="role" options={rolesToPolish} shouldShrink={true} />
 
                     {formik.values.role === StudentRole && (
                         <>
@@ -144,6 +144,7 @@ const AddUserPage = () => {
                         <SwitchInput
                             label="Jest osobą dyrektorską"
                             name="principal_privileges"
+                            shouldShrink={true}
                         />
                     )}
 
@@ -153,6 +154,7 @@ const AddUserPage = () => {
                             name="subjects"
                             options={subjects}
                             multi
+                            shouldShrink={true}
                         />
                     )}
 
