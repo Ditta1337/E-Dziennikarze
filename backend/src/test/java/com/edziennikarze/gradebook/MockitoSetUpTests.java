@@ -1,7 +1,7 @@
 package com.edziennikarze.gradebook;
 
 import com.edziennikarze.gradebook.user.User;
-import com.edziennikarze.gradebook.user.admin.AdminService;
+import com.edziennikarze.gradebook.user.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
@@ -13,9 +13,9 @@ public class MockitoSetUpTests { //Test exists for showcase purpouses, delete la
 
     @Test
     void mockitoRunTest(){
-        AdminService service = mock(AdminService.class);
-        when(service.createAdmin(null)).thenReturn(null);
-        Mono<User> result = service.createAdmin(null);
+        UserService service = mock(UserService.class);
+        when(service.createUser(null)).thenReturn(null);
+        Mono<User> result = service.createUser(null);
         Assertions.assertNull(result);
     }
 }

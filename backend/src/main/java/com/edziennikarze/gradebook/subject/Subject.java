@@ -1,17 +1,20 @@
-package com.edziennikarze.gradebook.user.teacher;
+package com.edziennikarze.gradebook.subject;
 
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Data
-@Table("teachers")
+@Table("subjects")
 @Builder
-public class Teacher {
+public class Subject {
     @Id
     private UUID id;
-    private UUID userId;
+
+    @NotNull
+    private String name;
 }
