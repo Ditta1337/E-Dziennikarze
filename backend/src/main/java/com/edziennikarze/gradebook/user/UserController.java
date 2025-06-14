@@ -13,9 +13,14 @@ import java.util.UUID;
 public class UserController {
     private UserService userService;
 
+    @PostMapping
+    public Mono<User> createUser(@RequestBody Mono<User> userMono) {
+        return userService.createUser(userMono);
+    }
+
     @GetMapping("/all")
-    public Flux<User> getAllUsers() {
-        return userService.getAllUsers();
+    public Flux<User> getAllUsers(@RequestParam(value = "role", required = false) Role role) {
+        return userService.getAllUsers(role);
     }
 
     @GetMapping("/{uuid}")

@@ -1,5 +1,7 @@
 package com.edziennikarze.gradebook.user;
 
+import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
+import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaughtService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -10,14 +12,21 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class UserService {
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
+
+    private final SubjectTaughtService subjectTaughtService;
 
     public Mono<User> createUser(Mono<User> userMono) {
         return userMono.flatMap(user -> userRepository.save(user));
     }
 
-    public Flux<User> getAllUsers() {
-        return userRepository.findAll();
+    public Flux<User> getAllUsers(Role role) {
+        return role != null ? userRepository.findAllByRole(role) : userRepository.findAll();
+    }
+
+    public Flux<User> getAllUsersByRole(Role role) {
+        return userRepository.findAllByRole(role);
     }
 
     public Mono<User> getUser(UUID uuid) {
@@ -36,23 +45,31 @@ public class UserService {
                             existingUser.setContact(user.getContact());
                             existingUser.setImageBase64(user.getImageBase64());
                             existingUser.setRole(user.getRole());
-                            existingUser.setIsActive(user.getIsActive());
+                            existingUser.setActive(user.isActive());
+                            existingUser.setChoosingPreferences(user.isChoosingPreferences());
                             return userRepository.save(existingUser);
                         }));
     }
 
     public Mono<User> deactivateUser(UUID uuid) {
-        return userRepository.findById(uuid)
-                .flatMap(exisitingUser -> {
-                    exisitingUser.setIsActive(false);
-                    return userRepository.save(exisitingUser);
-                });
+        User foundUser = userRepository.findById(uuid).block();
+
+        if (foundUser == null) {
+            return Mono.error(new ResourceNotFoundException("User with id " + uuid + " not found"));
+        }
+
+        if (foundUser.getRole() == Role.TEACHER) {
+            subjectTaughtService.deleteSubjectsTaughtByTeacher(foundUser.getId());
+        }
+
+        foundUser.setActive(false);
+        return userRepository.save(foundUser);
     }
 
     public Mono<User> activateUser(UUID uuid) {
         return userRepository.findById(uuid)
                 .flatMap(exisitingUser -> {
-                    exisitingUser.setIsActive(true);
+                    exisitingUser.setActive(true);
                     return userRepository.save(exisitingUser);
                 });
     }
