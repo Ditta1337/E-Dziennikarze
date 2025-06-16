@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.subject;
 
+import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildSubject;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
@@ -97,11 +98,5 @@ public class SubjectControllerIntTest {
         // then
         assertFalse(subjectRepository.existsById(subjectIdToDelete).block());
         assertEquals(subjects.size() - 1, subjectRepository.findAll().count().block());
-    }
-
-    private Subject buildSubject(String name) {
-        return Subject.builder()
-                .name(name)
-                .build();
     }
 }

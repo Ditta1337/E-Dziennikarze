@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
@@ -32,6 +33,7 @@ class UserControllerIntTest {
     private UserTestDatabaseCleaner userTestDatabaseCleaner;
 
     private List<User> users;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -186,22 +188,5 @@ class UserControllerIntTest {
 
         // then
         assertFalse(userController.getUser(savedUsers.getFirst().getId()).block().isActive());
-    }
-
-    private User buildUser(String email, Role role, boolean isActive, boolean isChoosingPreferences) {
-        String namePart = email.split("@")[0];
-        return User.builder()
-                .name(namePart + "'s Name")
-                .surname(namePart + "'s Surname")
-                .createdAt(LocalDate.now())
-                .address(namePart + "'s Address")
-                .email(email)
-                .password("somePassword")
-                .role(role)
-                .contact("123456789")
-                .imageBase64("someImageBase64")
-                .isActive(isActive)
-                .isChoosingPreferences(isChoosingPreferences)
-                .build();
     }
 }

@@ -29,23 +29,23 @@ public class SubjectTaughtController {
         return subjectTaughtService.getAllSubjectsTaught();
     }
 
-    @GetMapping("/teacher/{teacheUUID}")
-    public Flux<SubjectTaught> getSubjectsTaughtByTeacher(@PathVariable("teacheUUID") UUID teacherUUID) {
-        return subjectTaughtService.getSubjectsTaughtByTeacher(teacherUUID);
+    @GetMapping("/teacher/{teacherId}")
+    public Flux<SubjectTaught> getSubjectsTaughtByTeacher(@PathVariable UUID teacherId) {
+        return subjectTaughtService.getSubjectsTaughtByTeacher(teacherId);
     }
 
-    @GetMapping("/subject/{subjectUUID}")
-    public Flux<SubjectTaught> getSubjectsTaughtBySubject(@PathVariable("subjectUUID") UUID subjectUUID) {
-        return subjectTaughtService.getSubjectsTaughtBySubject(subjectUUID);
+    @GetMapping("/subject/{subjectId}")
+    public Flux<SubjectTaught> getSubjectsTaughtBySubject(@PathVariable UUID subjectId) {
+        return subjectTaughtService.getSubjectsTaughtBySubject(subjectId);
     }
 
-    @DeleteMapping("/{uuid}")
-    public Mono<Void> deleteSubjectTaught(@PathVariable("uuid") UUID uuid) {
-        return subjectTaughtService.deleteSubjectTaught(uuid);
+    @DeleteMapping("/{subjectTaughtId}")
+    public Mono<Void> deleteSubjectTaught(@PathVariable UUID subjectTaughtId) {
+        return subjectTaughtService.deleteSubjectTaught(subjectTaughtId);
     }
 
-    @DeleteMapping("/teacher/{teacherUUID}")
-    public Mono<Void> deleteSubjectsTaughtByTeacher(@PathVariable("teacherUUID") UUID teacherUUID) {
-        return subjectTaughtService.deleteSubjectsTaughtByTeacher(teacherUUID);
+    @DeleteMapping("/teacher/{teacherId}")
+    public Mono<Void> deleteSubjectsTaughtByTeacher(@PathVariable UUID teacherId) {
+        return subjectTaughtService.deleteSubjectsTaughtByTeacher(teacherId);
     }
 }

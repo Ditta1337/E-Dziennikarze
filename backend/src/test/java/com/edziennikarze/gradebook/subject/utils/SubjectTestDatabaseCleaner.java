@@ -2,7 +2,7 @@ package com.edziennikarze.gradebook.subject.utils;
 
 import com.edziennikarze.gradebook.subject.SubjectRepository;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaughtRepository;
-import com.edziennikarze.gradebook.user.UserRepository;
+import com.edziennikarze.gradebook.user.utils.UserTestDatabaseCleaner;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,19 +12,19 @@ public class SubjectTestDatabaseCleaner {
 
     private final SubjectTaughtRepository subjectTaughtRepository;
 
-    private final UserRepository userRepository;
+    private final UserTestDatabaseCleaner userTestDatabaseCleaner;
 
 
     public SubjectTestDatabaseCleaner(SubjectRepository subjectRepository,
                                       SubjectTaughtRepository subjectTaughtRepository,
-                                      UserRepository userRepository) {
+                                      UserTestDatabaseCleaner userTestDatabaseCleaner) {
         this.subjectRepository = subjectRepository;
         this.subjectTaughtRepository = subjectTaughtRepository;
-        this.userRepository = userRepository;
+        this.userTestDatabaseCleaner = userTestDatabaseCleaner;
     }
 
     public void cleanAll() {
-        userRepository.deleteAll().block();
+        userTestDatabaseCleaner.cleanAll();
         subjectRepository.deleteAll().block();
         subjectTaughtRepository.deleteAll().block();
     }
