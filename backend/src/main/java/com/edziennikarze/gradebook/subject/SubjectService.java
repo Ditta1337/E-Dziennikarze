@@ -21,7 +21,7 @@ public class SubjectService {
         return subjectRepository.findAll();
     }
 
-    public Mono<Void> deleteSubject(UUID uuid) {
-        return subjectRepository.deleteById(uuid);
+    public Mono<Void> deleteSubject(UUID subjectId) {
+        return subjectRepository.deleteById(subjectId);
     }
 }

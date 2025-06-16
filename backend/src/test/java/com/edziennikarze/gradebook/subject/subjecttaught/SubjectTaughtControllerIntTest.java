@@ -6,19 +6,22 @@ import com.edziennikarze.gradebook.subject.SubjectController;
 import com.edziennikarze.gradebook.subject.utils.SubjectTestDatabaseCleaner;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.User;
-import com.edziennikarze.gradebook.user.teacher.TeacherController;
+import com.edziennikarze.gradebook.user.UserController;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.test.context.ActiveProfiles;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static com.edziennikarze.gradebook.utils.TestObjectBuilder.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 @SpringBootTest(
@@ -31,8 +34,6 @@ public class SubjectTaughtControllerIntTest {
     @Autowired
     private SubjectController subjectController;
 
-    @Autowired
-    private TeacherController teacherController;
 
     @Autowired
     private SubjectTaughtController subjectTaughtController;
@@ -45,6 +46,8 @@ public class SubjectTaughtControllerIntTest {
 
 
     private List<SubjectTaught> subjectsTaught = new ArrayList<>();
+    @Autowired
+    private UserController userController;
 
     @BeforeEach
     public void setUp() {
@@ -57,23 +60,10 @@ public class SubjectTaughtControllerIntTest {
                 .map(subject -> subjectController.createSubject(Mono.just(subject)).block())
                 .toList();
 
-        teacherController.createTeacher(
-                Mono.just(
-                        User.builder()
-                                .name("Maciej")
-                                .surname("Malinowski")
-                                .createdAt(LocalDate.now())
-                                .address("adres2")
-                                .email("321@onet.pl")
-                                .password("xyz")
-                                .contact("987654321")
-                                .imageBase64("qwerty")
-                                .role(Role.TEACHER)
-                                .isActive(false)
-                                .build()
-                )
+        User savedUser = userController.createUser(
+               Mono.just(buildUser("artur@gmail.com", Role.TEACHER, true, true))
         ).block();
-        UUID teacherId = teacherController.getAllTeachers().blockFirst().getId();
+        UUID teacherId = savedUser.getId();
 
         subjectsTaught = List.of(
                 buildSubjectTaught(teacherId, savedSubjects.get(0).getId()),
@@ -87,30 +77,14 @@ public class SubjectTaughtControllerIntTest {
         databaseCleaner.cleanAll();
     }
 
-//    @Test
-//    void shouldCreateSubjectTaught() {
-//        // when
-//        SubjectTaught savedSubjectTaught = subjectTaughtController.createSubjectTaught(Mono.just(subjectsTaught.get(0)))
-//                .block();
-//
-//        // then
-//        assertNotNull(savedSubjectTaught);
-//        assertNotNull(savedSubjectTaught.getId());
-//    }
+    @Test
+    void shouldCreateSubjectTaught() {
+        // when
+        SubjectTaught savedSubjectTaught = subjectTaughtController.createSubjectTaught(Mono.just(subjectsTaught.get(0)))
+                .block();
 
-
-
-    private Subject buildSubject(String name) {
-        return Subject.builder()
-                .name(name)
-                .build();
+        // then
+        assertNotNull(savedSubjectTaught);
+        assertNotNull(savedSubjectTaught.getId());
     }
-
-    private SubjectTaught buildSubjectTaught(UUID teacherId, UUID subjectId) {
-        return SubjectTaught.builder()
-                .teacherId(teacherId)
-                .subjectId(subjectId)
-                .build();
-    }
-
 }

@@ -23,9 +23,9 @@ public class UserController {
         return userService.getAllUsers(role);
     }
 
-    @GetMapping("/{uuid}")
-    public Mono<User> getUser(@PathVariable("uuid") UUID uuid) {
-        return userService.getUser(uuid);
+    @GetMapping("/{userId}")
+    public Mono<User> getUser(@PathVariable UUID userId) {
+        return userService.getUser(userId);
     }
 
     @PutMapping("/update")
@@ -33,13 +33,13 @@ public class UserController {
         return userService.updateUser(userMono);
     }
 
-    @PatchMapping("/{uuid}/deactivate")
-    public Mono<User> deactivateUser(@PathVariable("uuid") UUID uuid) {
-        return userService.deactivateUser(uuid);
+    @PatchMapping("/{userId}/deactivate")
+    public Mono<User> deactivateUser(@PathVariable UUID userId) {
+        return userService.deactivateUser(userId);
     }
 
-    @PatchMapping("/{uuid}/activate")
-    public Mono<User> activateUser(@PathVariable("uuid") UUID uuid) {
-        return userService.activateUser(uuid);
+    @PatchMapping("/{userId}/activate")
+    public Mono<User> activateUser(@PathVariable UUID userId) {
+        return userService.activateUser(userId);
     }
 }

@@ -25,22 +25,19 @@ public class SubjectTaughtService {
         return subjectTaughtRepository.findAll();
     }
 
-    public Flux<SubjectTaught> getSubjectsTaughtByTeacher(UUID teacherUUID) {
-        return subjectTaughtRepository.findByTeacherId(teacherUUID);
+    public Flux<SubjectTaught> getSubjectsTaughtByTeacher(UUID teacherId) {
+        return subjectTaughtRepository.findByTeacherId(teacherId);
     }
 
-    public Flux<SubjectTaught> getSubjectsTaughtBySubject(UUID subjectUUID) {
-        return subjectTaughtRepository.findBySubjectId(subjectUUID);
+    public Flux<SubjectTaught> getSubjectsTaughtBySubject(UUID subjectId) {
+        return subjectTaughtRepository.findBySubjectId(subjectId);
     }
 
-    public Mono<Void> deleteSubjectTaught(UUID uuid) {
-        return subjectTaughtRepository.deleteById(uuid);
+    public Mono<Void> deleteSubjectTaught(UUID subjectTaughtId) {
+        return subjectTaughtRepository.deleteById(subjectTaughtId);
     }
 
-    public Mono<Void> deleteSubjectsTaughtByTeacher(UUID teacherUUID) {
-        return subjectTaughtRepository.findByTeacherId(teacherUUID)
-                .map(SubjectTaught::getId)
-                .flatMap(subjectTaughtRepository::deleteById)
-                .then();
+    public Mono<Void> deleteSubjectsTaughtByTeacher(UUID teacherId) {
+        return subjectTaughtRepository.deleteAllByTeacherId(teacherId);
     }
 }

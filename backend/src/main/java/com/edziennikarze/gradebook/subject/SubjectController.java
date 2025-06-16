@@ -24,8 +24,8 @@ public class SubjectController {
         return subjectService.getAllSubjects();
     }
 
-    @DeleteMapping("/{uuid}")
-    public Mono<Void> deleteSubject(@PathVariable("uuid") UUID uuid) {
-        return subjectService.deleteSubject(uuid);
+    @DeleteMapping("/{subjectId}")
+    public Mono<Void> deleteSubject(@PathVariable UUID subjectId) {
+        return subjectService.deleteSubject(subjectId);
     }
 }
