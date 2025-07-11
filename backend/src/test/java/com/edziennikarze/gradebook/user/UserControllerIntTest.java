@@ -2,6 +2,7 @@ package com.edziennikarze.gradebook.user;
 
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
 import com.edziennikarze.gradebook.user.utils.UserTestDatabaseCleaner;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.test.context.ActiveProfiles;
+
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -17,10 +19,7 @@ import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
-@SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = "server.port=0"
-)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "server.port=0")
 @ImportTestcontainers(PostgresTestContainerConfig.class)
 class UserControllerIntTest {
 
@@ -37,15 +36,13 @@ class UserControllerIntTest {
 
     @BeforeEach
     void setup() {
-        users = List.of(
-                buildUser("maciek@gmail.com", Role.ADMIN, false, true),
+        users = List.of(buildUser("maciek@gmail.com", Role.ADMIN, false, true),
                 buildUser("artur@gmail.com", Role.GUARDIAN, true, true),
                 buildUser("szymon@gmail.com", Role.OFFICEWORKER, true, true),
                 buildUser("jacek@gmail.com", Role.PRINCIPAL, true, true),
                 buildUser("miłosz@gmail.com", Role.TEACHER, false, true),
                 buildUser("marcin@gmail.com", Role.STUDENT, true, true),
-                buildUser("michał@gmail.com", Role.STUDENT, false, false)
-        );
+                buildUser("michał@gmail.com", Role.STUDENT, false, false));
     }
 
     @AfterEach
@@ -57,14 +54,13 @@ class UserControllerIntTest {
     void shouldCreateUsers() {
         // when
         List<User> createdUsers = users.stream()
-                .map(user -> userController.createUser(Mono.just(user)).block())
+                .map(user -> userController.createUser(Mono.just(user))
+                        .block())
                 .toList();
 
         // then
         assertEquals(users.size(), createdUsers.size());
-        createdUsers.forEach(
-                user -> assertNotNull(user.getId())
-        );
+        createdUsers.forEach(user -> assertNotNull(user.getId()));
     }
 
     @Test
@@ -133,8 +129,12 @@ class UserControllerIntTest {
                 .block();
 
         // when
-        User user1 = userController.getUser(savedUsers.getFirst().getId()).block();
-        User user2 = userController.getUser(users.getLast().getId()).block();
+        User user1 = userController.getUser(savedUsers.getFirst()
+                        .getId())
+                .block();
+        User user2 = userController.getUser(users.getLast()
+                        .getId())
+                .block();
 
         // then
         assertEquals(user1, savedUsers.getFirst());
@@ -153,7 +153,8 @@ class UserControllerIntTest {
         updatedOriginalUser.setId(originalUser.getId());
 
         // when
-        User savedUpdatedUser = userController.updateUser(Mono.just(updatedOriginalUser)).block();
+        User savedUpdatedUser = userController.updateUser(Mono.just(updatedOriginalUser))
+                .block();
 
         // then
         assertEquals(updatedOriginalUser, savedUpdatedUser);
@@ -169,10 +170,15 @@ class UserControllerIntTest {
                 .block();
 
         // when
-        userController.activateUser(savedUsers.getFirst().getId()).block();
+        userController.activateUser(savedUsers.getFirst()
+                        .getId())
+                .block();
 
         // then
-        assertTrue(userController.getUser(savedUsers.getFirst().getId()).block().isActive());
+        assertTrue(userController.getUser(savedUsers.getFirst()
+                        .getId())
+                .block()
+                .isActive());
     }
 
     @Test
@@ -183,9 +189,14 @@ class UserControllerIntTest {
                 .block();
 
         // when
-        userController.deactivateUser(savedUsers.getFirst().getId()).block();
+        userController.deactivateUser(savedUsers.getFirst()
+                        .getId())
+                .block();
 
         // then
-        assertFalse(userController.getUser(savedUsers.getFirst().getId()).block().isActive());
+        assertFalse(userController.getUser(savedUsers.getFirst()
+                        .getId())
+                .block()
+                .isActive());
     }
 }

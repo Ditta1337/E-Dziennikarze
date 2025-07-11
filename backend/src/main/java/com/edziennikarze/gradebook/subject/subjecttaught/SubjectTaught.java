@@ -9,8 +9,8 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Data
-@Table("subjects_taught")
 @Builder
+@Table("subjects_taught")
 public class SubjectTaught {
     @Id
     private UUID id;
@@ -21,3 +21,4 @@ public class SubjectTaught {
     @NotNull
     private UUID teacherId;
 }
+

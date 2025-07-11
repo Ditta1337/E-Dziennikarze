@@ -1,11 +1,16 @@
 package com.edziennikarze.gradebook.subject.subjecttaught;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
+
+import com.edziennikarze.gradebook.subject.Subject;
+import com.edziennikarze.gradebook.user.User;
 
 @RestController
 @RequestMapping("/subject-taught")
@@ -25,27 +30,17 @@ public class SubjectTaughtController {
     }
 
     @GetMapping("/all")
-    public Flux<SubjectTaught> getAllSubjectsTaught() {
+    public Flux<Subject> getAllSubjectsTaught() {
         return subjectTaughtService.getAllSubjectsTaught();
     }
 
     @GetMapping("/teacher/{teacherId}")
-    public Flux<SubjectTaught> getSubjectsTaughtByTeacher(@PathVariable UUID teacherId) {
+    public Flux<Subject> getSubjectsTaughtByTeacher(@PathVariable UUID teacherId) {
         return subjectTaughtService.getSubjectsTaughtByTeacher(teacherId);
     }
 
     @GetMapping("/subject/{subjectId}")
-    public Flux<SubjectTaught> getSubjectsTaughtBySubject(@PathVariable UUID subjectId) {
-        return subjectTaughtService.getSubjectsTaughtBySubject(subjectId);
-    }
-
-    @DeleteMapping("/{subjectTaughtId}")
-    public Mono<Void> deleteSubjectTaught(@PathVariable UUID subjectTaughtId) {
-        return subjectTaughtService.deleteSubjectTaught(subjectTaughtId);
-    }
-
-    @DeleteMapping("/teacher/{teacherId}")
-    public Mono<Void> deleteSubjectsTaughtByTeacher(@PathVariable UUID teacherId) {
-        return subjectTaughtService.deleteSubjectsTaughtByTeacher(teacherId);
+    public Flux<User> getTeachersTeachingSubject(@PathVariable UUID subjectId) {
+        return subjectTaughtService.getTeachersTeachingSubject(subjectId);
     }
 }

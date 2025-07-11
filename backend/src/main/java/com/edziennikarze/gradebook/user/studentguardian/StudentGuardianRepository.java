@@ -1,6 +1,8 @@
 package com.edziennikarze.gradebook.user.studentguardian;
 
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+
+import jakarta.validation.constraints.NotNull;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -8,13 +10,13 @@ import java.util.UUID;
 
 public interface StudentGuardianRepository extends ReactiveCrudRepository<StudentGuardian, UUID> {
 
-    Flux<StudentGuardian> findAllByStudentId(UUID studentId);
+    Flux<StudentGuardian> findAllByStudentId(@NotNull UUID studentId);
 
-    Flux<StudentGuardian> findAllByGuardianId(UUID guardianId);
+    Flux<StudentGuardian> findAllByGuardianId(@NotNull UUID guardianId);
 
-    Mono<Void> deleteAllByGuardianId(UUID guardianId);
+    Mono<Void> deleteAllByGuardianId(@NotNull UUID guardianId);
 
-    Mono<Void> deleteAllByStudentId(UUID studentId);
+    Mono<Void> deleteAllByStudentId(@NotNull UUID studentId);
 
-    Mono<Void> deleteByGuardianIdAndStudentId(UUID guardianId, UUID studentId);
+    Mono<Void> deleteByGuardianIdAndStudentId(@NotNull UUID guardianId, @NotNull UUID studentId);
 }
