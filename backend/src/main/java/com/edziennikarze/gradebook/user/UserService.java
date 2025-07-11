@@ -1,6 +1,7 @@
 package com.edziennikarze.gradebook.user;
 
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
+import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaughtRepository;
 import com.edziennikarze.gradebook.user.studentguardian.StudentGuardianRepository;
 
@@ -22,6 +23,8 @@ public class UserService {
     private final SubjectTaughtRepository subjectTaughtRepository;
 
     private final StudentGuardianRepository studentGuardianRepository;
+
+    private final StudentGroupRepository studentGroupRepository;
 
     public Mono<User> createUser(Mono<User> userMono) {
         return userMono.flatMap(userRepository::save);
@@ -56,10 +59,11 @@ public class UserService {
         return userRepository.findById(userId)
                 .switchIfEmpty(Mono.error(new ResourceNotFoundException("User with id " + userId + " not found")))
                 .flatMap(foundUser -> {
+                    UUID foundUserId = foundUser.getId();
                     Mono<Void> cleanupMono = switch (foundUser.getRole()) {
-                        case TEACHER -> subjectTaughtRepository.deleteAllByTeacherId(foundUser.getId());
-                        case STUDENT -> studentGuardianRepository.deleteAllByStudentId(foundUser.getId());
-                        case GUARDIAN -> studentGuardianRepository.deleteAllByGuardianId(foundUser.getId());
+                        case TEACHER -> subjectTaughtRepository.deleteAllByTeacherId(foundUserId);
+                        case STUDENT -> deleteStudentFromRelatedTables(foundUserId);
+                        case GUARDIAN -> studentGuardianRepository.deleteAllByGuardianId(foundUserId);
                         default -> Mono.empty();
                     };
 
@@ -74,5 +78,10 @@ public class UserService {
                     exisitingUser.setActive(true);
                     return userRepository.save(exisitingUser);
                 });
+    }
+
+    private Mono<Void> deleteStudentFromRelatedTables(UUID studentId) {
+        return studentGuardianRepository.deleteAllByStudentId(studentId)
+                .then(studentGroupRepository.deleteAllByStudentId(studentId));
     }
 }

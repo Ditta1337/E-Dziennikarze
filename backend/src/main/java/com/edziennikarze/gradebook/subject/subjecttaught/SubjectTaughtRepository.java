@@ -7,12 +7,14 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+import javax.validation.constraints.NotNull;
+
 @Repository
 public interface SubjectTaughtRepository extends ReactiveCrudRepository<SubjectTaught, UUID> {
 
-    Flux<SubjectTaught> findBySubjectId(UUID subjectId);
+    Mono<Void> deleteAllByTeacherId(@NotNull UUID teacherId);
 
-    Flux<SubjectTaught> findByTeacherId(UUID teacherId);
+    Flux<SubjectTaught> findAllByTeacherId(@NotNull UUID teacherId);
 
-    Mono<Void> deleteAllByTeacherId(UUID teacherId);
+    Flux<SubjectTaught> findAllBySubjectId(@NotNull UUID subjectId);
 }

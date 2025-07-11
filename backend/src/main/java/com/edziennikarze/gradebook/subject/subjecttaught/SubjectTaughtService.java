@@ -7,11 +7,20 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+import com.edziennikarze.gradebook.subject.Subject;
+import com.edziennikarze.gradebook.subject.SubjectRepository;
+import com.edziennikarze.gradebook.user.User;
+import com.edziennikarze.gradebook.user.UserRepository;
+
 @Service
 @RequiredArgsConstructor
 public class SubjectTaughtService {
 
     private final SubjectTaughtRepository subjectTaughtRepository;
+
+    private final SubjectRepository subjectRepository;
+
+    private final UserRepository userRepository;
 
     public Mono<SubjectTaught> createSubjectTaught(Mono<SubjectTaught> subjectTaughtMono) {
         return subjectTaughtMono.flatMap(subjectTaughtRepository::save);
@@ -21,23 +30,24 @@ public class SubjectTaughtService {
         return subjectTaughtRepository.saveAll(subjectTaughtFlux);
     }
 
-    public Flux<SubjectTaught> getAllSubjectsTaught() {
-        return subjectTaughtRepository.findAll();
+    public Flux<Subject> getAllSubjectsTaught() {
+        Flux<UUID> subjectIds = subjectTaughtRepository.findAll()
+                .map(SubjectTaught::getSubjectId);
+
+        return subjectRepository.findAllById(subjectIds);
     }
 
-    public Flux<SubjectTaught> getSubjectsTaughtByTeacher(UUID teacherId) {
-        return subjectTaughtRepository.findByTeacherId(teacherId);
+    public Flux<Subject> getSubjectsTaughtByTeacher(UUID teacherId) {
+        Flux<UUID> subjectIds = subjectTaughtRepository.findAllByTeacherId(teacherId)
+                .map(SubjectTaught::getSubjectId);
+
+        return subjectRepository.findAllById(subjectIds);
     }
 
-    public Flux<SubjectTaught> getSubjectsTaughtBySubject(UUID subjectId) {
-        return subjectTaughtRepository.findBySubjectId(subjectId);
-    }
+    public Flux<User> getTeachersTeachingSubject(UUID subjectId) {
+        Flux<UUID> teacherIds = subjectTaughtRepository.findAllBySubjectId(subjectId)
+                .map(SubjectTaught::getTeacherId);
 
-    public Mono<Void> deleteSubjectTaught(UUID subjectTaughtId) {
-        return subjectTaughtRepository.deleteById(subjectTaughtId);
-    }
-
-    public Mono<Void> deleteSubjectsTaughtByTeacher(UUID teacherId) {
-        return subjectTaughtRepository.deleteAllByTeacherId(teacherId);
+        return userRepository.findAllById(teacherIds);
     }
 }

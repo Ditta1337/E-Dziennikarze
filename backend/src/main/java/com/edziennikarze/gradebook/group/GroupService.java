@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
+import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
 
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -15,6 +16,8 @@ import reactor.core.publisher.Mono;
 public class GroupService {
 
     private final GroupRepository groupRepository;
+
+    private final StudentGroupRepository studentGroupRepository;
 
     public Mono<Group> createGroup(Mono<Group> groupMono) {
         return groupMono.flatMap(groupRepository::save);
@@ -51,7 +54,8 @@ public class GroupService {
         return groupRepository.findById(id)
                 .switchIfEmpty(Mono.error(new ResourceNotFoundException("Group with id " + id + " not found")))
                 .flatMap(foundGroup -> {
-                    // TODO delete all entries from student groups, planned lessons, modified lessons and teachers to groups
+                    // TODO delete all entries from planned lessons, modified lessons and teachers to groups
+                    studentGroupRepository.deleteAllByGroupId(foundGroup.getId());
                     return groupRepository.delete(foundGroup);
                 });
     }
