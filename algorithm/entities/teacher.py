@@ -1,5 +1,5 @@
 from itertools import count
-from algorithm.entities.unavailability import Unavailability
+from algorithm.entities import Unavailability
 
 class Teacher:
     id_iterator = count()

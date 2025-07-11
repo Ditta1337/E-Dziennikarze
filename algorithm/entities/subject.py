@@ -1,6 +1,12 @@
 from itertools import count
-
+from enum import Enum,auto
 from algorithm.entities import Teacher
+
+class SubjectPriority(Enum):
+    Normal=0
+    Early=1
+    Late=2
+    Edge=3
 
 
 class Subject:
@@ -11,6 +17,7 @@ class Subject:
         self._teacher = teacher
         self._hours = hours
         self._name = name
+        self.subject_priority=SubjectPriority.Normal
         self._id = next(self.id_iterator)
 
     @classmethod
@@ -38,7 +45,7 @@ class Subject:
         return self._hours
 
     def __str__(self):
-        return f"name:{self._name} id:{self._id} hours:{self._hours} teacher_name:{self._teacher.name}"
+        return f"name:{self._name} id:{self._id} hours:{self._hours} priority:{self.subject_priority} teacher_name:{self._teacher.name}"
 
     def __repr__(self):
         return self.__str__()

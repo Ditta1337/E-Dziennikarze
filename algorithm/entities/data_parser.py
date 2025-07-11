@@ -1,6 +1,6 @@
 import json
 
-from . import Teacher, Subject, Group
+from algorithm.entities import Teacher, Subject, Group, SubjectPriority
 
 
 class DataParser:
@@ -12,10 +12,11 @@ class DataParser:
     _subjects_by_id = {}
 
     @classmethod
-    def parse_input(cls, filename: str) -> tuple[list["Group"], list["Teacher"], list["Subject"], int,int]:
+    def parse_input(cls, filename: str) -> tuple[list["Group"], list["Teacher"], list["Subject"], int, int]:
         data = json.load(open(filename))
         DataParser._parse_all_teachers(data["teachers"])
         DataParser._parse_all_groups(data["groups"])
+        DataParser._parse_subjects_positions(data["early_subjects"], data["edge_subjects"], data["late_subjects"])
         return ([group for _, group in cls._groups_by_uuid.items()],
                 [teacher for _, teacher in cls._teachers_by_uuid.items()],
                 [subject for _, subject in cls._subjects_by_uuid.items()],
@@ -32,8 +33,17 @@ class DataParser:
                                       teacher["hours"],
                                       unavailability)
 
+    @staticmethod
+    def _parse_subjects_positions(early, edge, late):
+        for subject in early:
+            DataParser.get_subject_by_uuid(subject).subject_priority = SubjectPriority.Early
+        for subject in edge:
+            DataParser.get_subject_by_uuid(subject).subject_priority = SubjectPriority.Edge
+        for subject in late:
+            DataParser.get_subject_by_uuid(subject).subject_priority = SubjectPriority.Late
+
     @classmethod
-    def _parse_teacher(cls, teacher_uuid: str, name: str, hours: int, unavailability: list[tuple[int,int]]) -> Teacher:
+    def _parse_teacher(cls, teacher_uuid: str, name: str, hours: int, unavailability: list[tuple[int, int]]) -> Teacher:
         if not teacher_uuid in cls._teachers_by_uuid:
             teacher = Teacher(teacher_uuid, name, hours, unavailability)
             cls._teachers_by_uuid[teacher.uuid] = teacher
@@ -69,25 +79,25 @@ class DataParser:
         return cls._groups_by_uuid[group_uuid]
 
     @classmethod
-    def get_group_by_id(cls, group_id):
+    def get_group_by_id(cls, group_id) -> Group:
         return cls._groups_by_id[group_id]
 
     @classmethod
-    def get_teacher_by_id(cls, teacher_id):
+    def get_teacher_by_id(cls, teacher_id) -> Teacher:
         return cls._teachers_by_id[teacher_id]
 
     @classmethod
-    def get_subject_by_id(cls, subject_id):
+    def get_subject_by_id(cls, subject_id) -> Subject:
         return cls._subjects_by_id[subject_id]
 
     @classmethod
-    def get_group_by_uuid(cls, group_uuid):
+    def get_group_by_uuid(cls, group_uuid) -> Group:
         return cls._groups_by_uuid[group_uuid]
 
     @classmethod
-    def get_teacher_by_uuid(cls, teacher_uuid):
+    def get_teacher_by_uuid(cls, teacher_uuid) -> Teacher:
         return cls._teachers_by_uuid[teacher_uuid]
 
     @classmethod
-    def get_subject_by_uuid(cls, subject_uuid):
+    def get_subject_by_uuid(cls, subject_uuid) -> Subject:
         return cls._subjects_by_uuid[subject_uuid]

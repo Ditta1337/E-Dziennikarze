@@ -1,4 +1,4 @@
-from . import Subject
+from algorithm.entities import Subject
 from itertools import count
 
 
