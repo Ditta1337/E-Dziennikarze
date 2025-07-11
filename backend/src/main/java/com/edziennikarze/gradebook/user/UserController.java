@@ -11,7 +11,8 @@ import java.util.UUID;
 @RequestMapping("/user")
 @AllArgsConstructor
 public class UserController {
-    private UserService userService;
+
+    private final UserService userService;
 
     @PostMapping
     public Mono<User> createUser(@RequestBody Mono<User> userMono) {
@@ -28,7 +29,7 @@ public class UserController {
         return userService.getUser(userId);
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public Mono<User> updateUser(@RequestBody Mono<User> userMono) {
         return userService.updateUser(userMono);
     }

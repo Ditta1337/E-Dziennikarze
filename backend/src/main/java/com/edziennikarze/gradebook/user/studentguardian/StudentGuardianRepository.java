@@ -16,5 +16,5 @@ public interface StudentGuardianRepository extends ReactiveCrudRepository<Studen
 
     Mono<Void> deleteAllByStudentId(UUID studentId);
 
-    Mono<Void> deleteByGuardianAndStudentId(UUID guardianId, UUID studentId);
+    Mono<Void> deleteByGuardianIdAndStudentId(UUID guardianId, UUID studentId);
 }

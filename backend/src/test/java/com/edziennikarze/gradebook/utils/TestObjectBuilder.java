@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.utils;
 
+import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.subject.Subject;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaught;
 import com.edziennikarze.gradebook.user.Role;
@@ -37,6 +38,14 @@ public class TestObjectBuilder {
         return SubjectTaught.builder()
                 .teacherId(teacherId)
                 .subjectId(subjectId)
+                .build();
+    }
+
+    public static Group buildGroup(int startYear, String groupCode, boolean isClass) {
+        return Group.builder()
+                .startYear(startYear)
+                .groupCode(groupCode)
+                .isClass(isClass)
                 .build();
     }
 }

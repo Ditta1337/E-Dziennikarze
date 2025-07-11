@@ -23,10 +23,10 @@ CREATE TABLE students_groups
 
 CREATE TABLE groups
 (
-    id         uuid    NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
-    start_year int     NOT NULL,
-    group_code varchar(10),
-    is_class   boolean NOT NULL
+    id         uuid        NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    start_year int         NOT NULL,
+    group_code varchar(50) NOT NULL,
+    is_class   boolean     NOT NULL
 );
 
 CREATE TABLE planned_lessons

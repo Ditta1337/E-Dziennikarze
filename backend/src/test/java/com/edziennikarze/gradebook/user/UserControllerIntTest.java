@@ -11,7 +11,6 @@ import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.test.context.ActiveProfiles;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
@@ -25,17 +24,16 @@ import static org.junit.jupiter.api.Assertions.*;
 @ImportTestcontainers(PostgresTestContainerConfig.class)
 class UserControllerIntTest {
 
-
     @Autowired
     private UserController userController;
 
     @Autowired
     private UserTestDatabaseCleaner userTestDatabaseCleaner;
 
-    private List<User> users;
-
     @Autowired
     private UserRepository userRepository;
+
+    private List<User> users;
 
     @BeforeEach
     void setup() {
@@ -89,7 +87,7 @@ class UserControllerIntTest {
     @Test
     void shouldGetAllUsersByRole() {
         // given
-        List<User> savedUsers = userRepository.saveAll(users)
+        userRepository.saveAll(users)
                 .collectList()
                 .block();
 
@@ -150,10 +148,11 @@ class UserControllerIntTest {
                 .collectList()
                 .block();
 
-        // when
         User originalUser = savedUsers.getFirst();
         User updatedOriginalUser = buildUser("updated_" + originalUser.getEmail(), Role.STUDENT, true, false);
         updatedOriginalUser.setId(originalUser.getId());
+
+        // when
         User savedUpdatedUser = userController.updateUser(Mono.just(updatedOriginalUser)).block();
 
         // then
