@@ -18,7 +18,7 @@ public class StudentGuardianService {
     private final UserRepository userRepository;
 
     public Mono<StudentGuardian> createStudentGuardian(Mono<StudentGuardian> studentGuardian) {
-        return studentGuardian.flatMap(guardian -> studentGuardianRepository.save(guardian));
+        return studentGuardian.flatMap(studentGuardianRepository::save);
     }
 
     public Flux<User> getAllByGuardianId(UUID guardianId) {
@@ -32,6 +32,6 @@ public class StudentGuardianService {
     }
 
     public Mono<Void> deleteByGuardianIdAndStudentID(UUID guardianId, UUID studentId) {
-        return studentGuardianRepository.deleteByGuardianAndStudentId(guardianId, studentId);
+        return studentGuardianRepository.deleteByGuardianIdAndStudentId(guardianId, studentId);
     }
 }
