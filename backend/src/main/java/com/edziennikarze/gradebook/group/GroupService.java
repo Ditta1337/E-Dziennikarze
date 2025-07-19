@@ -42,6 +42,7 @@ public class GroupService {
 
     public Mono<Group> updateGroup(Mono<Group> groupMono) {
         return groupMono.flatMap(group -> groupRepository.findById(group.getId())
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("Group with id " + group.getId() + " not found")))
                 .flatMap(existingGroup -> {
                     existingGroup.setGroupCode(group.getGroupCode());
                     existingGroup.setStartYear(group.getStartYear());
@@ -50,9 +51,9 @@ public class GroupService {
                 }));
     }
 
-    public Mono<Void> deleteGroup(UUID id) {
-        return groupRepository.findById(id)
-                .switchIfEmpty(Mono.error(new ResourceNotFoundException("Group with id " + id + " not found")))
+    public Mono<Void> deleteGroup(UUID groupId) {
+        return groupRepository.findById(groupId)
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("Group with id " + groupId + " not found")))
                 .flatMap(foundGroup -> {
                     // TODO delete all entries from planned lessons, modified lessons and teachers to groups
                     studentGroupRepository.deleteAllByGroupId(foundGroup.getId());

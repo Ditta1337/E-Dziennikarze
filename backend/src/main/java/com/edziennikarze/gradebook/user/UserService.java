@@ -40,6 +40,7 @@ public class UserService {
 
     public Mono<User> updateUser(Mono<User> userMono) {
         return userMono.flatMap(user -> userRepository.findById(user.getId())
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("User with id " + user.getId() + " not found")))
                 .flatMap(existingUser -> {
                     existingUser.setName(user.getName());
                     existingUser.setSurname(user.getSurname());

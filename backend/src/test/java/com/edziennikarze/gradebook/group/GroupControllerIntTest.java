@@ -36,14 +36,8 @@ class GroupControllerIntTest {
 
     @BeforeEach
     void setUp() {
-        groups = List.of(buildGroup(1, "a", true),
-                buildGroup(1, "b", true),
-                buildGroup(1, "c", true),
-                buildGroup(2, "a", true),
-                buildGroup(3, "a", true),
-                buildGroup(4, "a", true),
-                buildGroup(5, "angielski zaawansowany", false),
-                buildGroup(5, "angielski podstawowy", false));
+        groups = List.of(buildGroup(1, "a", true), buildGroup(1, "b", true), buildGroup(1, "c", true), buildGroup(2, "a", true), buildGroup(3, "a", true),
+                buildGroup(4, "a", true), buildGroup(5, "angielski zaawansowany", false), buildGroup(5, "angielski podstawowy", false));
     }
 
     @AfterEach
@@ -77,7 +71,6 @@ class GroupControllerIntTest {
                 .block();
 
         // then
-        assertEquals(savedGroups.size(), allGroups.size());
         assertEquals(savedGroups, allGroups);
     }
 
@@ -134,7 +127,7 @@ class GroupControllerIntTest {
     }
 
     @Test
-    void updateGroup() {
+    void shouldUpdateGroup() {
         // given
         List<Group> savedGroups = groupRepository.saveAll(groups)
                 .collectList()
@@ -179,12 +172,12 @@ class GroupControllerIntTest {
     @Test
     void shouldDeleteGroup() {
         // given
-        List<Group> savedUsers = groupRepository.saveAll(groups)
+        List<Group> savedGroups = groupRepository.saveAll(groups)
                 .collectList()
                 .block();
 
         // when
-        groupController.deleteGroup(savedUsers.getFirst()
+        groupController.deleteGroup(savedGroups.getFirst()
                         .getId())
                 .block();
         List<Group> allGroupsAfterDelete = groupRepository.findAll()
@@ -192,6 +185,6 @@ class GroupControllerIntTest {
                 .block();
 
         // then
-        assertEquals(savedUsers.size() - 1, allGroupsAfterDelete.size());
+        assertEquals(savedGroups.size() - 1, allGroupsAfterDelete.size());
     }
 }
