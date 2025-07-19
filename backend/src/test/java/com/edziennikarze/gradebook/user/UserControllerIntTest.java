@@ -142,7 +142,7 @@ class UserControllerIntTest {
     }
 
     @Test
-    void updateUser() {
+    void shouldUpdateUser() {
         // given
         List<User> savedUsers = userRepository.saveAll(users)
                 .collectList()

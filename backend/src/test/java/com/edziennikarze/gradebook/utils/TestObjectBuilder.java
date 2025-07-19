@@ -2,6 +2,7 @@ package com.edziennikarze.gradebook.utils;
 
 import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
+import com.edziennikarze.gradebook.room.Room;
 import com.edziennikarze.gradebook.subject.Subject;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaught;
 import com.edziennikarze.gradebook.user.Role;
@@ -54,6 +55,13 @@ public class TestObjectBuilder {
         return StudentGroup.builder()
                 .studentId(studentId)
                 .groupId(groupId)
+                .build();
+    }
+
+    public static Room buildRoom(int capacity, String roomCode) {
+        return Room.builder()
+                .capacity(capacity)
+                .roomCode(roomCode)
                 .build();
     }
 }
