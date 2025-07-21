@@ -1,0 +1,26 @@
+.add-students-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .title {
+    padding: 20px;
+    font-size: x-large;
+    font-weight: bold;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+    gap: 20px;
+
+    .input {
+      width: 100%;
+    }
+
+    .submit {
+      align-self: center;
+    }
+  }
+}
