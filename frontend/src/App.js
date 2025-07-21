@@ -8,6 +8,8 @@ import AddUser from "./views/admin/add-user/AddUser";
 import EditUser from "./views/admin/edit-user/EditUser"
 import ListUsers from "./views/admin/list-users/ListUsers"
 import Profile from "./views/profile/Profile"
+import CreateGroup from "./views/create-group/CreateGroup";
+import AddStudentsToGroup from "./views/add-students-to-groups/AddStudentsToGroup";
 
 function App() {
     return (
@@ -22,6 +24,9 @@ function App() {
                 <Route path="/admin/add-user" element={<Card><AddUser/></Card>}/>
                 <Route path="/admin/list-users" element={<Card><ListUsers/></Card>}/>
                 <Route path="/admin/list-users/edit-user/:id" element={<Card><EditUser/></Card>} />
+
+                <Route path="/create/group" element={<Card><CreateGroup/></Card>} />
+                <Route path="/add/students/group" element={<Card><AddStudentsToGroup/></Card>}/>
 
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
