@@ -1,0 +1,24 @@
+.create-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .title {
+    padding: 20px;
+    font-size: x-large;
+    font-weight: bold;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+    align-items: center;
+    justify-content: center;
+
+    .class-checkbox {
+      margin-top: 16px;
+      align-self: flex-start;
+    }
+  }
+}
