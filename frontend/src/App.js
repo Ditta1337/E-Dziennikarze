@@ -10,6 +10,7 @@ import ListUsers from "./views/admin/list-users/ListUsers"
 import Profile from "./views/profile/Profile"
 import CreateGroup from "./views/create-group/CreateGroup";
 import AddStudentsToGroup from "./views/add-students-to-groups/AddStudentsToGroup";
+import CreateRoom from "./views/create-room/CreateRoom";
 
 function App() {
     return (
@@ -25,8 +26,10 @@ function App() {
                 <Route path="/admin/list-users" element={<Card><ListUsers/></Card>}/>
                 <Route path="/admin/list-users/edit-user/:id" element={<Card><EditUser/></Card>} />
 
+                {/*TODO make these path avalible for user in gui, right now they are only possible to reach via uri*/}
                 <Route path="/create/group" element={<Card><CreateGroup/></Card>} />
                 <Route path="/add/students/group" element={<Card><AddStudentsToGroup/></Card>}/>
+                <Route path="/create/room" element={<Card><CreateRoom/></Card>}/>
 
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
