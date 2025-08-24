@@ -29,7 +29,7 @@ public class PlannedLesson {
     @NotNull
     private LocalTime endTime;
 
-    private boolean isActive;
+    private boolean active;
 
     @NotNull
     private DayOfWeek weekDay;

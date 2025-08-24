@@ -42,11 +42,6 @@ public class RoomService {
     }
 
     public Mono<Void> deleteRoom(UUID roomId) {
-        // TODO delete planned and modified lessons with this room assigned
-        return roomRepository.findById(roomId)
-                .switchIfEmpty(Mono.error(new ResourceNotFoundException("Room with id " + roomId + " not found")))
-                .flatMap(foundRoom -> {
-                    return roomRepository.delete(foundRoom);
-                });
+        return roomRepository.deleteById(roomId);
     }
 }

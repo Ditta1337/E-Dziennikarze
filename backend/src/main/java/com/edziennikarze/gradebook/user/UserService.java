@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.user;
 
+import com.edziennikarze.gradebook.attendance.AttendanceRepository;
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaughtRepository;
@@ -25,6 +26,8 @@ public class UserService {
     private final StudentGuardianRepository studentGuardianRepository;
 
     private final StudentGroupRepository studentGroupRepository;
+
+    private final AttendanceRepository attendanceRepository;
 
     public Mono<User> createUser(Mono<User> userMono) {
         return userMono.flatMap(userRepository::save);
@@ -83,6 +86,7 @@ public class UserService {
 
     private Mono<Void> deleteStudentFromRelatedTables(UUID studentId) {
         return studentGuardianRepository.deleteAllByStudentId(studentId)
-                .then(studentGroupRepository.deleteAllByStudentId(studentId));
+                .then(studentGroupRepository.deleteAllByStudentId(studentId))
+                .then(attendanceRepository.deleteByStudentId(studentId));
     }
 }

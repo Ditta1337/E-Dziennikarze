@@ -31,7 +31,7 @@ public class StudentGuardianService {
                 .flatMap(studentGuardian -> userRepository.findById(studentGuardian.getStudentId()));
     }
 
-    public Mono<Void> deleteByGuardianIdAndStudentID(UUID guardianId, UUID studentId) {
+    public Mono<Void> deleteByGuardianIdAndStudentId(UUID guardianId, UUID studentId) {
         return studentGuardianRepository.deleteByGuardianIdAndStudentId(guardianId, studentId);
     }
 }
