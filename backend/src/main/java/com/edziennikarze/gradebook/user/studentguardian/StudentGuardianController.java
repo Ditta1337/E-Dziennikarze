@@ -32,7 +32,7 @@ public class StudentGuardianController {
 
     @DeleteMapping("/guardian/{guardianId}/student/{studentId}")
     public Mono<Void> deleteStudentGuardian(@PathVariable UUID guardianId, @PathVariable UUID studentId) {
-        return studentGuardianService.deleteByGuardianIdAndStudentID(guardianId, studentId);
+        return studentGuardianService.deleteByGuardianIdAndStudentId(guardianId, studentId);
     }
 }
 

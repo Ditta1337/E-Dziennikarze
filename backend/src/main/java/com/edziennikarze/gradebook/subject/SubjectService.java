@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+import com.edziennikarze.gradebook.attendance.AttendanceRepository;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaughtRepository;
 
 @Service
@@ -17,6 +18,8 @@ public class SubjectService {
 
     private final SubjectTaughtRepository subjectTaughtRepository;
 
+    private final AttendanceRepository attendanceRepository;
+
     public Mono<Subject> createSubject(Mono<Subject> subjectMono) {
         return subjectMono.flatMap(subjectRepository::save);
     }
@@ -26,7 +29,6 @@ public class SubjectService {
     }
 
     public Mono<Void> deleteSubject(UUID subjectId) {
-        return subjectRepository.deleteById(subjectId)
-                .then(subjectTaughtRepository.deleteById(subjectId));
+        return subjectRepository.deleteById(subjectId);
     }
 }

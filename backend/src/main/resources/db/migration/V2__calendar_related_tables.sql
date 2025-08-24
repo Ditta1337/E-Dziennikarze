@@ -36,7 +36,7 @@ CREATE TABLE planned_lessons
     teacher_id uuid        NOT NULL,
     start_time time        NOT NULL,
     end_time   time        NOT NULL,
-    is_active  boolean     NOT NULL,
+    active     boolean     NOT NULL,
     week_day   varchar(10) NOT NULL,
     room_id    uuid        NOT NULL,
     group_id   uuid        NOT NULL
@@ -68,94 +68,113 @@ CREATE TABLE rooms
     room_code varchar(20) NOT NULL
 );
 
-CREATE TABLE attendance
+CREATE TABLE attendances
 (
     id         uuid NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
     student_id uuid NOT NULL,
+    subject_id uuid NOT NULL,
     lesson_id  uuid NOT NULL,
-    is_present boolean
+    present    boolean
 );
+
+ALTER TABLE subjects_taught
+    ADD CONSTRAINT subjects_taught_teacher_fk
+        FOREIGN KEY (teacher_id)
+            REFERENCES users (id)
+            ON DELETE CASCADE;
+
+ALTER TABLE subjects_taught
+    ADD CONSTRAINT subjects_taught_subject_fk
+        FOREIGN KEY (subject_id)
+            REFERENCES subjects (id)
+            ON DELETE CASCADE;
+
+ALTER TABLE students_groups
+    ADD CONSTRAINT students_groups_student_fk
+        FOREIGN KEY (student_id)
+            REFERENCES users (id)
+            ON DELETE CASCADE;
+
+ALTER TABLE students_groups
+    ADD CONSTRAINT students_groups_group_fk
+        FOREIGN KEY (group_id)
+            REFERENCES groups (id)
+            ON DELETE CASCADE;
 
 ALTER TABLE assigned_lessons
     ADD CONSTRAINT assigned_subjects_planned_subjects
         FOREIGN KEY (planned_lesson_id)
             REFERENCES planned_lessons (id)
-            NOT DEFERRABLE
-                INITIALLY IMMEDIATE;
+            ON DELETE CASCADE;
 
-ALTER TABLE attendance
-    ADD CONSTRAINT attendance_assigned_lessons
+ALTER TABLE attendances
+    ADD CONSTRAINT attendances_assigned_lessons
         FOREIGN KEY (lesson_id)
             REFERENCES assigned_lessons (id)
-            NOT DEFERRABLE
-                INITIALLY IMMEDIATE;
+            ON DELETE CASCADE;
 
-ALTER TABLE attendance
-    ADD CONSTRAINT attendance_users
+ALTER TABLE attendances
+    ADD CONSTRAINT attendances_users
         FOREIGN KEY (student_id)
             REFERENCES users (id)
-            NOT DEFERRABLE
-                INITIALLY IMMEDIATE;
+            ON DELETE CASCADE;
+
+ALTER TABLE attendances
+    ADD CONSTRAINT attendances_subjects
+        FOREIGN KEY (subject_id)
+            REFERENCES subjects (id)
+            ON DELETE CASCADE;
 
 ALTER TABLE modified_lessons
     ADD CONSTRAINT modified_lessons_assigned_lessons
         FOREIGN KEY (assigned_lesson_id)
             REFERENCES assigned_lessons (id)
-            NOT DEFERRABLE
-                INITIALLY IMMEDIATE;
+            ON DELETE CASCADE;
 
 ALTER TABLE modified_lessons
     ADD CONSTRAINT modified_lessons_groups
         FOREIGN KEY (group_id)
             REFERENCES groups (id)
-            NOT DEFERRABLE
-                INITIALLY IMMEDIATE;
+            ON DELETE CASCADE;
 
 ALTER TABLE modified_lessons
     ADD CONSTRAINT modified_lessons_rooms
         FOREIGN KEY (room_id)
             REFERENCES rooms (id)
-            NOT DEFERRABLE
-                INITIALLY IMMEDIATE;
+            ON DELETE CASCADE;
 
 ALTER TABLE modified_lessons
     ADD CONSTRAINT modified_lessons_subjects
         FOREIGN KEY (subject_id)
             REFERENCES subjects (id)
-            NOT DEFERRABLE
-                INITIALLY IMMEDIATE;
+            ON DELETE CASCADE;
 
 ALTER TABLE modified_lessons
     ADD CONSTRAINT modified_lessons_users
         FOREIGN KEY (teacher_id)
             REFERENCES users (id)
-            NOT DEFERRABLE
-                INITIALLY IMMEDIATE;
+            ON DELETE CASCADE;
 
 ALTER TABLE planned_lessons
     ADD CONSTRAINT planned_lessons_groups
         FOREIGN KEY (group_id)
             REFERENCES groups (id)
-            NOT DEFERRABLE
-                INITIALLY IMMEDIATE;
+            ON DELETE CASCADE;
 
 ALTER TABLE planned_lessons
     ADD CONSTRAINT planned_lessons_rooms
         FOREIGN KEY (room_id)
             REFERENCES rooms (id)
-            NOT DEFERRABLE
-                INITIALLY IMMEDIATE;
+            ON DELETE CASCADE;
 
 ALTER TABLE planned_lessons
     ADD CONSTRAINT planned_lessons_users
         FOREIGN KEY (teacher_id)
             REFERENCES users (id)
-            NOT DEFERRABLE
-                INITIALLY IMMEDIATE;
+            ON DELETE CASCADE;
 
 ALTER TABLE planned_lessons
     ADD CONSTRAINT planned_subjects_subjects
         FOREIGN KEY (subject_id)
             REFERENCES subjects (id)
-            NOT DEFERRABLE
-                INITIALLY IMMEDIATE;
+            ON DELETE CASCADE;

@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.utils;
 
+import com.edziennikarze.gradebook.attendance.Attendance;
 import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
 import com.edziennikarze.gradebook.room.Room;
@@ -62,6 +63,15 @@ public class TestObjectBuilder {
         return Room.builder()
                 .capacity(capacity)
                 .roomCode(roomCode)
+                .build();
+    }
+
+    public static Attendance buildAttendance(UUID studentId, UUID subjectId, UUID lessonId, boolean present) {
+        return Attendance.builder()
+                .studentId(studentId)
+                .subjectId(subjectId)
+                .lessonId(lessonId)
+                .present(present)
                 .build();
     }
 }
