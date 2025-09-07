@@ -4,7 +4,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -76,43 +75,28 @@ class AttendanceControllerIntTest {
 
     private User student;
 
+    private User teacher;
+
+    private Room room;
+
+    private Group group;
+
+    private PlannedLesson plannedLesson;
+
+    private AssignedLesson assignedLesson;
+
     private List<Subject> subjects;
 
     @BeforeEach
     void setUp() {
-        User studentToSave = buildUser("artur@gmail.com", Role.GUARDIAN, true, true);
-        student = userRepository.save(studentToSave)
-                .block();
-
-        User teacherToSave = buildUser("maciek@gmail.com", Role.TEACHER, true, true);
-        User teacher = userRepository.save(teacherToSave)
-                .block();
-
-        Subject firstSubjectToSave = buildSubject("Matematyka");
-        Subject firstSubject = subjectRepository.save(firstSubjectToSave)
-                .block();
-
-        Subject secondSubjectToSave = buildSubject("Angielski");
-        Subject secondSubject = subjectRepository.save(secondSubjectToSave)
-                .block();
-        subjects = List.of(firstSubject, secondSubject);
-
-        Room roomToSave = buildRoom(30, "1");
-        Room room = roomRepository.save(roomToSave)
-                .block();
-
-        Group groupToSave = buildGroup(1, "1A", true);
-        Group group = groupRepository.save(groupToSave)
-                .block();
-
-        PlannedLesson plannedLesson = buildAndSavePlannedLesson(room.getId(), group.getId(),teacher.getId(), firstSubject.getId());
-
-        AssignedLesson assignedLesson = buildAndSaveAssignedLesson(plannedLesson.getId(), LocalDate.of(2025, 9, 6));
-
-        attendances = List.of(buildAttendance(student.getId(), firstSubject.getId(), assignedLesson.getId(), true),
-                buildAttendance(student.getId(), firstSubject.getId(), assignedLesson.getId(), true),
-                buildAttendance(student.getId(), secondSubject.getId(), assignedLesson.getId(), true),
-                buildAttendance(student.getId(), secondSubject.getId(), assignedLesson.getId(), false));
+        setUpStudent();
+        setUpTeacher();
+        setUpSubjects();
+        setUpRoom();
+        setUpGroup();
+        setUpPlannedLesson();
+        setUpAssignedLesson();
+        setUpAttendances();
     }
 
     @AfterEach
@@ -141,7 +125,8 @@ class AttendanceControllerIntTest {
                 .block();
 
         // when
-        List<Attendance> studentsAttendance = attendanceController.getStudentsAttendanceBySubject(student.getId(), subjects.getFirst().getId())
+        List<Attendance> studentsAttendance = attendanceController.getStudentsAttendanceBySubject(student.getId(), subjects.getFirst()
+                        .getId())
                 .collectList()
                 .block();
 
@@ -198,29 +183,72 @@ class AttendanceControllerIntTest {
         assertEquals(originalAttendance.getStudentId(), updatedOriginalAttendance.getStudentId());
     }
 
-    private PlannedLesson buildAndSavePlannedLesson(UUID roomId, UUID groupId, UUID teacherId, UUID subjectId) {
-        PlannedLesson plannedLessonToSave =  PlannedLesson.builder()
+    private void setUpStudent() {
+        User studentToSave = buildUser("artur@gmail.com", Role.GUARDIAN, true, true);
+        student = userRepository.save(studentToSave)
+                .block();
+    }
+
+    private void setUpTeacher() {
+        User teacherToSave = buildUser("maciek@gmail.com", Role.TEACHER, true, true);
+        teacher = userRepository.save(teacherToSave)
+                .block();
+    }
+
+    private void setUpSubjects() {
+        Subject firstSubjectToSave = buildSubject("Matematyka");
+        Subject firstSubject = subjectRepository.save(firstSubjectToSave)
+                .block();
+
+        Subject secondSubjectToSave = buildSubject("Angielski");
+        Subject secondSubject = subjectRepository.save(secondSubjectToSave)
+                .block();
+        subjects = List.of(firstSubject, secondSubject);
+    }
+
+    private void setUpRoom() {
+        Room roomToSave = buildRoom(30, "1");
+        room = roomRepository.save(roomToSave)
+                .block();
+    }
+
+    private void setUpGroup() {
+        Group groupToSave = buildGroup(1, "1A", true);
+        group = groupRepository.save(groupToSave)
+                .block();
+    }
+
+    private void setUpPlannedLesson() {
+        PlannedLesson plannedLessonToSave = PlannedLesson.builder()
                 .active(true)
-                .roomId(roomId)
-                .groupId(groupId)
-                .teacherId(teacherId)
-                .subjectId(subjectId)
+                .roomId(room.getId())
+                .groupId(group.getId())
+                .teacherId(teacher.getId())
+                .subjectId(subjects.getFirst()
+                        .getId())
                 .weekDay(DayOfWeek.MONDAY)
                 .startTime(LocalTime.of(9, 0))
                 .endTime(LocalTime.of(9, 45))
                 .build();
 
-        return plannedLessonRepository.save(plannedLessonToSave)
+        plannedLesson = plannedLessonRepository.save(plannedLessonToSave)
                 .block();
     }
 
-    private AssignedLesson buildAndSaveAssignedLesson(UUID plannedLessonId, LocalDate date) {
+    private void setUpAssignedLesson() {
         AssignedLesson assignedLessonToSave = AssignedLesson.builder()
-                .plannedLessonId(plannedLessonId)
-                .date(date)
+                .plannedLessonId(plannedLesson.getId())
+                .date(LocalDate.of(2025, 9, 6))
                 .build();
 
-        return assignedLessonRepository.save(assignedLessonToSave)
+        assignedLesson = assignedLessonRepository.save(assignedLessonToSave)
                 .block();
+    }
+
+    private void setUpAttendances() {
+        attendances = List.of(buildAttendance(student.getId(), subjects.getFirst().getId(), assignedLesson.getId(), true),
+                buildAttendance(student.getId(), subjects.getFirst().getId(), assignedLesson.getId(), true),
+                buildAttendance(student.getId(), subjects.getLast().getId(), assignedLesson.getId(), true),
+                buildAttendance(student.getId(), subjects.getLast().getId(), assignedLesson.getId(), false));
     }
 }

@@ -36,7 +36,6 @@ class SubjectTaughtControllerIntTest {
     @Autowired
     private SubjectRepository subjectRepository;
 
-
     @Autowired
     private SubjectTaughtRepository subjectTaughtRepository;
 
@@ -44,7 +43,7 @@ class SubjectTaughtControllerIntTest {
     private UserRepository userRepository;
 
     @Autowired
-    private SubjectTestDatabaseCleaner databaseCleaner;
+    private SubjectTestDatabaseCleaner subjectTestDatabaseCleaner;
 
     private List<Subject> subjects;
 
@@ -54,29 +53,14 @@ class SubjectTaughtControllerIntTest {
 
     @BeforeEach
     void setUp() {
-        List<Subject> subjectsToSave = List.of(buildSubject("Matematyka"), buildSubject("Fizyka"), buildSubject("J. Polski"));
-        subjects = subjectRepository.saveAll(subjectsToSave)
-                .collectList()
-                .block();
-
-        teacher = userRepository.save(buildUser("artur@gmail.com", Role.TEACHER, true, true))
-                .block();
-        UUID teacherId = teacher.getId();
-
-        subjectsTaught = List.of(buildSubjectTaught(teacherId,
-                        subjects.get(0)
-                                .getId()),
-                buildSubjectTaught(teacherId,
-                        subjects.get(1)
-                                .getId()),
-                buildSubjectTaught(teacherId,
-                        subjects.get(2)
-                                .getId()));
+        setUpSubjects();
+        setUpTeacher();
+        setUpSubjectsTaught();
     }
 
     @AfterEach
     void tearDown() {
-        databaseCleaner.cleanAll();
+        subjectTestDatabaseCleaner.cleanAll();
     }
 
     @Test
@@ -157,5 +141,25 @@ class SubjectTaughtControllerIntTest {
         // then
         assertNotNull(teachersSubjectsTaught);
         assertEquals(1, teachersSubjectsTaught.size());
+    }
+
+    private void setUpSubjects() {
+        List<Subject> subjectsToSave = List.of(buildSubject("Matematyka"), buildSubject("Fizyka"), buildSubject("J. Polski"));
+        subjects = subjectRepository.saveAll(subjectsToSave)
+                .collectList()
+                .block();
+    }
+
+    private void setUpTeacher() {
+        User teacherToSave = buildUser("artur@gmail.com", Role.TEACHER, true, true);
+        teacher = userRepository.save(teacherToSave)
+                .block();
+    }
+
+    private void setUpSubjectsTaught() {
+        UUID teacherId = teacher.getId();
+        subjectsTaught = subjects.stream()
+                .map(subject -> buildSubjectTaught(teacherId, subject.getId()))
+                .toList();
     }
 }

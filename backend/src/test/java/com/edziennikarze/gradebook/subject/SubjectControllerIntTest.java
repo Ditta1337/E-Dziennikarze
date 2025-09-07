@@ -32,18 +32,18 @@ public class SubjectControllerIntTest {
     private SubjectRepository subjectRepository;
 
     @Autowired
-    private SubjectTestDatabaseCleaner databaseCleaner;
+    private SubjectTestDatabaseCleaner subjectTestDatabaseCleaner;
 
     private List<Subject> subjects = new ArrayList<>();
 
     @BeforeEach
     public void setUp() {
-        subjects = List.of(buildSubject("Matematyka"), buildSubject("Fizyka"), buildSubject("J. Polski"));
+        setUpSubjects();
     }
 
     @AfterEach
     void tearDown() {
-        databaseCleaner.cleanAll();
+        subjectTestDatabaseCleaner.cleanAll();
     }
 
     @Test
@@ -95,9 +95,12 @@ public class SubjectControllerIntTest {
         // then
         assertFalse(subjectRepository.existsById(subjectIdToDelete)
                 .block());
-        assertEquals(subjects.size() - 1,
-                subjectRepository.findAll()
-                        .count()
-                        .block());
+        assertEquals(subjects.size() - 1, subjectRepository.findAll()
+                .count()
+                .block());
+    }
+
+    private void setUpSubjects() {
+        subjects = List.of(buildSubject("Matematyka"), buildSubject("Fizyka"), buildSubject("J. Polski"));
     }
 }

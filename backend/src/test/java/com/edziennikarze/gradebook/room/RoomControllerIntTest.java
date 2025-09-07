@@ -36,7 +36,7 @@ class RoomControllerIntTest {
 
     @BeforeEach
     void setUp() {
-        rooms = List.of(buildRoom(30, "1"), buildRoom(20, "2"), buildRoom(20, "3"));
+        setUpRooms();
     }
 
     @AfterEach
@@ -110,5 +110,9 @@ class RoomControllerIntTest {
 
         // then
         assertEquals(savedRooms.size() - 1, allRoomsAfterDelete.size());
+    }
+
+    private void setUpRooms() {
+        rooms = List.of(buildRoom(30, "1"), buildRoom(20, "2"), buildRoom(20, "3"));
     }
 }
