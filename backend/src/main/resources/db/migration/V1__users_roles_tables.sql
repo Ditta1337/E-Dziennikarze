@@ -13,8 +13,8 @@ CREATE TABLE users
     contact                 text         NOT NULL,
     image_base64            text,
     role                    varchar(20)  NOT NULL,
-    is_active               boolean      NOT NULL,
-    is_choosing_preferences boolean      NOT NULL
+    active               boolean      NOT NULL,
+    choosing_preferences boolean      NOT NULL
 );
 
 CREATE TABLE student_guardians

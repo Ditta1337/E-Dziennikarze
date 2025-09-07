@@ -29,7 +29,8 @@ public class PlannedLesson {
     @NotNull
     private LocalTime endTime;
 
-    private boolean active;
+    @Builder.Default
+    private boolean active = true;
 
     @NotNull
     private DayOfWeek weekDay;

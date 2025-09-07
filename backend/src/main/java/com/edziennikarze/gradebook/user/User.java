@@ -43,7 +43,7 @@ public class User {
     @NotNull
     private Role role;
 
-    private boolean isActive;
+    private boolean active;
 
-    private boolean isChoosingPreferences;
+    private boolean choosingPreferences;
 }
