@@ -1,8 +1,10 @@
 package com.edziennikarze.gradebook.attendance;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +24,8 @@ import com.edziennikarze.gradebook.attendance.utils.AttendanceTestDatabaseCleane
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
 import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.GroupRepository;
+import com.edziennikarze.gradebook.lesson.assigned.AssignedLesson;
+import com.edziennikarze.gradebook.lesson.assigned.AssignedLessonRepository;
 import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
 import com.edziennikarze.gradebook.lesson.planned.PlannedLessonRepository;
 import com.edziennikarze.gradebook.room.Room;
@@ -62,57 +66,53 @@ class AttendanceControllerIntTest {
     @Autowired
     private PlannedLessonRepository plannedLessonRepository;
 
+    @Autowired
+    private AssignedLessonRepository assignedLessonRepository;
+
+    @Autowired
+    private AttendanceRepository attendanceRepository;
+
     private List<Attendance> attendances;
 
     private User student;
 
     private List<Subject> subjects;
 
-    @Autowired
-    private AttendanceRepository attendanceRepository;
-
     @BeforeEach
     void setUp() {
         User studentToSave = buildUser("artur@gmail.com", Role.GUARDIAN, true, true);
-        User teacherToSave = buildUser("maciek@gmail.com", Role.TEACHER, true, true);
-        Subject firstSubjectToSave = buildSubject("Matematyka");
-        Subject secondSubjectToSave = buildSubject("Angielski");
-        Room roomToSave = buildRoom(30, "1");
-        Group groupToSave = buildGroup(1, "1A", true);
-
         student = userRepository.save(studentToSave)
                 .block();
+
+        User teacherToSave = buildUser("maciek@gmail.com", Role.TEACHER, true, true);
         User teacher = userRepository.save(teacherToSave)
                 .block();
+
+        Subject firstSubjectToSave = buildSubject("Matematyka");
         Subject firstSubject = subjectRepository.save(firstSubjectToSave)
                 .block();
+
+        Subject secondSubjectToSave = buildSubject("Angielski");
         Subject secondSubject = subjectRepository.save(secondSubjectToSave)
                 .block();
         subjects = List.of(firstSubject, secondSubject);
+
+        Room roomToSave = buildRoom(30, "1");
         Room room = roomRepository.save(roomToSave)
                 .block();
+
+        Group groupToSave = buildGroup(1, "1A", true);
         Group group = groupRepository.save(groupToSave)
                 .block();
 
-        // TODO: change PlannedLesson to AssignedLesson when implemented
-        PlannedLesson lessonToSave = PlannedLesson.builder()
-                .active(true)
-                .roomId(room.getId())
-                .groupId(group.getId())
-                .teacherId(teacher.getId())
-                .subjectId(firstSubject.getId())
-                .weekDay(DayOfWeek.MONDAY)
-                .startTime(LocalTime.of(9, 0))
-                .endTime(LocalTime.of(9, 45))
-                .build();
+        PlannedLesson plannedLesson = buildAndSavePlannedLesson(room.getId(), group.getId(),teacher.getId(), firstSubject.getId());
 
-        PlannedLesson lesson = plannedLessonRepository.save(lessonToSave)
-                .block();
+        AssignedLesson assignedLesson = buildAndSaveAssignedLesson(plannedLesson.getId(), LocalDate.of(2025, 9, 6));
 
-        attendances = List.of(buildAttendance(student.getId(), firstSubject.getId(), lesson.getId(), true),
-                buildAttendance(student.getId(), firstSubject.getId(), lesson.getId(), true),
-                buildAttendance(student.getId(), secondSubject.getId(), lesson.getId(), true),
-                buildAttendance(student.getId(), secondSubject.getId(), lesson.getId(), false));
+        attendances = List.of(buildAttendance(student.getId(), firstSubject.getId(), assignedLesson.getId(), true),
+                buildAttendance(student.getId(), firstSubject.getId(), assignedLesson.getId(), true),
+                buildAttendance(student.getId(), secondSubject.getId(), assignedLesson.getId(), true),
+                buildAttendance(student.getId(), secondSubject.getId(), assignedLesson.getId(), false));
     }
 
     @AfterEach
@@ -146,7 +146,7 @@ class AttendanceControllerIntTest {
                 .block();
 
         // then
-        assertEquals(attendances.size(), studentsAttendance.size());
+        assertEquals(2, studentsAttendance.size());
     }
 
     @Test
@@ -185,8 +185,8 @@ class AttendanceControllerIntTest {
                 .collectList()
                 .block();
         Attendance originalAttendance = savedAttendances.getFirst();
-        Attendance updatedOriginalAttendance = buildAttendance(student.getId(), originalAttendance.getId(), originalAttendance.getStudentId(), false);
-        updatedOriginalAttendance.setStudentId(student.getId());
+        Attendance updatedOriginalAttendance = buildAttendance(student.getId(), originalAttendance.getSubjectId(), originalAttendance.getLessonId(), false);
+        updatedOriginalAttendance.setId(originalAttendance.getId());
 
         // when
         Attendance savedUpdatedAttendance = attendanceController.updateAttendance(Mono.just(updatedOriginalAttendance))
@@ -198,4 +198,29 @@ class AttendanceControllerIntTest {
         assertEquals(originalAttendance.getStudentId(), updatedOriginalAttendance.getStudentId());
     }
 
+    private PlannedLesson buildAndSavePlannedLesson(UUID roomId, UUID groupId, UUID teacherId, UUID subjectId) {
+        PlannedLesson plannedLessonToSave =  PlannedLesson.builder()
+                .active(true)
+                .roomId(roomId)
+                .groupId(groupId)
+                .teacherId(teacherId)
+                .subjectId(subjectId)
+                .weekDay(DayOfWeek.MONDAY)
+                .startTime(LocalTime.of(9, 0))
+                .endTime(LocalTime.of(9, 45))
+                .build();
+
+        return plannedLessonRepository.save(plannedLessonToSave)
+                .block();
+    }
+
+    private AssignedLesson buildAndSaveAssignedLesson(UUID plannedLessonId, LocalDate date) {
+        AssignedLesson assignedLessonToSave = AssignedLesson.builder()
+                .plannedLessonId(plannedLessonId)
+                .date(date)
+                .build();
+
+        return assignedLessonRepository.save(assignedLessonToSave)
+                .block();
+    }
 }

@@ -45,20 +45,10 @@ CREATE TABLE planned_lessons
 CREATE TABLE assigned_lessons
 (
     id                uuid    NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
-    planned_lesson_id uuid,
+    planned_lesson_id uuid    NOT NULL,
     date              date    NOT NULL,
-    is_cancelled      boolean NOT NULL,
-    is_modified       boolean NOT NULL
-);
-
-CREATE TABLE modified_lessons
-(
-    id                 uuid NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
-    assigned_lesson_id uuid NOT NULL,
-    teacher_id         uuid NOT NULL,
-    start_time         time NOT NULL,
-    end_time           time NOT NULL,
-    group_id           uuid NOT NULL
+    cancelled         boolean NOT NULL,
+    modified          boolean NOT NULL
 );
 
 CREATE TABLE rooms
@@ -78,33 +68,27 @@ CREATE TABLE attendances
 );
 
 ALTER TABLE subjects_taught
-    ADD CONSTRAINT subjects_taught_teacher_fk
+    ADD CONSTRAINT subjects_taught_teachers
         FOREIGN KEY (teacher_id)
             REFERENCES users (id)
             ON DELETE CASCADE;
 
 ALTER TABLE subjects_taught
-    ADD CONSTRAINT subjects_taught_subject_fk
+    ADD CONSTRAINT subjects_taught_subjects
         FOREIGN KEY (subject_id)
             REFERENCES subjects (id)
             ON DELETE CASCADE;
 
 ALTER TABLE students_groups
-    ADD CONSTRAINT students_groups_student_fk
+    ADD CONSTRAINT students_groups_students
         FOREIGN KEY (student_id)
             REFERENCES users (id)
             ON DELETE CASCADE;
 
 ALTER TABLE students_groups
-    ADD CONSTRAINT students_groups_group_fk
+    ADD CONSTRAINT students_groups_groups
         FOREIGN KEY (group_id)
             REFERENCES groups (id)
-            ON DELETE CASCADE;
-
-ALTER TABLE assigned_lessons
-    ADD CONSTRAINT assigned_subjects_planned_subjects
-        FOREIGN KEY (planned_lesson_id)
-            REFERENCES planned_lessons (id)
             ON DELETE CASCADE;
 
 ALTER TABLE attendances
@@ -123,36 +107,6 @@ ALTER TABLE attendances
     ADD CONSTRAINT attendances_subjects
         FOREIGN KEY (subject_id)
             REFERENCES subjects (id)
-            ON DELETE CASCADE;
-
-ALTER TABLE modified_lessons
-    ADD CONSTRAINT modified_lessons_assigned_lessons
-        FOREIGN KEY (assigned_lesson_id)
-            REFERENCES assigned_lessons (id)
-            ON DELETE CASCADE;
-
-ALTER TABLE modified_lessons
-    ADD CONSTRAINT modified_lessons_groups
-        FOREIGN KEY (group_id)
-            REFERENCES groups (id)
-            ON DELETE CASCADE;
-
-ALTER TABLE modified_lessons
-    ADD CONSTRAINT modified_lessons_rooms
-        FOREIGN KEY (room_id)
-            REFERENCES rooms (id)
-            ON DELETE CASCADE;
-
-ALTER TABLE modified_lessons
-    ADD CONSTRAINT modified_lessons_subjects
-        FOREIGN KEY (subject_id)
-            REFERENCES subjects (id)
-            ON DELETE CASCADE;
-
-ALTER TABLE modified_lessons
-    ADD CONSTRAINT modified_lessons_users
-        FOREIGN KEY (teacher_id)
-            REFERENCES users (id)
             ON DELETE CASCADE;
 
 ALTER TABLE planned_lessons
@@ -177,4 +131,10 @@ ALTER TABLE planned_lessons
     ADD CONSTRAINT planned_subjects_subjects
         FOREIGN KEY (subject_id)
             REFERENCES subjects (id)
+            ON DELETE CASCADE;
+
+ALTER TABLE assigned_lessons
+    ADD CONSTRAINT assigned_lessons_planned_lessons
+        FOREIGN KEY (planned_lesson_id)
+            REFERENCES planned_lessons (id)
             ON DELETE CASCADE;

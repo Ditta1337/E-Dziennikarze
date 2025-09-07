@@ -26,8 +26,8 @@ public class TestObjectBuilder {
                 .role(role)
                 .contact("123456789")
                 .imageBase64("someImageBase64")
-                .isActive(isActive)
-                .isChoosingPreferences(isChoosingPreferences)
+                .active(isActive)
+                .choosingPreferences(isChoosingPreferences)
                 .build();
     }
 
