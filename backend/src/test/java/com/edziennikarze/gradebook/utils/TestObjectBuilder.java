@@ -3,13 +3,17 @@ package com.edziennikarze.gradebook.utils;
 import com.edziennikarze.gradebook.attendance.Attendance;
 import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
+import com.edziennikarze.gradebook.lesson.assigned.AssignedLesson;
+import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
 import com.edziennikarze.gradebook.room.Room;
 import com.edziennikarze.gradebook.subject.Subject;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaught;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.User;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 public class TestObjectBuilder {
@@ -72,6 +76,28 @@ public class TestObjectBuilder {
                 .subjectId(subjectId)
                 .lessonId(lessonId)
                 .present(present)
+                .build();
+    }
+
+    public static PlannedLesson buildPlannedLesson(UUID roomId, UUID groupId, UUID teacherId, UUID subjectId, DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime, boolean active) {
+        return PlannedLesson.builder()
+                .active(active)
+                .roomId(roomId)
+                .groupId(groupId)
+                .teacherId(teacherId)
+                .subjectId(subjectId)
+                .weekDay(dayOfWeek)
+                .startTime(startTime)
+                .endTime(endTime)
+                .build();
+    }
+
+    public static AssignedLesson buildAssignedLesson(UUID plannedLessonId, LocalDate date, boolean cancelled, boolean modified) {
+        return AssignedLesson.builder()
+                .plannedLessonId(plannedLessonId)
+                .date(date)
+                .cancelled(cancelled)
+                .modified(modified)
                 .build();
     }
 }
