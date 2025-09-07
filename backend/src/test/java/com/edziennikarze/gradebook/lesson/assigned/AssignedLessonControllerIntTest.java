@@ -1,25 +1,7 @@
 package com.edziennikarze.gradebook.lesson.assigned;
 
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildAssignedLesson;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildGroup;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildPlannedLesson;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildRoom;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildSubject;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
-
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
-import java.util.UUID;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.testcontainers.context.ImportTestcontainers;
-import org.springframework.test.context.ActiveProfiles;
+import static com.edziennikarze.gradebook.utils.TestObjectBuilder.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
 import com.edziennikarze.gradebook.group.Group;
@@ -35,7 +17,18 @@ import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.User;
 import com.edziennikarze.gradebook.user.UserRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.context.ImportTestcontainers;
+import org.springframework.test.context.ActiveProfiles;
 
 import reactor.core.publisher.Mono;
 
@@ -68,37 +61,26 @@ class AssignedLessonControllerIntTest {
     @Autowired
     private PlannedLessonRepository plannedLessonRepository;
 
+    private User teacher;
+
+    private Subject subject;
+
+    private Room room;
+
+    private Group group;
+
+    private List<PlannedLesson> plannedLessons;
+
     private List<AssignedLesson> assignedLessons;
 
     @BeforeEach
     void setUp() {
-        User teacherToSave = buildUser("maciek@gmail.com", Role.TEACHER, true, true);
-        User teacher = userRepository.save(teacherToSave)
-                .block();
-
-        Subject subjectToSave = buildSubject("Matematyka");
-        Subject subject = subjectRepository.save(subjectToSave)
-                .block();
-
-        Room roomToSave = buildRoom(30, "1");
-        Room room = roomRepository.save(roomToSave)
-                .block();
-
-        Group groupToSave = buildGroup(1, "1A", true);
-        Group group = groupRepository.save(groupToSave)
-                .block();
-
-        PlannedLesson mondayPlannedLesson = buildAndSavePlannedLesson(room.getId(), group.getId(), teacher.getId(), subject.getId(), DayOfWeek.MONDAY);
-        PlannedLesson cancelledTuesdayPlannedLesson = buildAndSavePlannedLesson(room.getId(), group.getId(), teacher.getId(), subject.getId(),
-                DayOfWeek.TUESDAY);
-        PlannedLesson modifiedWednesdayPlannedLesson = buildAndSavePlannedLesson(room.getId(), group.getId(), teacher.getId(), subject.getId(),
-                DayOfWeek.WEDNESDAY);
-
-        AssignedLesson assignedMondayLesson = buildAssignedLesson(mondayPlannedLesson.getId(), LocalDate.of(2025, 9, 8), false, false);
-        AssignedLesson assignedCancelledTuesdayLesson = buildAssignedLesson(cancelledTuesdayPlannedLesson.getId(), LocalDate.of(2025, 9, 9), true, false);
-        AssignedLesson assignedModifiedWednesdayLesson = buildAssignedLesson(modifiedWednesdayPlannedLesson.getId(), LocalDate.of(2025, 9, 10), false, true);
-
-        assignedLessons = List.of(assignedMondayLesson, assignedCancelledTuesdayLesson, assignedModifiedWednesdayLesson);
+        setUpTeacher();
+        setUpSubject();
+        setUpRoom();
+        setUpGroup();
+        setUpPlannedLessons();
+        setUpAssignedLessons();
     }
 
     @AfterEach
@@ -109,14 +91,14 @@ class AssignedLessonControllerIntTest {
     @Test
     void shouldCreateAssignedLesson() {
         // when
-        List<AssignedLesson> createdAssignedLessons = assignedLessons.stream()
+        List<AssignedLesson> savedAssignedLessons = assignedLessons.stream()
                 .map(assignedLesson -> assignedLessonController.createAssignedLesson(Mono.just(assignedLesson))
                         .block())
                 .toList();
 
         // then
-        assertEquals(assignedLessons.size(), createdAssignedLessons.size());
-        createdAssignedLessons.forEach(assignedLesson -> assertNotNull(assignedLesson.getId()));
+        assertEquals(assignedLessons.size(), savedAssignedLessons.size());
+        savedAssignedLessons.forEach(assignedLesson -> assertNotNull(assignedLesson.getId()));
     }
 
     @Test
@@ -158,7 +140,8 @@ class AssignedLessonControllerIntTest {
                 .collectList()
                 .block();
         AssignedLesson originalAssignedLesson = savedAssignedLessons.getFirst();
-        AssignedLesson updatedOriginalAssignedLesson = buildAssignedLesson(originalAssignedLesson.getPlannedLessonId(), originalAssignedLesson.getDate(), true, true);
+        AssignedLesson updatedOriginalAssignedLesson = buildAssignedLesson(originalAssignedLesson.getPlannedLessonId(), originalAssignedLesson.getDate(), true,
+                true);
         updatedOriginalAssignedLesson.setId(originalAssignedLesson.getId());
 
         // when
@@ -169,13 +152,54 @@ class AssignedLessonControllerIntTest {
         assertEquals(updatedOriginalAssignedLesson, savedUpdatedAssignedLesson);
         assertNotEquals(originalAssignedLesson.isCancelled(), savedUpdatedAssignedLesson.isCancelled());
         assertNotEquals(originalAssignedLesson.isModified(), savedUpdatedAssignedLesson.isModified());
-        assertEquals(originalAssignedLesson.getPlannedLessonId(), updatedOriginalAssignedLesson.getPlannedLessonId());
+        assertEquals(originalAssignedLesson.getId(), savedUpdatedAssignedLesson.getId());
     }
 
-    private PlannedLesson buildAndSavePlannedLesson(UUID roomId, UUID groupId, UUID teacherId, UUID subjectId, DayOfWeek dayOfWeek) {
-        PlannedLesson plannedLessonToSave = buildPlannedLesson(roomId, groupId, teacherId, subjectId, dayOfWeek, LocalTime.of(9, 0), LocalTime.of(9, 45), true);
-
-        return plannedLessonRepository.save(plannedLessonToSave)
+    private void setUpTeacher() {
+        User teacherToSave = buildUser("maciek@gmail.com", Role.TEACHER, true, true);
+        teacher = userRepository.save(teacherToSave)
                 .block();
+    }
+
+    private void setUpSubject() {
+        Subject subjectToSave = buildSubject("Matematyka");
+        subject = subjectRepository.save(subjectToSave)
+                .block();
+    }
+
+    private void setUpRoom() {
+        Room roomToSave = buildRoom(30, "1");
+        room = roomRepository.save(roomToSave)
+                .block();
+    }
+
+    private void setUpGroup() {
+        Group groupToSave = buildGroup(1, "1A", true);
+        group = groupRepository.save(groupToSave)
+                .block();
+    }
+
+    private void setUpPlannedLessons() {
+        List<PlannedLesson> lessonsToSave = List.of(
+                buildPlannedLesson(room.getId(), group.getId(), teacher.getId(), subject.getId(), DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(9, 45),
+                        true),
+                buildPlannedLesson(room.getId(), group.getId(), teacher.getId(), subject.getId(), DayOfWeek.TUESDAY, LocalTime.of(9, 0), LocalTime.of(9, 45),
+                        true),
+                buildPlannedLesson(room.getId(), group.getId(), teacher.getId(), subject.getId(), DayOfWeek.WEDNESDAY, LocalTime.of(9, 0), LocalTime.of(9, 45),
+                        true));
+        plannedLessons = plannedLessonRepository.saveAll(lessonsToSave)
+                .collectList()
+                .block();
+    }
+
+    private void setUpAssignedLessons() {
+        PlannedLesson mondayLesson = plannedLessons.get(0);
+        PlannedLesson tuesdayLesson = plannedLessons.get(1);
+        PlannedLesson wednesdayLesson = plannedLessons.get(2);
+
+        assignedLessons = List.of(buildAssignedLesson(mondayLesson.getId(), LocalDate.of(2025, 9, 8), false, false),
+                buildAssignedLesson(tuesdayLesson.getId(), LocalDate.of(2025, 9, 9), true, false), // Cancelled
+                buildAssignedLesson(wednesdayLesson.getId(), LocalDate.of(2025, 9, 10), false, true) // Modified
+        );
     }
 }

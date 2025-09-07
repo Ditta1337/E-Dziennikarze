@@ -36,8 +36,7 @@ class GroupControllerIntTest {
 
     @BeforeEach
     void setUp() {
-        groups = List.of(buildGroup(1, "a", true), buildGroup(1, "b", true), buildGroup(1, "c", true), buildGroup(2, "a", true), buildGroup(3, "a", true),
-                buildGroup(4, "a", true), buildGroup(5, "angielski zaawansowany", false), buildGroup(5, "angielski podstawowy", false));
+        setUpGroups();
     }
 
     @AfterEach
@@ -186,5 +185,10 @@ class GroupControllerIntTest {
 
         // then
         assertEquals(savedGroups.size() - 1, allGroupsAfterDelete.size());
+    }
+
+    private void setUpGroups() {
+        groups = List.of(buildGroup(1, "a", true), buildGroup(1, "b", true), buildGroup(1, "c", true), buildGroup(2, "a", true), buildGroup(3, "a", true),
+                buildGroup(4, "a", true), buildGroup(5, "angielski zaawansowany", false), buildGroup(5, "angielski podstawowy", false));
     }
 }

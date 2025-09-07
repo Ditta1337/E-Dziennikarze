@@ -52,33 +52,9 @@ class StudentGroupControllerIntTest {
 
     @BeforeEach
     void setUp() {
-        List<User> studentsToSave = List.of(buildUser("maciek@gmail.com", Role.STUDENT, true, true),
-                buildUser("artur@gmail.com", Role.STUDENT, true, true),
-                buildUser("szymon@gmail.com", Role.STUDENT, true, true));
-        students = userRepository.saveAll(studentsToSave)
-                .collectList()
-                .block();
-
-        List<Group> groupsToSave = List.of(buildGroup(1, "A", true), buildGroup(2, "B", true));
-        groups = groupRepository.saveAll(groupsToSave)
-                .collectList()
-                .block();
-
-        UUID maciekId = students.get(0)
-                .getId();
-        UUID arturId = students.get(1)
-                .getId();
-        UUID szymonId = students.get(2)
-                .getId();
-        UUID groupAId = groups.get(0)
-                .getId();
-        UUID groupBId = groups.get(1)
-                .getId();
-
-        studentGroupsToSave = List.of(buildStudentGroup(arturId, groupAId),
-                buildStudentGroup(arturId, groupBId),
-                buildStudentGroup(maciekId, groupAId),
-                buildStudentGroup(szymonId, groupBId));
+        setUpStudents();
+        setUpGroups();
+        setUpStudentGroups();
     }
 
     @AfterEach
@@ -104,8 +80,10 @@ class StudentGroupControllerIntTest {
                 .collectList()
                 .block();
 
-        UUID arturId = students.get(1).getId();
-        UUID maciekId = students.get(0).getId();
+        UUID arturId = students.get(1)
+                .getId();
+        UUID maciekId = students.get(0)
+                .getId();
 
         // when
         List<Group> arturGroups = studentGroupController.getStudentGroups(arturId)
@@ -130,8 +108,10 @@ class StudentGroupControllerIntTest {
                 .block();
 
         User artur = students.get(1);
-        UUID groupAId = groups.get(0).getId();
-        UUID groupBId = groups.get(1).getId();
+        UUID groupAId = groups.get(0)
+                .getId();
+        UUID groupBId = groups.get(1)
+                .getId();
 
         // when
         List<User> groupAUsers = studentGroupController.getGroupUsers(groupAId)
@@ -147,5 +127,36 @@ class StudentGroupControllerIntTest {
         assertEquals(2, groupBUsers.size());
         assertTrue(groupAUsers.contains(artur));
         assertTrue(groupBUsers.contains(artur));
+    }
+
+    private void setUpStudents() {
+        List<User> studentsToSave = List.of(buildUser("maciek@gmail.com", Role.STUDENT, true, true), buildUser("artur@gmail.com", Role.STUDENT, true, true),
+                buildUser("szymon@gmail.com", Role.STUDENT, true, true));
+        students = userRepository.saveAll(studentsToSave)
+                .collectList()
+                .block();
+    }
+
+    private void setUpGroups() {
+        List<Group> groupsToSave = List.of(buildGroup(1, "A", true), buildGroup(2, "B", true));
+        groups = groupRepository.saveAll(groupsToSave)
+                .collectList()
+                .block();
+    }
+
+    private void setUpStudentGroups() {
+        UUID maciekId = students.get(0)
+                .getId();
+        UUID arturId = students.get(1)
+                .getId();
+        UUID szymonId = students.get(2)
+                .getId();
+        UUID groupAId = groups.get(0)
+                .getId();
+        UUID groupBId = groups.get(1)
+                .getId();
+
+        studentGroupsToSave = List.of(buildStudentGroup(arturId, groupAId), buildStudentGroup(arturId, groupBId), buildStudentGroup(maciekId, groupAId),
+                buildStudentGroup(szymonId, groupBId));
     }
 }

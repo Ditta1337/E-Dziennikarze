@@ -36,13 +36,7 @@ class UserControllerIntTest {
 
     @BeforeEach
     void setup() {
-        users = List.of(buildUser("maciek@gmail.com", Role.ADMIN, false, true),
-                buildUser("artur@gmail.com", Role.GUARDIAN, true, true),
-                buildUser("szymon@gmail.com", Role.OFFICEWORKER, true, true),
-                buildUser("jacek@gmail.com", Role.PRINCIPAL, true, true),
-                buildUser("miłosz@gmail.com", Role.TEACHER, false, true),
-                buildUser("marcin@gmail.com", Role.STUDENT, true, true),
-                buildUser("michał@gmail.com", Role.STUDENT, false, false));
+        setUpUsers();
     }
 
     @AfterEach
@@ -198,5 +192,12 @@ class UserControllerIntTest {
                         .getId())
                 .block()
                 .isActive());
+    }
+
+    private void setUpUsers() {
+        users = List.of(buildUser("maciek@gmail.com", Role.ADMIN, false, true), buildUser("artur@gmail.com", Role.GUARDIAN, true, true),
+                buildUser("szymon@gmail.com", Role.OFFICEWORKER, true, true), buildUser("jacek@gmail.com", Role.PRINCIPAL, true, true),
+                buildUser("miłosz@gmail.com", Role.TEACHER, false, true), buildUser("marcin@gmail.com", Role.STUDENT, true, true),
+                buildUser("michał@gmail.com", Role.STUDENT, false, false));
     }
 }
