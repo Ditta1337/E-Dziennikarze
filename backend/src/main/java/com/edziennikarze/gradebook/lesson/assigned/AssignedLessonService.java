@@ -33,6 +33,7 @@ public class AssignedLessonService {
                     existingAssignedLesson.setPlannedLessonId(assignedLesson.getPlannedLessonId());
                     existingAssignedLesson.setDate(assignedLesson.getDate());
                     existingAssignedLesson.setCancelled(assignedLesson.isCancelled());
+                    existingAssignedLesson.setModified(assignedLesson.isModified());
                     return assignedLessonRepository.save(existingAssignedLesson);
                 }));
     }

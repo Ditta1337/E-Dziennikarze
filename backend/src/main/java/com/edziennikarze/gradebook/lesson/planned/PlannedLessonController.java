@@ -1,6 +1,5 @@
 package com.edziennikarze.gradebook.lesson.planned;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,11 +34,6 @@ public class PlannedLessonController {
     @GetMapping("/all/group/{groupId}")
     public Flux<PlannedLesson> getAllPlannedLessonByGroup(@PathVariable UUID groupId) {
         return plannedLessonService.getAllPlannedLessonsByGroupId(groupId);
-    }
-
-    @GetMapping("/all/student/{studentId}/from/{dateFrom}/to{dateTo}")
-    public Flux<PlannedLesson> getAllPannedLessonsByGroupAndBetweenDates(@PathVariable UUID studentId, @PathVariable LocalDate dateFrom, @PathVariable LocalDate dateTo) {
-        return plannedLessonService.getAllAssignedLessonsByStudentIdBetweenDates(studentId, dateFrom, dateTo);
     }
 
     @GetMapping("/all/subject/{subjectId}")
