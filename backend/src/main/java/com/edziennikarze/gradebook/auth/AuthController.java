@@ -24,7 +24,7 @@ public class AuthController {
         return authService.login(authRequest);
     }
 
-    @PostMapping("/refresh-token")
+    @PostMapping("/refresh")
     public Mono<AuthResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
         return authService.refreshToken(refreshTokenRequest);
     }
