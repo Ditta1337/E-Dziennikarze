@@ -4,6 +4,7 @@ import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildSubject;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
+import com.edziennikarze.gradebook.config.TestSecurityConfig;
 import com.edziennikarze.gradebook.subject.utils.SubjectTestDatabaseCleaner;
 
 import org.junit.jupiter.api.AfterEach;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import reactor.core.publisher.Mono;
@@ -23,7 +25,8 @@ import java.util.UUID;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "server.port=0")
 @ImportTestcontainers(PostgresTestContainerConfig.class)
-public class SubjectControllerIntTest {
+@Import(TestSecurityConfig.class)
+class SubjectControllerIntTest {
 
     @Autowired
     private SubjectController subjectController;
@@ -37,7 +40,7 @@ public class SubjectControllerIntTest {
     private List<Subject> subjects = new ArrayList<>();
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         setUpSubjects();
     }
 

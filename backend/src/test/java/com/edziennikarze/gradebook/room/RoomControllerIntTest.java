@@ -11,9 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
+import com.edziennikarze.gradebook.config.TestSecurityConfig;
 import com.edziennikarze.gradebook.room.util.RoomTestDatabaseCleaner;
 
 import reactor.core.publisher.Mono;
@@ -21,6 +23,7 @@ import reactor.core.publisher.Mono;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "server.port=0")
 @ImportTestcontainers(PostgresTestContainerConfig.class)
+@Import(TestSecurityConfig.class)
 class RoomControllerIntTest {
 
     @Autowired

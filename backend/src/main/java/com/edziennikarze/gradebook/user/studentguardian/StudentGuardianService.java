@@ -1,6 +1,6 @@
 package com.edziennikarze.gradebook.user.studentguardian;
 
-import com.edziennikarze.gradebook.user.User;
+import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import com.edziennikarze.gradebook.subject.Subject;
 import com.edziennikarze.gradebook.subject.SubjectRepository;
-import com.edziennikarze.gradebook.user.User;
+import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.UserRepository;
 
 @Service

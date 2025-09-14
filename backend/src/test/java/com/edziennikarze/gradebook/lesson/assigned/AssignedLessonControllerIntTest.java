@@ -4,6 +4,7 @@ import static com.edziennikarze.gradebook.utils.TestObjectBuilder.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
+import com.edziennikarze.gradebook.config.TestSecurityConfig;
 import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.GroupRepository;
 import com.edziennikarze.gradebook.lesson.assigned.util.AssignedLessonTestDatabaseCleaner;
@@ -14,7 +15,7 @@ import com.edziennikarze.gradebook.room.RoomRepository;
 import com.edziennikarze.gradebook.subject.Subject;
 import com.edziennikarze.gradebook.subject.SubjectRepository;
 import com.edziennikarze.gradebook.user.Role;
-import com.edziennikarze.gradebook.user.User;
+import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.UserRepository;
 
 import java.time.DayOfWeek;
@@ -28,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import reactor.core.publisher.Mono;
@@ -35,6 +37,7 @@ import reactor.core.publisher.Mono;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "server.port=0")
 @ImportTestcontainers(PostgresTestContainerConfig.class)
+@Import(TestSecurityConfig.class)
 class AssignedLessonControllerIntTest {
 
     @Autowired

@@ -9,7 +9,7 @@ CREATE TABLE users
     created_at              timestamptz  NOT NULL             DEFAULT now(),
     address                 varchar(50)  NOT NULL,
     email                   varchar(320) NOT NULL,
-    password                varchar(20)  NOT NULL,
+    password                varchar(255)  NOT NULL,
     contact                 text         NOT NULL,
     image_base64            text,
     role                    varchar(20)  NOT NULL,

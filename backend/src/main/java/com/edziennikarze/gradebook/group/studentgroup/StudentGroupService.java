@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.GroupRepository;
-import com.edziennikarze.gradebook.user.User;
+import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.UserRepository;
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;

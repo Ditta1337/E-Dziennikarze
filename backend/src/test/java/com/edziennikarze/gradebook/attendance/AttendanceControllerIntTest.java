@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildAttendance;
@@ -21,6 +22,7 @@ import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
 
 import com.edziennikarze.gradebook.attendance.utils.AttendanceTestDatabaseCleaner;
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
+import com.edziennikarze.gradebook.config.TestSecurityConfig;
 import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.GroupRepository;
 import com.edziennikarze.gradebook.lesson.assigned.AssignedLesson;
@@ -32,7 +34,7 @@ import com.edziennikarze.gradebook.room.RoomRepository;
 import com.edziennikarze.gradebook.subject.Subject;
 import com.edziennikarze.gradebook.subject.SubjectRepository;
 import com.edziennikarze.gradebook.user.Role;
-import com.edziennikarze.gradebook.user.User;
+import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.UserRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,6 +44,7 @@ import reactor.core.publisher.Mono;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "server.port=0")
 @ImportTestcontainers(PostgresTestContainerConfig.class)
+@Import(TestSecurityConfig.class)
 class AttendanceControllerIntTest {
 
     @Autowired
