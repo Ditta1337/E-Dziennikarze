@@ -1,6 +1,9 @@
 package com.edziennikarze.gradebook.user;
 
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
+import com.edziennikarze.gradebook.config.TestSecurityConfig;
+import com.edziennikarze.gradebook.user.dto.User;
+import com.edziennikarze.gradebook.user.dto.UserResponse;
 import com.edziennikarze.gradebook.user.utils.UserTestDatabaseCleaner;
 
 import org.junit.jupiter.api.AfterEach;
@@ -9,10 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-
 import reactor.core.publisher.Mono;
 
+import java.util.Comparator;
 import java.util.List;
 
 import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
@@ -21,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "server.port=0")
 @ImportTestcontainers(PostgresTestContainerConfig.class)
+@Import(TestSecurityConfig.class)
 class UserControllerIntTest {
 
     @Autowired
@@ -47,7 +52,7 @@ class UserControllerIntTest {
     @Test
     void shouldCreateUsers() {
         // when
-        List<User> createdUsers = users.stream()
+        List<UserResponse> createdUsers = users.stream()
                 .map(user -> userController.createUser(Mono.just(user))
                         .block())
                 .toList();
@@ -60,51 +65,37 @@ class UserControllerIntTest {
     @Test
     void shouldGetAllUsers() {
         // given
-        List<User> savedUsers = userRepository.saveAll(users)
-                .collectList()
-                .block();
+        userRepository.saveAll(users).collectList().block();
 
         // when
-        List<User> allUsers = userController.getAllUsers(null)
+        List<UserResponse> allUsers = userController.getAllUsers(null)
                 .collectList()
                 .block();
 
         // then
+        assertNotNull(allUsers);
         assertEquals(users.size(), allUsers.size());
-        assertEquals(savedUsers, allUsers);
+
+        List<User> sortedOriginalUsers = users.stream().sorted(Comparator.comparing(User::getEmail)).toList();
+        allUsers.sort(Comparator.comparing(UserResponse::getEmail));
+
+        for (int i = 0; i < sortedOriginalUsers.size(); i++) {
+            assertUserAndResponseMatch(sortedOriginalUsers.get(i), allUsers.get(i));
+        }
     }
 
     @Test
     void shouldGetAllUsersByRole() {
         // given
-        userRepository.saveAll(users)
-                .collectList()
-                .block();
+        userRepository.saveAll(users).collectList().block();
 
         // when
-        List<User> allStudents = userController.getAllUsers(Role.STUDENT)
-                .collectList()
-                .block();
-
-        List<User> allAdmins = userController.getAllUsers(Role.ADMIN)
-                .collectList()
-                .block();
-
-        List<User> allTeachers = userController.getAllUsers(Role.TEACHER)
-                .collectList()
-                .block();
-
-        List<User> allGuardians = userController.getAllUsers(Role.GUARDIAN)
-                .collectList()
-                .block();
-
-        List<User> allOfficeWorkers = userController.getAllUsers(Role.OFFICEWORKER)
-                .collectList()
-                .block();
-
-        List<User> allPrincipals = userController.getAllUsers(Role.PRINCIPAL)
-                .collectList()
-                .block();
+        List<UserResponse> allStudents = userController.getAllUsers(Role.STUDENT).collectList().block();
+        List<UserResponse> allAdmins = userController.getAllUsers(Role.ADMIN).collectList().block();
+        List<UserResponse> allTeachers = userController.getAllUsers(Role.TEACHER).collectList().block();
+        List<UserResponse> allGuardians = userController.getAllUsers(Role.GUARDIAN).collectList().block();
+        List<UserResponse> allOfficeWorkers = userController.getAllUsers(Role.OFFICE_WORKER).collectList().block();
+        List<UserResponse> allPrincipals = userController.getAllUsers(Role.PRINCIPAL).collectList().block();
 
         // then
         assertEquals(2, allStudents.size());
@@ -118,86 +109,94 @@ class UserControllerIntTest {
     @Test
     void shouldGetUserById() {
         // given
-        List<User> savedUsers = userRepository.saveAll(users)
-                .collectList()
-                .block();
+        List<User> savedUsers = userRepository.saveAll(users).collectList().block();
+        User expectedUser = savedUsers.getFirst();
 
         // when
-        User user1 = userController.getUser(savedUsers.getFirst()
-                        .getId())
-                .block();
-        User user2 = userController.getUser(users.getLast()
-                        .getId())
-                .block();
+        UserResponse actualUserResponse = userController.getUser(expectedUser.getId()).block();
 
         // then
-        assertEquals(user1, savedUsers.getFirst());
-        assertEquals(user2, users.getLast());
+        assertNotNull(actualUserResponse);
+        assertUserAndResponseMatch(expectedUser, actualUserResponse);
     }
 
     @Test
     void shouldUpdateUser() {
         // given
-        List<User> savedUsers = userRepository.saveAll(users)
-                .collectList()
-                .block();
+        User originalUser = userRepository.save(users.getFirst()).block();
+        assertNotNull(originalUser);
 
-        User originalUser = savedUsers.getFirst();
-        User updatedOriginalUser = buildUser("updated_" + originalUser.getEmail(), Role.STUDENT, true, false);
-        updatedOriginalUser.setId(originalUser.getId());
+        User updatedUserEntity = buildUser("updated_" + originalUser.getEmail(), Role.TEACHER, true, false);
+        updatedUserEntity.setId(originalUser.getId());
 
         // when
-        User savedUpdatedUser = userController.updateUser(Mono.just(updatedOriginalUser))
-                .block();
+        UserResponse savedUpdatedUserResponse = userController.updateUser(Mono.just(updatedUserEntity)).block();
 
         // then
-        assertEquals(updatedOriginalUser, savedUpdatedUser);
-        assertNotEquals(originalUser.getRole(), savedUpdatedUser.getRole());
-        assertEquals(Role.STUDENT, savedUpdatedUser.getRole());
+        assertNotNull(savedUpdatedUserResponse);
+        assertUserAndResponseMatch(updatedUserEntity, savedUpdatedUserResponse);
+        User persistedUser = userRepository.findById(originalUser.getId()).block();
+        assertNotNull(persistedUser);
+        assertEquals("updated_" + originalUser.getEmail(), persistedUser.getEmail());
+        assertEquals(Role.TEACHER, persistedUser.getRole());
     }
+
 
     @Test
     void shouldActivateUser() {
         // given
-        List<User> savedUsers = userRepository.saveAll(users)
-                .collectList()
-                .block();
+        User userToActivate = users.getFirst();
+        User savedUser = userRepository.save(userToActivate).block();
+        assertNotNull(savedUser);
 
         // when
-        userController.activateUser(savedUsers.getFirst()
-                        .getId())
-                .block();
+        userController.activateUser(savedUser.getId()).block();
 
         // then
-        assertTrue(userController.getUser(savedUsers.getFirst()
-                        .getId())
-                .block()
-                .isActive());
+        UserResponse activatedUser = userController.getUser(savedUser.getId()).block();
+        assertNotNull(activatedUser);
+        assertTrue(activatedUser.isActive());
     }
 
     @Test
     void shouldDeactivateUser() {
         // given
-        List<User> savedUsers = userRepository.saveAll(users)
-                .collectList()
-                .block();
+        User userToDeactivate = users.get(1);
+        User savedUser = userRepository.save(userToDeactivate).block();
+        assertNotNull(savedUser);
 
         // when
-        userController.deactivateUser(savedUsers.getFirst()
-                        .getId())
-                .block();
+        userController.deactivateUser(savedUser.getId()).block();
 
         // then
-        assertFalse(userController.getUser(savedUsers.getFirst()
-                        .getId())
-                .block()
-                .isActive());
+        UserResponse deactivatedUser = userController.getUser(savedUser.getId()).block();
+        assertNotNull(deactivatedUser);
+        assertFalse(deactivatedUser.isActive());
     }
 
     private void setUpUsers() {
-        users = List.of(buildUser("maciek@gmail.com", Role.ADMIN, false, true), buildUser("artur@gmail.com", Role.GUARDIAN, true, true),
-                buildUser("szymon@gmail.com", Role.OFFICEWORKER, true, true), buildUser("jacek@gmail.com", Role.PRINCIPAL, true, true),
-                buildUser("miłosz@gmail.com", Role.TEACHER, false, true), buildUser("marcin@gmail.com", Role.STUDENT, true, true),
-                buildUser("michał@gmail.com", Role.STUDENT, false, false));
+        users = List.of(
+                buildUser("maciek@gmail.com", Role.ADMIN, false, true),
+                buildUser("artur@gmail.com", Role.GUARDIAN, true, true),
+                buildUser("szymon@gmail.com", Role.OFFICE_WORKER, true, true),
+                buildUser("jacek@gmail.com", Role.PRINCIPAL, true, true),
+                buildUser("miłosz@gmail.com", Role.TEACHER, false, true),
+                buildUser("marcin@gmail.com", Role.STUDENT, true, true),
+                buildUser("michał@gmail.com", Role.STUDENT, false, false)
+        );
+    }
+
+    private void assertUserAndResponseMatch(User user, UserResponse userResponse) {
+        assertNotNull(user);
+        assertNotNull(userResponse);
+        assertEquals(user.getId(), userResponse.getId());
+        assertEquals(user.getName(), userResponse.getName());
+        assertEquals(user.getSurname(), userResponse.getSurname());
+        assertEquals(user.getEmail(), userResponse.getEmail());
+        assertEquals(user.getAddress(), userResponse.getAddress());
+        assertEquals(user.getContact(), userResponse.getContact());
+        assertEquals(user.getRole(), userResponse.getRole());
+        assertEquals(user.isActive(), userResponse.isActive());
+        assertEquals(user.isChoosingPreferences(), userResponse.isChoosingPreferences());
     }
 }

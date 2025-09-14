@@ -9,7 +9,7 @@ import com.edziennikarze.gradebook.room.Room;
 import com.edziennikarze.gradebook.subject.Subject;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaught;
 import com.edziennikarze.gradebook.user.Role;
-import com.edziennikarze.gradebook.user.User;
+import com.edziennikarze.gradebook.user.dto.User;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
