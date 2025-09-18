@@ -19,6 +19,7 @@ import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildGroup;
 import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildRoom;
 import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildSubject;
 import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
+import static com.edziennikarze.gradebook.attendance.AttendanceStatus.*;
 
 import com.edziennikarze.gradebook.attendance.utils.AttendanceTestDatabaseCleaner;
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
@@ -173,7 +174,7 @@ class AttendanceControllerIntTest {
                 .collectList()
                 .block();
         Attendance originalAttendance = savedAttendances.getFirst();
-        Attendance updatedOriginalAttendance = buildAttendance(student.getId(), originalAttendance.getSubjectId(), originalAttendance.getLessonId(), false);
+        Attendance updatedOriginalAttendance = buildAttendance(student.getId(), originalAttendance.getSubjectId(), originalAttendance.getLessonId(), ABSENT);
         updatedOriginalAttendance.setId(originalAttendance.getId());
 
         // when
@@ -182,7 +183,7 @@ class AttendanceControllerIntTest {
 
         // then
         assertEquals(updatedOriginalAttendance, savedUpdatedAttendance);
-        assertNotEquals(originalAttendance.isPresent(), savedUpdatedAttendance.isPresent());
+        assertNotEquals(originalAttendance.getStatus(), savedUpdatedAttendance.getStatus());
         assertEquals(originalAttendance.getStudentId(), updatedOriginalAttendance.getStudentId());
     }
 
@@ -249,9 +250,9 @@ class AttendanceControllerIntTest {
     }
 
     private void setUpAttendances() {
-        attendances = List.of(buildAttendance(student.getId(), subjects.getFirst().getId(), assignedLesson.getId(), true),
-                buildAttendance(student.getId(), subjects.getFirst().getId(), assignedLesson.getId(), true),
-                buildAttendance(student.getId(), subjects.getLast().getId(), assignedLesson.getId(), true),
-                buildAttendance(student.getId(), subjects.getLast().getId(), assignedLesson.getId(), false));
+        attendances = List.of(buildAttendance(student.getId(), subjects.getFirst().getId(), assignedLesson.getId(), PRESENT),
+                buildAttendance(student.getId(), subjects.getFirst().getId(), assignedLesson.getId(), PRESENT),
+                buildAttendance(student.getId(), subjects.getLast().getId(), assignedLesson.getId(), PRESENT),
+                buildAttendance(student.getId(), subjects.getLast().getId(), assignedLesson.getId(), ABSENT));
     }
 }

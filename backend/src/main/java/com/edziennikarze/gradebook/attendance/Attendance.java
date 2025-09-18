@@ -27,5 +27,6 @@ public class Attendance {
     @NotNull
     private UUID subjectId;
 
-    private boolean present;
+    @NotNull
+    private AttendanceStatus status;
 }
