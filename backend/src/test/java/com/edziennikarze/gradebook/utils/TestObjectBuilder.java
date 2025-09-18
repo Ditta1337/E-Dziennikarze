@@ -7,6 +7,7 @@ import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
 import com.edziennikarze.gradebook.group.teachergroup.TeacherGroup;
 import com.edziennikarze.gradebook.lesson.assigned.AssignedLesson;
 import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
+import com.edziennikarze.gradebook.planner.restriction.teacherunavailability.TeacherUnavailability;
 import com.edziennikarze.gradebook.room.Room;
 import com.edziennikarze.gradebook.subject.Subject;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaught;
@@ -108,6 +109,15 @@ public class TestObjectBuilder {
                 .date(date)
                 .cancelled(cancelled)
                 .modified(modified)
+                .build();
+    }
+
+    public static TeacherUnavailability buildTeacherUnavailability(UUID teacherId, LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
+        return TeacherUnavailability.builder()
+                .teacherId(teacherId)
+                .startTime(startTime)
+                .endTime(endTime)
+                .weekDay(dayOfWeek)
                 .build();
     }
 }

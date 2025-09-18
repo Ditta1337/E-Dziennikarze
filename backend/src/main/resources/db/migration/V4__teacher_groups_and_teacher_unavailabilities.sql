@@ -12,8 +12,8 @@ CREATE TABLE teacher_groups
 CREATE TABLE teacher_unavailabilities
 (
     id         uuid        NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
-    start_time date        NOT NULL,
-    end_time   date        NOT NULL,
+    start_time time        NOT NULL,
+    end_time   time        NOT NULL,
     week_day   varchar(10) NOT NULL,
     teacher_id uuid        NOT NULL
 );
