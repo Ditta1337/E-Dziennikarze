@@ -1,6 +1,7 @@
 package com.edziennikarze.gradebook.utils;
 
 import com.edziennikarze.gradebook.attendance.Attendance;
+import com.edziennikarze.gradebook.attendance.AttendanceStatus;
 import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
 import com.edziennikarze.gradebook.lesson.assigned.AssignedLesson;
@@ -70,12 +71,12 @@ public class TestObjectBuilder {
                 .build();
     }
 
-    public static Attendance buildAttendance(UUID studentId, UUID subjectId, UUID lessonId, boolean present) {
+    public static Attendance buildAttendance(UUID studentId, UUID subjectId, UUID lessonId, AttendanceStatus status) {
         return Attendance.builder()
                 .studentId(studentId)
                 .subjectId(subjectId)
                 .lessonId(lessonId)
-                .present(present)
+                .status(status)
                 .build();
     }
 

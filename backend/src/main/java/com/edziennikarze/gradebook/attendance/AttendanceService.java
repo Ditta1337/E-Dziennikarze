@@ -35,7 +35,7 @@ public class AttendanceService {
         }
 
         List<Attendance> studentAttendancePresent = studentAttendance.stream()
-                .filter(Attendance::isPresent)
+                .filter(attendance -> attendance.getStatus() == AttendanceStatus.PRESENT)
                 .toList();
 
         return (double) studentAttendancePresent.size() / studentAttendance.size();
@@ -51,7 +51,7 @@ public class AttendanceService {
         }
 
         List<Attendance> studentAttendancePresent = studentAttendance.stream()
-                .filter(Attendance::isPresent)
+                .filter(attendance -> attendance.getStatus() == AttendanceStatus.PRESENT)
                 .toList();
 
         return (double) studentAttendancePresent.size() / studentAttendance.size();
@@ -63,7 +63,7 @@ public class AttendanceService {
                 .flatMap(existingAttendance -> {
                     existingAttendance.setStudentId(attendance.getStudentId());
                     existingAttendance.setSubjectId(attendance.getSubjectId());
-                    existingAttendance.setPresent(attendance.isPresent());
+                    existingAttendance.setStatus(attendance.getStatus());
                     return attendanceRepository.save(existingAttendance);
                 }));
     }
