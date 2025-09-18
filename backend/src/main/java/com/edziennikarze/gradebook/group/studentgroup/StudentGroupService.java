@@ -6,8 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.GroupRepository;
-import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.UserRepository;
+import com.edziennikarze.gradebook.user.dto.UserResponse;
+
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -33,10 +34,11 @@ public class StudentGroupService {
         return groupRepository.findAllById(groupIds);
     }
 
-    public Flux<User> getAllGroupStudents(UUID groupId) {
+    public Flux<UserResponse> getAllGroupStudents(UUID groupId) {
         Flux<UUID> studentIds = studentGroupRepository.findAllByGroupId(groupId)
                 .map(StudentGroup::getStudentId);
 
-        return userRepository.findAllById(studentIds);
+        return userRepository.findAllById(studentIds)
+                .map(UserResponse::from);
     }
 }

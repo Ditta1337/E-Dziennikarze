@@ -13,9 +13,9 @@ import javax.validation.constraints.NotNull;
 @Repository
 public interface SubjectTaughtRepository extends ReactiveCrudRepository<SubjectTaught, UUID> {
 
-    Mono<Void> deleteAllByTeacherId(@NotNull UUID teacherId);
-
     Flux<SubjectTaught> findAllByTeacherId(@NotNull UUID teacherId);
 
     Flux<SubjectTaught> findAllBySubjectId(@NotNull UUID subjectId);
+
+    Mono<Void> deleteAllByTeacherId(@NotNull UUID teacherId);
 }

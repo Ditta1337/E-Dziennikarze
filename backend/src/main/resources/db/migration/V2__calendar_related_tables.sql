@@ -14,7 +14,7 @@ CREATE TABLE subjects_taught
     subject_id uuid NOT NULL
 );
 
-CREATE TABLE students_groups
+CREATE TABLE student_groups
 (
     id         uuid NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
     student_id uuid NOT NULL,
@@ -74,19 +74,19 @@ ALTER TABLE subjects_taught
             ON DELETE CASCADE;
 
 ALTER TABLE subjects_taught
-    ADD CONSTRAINT subjects_taught_subjects
+    ADD CONSTRAINT subject_taught_subjects
         FOREIGN KEY (subject_id)
             REFERENCES subjects (id)
             ON DELETE CASCADE;
 
-ALTER TABLE students_groups
-    ADD CONSTRAINT students_groups_students
+ALTER TABLE student_groups
+    ADD CONSTRAINT student_groups_users
         FOREIGN KEY (student_id)
             REFERENCES users (id)
             ON DELETE CASCADE;
 
-ALTER TABLE students_groups
-    ADD CONSTRAINT students_groups_groups
+ALTER TABLE student_groups
+    ADD CONSTRAINT student_groups_groups
         FOREIGN KEY (group_id)
             REFERENCES groups (id)
             ON DELETE CASCADE;

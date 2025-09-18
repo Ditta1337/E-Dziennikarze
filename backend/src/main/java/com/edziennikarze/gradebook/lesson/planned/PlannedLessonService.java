@@ -41,7 +41,7 @@ public class PlannedLessonService {
 
     public Mono<PlannedLesson> updatePlannedLesson(Mono<PlannedLesson> plannedLessonMono) {
         return plannedLessonMono.flatMap(plannedLesson -> plannedLessonRepository.findById(plannedLesson.getId())
-                .switchIfEmpty(Mono.error(new ResourceNotFoundException("Planned lesson with id " + plannedLesson.getId() + " not found")))
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("PlannedLesson with id " + plannedLesson.getId() + " not found")))
                 .flatMap(existingPlannedLesson -> {
                     existingPlannedLesson.setSubjectId(plannedLesson.getSubjectId());
                     existingPlannedLesson.setTeacherId(plannedLesson.getTeacherId());

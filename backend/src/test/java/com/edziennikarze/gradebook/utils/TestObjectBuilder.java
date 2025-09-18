@@ -4,6 +4,7 @@ import com.edziennikarze.gradebook.attendance.Attendance;
 import com.edziennikarze.gradebook.attendance.AttendanceStatus;
 import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
+import com.edziennikarze.gradebook.group.teachergroup.TeacherGroup;
 import com.edziennikarze.gradebook.lesson.assigned.AssignedLesson;
 import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
 import com.edziennikarze.gradebook.room.Room;
@@ -61,6 +62,14 @@ public class TestObjectBuilder {
         return StudentGroup.builder()
                 .studentId(studentId)
                 .groupId(groupId)
+                .build();
+    }
+
+    public static TeacherGroup buildTeacherGroup(UUID teacherId, UUID groupId, UUID subjectId) {
+        return TeacherGroup.builder()
+                .teacherId(teacherId)
+                .groupId(groupId)
+                .subjectId(subjectId)
                 .build();
     }
 

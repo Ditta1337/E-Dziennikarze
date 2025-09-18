@@ -4,6 +4,7 @@ import com.edziennikarze.gradebook.attendance.AttendanceRepository;
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
 import com.edziennikarze.gradebook.exception.UserAlreadyExistsException;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
+import com.edziennikarze.gradebook.group.teachergroup.TeacherGroupRepository;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaughtRepository;
 import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.dto.UserResponse;
@@ -35,6 +36,8 @@ public class UserService implements ReactiveUserDetailsService {
     private final StudentGroupRepository studentGroupRepository;
 
     private final AttendanceRepository attendanceRepository;
+
+    private final TeacherGroupRepository teacherGroupRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -85,7 +88,7 @@ public class UserService implements ReactiveUserDetailsService {
                 .flatMap(foundUser -> {
                     UUID foundUserId = foundUser.getId();
                     Mono<Void> cleanupMono = switch (foundUser.getRole()) {
-                        case TEACHER -> subjectTaughtRepository.deleteAllByTeacherId(foundUserId);
+                        case TEACHER -> deleteTeacherFromRelatedTables(foundUserId);
                         case STUDENT -> deleteStudentFromRelatedTables(foundUserId);
                         case GUARDIAN -> studentGuardianRepository.deleteAllByGuardianId(foundUserId);
                         default -> Mono.empty();
@@ -110,6 +113,11 @@ public class UserService implements ReactiveUserDetailsService {
         return studentGuardianRepository.deleteAllByStudentId(studentId)
                 .then(studentGroupRepository.deleteAllByStudentId(studentId))
                 .then(attendanceRepository.deleteByStudentId(studentId));
+    }
+
+    private Mono<Void> deleteTeacherFromRelatedTables(UUID teacherId) {
+        return subjectTaughtRepository.deleteAllByTeacherId(teacherId)
+                .then(teacherGroupRepository.deleteAllByTeacherId(teacherId));
     }
 
     private Mono<User> validateUserDoesNotExist(User user) {

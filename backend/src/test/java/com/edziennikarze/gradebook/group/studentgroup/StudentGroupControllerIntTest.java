@@ -23,6 +23,7 @@ import com.edziennikarze.gradebook.group.util.GroupTestDatabaseCleaner;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.UserRepository;
+import com.edziennikarze.gradebook.user.dto.UserResponse;
 
 import reactor.core.publisher.Mono;
 
@@ -110,26 +111,26 @@ class StudentGroupControllerIntTest {
                 .collectList()
                 .block();
 
-        User artur = students.get(1);
+        UserResponse artur = UserResponse.from(students.get(1));
         UUID groupAId = groups.get(0)
                 .getId();
         UUID groupBId = groups.get(1)
                 .getId();
 
         // when
-        List<User> groupAUsers = studentGroupController.getGroupUsers(groupAId)
+        List<UserResponse> groupAStudents = studentGroupController.getGroupUsers(groupAId)
                 .collectList()
                 .block();
 
-        List<User> groupBUsers = studentGroupController.getGroupUsers(groupBId)
+        List<UserResponse> groupBStudents = studentGroupController.getGroupUsers(groupBId)
                 .collectList()
                 .block();
 
         // then
-        assertEquals(2, groupAUsers.size());
-        assertEquals(2, groupBUsers.size());
-        assertTrue(groupAUsers.contains(artur));
-        assertTrue(groupBUsers.contains(artur));
+        assertEquals(2, groupAStudents.size());
+        assertEquals(2, groupBStudents.size());
+        assertTrue(groupAStudents.contains(artur));
+        assertTrue(groupBStudents.contains(artur));
     }
 
     private void setUpStudents() {

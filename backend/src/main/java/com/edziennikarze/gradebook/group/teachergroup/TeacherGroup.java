@@ -1,4 +1,4 @@
-package com.edziennikarze.gradebook.group.studentgroup;
+package com.edziennikarze.gradebook.group.teachergroup;
 
 import java.util.UUID;
 
@@ -12,15 +12,18 @@ import lombok.Data;
 
 @Data
 @Builder
-@Table("student_groups")
-public class StudentGroup {
+@Table("teacher_groups")
+public class TeacherGroup {
 
     @Id
     private UUID id;
 
     @NotNull
-    private UUID studentId;
+    private UUID subjectId;
 
     @NotNull
     private UUID groupId;
+
+    @NotNull
+    private UUID teacherId;
 }

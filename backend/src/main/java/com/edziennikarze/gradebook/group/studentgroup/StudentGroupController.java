@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.edziennikarze.gradebook.auth.annotation.AuthorizationAnnotation.*;
 import com.edziennikarze.gradebook.group.Group;
-import com.edziennikarze.gradebook.user.dto.User;
+import com.edziennikarze.gradebook.user.dto.UserResponse;
 
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -27,20 +27,20 @@ public class StudentGroupController {
     private final StudentGroupService studentGroupService;
 
     @PostMapping
-    @HasAnyRole({ADMIN, OFFICE_WORKER})
+    @HasAnyRole({ ADMIN, OFFICE_WORKER })
     public Mono<StudentGroup> createStudentGroup(@RequestBody Mono<StudentGroup> studentGroupMono) {
         return studentGroupService.createStudentGroup(studentGroupMono);
     }
 
     @GetMapping("/student/{studentId}")
-    @HasAnyRole({ADMIN, OFFICE_WORKER, PRINCIPAL, GUARDIAN, STUDENT, TEACHER})
+    @HasAnyRole({ ADMIN, OFFICE_WORKER, PRINCIPAL, GUARDIAN, STUDENT, TEACHER })
     public Flux<Group> getStudentGroups(@PathVariable UUID studentId) {
         return studentGroupService.getAllStudentGroups(studentId);
     }
 
     @GetMapping("/group/{groupId}")
-    @HasAnyRole({ADMIN, OFFICE_WORKER, PRINCIPAL, GUARDIAN, STUDENT, TEACHER})
-    public Flux<User> getGroupUsers(@PathVariable UUID groupId) {
+    @HasAnyRole({ ADMIN, OFFICE_WORKER, PRINCIPAL, GUARDIAN, STUDENT, TEACHER })
+    public Flux<UserResponse> getGroupUsers(@PathVariable UUID groupId) {
         return studentGroupService.getAllGroupStudents(groupId);
     }
 }
