@@ -40,7 +40,7 @@ class UserControllerIntTest {
     private List<User> users;
 
     @BeforeEach
-    void setup() {
+    void setUp() {
         setUpUsers();
     }
 
@@ -124,8 +124,6 @@ class UserControllerIntTest {
     void shouldUpdateUser() {
         // given
         User originalUser = userRepository.save(users.getFirst()).block();
-        assertNotNull(originalUser);
-
         User updatedUserEntity = buildUser("updated_" + originalUser.getEmail(), Role.TEACHER, true, false);
         updatedUserEntity.setId(originalUser.getId());
 
