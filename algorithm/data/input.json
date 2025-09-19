@@ -11,6 +11,7 @@
       "time": 600
     }
   ],
+  "classrooms":["a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01","b3d7e2f4-6c91-4c2b-a6f3-4e7d1c2f0a09","c4d8f7a1-2e09-4d3f-b1c7-6f2d3a4b5c0e","d2e4f6a8-1b3c-4d5f-9a7b-0c2e3f4a5b6c"],
   "groups": [
     {
       "group_id": "0a64a408-722c-4dbe-a8ed-c7822c2fc45b",
@@ -22,7 +23,7 @@
           "teacher_id": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
           "hours": 1,
           "subject_name": "Plastyka",
-          "type": null,
+          "type": "ANY",
           "classroom": {
             "REQUIRED": ["a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01","b3d7e2f4-6c91-4c2b-a6f3-4e7d1c2f0a09"],
             "FORBIDDEN": ["c4d8f7a1-2e09-4d3f-b1c7-6f2d3a4b5c0e"],
@@ -35,7 +36,7 @@
           "teacher_id": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
           "hours": 3,
           "subject_name": "Język angielski",
-          "type": "early",
+          "type": "EARLY",
           "classroom": {
             "REQUIRED": ["f1a2b3c4-5d6e-7f8a-9b0c-1d2e3f4a5b6c"],
             "FORBIDDEN": ["a2b3c4d5-6e7f-8a9b-0c1d-2e3f4a5b6c7d"],
@@ -55,7 +56,7 @@
           "teacher_id": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
           "hours": 1,
           "subject_name": "Religia",
-          "type": "edge",
+          "type": "EDGE",
           "classroom": {
             "REQUIRED": ["d3e4f5a6-7b8c-9d0e-1f2a-3b4c5d6e7f8a"],
             "FORBIDDEN": ["e2f3a4b5-6c7d-8e9f-0a1b-2c3d4e5f6a7b"],
@@ -68,7 +69,7 @@
           "teacher_id": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
           "hours": 3,
           "subject_name": "Wychowanie fizyczne",
-          "type": "late",
+          "type": "LATE",
           "classroom": {
             "REQUIRED": ["b5c6d7e8-9f0a-1b2c-3d4e-5f6a7b8c9d0e","c6d7e8f9-0a1b-2c3d-4e5f-6a7b8c9d0e1f"],
             "FORBIDDEN": ["d7e8f9a0-1b2c-3d4e-5f6a-7b8c9d0e1f2a"],
