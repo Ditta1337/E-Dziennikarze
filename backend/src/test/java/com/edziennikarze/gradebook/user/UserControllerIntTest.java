@@ -1,139 +1,209 @@
 package com.edziennikarze.gradebook.user;
 
+import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
-import com.edziennikarze.gradebook.user.utils.TestDatabaseCleaner;
+import com.edziennikarze.gradebook.config.TestSecurityConfig;
+import com.edziennikarze.gradebook.user.dto.User;
+import com.edziennikarze.gradebook.user.dto.UserResponse;
+import com.edziennikarze.gradebook.user.utils.UserTestDatabaseCleaner;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import reactor.core.publisher.Flux;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
+import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
-@SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = "server.port=0"
-)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "server.port=0")
 @ImportTestcontainers(PostgresTestContainerConfig.class)
+@Import(TestSecurityConfig.class)
 class UserControllerIntTest {
-
-    private List<User> users;
 
     @Autowired
     private UserController userController;
 
     @Autowired
-    private UserService userService;
+    private UserTestDatabaseCleaner userTestDatabaseCleaner;
 
     @Autowired
-    private TestDatabaseCleaner testDatabaseCleaner;
+    private UserRepository userRepository;
+
+    @MockitoBean
+    private LoggedInUserService loggedInUserService;
+
+    private List<User> users;
 
     @BeforeEach
-    void setup() {
-        List<User> usersToAdd = List.of(
-                User.builder()
-                        .name("Andrzej")
-                        .surname("Kowal")
-                        .createdAt(LocalDate.now())
-                        .address("adres1")
-                        .email("123@mail.com")
-                        .password("123")
-                        .contact("123456789")
-                        .imageBase64("abc123")
-                        .role(Role.ADMIN)
-                        .isActive(true)
-                        .build(),
-                User.builder()
-                        .name("Maciej")
-                        .surname("Malinowski")
-                        .createdAt(LocalDate.now())
-                        .address("adres2")
-                        .email("321@onet.pl")
-                        .password("xyz")
-                        .contact("987654321")
-                        .imageBase64("qwerty")
-                        .role(Role.STUDENT)
-                        .isActive(false)
-                        .build()
-        );
-
-        users = new ArrayList<>();
-
-        for (User user : usersToAdd) {
-            User addedUser = userService.createUser(Mono.just(user)).block();
-            users.add(addedUser);
-        }
+    void setUp() {
+        setUpUsers();
     }
 
     @AfterEach
     void tearDown() {
-        testDatabaseCleaner.cleanAll();
+        userTestDatabaseCleaner.cleanAll();
+    }
+
+    @Test
+    void shouldCreateUsers() {
+        // when
+        List<UserResponse> createdUsers = users.stream()
+                .map(user -> userController.createUser(Mono.just(user))
+                        .block())
+                .toList();
+
+        // then
+        assertEquals(users.size(), createdUsers.size());
+        createdUsers.forEach(user -> assertNotNull(user.getId()));
     }
 
     @Test
     void shouldGetAllUsers() {
-        //when
-        Flux<User> allUsers = userController.getAllUsers();
-        //then
-        List<User> allUsersList = allUsers.collectList().block();
-        assertEquals(users.get(0), allUsersList.get(0));
+        // given
+        userRepository.saveAll(users).collectList().block();
+
+        // when
+        List<UserResponse> allUsers = userController.getAllUsers(null)
+                .collectList()
+                .block();
+
+        // then
+        assertNotNull(allUsers);
+        assertEquals(users.size(), allUsers.size());
+
+        List<User> sortedOriginalUsers = users.stream().sorted(Comparator.comparing(User::getEmail)).toList();
+        allUsers.sort(Comparator.comparing(UserResponse::getEmail));
+
+        for (int i = 0; i < sortedOriginalUsers.size(); i++) {
+            assertUserAndResponseMatch(sortedOriginalUsers.get(i), allUsers.get(i));
+        }
+    }
+
+    @Test
+    void shouldGetAllUsersByRole() {
+        // given
+        userRepository.saveAll(users).collectList().block();
+
+        // when
+        List<UserResponse> allStudents = userController.getAllUsers(Role.STUDENT).collectList().block();
+        List<UserResponse> allAdmins = userController.getAllUsers(Role.ADMIN).collectList().block();
+        List<UserResponse> allTeachers = userController.getAllUsers(Role.TEACHER).collectList().block();
+        List<UserResponse> allGuardians = userController.getAllUsers(Role.GUARDIAN).collectList().block();
+        List<UserResponse> allOfficeWorkers = userController.getAllUsers(Role.OFFICE_WORKER).collectList().block();
+        List<UserResponse> allPrincipals = userController.getAllUsers(Role.PRINCIPAL).collectList().block();
+
+        // then
+        assertEquals(2, allStudents.size());
+        assertEquals(1, allAdmins.size());
+        assertEquals(1, allTeachers.size());
+        assertEquals(1, allGuardians.size());
+        assertEquals(1, allOfficeWorkers.size());
+        assertEquals(1, allPrincipals.size());
     }
 
     @Test
     void shouldGetUserById() {
-        //when
-        User user1 = userController.getUser(users.get(0).getId()).block();
-        User user2 = userController.getUser(users.get(1).getId()).block();
-        //then
-        assertEquals(user1, users.get(0));
-        assertEquals(user2, users.get(1));
+        // given
+        List<User> savedUsers = userRepository.saveAll(users).collectList().block();
+        User expectedUser = savedUsers.getFirst();
+
+        // when
+        UserResponse actualUserResponse = userController.getUser(expectedUser.getId()).block();
+
+        // then
+        assertNotNull(actualUserResponse);
+        assertUserAndResponseMatch(expectedUser, actualUserResponse);
     }
 
     @Test
-    void updateUser() {
-        //when
-        User originalUser = userController.getUser(users.get(0).getId()).block();
-        User newUser = User.builder()
-                .id(originalUser.getId())
-                .name("Stanisława")
-                .surname("Ger")
-                .createdAt(LocalDate.now())
-                .address("Czudecka 3")
-                .email("Stanislaw.ger@gmail.com")
-                .password("Qwe123")
-                .contact("605832228")
-                .imageBase64("123456")
-                .role(Role.STUDENT)
-                .isActive(true)
-                .build();
-        userController.updateUser(Mono.just(newUser)).block();
-        //then
-        User updatedUser = userController.getUser(newUser.getId()).block();
-        assertEquals(newUser, updatedUser);
+    void shouldUpdateUser() {
+        // given
+        User originalUser = userRepository.save(users.getFirst()).block();
+        User updatedUserEntity = buildUser("updated_" + originalUser.getEmail(), Role.TEACHER, true, false);
+        updatedUserEntity.setId(originalUser.getId());
+        when(loggedInUserService.isSelfOrAllowedRoleElseThrow(any(), any(Role[].class))).thenReturn(Mono.just(true));
+
+        // when
+        UserResponse savedUpdatedUserResponse = userController.updateUser(Mono.just(updatedUserEntity)).block();
+
+        // then
+        assertNotNull(savedUpdatedUserResponse);
+        assertUserAndResponseMatch(updatedUserEntity, savedUpdatedUserResponse);
+        User persistedUser = userRepository.findById(originalUser.getId()).block();
+        assertNotNull(persistedUser);
+        assertEquals("updated_" + originalUser.getEmail(), persistedUser.getEmail());
+        assertEquals(Role.TEACHER, persistedUser.getRole());
     }
+
 
     @Test
     void shouldActivateUser() {
-        //when
-        userController.activateUser(users.get(1).getId()).block();
-        //then
-        assertTrue(userController.getUser(users.get(1).getId()).block().getIsActive());
+        // given
+        User userToActivate = users.getFirst();
+        User savedUser = userRepository.save(userToActivate).block();
+        assertNotNull(savedUser);
+
+        // when
+        userController.activateUser(savedUser.getId()).block();
+
+        // then
+        UserResponse activatedUser = userController.getUser(savedUser.getId()).block();
+        assertNotNull(activatedUser);
+        assertTrue(activatedUser.isActive());
     }
 
     @Test
     void shouldDeactivateUser() {
-        //when
-        userController.deactivateUser(users.get(0).getId()).block();
-        //then
-        assertFalse(userController.getUser(users.get(0).getId()).block().getIsActive());
+        // given
+        User userToDeactivate = users.get(1);
+        User savedUser = userRepository.save(userToDeactivate).block();
+        assertNotNull(savedUser);
+
+        // when
+        userController.deactivateUser(savedUser.getId()).block();
+
+        // then
+        UserResponse deactivatedUser = userController.getUser(savedUser.getId()).block();
+        assertNotNull(deactivatedUser);
+        assertFalse(deactivatedUser.isActive());
+    }
+
+    private void setUpUsers() {
+        users = List.of(
+                buildUser("maciek@gmail.com", Role.ADMIN, false, true),
+                buildUser("artur@gmail.com", Role.GUARDIAN, true, true),
+                buildUser("szymon@gmail.com", Role.OFFICE_WORKER, true, true),
+                buildUser("jacek@gmail.com", Role.PRINCIPAL, true, true),
+                buildUser("miłosz@gmail.com", Role.TEACHER, false, true),
+                buildUser("marcin@gmail.com", Role.STUDENT, true, true),
+                buildUser("michał@gmail.com", Role.STUDENT, false, false)
+        );
+    }
+
+    private void assertUserAndResponseMatch(User user, UserResponse userResponse) {
+        assertNotNull(user);
+        assertNotNull(userResponse);
+        assertEquals(user.getId(), userResponse.getId());
+        assertEquals(user.getName(), userResponse.getName());
+        assertEquals(user.getSurname(), userResponse.getSurname());
+        assertEquals(user.getEmail(), userResponse.getEmail());
+        assertEquals(user.getAddress(), userResponse.getAddress());
+        assertEquals(user.getContact(), userResponse.getContact());
+        assertEquals(user.getRole(), userResponse.getRole());
+        assertEquals(user.isActive(), userResponse.isActive());
+        assertEquals(user.isChoosingPreferences(), userResponse.isChoosingPreferences());
     }
 }
