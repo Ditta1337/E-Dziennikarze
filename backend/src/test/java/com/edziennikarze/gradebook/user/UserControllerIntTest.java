@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.user;
 
+import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
 import com.edziennikarze.gradebook.config.TestSecurityConfig;
 import com.edziennikarze.gradebook.user.dto.User;
@@ -14,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
 import reactor.core.publisher.Mono;
 
 import java.util.Comparator;
@@ -21,6 +24,8 @@ import java.util.List;
 
 import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "server.port=0")
@@ -36,6 +41,9 @@ class UserControllerIntTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @MockitoBean
+    private LoggedInUserService loggedInUserService;
 
     private List<User> users;
 
@@ -126,6 +134,7 @@ class UserControllerIntTest {
         User originalUser = userRepository.save(users.getFirst()).block();
         User updatedUserEntity = buildUser("updated_" + originalUser.getEmail(), Role.TEACHER, true, false);
         updatedUserEntity.setId(originalUser.getId());
+        when(loggedInUserService.isSelfOrAllowedRoleElseThrow(any(), any(Role[].class))).thenReturn(Mono.just(true));
 
         // when
         UserResponse savedUpdatedUserResponse = userController.updateUser(Mono.just(updatedUserEntity)).block();

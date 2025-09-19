@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildAttendance;
 import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildGroup;
@@ -22,6 +23,7 @@ import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
 import static com.edziennikarze.gradebook.attendance.AttendanceStatus.*;
 
 import com.edziennikarze.gradebook.attendance.utils.AttendanceTestDatabaseCleaner;
+import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
 import com.edziennikarze.gradebook.config.TestSecurityConfig;
 import com.edziennikarze.gradebook.group.Group;
@@ -39,6 +41,8 @@ import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.UserRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import reactor.core.publisher.Mono;
 
@@ -74,6 +78,9 @@ class AttendanceControllerIntTest {
 
     @Autowired
     private AttendanceRepository attendanceRepository;
+
+    @MockitoBean
+    private LoggedInUserService loggedInUserService;
 
     private List<Attendance> attendances;
 
@@ -127,6 +134,7 @@ class AttendanceControllerIntTest {
         attendanceRepository.saveAll(attendances)
                 .collectList()
                 .block();
+        when(loggedInUserService.isSelfOrAllowedRoleElseThrow(any(), any(Role[].class))).thenReturn(Mono.just(true));
 
         // when
         List<Attendance> studentsAttendance = attendanceController.getStudentsAttendanceBySubject(student.getId(), subjects.getFirst()
@@ -144,9 +152,11 @@ class AttendanceControllerIntTest {
         attendanceRepository.saveAll(attendances)
                 .collectList()
                 .block();
+        when(loggedInUserService.isSelfOrAllowedRoleElseThrow(any(), any(Role[].class))).thenReturn(Mono.just(true));
 
         // when
-        double average = attendanceController.getStudentsAverageAttendance(student.getId());
+        double average = attendanceController.getStudentsAverageAttendance(student.getId())
+                .block();
 
         // then
         assertEquals(0.75, average);
@@ -158,10 +168,12 @@ class AttendanceControllerIntTest {
         attendanceRepository.saveAll(attendances)
                 .collectList()
                 .block();
+        when(loggedInUserService.isSelfOrAllowedRoleElseThrow(any(), any(Role[].class))).thenReturn(Mono.just(true));
 
         // when
         double average = attendanceController.getStudentsAverageAttendanceBySubject(student.getId(), subjects.getFirst()
-                .getId());
+                .getId())
+                .block();
 
         // then
         assertEquals(1.0, average);
