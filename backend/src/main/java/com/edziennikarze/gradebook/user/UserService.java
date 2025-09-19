@@ -1,6 +1,7 @@
 package com.edziennikarze.gradebook.user;
 
 import com.edziennikarze.gradebook.attendance.AttendanceRepository;
+import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
 import com.edziennikarze.gradebook.exception.UserAlreadyExistsException;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
@@ -41,6 +42,8 @@ public class UserService implements ReactiveUserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final LoggedInUserService loggedInUserService;
+
     public Mono<UserResponse> createUser(Mono<User> userMono) {
         return userMono.flatMap(this::validateUserDoesNotExist)
                 .map(this::prepareNewUser)
@@ -59,27 +62,28 @@ public class UserService implements ReactiveUserDetailsService {
     }
 
     public Mono<UserResponse> updateUser(Mono<User> userMono) {
-        return userMono.flatMap(user -> userRepository.findById(user.getId())
-                        .switchIfEmpty(Mono.error(new ResourceNotFoundException("User with id " + user.getId() + " not found")))
-                        .flatMap(existingUser -> {
-                            existingUser.setName(user.getName());
-                            existingUser.setSurname(user.getSurname());
-                            existingUser.setAddress(user.getAddress());
-                            existingUser.setEmail(user.getEmail());
-                            existingUser.setContact(user.getContact());
-                            existingUser.setImageBase64(user.getImageBase64());
-                            existingUser.setRole(user.getRole());
-                            existingUser.setActive(user.isActive());
-                            existingUser.setChoosingPreferences(user.isChoosingPreferences());
+        return userMono.flatMap(user -> loggedInUserService.isSelfOrAllowedRoleElseThrow(user.getId())
+                .then(userRepository.findById(user.getId()))
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("User with id " + user.getId() + " not found")))
+                .flatMap(existingUser -> {
+                    existingUser.setName(user.getName());
+                    existingUser.setSurname(user.getSurname());
+                    existingUser.setAddress(user.getAddress());
+                    existingUser.setEmail(user.getEmail());
+                    existingUser.setContact(user.getContact());
+                    existingUser.setImageBase64(user.getImageBase64());
+                    existingUser.setRole(user.getRole());
+                    existingUser.setActive(user.isActive());
+                    existingUser.setChoosingPreferences(user.isChoosingPreferences());
 
-                            if ( user.getPassword() != null && !user.getPassword()
-                                    .isEmpty() ) {
-                                existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
-                            }
+                    if ( user.getPassword() != null && !user.getPassword()
+                            .isEmpty() ) {
+                        existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+                    }
 
-                            return userRepository.save(existingUser);
-                        }))
-                .map(UserResponse::from);
+                    return userRepository.save(existingUser);
+                })
+                .map(UserResponse::from));
     }
 
     public Mono<UserResponse> deactivateUser(UUID userId) {

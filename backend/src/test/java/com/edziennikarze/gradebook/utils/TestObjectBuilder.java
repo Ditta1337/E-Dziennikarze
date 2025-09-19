@@ -13,6 +13,7 @@ import com.edziennikarze.gradebook.subject.Subject;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaught;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.dto.User;
+import com.edziennikarze.gradebook.user.studentguardian.StudentGuardian;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -35,6 +36,13 @@ public class TestObjectBuilder {
                 .imageBase64("someImageBase64")
                 .active(isActive)
                 .choosingPreferences(isChoosingPreferences)
+                .build();
+    }
+
+    public static StudentGuardian buildStudentGuardian(UUID studentId, UUID guardianId) {
+        return StudentGuardian.builder()
+                .studentId(studentId)
+                .guardianId(guardianId)
                 .build();
     }
 

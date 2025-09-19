@@ -16,7 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
 import com.edziennikarze.gradebook.config.TestSecurityConfig;
 import com.edziennikarze.gradebook.exception.CollisionException;
@@ -26,6 +28,8 @@ import com.edziennikarze.gradebook.user.UserRepository;
 import com.edziennikarze.gradebook.user.dto.User;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import reactor.core.publisher.Mono;
 
@@ -46,6 +50,9 @@ class TeacherUnavailabilityControllerIntTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @MockitoBean
+    private LoggedInUserService loggedInUserService;
 
     private List<User> teachers;
 
@@ -103,6 +110,7 @@ class TeacherUnavailabilityControllerIntTest {
                 .getId();
         UUID secondTeacherId = teachers.getLast()
                 .getId();
+        when(loggedInUserService.isSelfOrAllowedRoleElseThrow(any(), any(Role[].class))).thenReturn(Mono.just(true));
 
         // when
         List<TeacherUnavailability> firstTeacherUnavailabilities = teacherUnavailabilityController.getTeacherUnavailability(firstTeacherId)
@@ -128,6 +136,7 @@ class TeacherUnavailabilityControllerIntTest {
         TeacherUnavailability updatedTeacherUnavailability = buildTeacherUnavailability(originalTeacherUnavailability.getTeacherId(),
                 originalTeacherUnavailability.getStartTime(), originalTeacherUnavailability.getEndTime(), DayOfWeek.WEDNESDAY);
         updatedTeacherUnavailability.setId(originalTeacherUnavailability.getId());
+        when(loggedInUserService.isSelfOrAllowedRoleElseThrow(any(), any(Role[].class))).thenReturn(Mono.just(true));
 
         // when
         TeacherUnavailability savedUpdatedTeacherUnavailability = teacherUnavailabilityController.updateTeacherUnavailability(Mono.just(updatedTeacherUnavailability))
@@ -144,9 +153,11 @@ class TeacherUnavailabilityControllerIntTest {
         List<TeacherUnavailability> savedTeacherUnavailabilities = teacherUnavailabilityRepository.saveAll(teacherUnavailabilities)
                 .collectList()
                 .block();
+        when(loggedInUserService.isSelfOrAllowedRoleElseThrow(any(), any(Role[].class))).thenReturn(Mono.just(true));
 
         // when
-        teacherUnavailabilityController.deleteTeacherUnavailability(savedTeacherUnavailabilities.getFirst().getTeacherId())
+        teacherUnavailabilityController.deleteTeacherUnavailability(savedTeacherUnavailabilities.getFirst().getId()
+                )
                 .block();
         List<TeacherUnavailability> savedTeacherUnavailabilitiesAfterDeletion = teacherUnavailabilityRepository.findAll()
                 .collectList()

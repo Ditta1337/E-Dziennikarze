@@ -1,15 +1,17 @@
 package com.edziennikarze.gradebook.attendance;
 
-import java.util.List;
-import java.util.UUID;
+import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
+import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
+import com.edziennikarze.gradebook.user.Role;
+
+import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
-import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
-
-import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -17,44 +19,47 @@ public class AttendanceService {
 
     private final AttendanceRepository attendanceRepository;
 
+    private final LoggedInUserService loggedInUserService;
+
     public Mono<Attendance> createAttendance(Mono<Attendance> attendanceMono) {
         return attendanceMono.flatMap(attendanceRepository::save);
     }
 
     public Flux<Attendance> getStudentsAttendanceBySubject(UUID studentId, UUID subjectId) {
-        return attendanceRepository.findAllByStudentIdAndSubjectId(studentId, subjectId);
+        return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, Role.TEACHER, Role.PRINCIPAL, Role.OFFICE_WORKER, Role.GUARDIAN)
+                .thenMany(attendanceRepository.findAllByStudentIdAndSubjectId(studentId, subjectId));
     }
 
-    public double getStudentsAverageAttendance(UUID studentId) {
-        List<Attendance> studentAttendance = attendanceRepository.findAllByStudentId(studentId)
-                .collectList()
-                .block();
+    public Mono<Double> getStudentsAverageAttendance(UUID studentId) {
+        return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, Role.TEACHER, Role.PRINCIPAL, Role.OFFICE_WORKER, Role.GUARDIAN)
+                .then(attendanceRepository.findAllByStudentId(studentId)
+                        .collectList())
+                .map(studentAttendance -> {
+                    if ( studentAttendance.isEmpty() ) {
+                        return 0.0;
+                    }
+                    long presentCount = studentAttendance.stream()
+                            .filter(attendance -> attendance.getStatus() == AttendanceStatus.PRESENT)
+                            .count();
 
-        if ( studentAttendance.isEmpty() ) {
-            return 0.0;
-        }
-
-        List<Attendance> studentAttendancePresent = studentAttendance.stream()
-                .filter(attendance -> attendance.getStatus() == AttendanceStatus.PRESENT)
-                .toList();
-
-        return (double) studentAttendancePresent.size() / studentAttendance.size();
+                    return (double) presentCount / studentAttendance.size();
+                });
     }
 
-    public double getStudentsAverageAttendanceBySubject(UUID studentId, UUID subjectId) {
-        List<Attendance> studentAttendance = attendanceRepository.findAllByStudentIdAndSubjectId(studentId, subjectId)
-                .collectList()
-                .block();
+    public Mono<Double> getStudentsAverageAttendanceBySubject(UUID studentId, UUID subjectId) {
+        return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, Role.TEACHER, Role.PRINCIPAL, Role.OFFICE_WORKER, Role.GUARDIAN)
+                .then(attendanceRepository.findAllByStudentIdAndSubjectId(studentId, subjectId)
+                        .collectList())
+                .map(studentAttendance -> {
+                    if ( studentAttendance.isEmpty() ) {
+                        return 0.0;
+                    }
+                    long presentCount = studentAttendance.stream()
+                            .filter(attendance -> attendance.getStatus() == AttendanceStatus.PRESENT)
+                            .count();
 
-        if ( studentAttendance.isEmpty() ) {
-            return 0.0;
-        }
-
-        List<Attendance> studentAttendancePresent = studentAttendance.stream()
-                .filter(attendance -> attendance.getStatus() == AttendanceStatus.PRESENT)
-                .toList();
-
-        return (double) studentAttendancePresent.size() / studentAttendance.size();
+                    return (double) presentCount / studentAttendance.size();
+                });
     }
 
     public Mono<Attendance> updateAttendance(Mono<Attendance> attendanceMono) {

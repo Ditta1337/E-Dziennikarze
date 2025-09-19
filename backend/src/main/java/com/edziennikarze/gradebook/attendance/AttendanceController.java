@@ -38,13 +38,13 @@ public class AttendanceController {
 
     @GetMapping("/average/student/{studentId}")
     @HasAnyRole({ADMIN, OFFICE_WORKER, PRINCIPAL, GUARDIAN, STUDENT, TEACHER})
-    public double getStudentsAverageAttendance(@PathVariable UUID studentId) {
+    public Mono<Double> getStudentsAverageAttendance(@PathVariable UUID studentId) {
         return attendanceService.getStudentsAverageAttendance(studentId);
     }
 
     @GetMapping("/average/student/{studentId}/subject/{subjectId}")
     @HasAnyRole({ADMIN, OFFICE_WORKER, PRINCIPAL, GUARDIAN, STUDENT, TEACHER})
-    public Double getStudentsAverageAttendanceBySubject(@PathVariable UUID studentId, @PathVariable UUID subjectId) {
+    public Mono<Double> getStudentsAverageAttendanceBySubject(@PathVariable UUID studentId, @PathVariable UUID subjectId) {
         return attendanceService.getStudentsAverageAttendanceBySubject(studentId, subjectId);
     }
 
