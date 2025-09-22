@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Modal from "../modal/Modal";
 import "./ImageAdder.scss";
 
-function ImageAdder( { onImageCropped }) {
+function ImageAdder({onImageCropped}) {
     const [imageSrc, setImageSrc] = useState(null);
     const [crop, setCrop] = useState({x: 0, y: 0});
     const [zoom, setZoom] = useState(1);
@@ -21,7 +21,12 @@ function ImageAdder( { onImageCropped }) {
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
         onDrop,
-        accept: "image/*",
+        accept: {
+            'image/jpeg': ['.jpeg', '.jpg'],
+            'image/png': ['.png'],
+            'image/webp': ['.webp'],
+            'image/gif': ['.gif'],
+        },
         multiple: false
     });
 
@@ -63,7 +68,6 @@ function ImageAdder( { onImageCropped }) {
             resolve(base64Image);
         });
     }
-
 
 
     const handleCrop = async () => {

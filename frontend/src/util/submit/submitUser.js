@@ -1,6 +1,6 @@
 import _ from "lodash";
-import {post, del, put} from "../../../api";
-import {StudentRole, TeacherRole} from "../roles";
+import {post, del, put} from "../../api";
+import {StudentRole, TeacherRole} from "../../views/admin/roles";
 
 function preparePayloadByRole(role, values) {
     const fullAddress = _.join(_.compact([
@@ -17,6 +17,7 @@ function preparePayloadByRole(role, values) {
         "role": values.role,
         "contact": values.phone,
         "address": fullAddress,
+        "image_base64": values.image_base64,
         "active": true,
         "choosing_preferences": role === TeacherRole
     };
