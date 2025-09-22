@@ -30,7 +30,6 @@ const CreateGroup = () => {
         validationSchema,
         onSubmit: async (values, { setSubmitting, resetForm }) => {
             try {
-                console.log(values);
                 resetForm();
             } catch (error) {
                 console.error(error);

@@ -1,5 +1,4 @@
 import "./Profile.scss"
-import {StudentRole, TeacherRole} from "../admin/roles";
 import React, {useEffect, useState} from "react";
 import * as Yup from "yup";
 import NameInput from "../../components/form/fields/name-input/NameInput";
@@ -12,16 +11,17 @@ import CityInput from "../../components/form/fields/city-input/CityInput";
 import AddressInput from "../../components/form/fields/address-input/AddressInput";
 import {Form, FormikProvider, useFormik} from "formik";
 import {Alert, Avatar, Box, Button, Snackbar, Typography} from "@mui/material";
-import SelectInput from "../../components/form/fields/select-input/SelectInput";
 import ImageAdder from "../../components/image-adder/ImageAdder";
-import {submitPassword, submitPhoto} from "../../components/image-adder/submit";
 import PasswordInput, {PasswordSchema} from "../../components/form/fields/password-input/PasswordInput";
+import {useStore} from "../../store";
+import {get} from "../../api";
+import {updateUser} from "../../util/submit/submitUser";
+import {prepareUserData} from "../../util/objectUtil";
+
 
 const Profile = () => {
-    const id = 0; //TODO get it from store when authorization is done
+    const userId = useStore((state) => state.user.userId)
     const [user, setUser] = useState(null);
-    const [guardians, setGuardians] = useState();
-    const [subjects, setSubjects] = useState();
 
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -30,37 +30,22 @@ const Profile = () => {
     const [croppedAvatar, setCroppedAvatar] = useState(null);
     const [isEditingPassword, setIsEditingPassword] = useState(false);
 
-    useEffect(() => { //TODO connect to back, get information based on the userType
-        setUser(
-            {
-                name: "Artur",
-                surname: "Dwornik",
-                email: "a@a.a",
-                phone: "+48 12 312 31 23",
-                country: "Polska",
-                address_code: "31-230",
-                city: "Kraków",
-                address: "Ulica 32/2",
-                role: TeacherRole,
-                image_base64: 'https://bi.im-g.pl/im/0a/27/16/z23231498Q,Joanna-Senyszyn.jpg',
-                guardian_id: 'guardian2uuid',
-                can_choose_preferences: true,
-                principal_privileges: true,
-                subjects: ["j.Polski, Matematyka, Angielski"]
-            }
-        );
-        setGuardians([
-            {label: "guardian1@gmail.com", value: "guardian1uuid"},
-            {label: "guardian2@gmail.com", value: "guardian2uuid"},
-            {label: "guardian3@gmail.com", value: "guardian3uuid"},
-        ]);
-        setSubjects([
-            {label: "Matematyka", value: "matematykauuid"},
-            {label: "J. Polski", value: "polskiuuid"},
-            {label: "Informatyka", value: "informatykauuid"},
-            {label: "Fizyka", value: "fizykauuid"},
-        ]);
+    useEffect(() => {
+        fetchUser();
     }, []);
+
+    const fetchUser = async () => {
+        try {
+            const user = await get(`/user/${userId}`);
+            const preparedUser = prepareUserData(user.data)
+            setUser(preparedUser);
+        } catch (error) {
+            console.error("Błąd pobierania danych użytkownika:", error);
+            setSnackbarMessage("Wystąpił błąd podczas pobierania danych użytkownika");
+            setSnackbarSeverity("error");
+            setSnackbarOpen(true);
+        }
+    }
 
     const formik = useFormik({
         enableReinitialize: true,
@@ -76,14 +61,13 @@ const Profile = () => {
         validationSchema: Yup.object({
             password: PasswordSchema
         }),
-        onSubmit: async (values, { resetForm }) => {
+        onSubmit: async (values) => {
             try {
-                await submitPassword(values.password, id);
+                await updateUser({...user, password: values.password}, userId);
                 setSnackbarMessage("Hasło zostało zmienione");
                 setSnackbarSeverity("success");
                 setSnackbarOpen(true);
                 setIsEditingPassword(false);
-                resetForm();
             } catch (error) {
                 console.error("Błąd zmiany hasła:", error);
                 setSnackbarMessage("Wystąpił błąd podczas zmiany hasła");
@@ -111,14 +95,15 @@ const Profile = () => {
 
     const handleSaveAvatar = async () => {
         setIsEditingPhoto(false);
+        const currentPhoto = user.image_base64;
         try {
-            setUser({...user, image_base64: croppedAvatar})
-            await submitPhoto(croppedAvatar, id);
+            await updateUser({...user, image_base64: croppedAvatar}, userId);
             setSnackbarMessage("Zdjęcie zaaktualizowane pomyślnie");
             setSnackbarSeverity("success");
             setSnackbarOpen(true);
-        } catch (error) { //TODO make the old photo display when patching is unsuccesfull, right now it's like this for presentation purpouses
+        } catch (error) {
             console.error(error);
+            setUser({...user, image_base64: currentPhoto})
             setSnackbarMessage("Wystąpił błąd podczas aktualizacji zdjęcia");
             setSnackbarSeverity("error");
             setSnackbarOpen(true);
@@ -142,7 +127,6 @@ const Profile = () => {
                                 <Avatar className="avatar"/>
                             )}
                             <Button
-                                className="edit-avatar"
                                 variant="contained"
                                 type="submit"
                                 onClick={handlePhotoEdition}
@@ -152,9 +136,10 @@ const Profile = () => {
                         </>
                     ) : (
                         <>
-                            <ImageAdder onImageCropped={handleAvatarCropped}/>
+                            <Box className="image-adder-container">
+                                <ImageAdder onImageCropped={handleAvatarCropped}/>
+                            </Box>
                             <Button
-                                className="save-avatar"
                                 variant="contained"
                                 type="submit"
                                 onClick={handleSaveAvatar}>
@@ -176,37 +161,6 @@ const Profile = () => {
                                               shouldShrink={true}/>
                             <CityInput label="Miasto" name="city" readOnly={true} shouldShrink={true}/>
                             <AddressInput label="Adres" name="address" readOnly={true} shouldShrink={true}/>
-
-                            {formik.values.role === StudentRole && (
-                                <>
-                                    <SelectInput
-                                        label="Opiekun"
-                                        name="guardian_id"
-                                        options={guardians}
-                                        readOnly={true}
-                                        shouldShrink={true}
-                                    />
-                                    <Box className="yes-no-answer">
-                                        <Typography className="statement">Sam wybiera preferencje:</Typography>
-                                        {user.can_choose_preferences ? (
-                                            <Typography className="answer">Tak</Typography>
-                                        ) : (
-                                            <Typography className="answer">Nie</Typography>
-                                        )}
-                                    </Box>
-                                </>
-                            )}
-
-                            {formik.values.role === TeacherRole && ( //TODO fix displaying subjects
-                                <SelectInput
-                                    readOnly={true}
-                                    shouldShrink={true}
-                                    label="Nauczane przedmioty"
-                                    name="subjects"
-                                    options={subjects}
-                                    multi
-                                />
-                            )}
                         </Form>
                         {!isEditingPassword ? (
                             <Button className="change-password"
@@ -241,8 +195,7 @@ const Profile = () => {
                 </Box>
             </Box>
         </Box>
-    )
-        ;
+    );
 };
 
 export default Profile;

@@ -14,7 +14,7 @@ import PasswordInput, {PasswordSchema} from "../../../components/form/fields/pas
 import SelectInput, {SelectSchema} from "../../../components/form/fields/select-input/SelectInput";
 import {GuardianRole, rolesToPolish, StudentRole, TeacherRole} from "../roles";
 import {get} from "../../../api";
-import {submitUser} from "./submitUser";
+import {submitUser} from "../../../util/submit/submitUser";
 import "./AddUser.scss";
 
 const AddUserPage = () => {
