@@ -1,7 +1,7 @@
+import React, {useState} from "react";
 import {useStore} from "../../store";
 import {get} from "../../api";
 import WeeklyCalendar from "../../components/calendar/WeeklyCalendar";
-import {useEffect, useState} from "react";
 import TeacherLessonDetails from "../../components/calendar/lesson-details/teacher/TeacherLessonDetails";
 import AttendanceModal from "../../components/attendance-modal/AttendanceModal";
 
@@ -13,11 +13,6 @@ const TeacherCalendar = () => {
     const fetchLessons = (startDate, endDate) => {
         return get(`/lesson/all/teacher/${userId}/from/${startDate}/to/${endDate}`)
     }
-
-    useEffect(() => {
-        console.log("open attendance modal: " + checkAttendanceModalOpen)
-        console.log("selected event: " + selectedEvent)
-    }, [selectedEvent]);
 
     return (
         <>
