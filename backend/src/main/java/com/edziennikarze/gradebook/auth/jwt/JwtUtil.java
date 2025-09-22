@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import com.edziennikarze.gradebook.user.dto.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -43,6 +44,9 @@ public class JwtUtil {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("role", getRoleFromUserDetails(userDetails));
+        claims.put("userId", getUUIDFromUserDetails(userDetails));
+
         return createToken(claims, userDetails.getUsername(), expiration);
     }
 
@@ -54,6 +58,20 @@ public class JwtUtil {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    private String getRoleFromUserDetails(UserDetails userDetails) {
+        return userDetails.getAuthorities().stream()
+                .findFirst()
+                .map(Object::toString)
+                .orElse("");
+    }
+
+    private String getUUIDFromUserDetails(UserDetails userDetails) {
+        if (userDetails instanceof User appUser) {
+            return appUser.getId().toString();
+        }
+        return "";
     }
 
     private Claims extractAllClaims(String token) {
