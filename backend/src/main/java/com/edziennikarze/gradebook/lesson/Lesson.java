@@ -1,12 +1,11 @@
 package com.edziennikarze.gradebook.lesson;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
-
-import com.edziennikarze.gradebook.lesson.assigned.AssignedLesson;
-import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
 
 import lombok.Builder;
 import lombok.Data;
@@ -16,10 +15,13 @@ import lombok.Data;
 public class Lesson {
 
     @NotNull
-    private UUID id;
+    private UUID assignedLessonId;
 
     @NotNull
-    private PlannedLesson plannedLesson;
+    private UUID plannedLessonId;
+
+    @NotNull
+    private UUID groupId;
 
     @NotNull
     private LocalDate date;
@@ -28,13 +30,22 @@ public class Lesson {
 
     private boolean modified;
 
-    public static Lesson from(AssignedLesson assignedLesson, PlannedLesson plannedLesson) {
-        return Lesson.builder()
-                .id(assignedLesson.getId())
-                .date(assignedLesson.getDate())
-                .cancelled(assignedLesson.isCancelled())
-                .modified(assignedLesson.isCancelled())
-                .plannedLesson(plannedLesson)
-                .build();
-    }
+    @NotNull
+    private String subject;
+
+    @NotNull
+    private LocalTime startTime;
+
+    @NotNull
+    private LocalTime endTime;
+
+    @NotNull
+    private DayOfWeek weekDay;
+
+    @NotNull
+    private String room;
+
+    @NotNull
+    private UUID teacherId;
 }
+
