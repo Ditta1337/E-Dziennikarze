@@ -128,14 +128,10 @@ const Attendance = () => {
             ...prevData,
             students: prevData.students.map(student => student.id === id ? {...student, status: newStatus} : student),
         }))
-        console.log(newStatus)
-        console.log(attendanceData)
     }
 
     const submitAttendance = async () => {
         if (!attendanceData) return;
-
-        console.log(attendanceData)
 
         try {
             await post("/attendance", attendanceData) //TODO: replace with a real uri

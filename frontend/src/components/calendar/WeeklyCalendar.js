@@ -65,7 +65,6 @@ const WeeklyCalendar = ({ fetchLessons, onSelectEvent }) => {
         try {
             const response = await fetchLessons(format(monday, AppLocale.dateFormat), format(friday, AppLocale.dateFormat))
             const calendarEvents = makeCalendarEventsFromFetchedResponse(response.data)
-            console.log(calendarEvents)
             setCalendarEvents(calendarEvents)
         } catch (e) {
             setCalendarEvents([])

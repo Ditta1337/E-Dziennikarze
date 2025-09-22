@@ -25,7 +25,6 @@ const CreateRoom = () => {
         onSubmit: async (values, {resetForm}) => {
             try {
                 setLoading(true);
-                console.log("Submitting", values)
                 await new Promise((res) => setTimeout(res, 500));
                 resetForm();
             } catch (error) {

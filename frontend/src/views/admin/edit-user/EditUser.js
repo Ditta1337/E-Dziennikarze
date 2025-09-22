@@ -13,9 +13,10 @@ import SelectInput from "../../../components/form/fields/select-input/SelectInpu
 import {GuardianRole, rolesToPolish, StudentRole, TeacherRole} from "../roles";
 import {Alert, Avatar, Box, Button, CircularProgress, Snackbar, Typography} from "@mui/material";
 import {Form, FormikProvider, useFormik} from "formik";
-import {updateUser} from "../add-user/submitUser";
+import {updateUser} from "../../../util/submit/submitUser";
 import "./EditUser.scss";
 import {get} from "../../../api";
+import {prepareUserData} from "../../../util/objectUtil";
 
 function EditUser() {
     const {id} = useParams();
@@ -44,17 +45,8 @@ function EditUser() {
                 get(`/subject-taught/teacher/${id}`)
             ]);
 
-            const user = userData.data;
-            const addressParts = user.address.split(';');
-            const userWithFormattedData = {
-                ...user,
-                phone: user.contact,
-                address: addressParts[0],
-                address_code: addressParts[1],
-                city: addressParts[2],
-                country: addressParts[3],
-            };
 
+            const preparedUser = prepareUserData(userData.data)
             const allGuardians = guardiansData.data.map(g => ({
                 value: g.id,
                 label: `${g.name} ${g.surname} (${g.email})`
@@ -75,7 +67,7 @@ function EditUser() {
             setCurrentGuardiansIds(currentGuardianIds);
 
             setUser({
-                ...userWithFormattedData,
+                ...preparedUser,
                 guardian_ids: currentGuardianIds,
                 subjects: currentSubjectIds,
             });
@@ -162,12 +154,11 @@ function EditUser() {
                         <Avatar className="avatar"/>
                     )}
                     <Button
-                        className="delete-avatar"
                         variant="contained"
                         type="submit"
                         onClick={handlePhotoDeletion}
                     >
-                        Usuń zdjęcie użytkownika
+                        Usuń zdjęcie
                     </Button>
                 </Box>
                 <Box className="edit-user-form">

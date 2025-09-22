@@ -46,7 +46,6 @@ function LogIn() {
 
                 const {access_token, refresh_token} = response.data;
                 const decodedToken = jwtDecode(access_token);
-                console.log("decodedToken", decodedToken);
                 const userData = {
                     email: decodedToken.sub,
                     role: decodedToken.role,
