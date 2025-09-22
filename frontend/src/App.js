@@ -14,6 +14,9 @@ import CreateGroup from "./views/create-group/CreateGroup";
 import AddStudentsToGroup from "./views/add-students-to-groups/AddStudentsToGroup";
 import CreateRoom from "./views/create-room/CreateRoom";
 import Attendance from "./views/attendance/Attendance";
+import StudentCalendar from "./views/student/StudentCalendar";
+import TeacherCalendar from "./views/teacher/TeacherCalendar";
+import CalendarRouter from "./role-based-routers/CalendarRouter";
 
 function App() {
     return (
@@ -23,7 +26,7 @@ function App() {
 
                 <Route element={<ProtectedRoute />}>
                     <Route path="/gradebook" element={<Card><Gradebook /></Card>} />
-                    <Route path="/calendar" element={<Card><Calendar /></Card>} />
+                    <Route path="/calendar" element={<Card><CalendarRouter /></Card>} />
                     <Route path="/profile" element={<Card><Profile /></Card>} />
 
                     {/* Admin endpoints */}
