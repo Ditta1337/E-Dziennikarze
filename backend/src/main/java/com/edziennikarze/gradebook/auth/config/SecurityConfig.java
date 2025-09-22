@@ -51,7 +51,7 @@ public class SecurityConfig {
 
                         // User endpoints
                         .pathMatchers(HttpMethod.GET, "/user/all").authenticated()
-                        .pathMatchers(HttpMethod.GET, "/user/{userId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.GET, "/user/{userId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), STUDENT.name())
                         .pathMatchers(HttpMethod.POST, "/user").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.PUT, "/user").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.PATCH, "/user/{userId}/deactivate", "/user/{userId}/activate").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())

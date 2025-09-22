@@ -1,3 +1,11 @@
 .not-found {
-
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  .communicat {
+    padding: 20px;
+    font-size: x-large;
+    font-weight: bold;
+  }
 }
