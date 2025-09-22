@@ -1,0 +1,56 @@
+.login {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+
+
+    .login-image {
+        width: 30%;
+        background-color: #9a9d9d;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        border-right: 4px solid black;
+
+        .school-name {
+            font-size: xx-large;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .logo {
+            width: 400px;
+            height: 400px;
+        }
+    }
+
+    .login-inputs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        width: 70%;
+
+        .title {
+            padding: 20px;
+            font-size: x-large;
+            font-weight: bold;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            min-width: 400px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .submit {
+            margin: 20px;
+        }
+    }
+}
