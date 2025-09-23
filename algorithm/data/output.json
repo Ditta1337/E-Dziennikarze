@@ -1,120 +1,230 @@
-{  
-    "goals": [
-    {
-      "name": "subject types",
-      "value": 600
-    },
-    {
-      "name": "classrooms",
-      "value": 600
-    }
-  ],
+{
     "groups": [
         {
-            "group": "1c147da0-38fd-4490-82e1-9954f942a03c",
+            "group_id": 0,
             "schedule": [
-                {
-                "hour": 0,
-                "day": 0,
-                "subject": "1c147da0-38fd-4490-82e1-9954f942a03c",
-                "teacher": "8800d681-9665-415a-a88c-4aef48a76e49",
-                "room": "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01"
-                },
-                {
-                "hour": 1,
-                "day": 0,
-                "subject": "1c147da0-38fd-4490-82e1-9954f942a03c",
-                "teacher": "8800d681-9665-415a-a88c-4aef48a76e49",
-                "room": "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01"
-                },
-                {
-                "hour": 2,
-                "day": 0,
-                "subject": "1c147da0-38fd-4490-82e1-9954f942a03c",
-                "teacher": "8800d681-9665-415a-a88c-4aef48a76e49",
-                "room": "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01"
-                }
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    "Plastyka",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ]
             ]
         },
-                {
-            "group": "8800d681-9665-415a-a88c-4aef48a76e49",
+        {
+            "group_id": 1,
             "schedule": [
-                {
-                "hour": 0,
-                "day": 0,
-                "subject": "1c147da0-38fd-4490-82e1-9954f942a03c",
-                "teacher": "8800d681-9665-415a-a88c-4aef48a76e49",
-                "room": "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01"
-                },
-                {
-                "hour": 1,
-                "day": 0,
-                "subject": "1c147da0-38fd-4490-82e1-9954f942a03c",
-                "teacher": "8800d681-9665-415a-a88c-4aef48a76e49",
-                "room": "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01"
-                },
-                {
-                "hour": 2,
-                "day": 0,
-                "subject": "1c147da0-38fd-4490-82e1-9954f942a03c",
-                "teacher": "8800d681-9665-415a-a88c-4aef48a76e49",
-                "room": "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01"
-                }
+                [
+                    "Religia",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    "Wychowanie fizyczne",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    "Wychowanie fizyczne",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    "Wychowanie fizyczne",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ]
             ]
         }
     ],
-
     "teachers": [
         {
-            "teacher": "1c147da0-38fd-4490-82e1-9954f942a03c",
+            "teacher_id": 0,
             "schedule": [
-                {
-                "hour": 0,
-                "day": 0,
-                "subject": "1c147da0-38fd-4490-82e1-9954f942a03c",
-                "group": "8800d681-9665-415a-a88c-4aef48a76e49",
-                "room": "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01"
-                },
-                {
-                "hour": 1,
-                "day": 0,
-                "subject": "1c147da0-38fd-4490-82e1-9954f942a03c",
-                "group": "8800d681-9665-415a-a88c-4aef48a76e49",
-                "room": "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01"
-                },
-                {
-                "hour": 2,
-                "day": 0,
-                "subject": "1c147da0-38fd-4490-82e1-9954f942a03c",
-                "group": "8800d681-9665-415a-a88c-4aef48a76e49",
-                "room": "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01"
-                }
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    "4a",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ]
             ]
         },
-                {
-            "teacher": "8800d681-9665-415a-a88c-4aef48a76e49",
+        {
+            "teacher_id": 2,
             "schedule": [
-                {
-                "hour": 0,
-                "day": 0,
-                "subject": "1c147da0-38fd-4490-82e1-9954f942a03c",
-                "group": "8800d681-9665-415a-a88c-4aef48a76e49",
-                "room": "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01"
-                },
-                {
-                "hour": 1,
-                "day": 0,
-                "subject": "1c147da0-38fd-4490-82e1-9954f942a03c",
-                "group": "8800d681-9665-415a-a88c-4aef48a76e49",
-                "room": "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01"
-                },
-                {
-                "hour": 2,
-                "day": 0,
-                "subject": "1c147da0-38fd-4490-82e1-9954f942a03c",
-                "group": "8800d681-9665-415a-a88c-4aef48a76e49",
-                "room": "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01"
-                }
+                [
+                    "4b",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            ]
+        },
+        {
+            "teacher_id": 3,
+            "schedule": [
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    "4b",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    "4b",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    "4b",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ]
             ]
         }
     ]

@@ -1,33 +1,40 @@
-import fastapi
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-import json
-from scheduler import solve_yielding, DataParser, WORKING_DAYS
-
+from fastapi import FastAPI, Request
+import uvicorn
+from schemas import ScheduleConfig
+from scheduler import solve
 app = FastAPI()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 
-@app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
 
-    try:
-        input_json = await websocket.receive_text()
-        input_data = json.loads(input_json)
+@app.post("/solve")
+async def solve_endpoint(schedule_config: ScheduleConfig):
+    solve(schedule_config)
 
-        input_groups, input_teachers, input_subjects, input_max_hours_per_day = DataParser.parse_input("input2.json")
+@app.post("/echo")
+async def echo(request: Request):
+    body = await request.body()
+    return {"echo": body.decode("utf-8")}
 
-        for partial_result in solve_yielding(input_groups, input_teachers, input_subjects,
-                                             input_max_hours_per_day, WORKING_DAYS):
-            await websocket.send_text(json.dumps(partial_result, ensure_ascii=False, indent=2))
 
-    except WebSocketDisconnect:
-        print("Client disconnected")
 
-    except Exception as e:
-        await websocket.send_text(json.dumps({"error": str(e)}))
-        await websocket.close()
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+# @app.post("/solve")
+# async def solve(data,endpont):
+#     solve(data,endpoint)
+#     return {"message":"started"}
+
+
+# @app.post("/status")
+# async def solve(data,endpont):
+#     status="solving"
+#     return {"status":status}

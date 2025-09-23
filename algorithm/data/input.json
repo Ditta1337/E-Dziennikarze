@@ -1,4 +1,5 @@
 {
+  "url":"some/url",
   "max_hours_per_day": 6,
   "teaching_days": 5,
   "goals": [

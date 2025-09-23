@@ -1,7 +1,6 @@
-import json
-
-from algorithm.entities import Teacher, Subject, Group, SubjectPriority
-
+from entities import Teacher, Subject, Group
+from entities.unavailability import Unavailability
+from schemas import ScheduleConfig, TeacherInput, GroupInput, SubjectInput
 
 class DataParser:
     _teachers_by_uuid = {}
@@ -12,71 +11,56 @@ class DataParser:
     _subjects_by_id = {}
 
     @classmethod
-    def parse_input(cls, filename: str) -> tuple[list["Group"], list["Teacher"], list["Subject"], int, int]:
-        data = json.load(open(filename))
-        DataParser._parse_all_teachers(data["teachers"])
-        DataParser._parse_all_groups(data["groups"])
-        DataParser._parse_subjects_positions(data["early_subjects"], data["edge_subjects"], data["late_subjects"])
+    def parse_input(cls, schedule_config: ScheduleConfig) -> tuple[list[Group], list[Teacher], list[Subject], int, int]:
+        DataParser._parse_all_teachers(schedule_config.teachers)
+        DataParser._parse_all_groups(schedule_config.groups)
         return ([group for _, group in cls._groups_by_uuid.items()],
                 [teacher for _, teacher in cls._teachers_by_uuid.items()],
                 [subject for _, subject in cls._subjects_by_uuid.items()],
-                data["teaching_days"],
-                data["max_hours_per_day"])
+                schedule_config.teaching_days,
+                schedule_config.max_hours_per_day)
 
     @staticmethod
-    def _parse_all_teachers(teachers_list):
-        for teacher in teachers_list:
-            unavailability = [(unavailability["day"], unavailability["hour"]) for unavailability in
-                              teacher["unavailability"]]
-            DataParser._parse_teacher(teacher["teacher_id"],
-                                      teacher["teacher_name"],
-                                      teacher["hours"],
-                                      unavailability)
-
-    @staticmethod
-    def _parse_subjects_positions(early, edge, late):
-        for subject in early:
-            DataParser.get_subject_by_uuid(subject).subject_priority = SubjectPriority.Early
-        for subject in edge:
-            DataParser.get_subject_by_uuid(subject).subject_priority = SubjectPriority.Edge
-        for subject in late:
-            DataParser.get_subject_by_uuid(subject).subject_priority = SubjectPriority.Late
+    def _parse_all_teachers(teachers: list[TeacherInput]):
+        for teacher in teachers:
+            DataParser._parse_teacher(teacher)
 
     @classmethod
-    def _parse_teacher(cls, teacher_uuid: str, name: str, hours: int, unavailability: list[tuple[int, int]]) -> Teacher:
-        if not teacher_uuid in cls._teachers_by_uuid:
-            teacher = Teacher(teacher_uuid, name, hours, unavailability)
+    def _parse_teacher(cls, input_teacher:TeacherInput )-> Teacher:
+        if not input_teacher.id in cls._teachers_by_uuid:
+            teacher = Teacher(input_teacher.id,
+                              input_teacher.name,
+                              [Unavailability(unavailability.day, unavailability.hour) for unavailability in input_teacher.unavailability] )
             cls._teachers_by_uuid[teacher.uuid] = teacher
             cls._teachers_by_id[teacher.id] = teacher
-        return cls._teachers_by_uuid[teacher_uuid]
+        return cls._teachers_by_uuid[input_teacher.id]
+
 
     @staticmethod
-    def _parse_all_groups(groups_list) -> None:
-        for group_data in groups_list:
-            subjects = []
-            for subject_data in group_data["subjects"]:
-                subject = DataParser._parse_subject(subject_data["subject_id"],
-                                                    subject_data["subject_name"],
-                                                    subject_data["hours"],
-                                                    subject_data["teacher_id"])
-                subjects.append(subject)
-            DataParser._parse_group(group_data["group_id"], group_data["group_name"], subjects)
+    def _parse_all_subjects(subjects: list[SubjectInput]) -> None:
+        for subject in subjects:
+            DataParser._parse_subject(subject)
 
-    @classmethod
-    def _parse_subject(cls, subject_uuid: str, subject_name, hours: int, teacher_uuid: str) -> Subject:
-        if not subject_uuid in cls._subjects_by_uuid:
-            subject = Subject(subject_uuid, subject_name, hours, DataParser.get_teacher_by_uuid(teacher_uuid))
-            cls._subjects_by_uuid[subject.uuid] = subject
-            cls._subjects_by_id[subject.id] = subject
-        return cls._subjects_by_uuid[subject_uuid]
+    @staticmethod
+    def _parse_subject(input_subject: SubjectInput) -> None:
+        if not input_subject.id in DataParser._subjects_by_uuid:
+            subject = Subject(input_subject.id, input_subject.name, input_subject.hours, DataParser._teachers_by_uuid[input_subject.teacher_id])
+            DataParser._subjects_by_uuid[subject.uuid] = subject
+            DataParser._subjects_by_id[subject.id] = subject
 
-    @classmethod
-    def _parse_group(cls, group_uuid: str, name: str, subjects: list["Subject"]) -> Group:
-        if not group_uuid in cls._groups_by_uuid:
-            group = Group(group_uuid, name, subjects)
-            cls._groups_by_uuid[group.uuid] = group
-            cls._groups_by_id[group.id] = group
-        return cls._groups_by_uuid[group_uuid]
+    @staticmethod
+    def _parse_all_groups(groups_list: list[GroupInput]) -> None:
+        for group in groups_list:
+            DataParser._parse_group(group)
+
+    @staticmethod 
+    def _parse_group(input_group: GroupInput)  -> Group:
+        if not input_group.id in DataParser._groups_by_uuid:
+            DataParser._parse_all_subjects(input_group.subjects)
+            group = Group(input_group.id, input_group.name,[DataParser._subjects_by_uuid[subject.id] for subject in input_group.subjects])
+            DataParser._groups_by_uuid[group.uuid] = group
+            DataParser._groups_by_id[group.id] = group
+        return DataParser._groups_by_uuid[group.uuid]
 
     @classmethod
     def get_group_by_id(cls, group_id) -> Group:

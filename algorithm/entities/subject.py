@@ -1,6 +1,6 @@
 from itertools import count
 from enum import Enum,auto
-from algorithm.entities import Teacher
+from entities import Teacher
 
 class SubjectPriority(Enum):
     Normal=0

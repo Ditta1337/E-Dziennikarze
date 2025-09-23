@@ -1,6 +1,5 @@
-from algorithm.entities import Subject
+from entities import Subject
 from itertools import count
-
 
 class Group:
     id_iterator = count()
@@ -10,10 +9,6 @@ class Group:
         self._uuid = uuid
         self._name = name
         self._subjects = subjects
-
-    # "group_id": "0a64a408-722c-4dbe-a8ed-c7822c2fc45b",
-    # "group_name": "4a",
-    # "subjects": [
 
     @classmethod
     def reset_counter(cls):

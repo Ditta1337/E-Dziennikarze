@@ -1,17 +1,13 @@
 from itertools import count
-from algorithm.entities import Unavailability
+from entities import Unavailability
 
 class Teacher:
     id_iterator = count()
-    def __init__(self, uuid,name,hours,unavailability):
+    def __init__(self, uuid: str,name: str,unavailability: list[ Unavailability]):
         self._uuid = uuid
         self._id=next(self.id_iterator)
         self._name=name
-        self._hours=hours
-
-        self._unavailability=[]
-        for day,hour in unavailability:
-            self._unavailability.append(Unavailability(day,hour))
+        self._unavailability=unavailability
 
 
     @classmethod
@@ -27,10 +23,6 @@ class Teacher:
         return self._unavailability
 
     @property
-    def hours(self):
-        return self._hours
-
-    @property
     def name(self):
         return self._name
 
@@ -39,7 +31,7 @@ class Teacher:
         return self._id
 
     def __str__(self):
-        return f"id:{self._id} hours:{self._hours} name:{self.name} uuid:{self._uuid}"
+        return f"id:{self._id} name:{self.name} uuid:{self._uuid}"
 
     def __repr__(self):
         return self.__str__()
