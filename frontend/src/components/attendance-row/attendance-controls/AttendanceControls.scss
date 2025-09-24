@@ -1,0 +1,36 @@
+.attendance-controls {
+  display: flex;
+  gap: 8px;
+
+  .MuiToggleButton-root {
+    border: none;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+
+    svg {
+      font-size: 1.5rem;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &.Mui-selected {
+      &.present {
+        background-color: #00800066;
+      }
+
+      &.absent {
+        background-color: #ff0000b2;
+      }
+    }
+  }
+
+  .present {
+    color: green;
+  }
+
+  .absent {
+    color: red;
+  }
+}

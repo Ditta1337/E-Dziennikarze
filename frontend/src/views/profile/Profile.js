@@ -1,5 +1,5 @@
 import "./Profile.scss"
-import {StudentRole, TeacherRole, WorkerRole} from "../admin/roles";
+import {StudentRole, TeacherRole} from "../admin/roles";
 import React, {useEffect, useState} from "react";
 import * as Yup from "yup";
 import NameInput from "../../components/form/fields/name-input/NameInput";
@@ -195,17 +195,6 @@ const Profile = () => {
                                         )}
                                     </Box>
                                 </>
-                            )}
-
-                            {formik.values.role === WorkerRole && (
-                                <Box className="yes-no-answer">
-                                    <Typography className="statement">Jest osobą dyrektorsą:</Typography>
-                                    {user.principal_privileges ? (
-                                        <Typography className="answer">Tak</Typography>
-                                    ) : (
-                                        <Typography className="answer">Nie</Typography>
-                                    )}
-                                </Box>
                             )}
 
                             {formik.values.role === TeacherRole && ( //TODO fix displaying subjects

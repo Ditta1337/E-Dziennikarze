@@ -1,25 +1,24 @@
 package com.edziennikarze.gradebook.auth.jwt;
 
+import com.edziennikarze.gradebook.user.dto.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import javax.crypto.SecretKey;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
-
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}" )
+    @Value("${jwt.secret}")
     private String secret;
 
     @Value("${jwt.expiration}")
@@ -43,6 +42,8 @@ public class JwtUtil {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("role", getRoleFromUserDetails(userDetails));
+        claims.put("userId", getUUIDFromUserDetails(userDetails));
         return createToken(claims, userDetails.getUsername(), expiration);
     }
 
@@ -54,6 +55,20 @@ public class JwtUtil {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    private String getRoleFromUserDetails(UserDetails userDetails) {
+        return userDetails.getAuthorities().stream()
+                .findFirst()
+                .map(Object::toString)
+                .orElse("");
+    }
+
+    private String getUUIDFromUserDetails(UserDetails userDetails) {
+        if (userDetails instanceof User appUser) {
+            return appUser.getId().toString();
+        }
+        return "";
     }
 
     private Claims extractAllClaims(String token) {
@@ -75,12 +90,10 @@ public class JwtUtil {
 
     private String createToken(Map<String, Object> claims, String subject, Long expirationTime) {
         return Jwts.builder()
-                .claims()
-                .add(claims)
+                .claims(claims)
                 .subject(subject)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expirationTime))
-                .and()
                 .signWith(getSecretKey())
                 .compact();
     }
