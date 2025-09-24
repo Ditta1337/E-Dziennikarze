@@ -39,6 +39,8 @@ A sample output is provided in `output.json`. This JSON represents the **schedul
   - **name**
   - **value**
 
+- **classrooms** - a list of all avalivible classrooms
+
 - **groups** – list of student groups, each with:
   - **group_id** – identifier  
   - **schedule** – a 2D array representing the weekly schedule of the group. Each inner array represents one day, and each element corresponds to a lesson slot. The lessons are represented by their subject names. `null` indicates an empty slot.  

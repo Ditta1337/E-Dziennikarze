@@ -125,7 +125,7 @@ def solve (config: ScheduleConfig):
     solver.parameters.max_time_in_seconds=120
     print("variables ",len(model.Proto().constraints))
     print(solver.parameters)
-    status = solver.Solve (model,solution_callback=SolutionCallback(config.url,schedule, groups, subjects, solver, teaching_days, max_hours_per_day))
+    status = solver.Solve (model,solution_callback=SolutionCallback(config.url,schedule, groups, teachers, subjects, solver, teaching_days, max_hours_per_day))
 
     check_no_gaps(schedule, groups, subjects, solver, teaching_days, max_hours_per_day)
     check_subject_hours(schedule, groups, subjects, solver, teaching_days, max_hours_per_day)
