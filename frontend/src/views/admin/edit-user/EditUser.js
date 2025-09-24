@@ -10,8 +10,7 @@ import AddressCodeInput, {AddressCodeSchema} from "../../../components/form/fiel
 import CityInput, {CitySchema} from "../../../components/form/fields/city-input/CityInput";
 import AddressInput, {AddressSchema} from "../../../components/form/fields/address-input/AddressInput";
 import SelectInput from "../../../components/form/fields/select-input/SelectInput";
-import {rolesToPolish, StudentRole, TeacherRole, WorkerRole} from "../roles";
-import SwitchInput, {SwitchSchema} from "../../../components/form/fields/switch-input/SwitchInput";
+import {rolesToPolish, StudentRole, TeacherRole} from "../roles";
 import {Alert, Avatar, Box, Button, CircularProgress, Snackbar, Typography} from "@mui/material";
 import {Form, FormikProvider, useFormik} from "formik";
 import {submitUser} from "../add-user/submitUser";
@@ -70,8 +69,6 @@ function EditUser() {
                     ? schema.required("Wybór opiekuna jest wymagany")
                     : schema.notRequired()
             ),
-        can_choose_preferences: SwitchSchema,
-        principal_privileges: SwitchSchema,
         subjects: Yup.array().when("role", (role, schema) =>
             role === TeacherRole
                 ? schema.min(1, "Wybór conajmniej jednego przedmiotu jest wymagany")
@@ -148,26 +145,14 @@ function EditUser() {
                             <AddressCodeInput label="Kod pocztowy" name="address_code" shouldShrink={true}/>
                             <CityInput label="Miasto" name="city" shouldShrink={true}/>
                             <AddressInput label="Adres" name="address" shouldShrink={true}/>
-                            <SelectInput label="Rola" name="role" options={rolesToPolish} readOnly={true} shouldShrink={true}/>
+                            <SelectInput label="Rola" name="role" options={rolesToPolish} readOnly={true}
+                                         shouldShrink={true}/>
 
                             {formik.values.role === StudentRole && (
-                                <>
-                                    <SelectInput
-                                        label="Opiekun"
-                                        name="guardian_id"
-                                        options={guardians}
-                                    />
-                                    <SwitchInput
-                                        label="Sam wybiera preferencje"
-                                        name="can_choose_preferences"
-                                    />
-                                </>
-                            )}
-
-                            {formik.values.role === WorkerRole && (
-                                <SwitchInput
-                                    label="Jest osobą dyrektorską"
-                                    name="principal_privileges"
+                                <SelectInput
+                                    label="Opiekun"
+                                    name="guardian_id"
+                                    options={guardians}
                                 />
                             )}
 

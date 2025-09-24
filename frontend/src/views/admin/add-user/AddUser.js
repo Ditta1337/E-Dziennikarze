@@ -12,8 +12,7 @@ import AddressInput, {AddressSchema} from "../../../components/form/fields/addre
 import EmailInput, {EmailSchema} from "../../../components/form/fields/email-input/EmailInput";
 import PasswordInput, {PasswordSchema} from "../../../components/form/fields/password-input/PasswordInput";
 import SelectInput, {SelectSchema} from "../../../components/form/fields/select-input/SelectInput";
-import SwitchInput, {SwitchSchema} from "../../../components/form/fields/switch-input/SwitchInput";
-import {rolesToPolish, StudentRole, TeacherRole, WorkerRole} from "../roles";
+import {rolesToPolish, StudentRole, TeacherRole} from "../roles";
 import {submitUser} from "./submitUser";
 import "./AddUser.scss";
 
@@ -57,8 +56,6 @@ const AddUserPage = () => {
                     ? schema.required("Wybór opiekuna jest wymagany")
                     : schema.notRequired()
             ),
-        can_choose_preferences: SwitchSchema,
-        principal_privileges: SwitchSchema,
         subjects: Yup.array().when("role", (role, schema) =>
             role === TeacherRole
                 ? schema.min(1, "Wybór conajmniej jednego przedmiotu jest wymagany")
@@ -79,8 +76,6 @@ const AddUserPage = () => {
             address: "Ulica 32/2",
             role: "",
             guardian_id: "",
-            can_choose_preferences: false,
-            principal_privileges: false,
             subjects: [],
         },
         validationSchema,
@@ -115,16 +110,16 @@ const AddUserPage = () => {
             <Typography className="title">Dodaj użytkownika</Typography>
             <FormikProvider value={formik}>
                 <Form className="form">
-                    <NameInput label="Imię" name="name" />
-                    <SurnameInput label="Nazwisko" name="surname" />
-                    <EmailInput label="Email" name="email" />
-                    <PasswordInput label="Hasło" name="password" allowGenerate />
-                    <PhoneInput label="Telefon" name="phone" />
-                    <CountryInput label="Państwo" name="country" />
-                    <AddressCodeInput label="Kod pocztowy" name="address_code" />
-                    <CityInput label="Miasto" name="city" />
-                    <AddressInput label="Adres" name="address" />
-                    <SelectInput label="Rola" name="role" options={rolesToPolish} />
+                    <NameInput label="Imię" name="name" shouldShrink={true} />
+                    <SurnameInput label="Nazwisko" name="surname" shouldShrink={true} />
+                    <EmailInput label="Email" name="email" shouldShrink={true} />
+                    <PasswordInput label="Hasło" name="password" allowGenerate shouldShrink={true} />
+                    <PhoneInput label="Telefon" name="phone" shouldShrink={true} />
+                    <CountryInput label="Państwo" name="country" shouldShrink={true} />
+                    <AddressCodeInput label="Kod pocztowy" name="address_code" shouldShrink={true} />
+                    <CityInput label="Miasto" name="city" shouldShrink={true} />
+                    <AddressInput label="Adres" name="address" shouldShrink={true} />
+                    <SelectInput label="Rola" name="role" options={rolesToPolish} shouldShrink={true} />
 
                     {formik.values.role === StudentRole && (
                         <>
@@ -133,18 +128,7 @@ const AddUserPage = () => {
                                 name="guardian_id"
                                 options={guardians}
                             />
-                            <SwitchInput
-                                label="Sam wybiera preferencje"
-                                name="can_choose_preferences"
-                            />
                         </>
-                    )}
-
-                    {formik.values.role === WorkerRole && (
-                        <SwitchInput
-                            label="Jest osobą dyrektorską"
-                            name="principal_privileges"
-                        />
                     )}
 
                     {formik.values.role === TeacherRole && (
@@ -153,6 +137,7 @@ const AddUserPage = () => {
                             name="subjects"
                             options={subjects}
                             multi
+                            shouldShrink={true}
                         />
                     )}
 

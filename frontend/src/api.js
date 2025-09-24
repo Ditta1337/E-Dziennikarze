@@ -60,7 +60,7 @@ apiClient.interceptors.response.use(
             }
 
             try {
-                const response = await axios.post("http://localhost:8080/auth/refresh", {
+                const response = await axios.post(`${apiClient.defaults.baseURL}/auth/refresh`, {
                     refreshToken: refresh,
                 });
 
