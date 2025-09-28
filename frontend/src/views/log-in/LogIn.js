@@ -44,8 +44,8 @@ function LogIn() {
                     password: values.password,
                 });
 
-                const {accessToken, refreshToken} = response.data;
-                const decodedToken = jwtDecode(accessToken);
+                const {access_token, refresh_token} = response.data;
+                const decodedToken = jwtDecode(access_token);
                 console.log("decodedToken", decodedToken);
                 const userData = {
                     email: decodedToken.sub,
@@ -53,8 +53,8 @@ function LogIn() {
                     userId: decodedToken.userId
                 };
 
-                setToken(accessToken);
-                setRefresh(refreshToken);
+                setToken(access_token);
+                setRefresh(refresh_token);
                 setUser(userData);
 
                 navigate("/gradebook");
