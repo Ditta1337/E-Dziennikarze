@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.auth.util;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -18,7 +19,7 @@ import reactor.core.publisher.Mono;
 public class LoggedInUserService {
 
     public Mono<Boolean> isSelfOrAllowedRoleElseThrow(UUID userId, Role... allowedRoles) {
-        Set<Role> allowedRolesSet = Set.of(allowedRoles);
+        Set<Role> allowedRolesSet = new HashSet<>(Set.of(allowedRoles));
         allowedRolesSet.add(Role.ADMIN);
 
         return getLoggedInUser()
