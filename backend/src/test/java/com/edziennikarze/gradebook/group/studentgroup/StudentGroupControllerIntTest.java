@@ -1,6 +1,6 @@
 package com.edziennikarze.gradebook.group.studentgroup;
 
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.*;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;

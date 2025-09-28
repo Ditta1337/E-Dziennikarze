@@ -1,9 +1,9 @@
 package com.edziennikarze.gradebook.group.teachergroup;
 
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildGroup;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildSubject;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildTeacherGroup;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildGroup;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildSubject;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildTeacherGroup;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -1,6 +1,6 @@
 package com.edziennikarze.gradebook.room;
 
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildRoom;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildRoom;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.edziennikarze.gradebook.planner.restriction.teacherunavailability;
 
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildTeacherUnavailability;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildTeacherUnavailability;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildUser;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;

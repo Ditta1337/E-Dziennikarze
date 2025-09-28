@@ -1,6 +1,6 @@
 package com.edziennikarze.gradebook.lesson;
 
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.*;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;

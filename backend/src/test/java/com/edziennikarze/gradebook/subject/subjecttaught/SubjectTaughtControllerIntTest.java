@@ -24,7 +24,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.UUID;
 
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.*;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")

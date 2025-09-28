@@ -15,11 +15,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildAttendance;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildGroup;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildRoom;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildSubject;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildAttendance;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildGroup;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildRoom;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildSubject;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildUser;
 import static com.edziennikarze.gradebook.attendance.AttendanceStatus.*;
 
 import com.edziennikarze.gradebook.attendance.utils.AttendanceTestDatabaseCleaner;

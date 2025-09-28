@@ -1,4 +1,4 @@
-package com.edziennikarze.gradebook.utils;
+package com.edziennikarze.gradebook.util;
 
 import com.edziennikarze.gradebook.attendance.Attendance;
 import com.edziennikarze.gradebook.attendance.AttendanceStatus;
@@ -20,7 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-public class TestObjectBuilder {
+public class ObjectsBuilder {
 
     public static User buildUser(String email, Role role, boolean isActive, boolean isChoosingPreferences) {
         String namePart = email.split("@")[0];
@@ -30,7 +30,7 @@ public class TestObjectBuilder {
                 .createdAt(LocalDate.now())
                 .address(namePart + "'s Address")
                 .email(email)
-                .password("somePassword")
+                .password(namePart)
                 .role(role)
                 .contact("123456789")
                 .imageBase64("someImageBase64")
