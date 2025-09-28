@@ -1,7 +1,7 @@
 package com.edziennikarze.gradebook.user.studentguardian;
 
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildStudentGuardian;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildStudentGuardian;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

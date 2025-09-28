@@ -15,7 +15,7 @@ import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
 import com.edziennikarze.gradebook.config.TestSecurityConfig;
 import com.edziennikarze.gradebook.group.util.GroupTestDatabaseCleaner;
 
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildGroup;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildGroup;
 import static org.junit.jupiter.api.Assertions.*;
 
 import reactor.core.publisher.Mono;

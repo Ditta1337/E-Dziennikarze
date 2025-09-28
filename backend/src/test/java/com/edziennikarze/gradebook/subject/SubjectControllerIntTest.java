@@ -1,6 +1,6 @@
 package com.edziennikarze.gradebook.subject;
 
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildSubject;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildSubject;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;

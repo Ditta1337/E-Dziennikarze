@@ -1,10 +1,10 @@
 package com.edziennikarze.gradebook.lesson.planned;
 
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildGroup;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildPlannedLesson;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildRoom;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildSubject;
-import static com.edziennikarze.gradebook.utils.TestObjectBuilder.buildUser;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildGroup;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildPlannedLesson;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildRoom;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildSubject;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildUser;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
