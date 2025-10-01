@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.auth.jwt;
 
+import com.edziennikarze.gradebook.user.dto.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -54,6 +55,7 @@ public class JwtUtil {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", userDetails.getAuthorities().stream().map(Object::toString).toList());
+        claims.put("userId", getUserIdFromUserDetails(userDetails));
         return createToken(claims, userDetails.getUsername(), expiration);
     }
 
@@ -66,6 +68,12 @@ public class JwtUtil {
             return authHeader.substring(7);
         }
         return null;
+    }
+    private String getUserIdFromUserDetails(UserDetails userDetails) {
+        if (userDetails instanceof User appUser) {
+            return appUser.getId().toString();
+        }
+        return "";
     }
 
     private boolean isTokenExpired(String token) {

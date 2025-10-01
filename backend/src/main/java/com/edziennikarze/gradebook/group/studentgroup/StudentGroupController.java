@@ -1,7 +1,6 @@
 package com.edziennikarze.gradebook.group.studentgroup;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -19,19 +18,16 @@ public class StudentGroupController {
     private final StudentGroupService studentGroupService;
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'OFFICE_WORKER')")
     public Mono<StudentGroup> createStudentGroup(@RequestBody Mono<StudentGroup> studentGroupMono) {
         return studentGroupService.createStudentGroup(studentGroupMono);
     }
 
     @GetMapping("/student/{studentId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'OFFICE_WORKER', 'PRINCIPAL', 'GUARDIAN', 'STUDENT', 'TEACHER')")
     public Flux<Group> getStudentGroups(@PathVariable UUID studentId) {
         return studentGroupService.getAllStudentGroups(studentId);
     }
 
     @GetMapping("/group/{groupId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'OFFICE_WORKER', 'PRINCIPAL', 'GUARDIAN', 'STUDENT', 'TEACHER')")
     public Flux<UserResponse> getGroupUsers(@PathVariable UUID groupId) {
         return studentGroupService.getAllGroupStudents(groupId);
     }
