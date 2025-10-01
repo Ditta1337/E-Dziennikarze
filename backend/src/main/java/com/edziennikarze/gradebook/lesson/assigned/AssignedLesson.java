@@ -3,7 +3,7 @@ package com.edziennikarze.gradebook.lesson.assigned;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;

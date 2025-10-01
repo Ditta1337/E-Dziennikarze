@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 @Repository
 public interface SubjectTaughtRepository extends ReactiveCrudRepository<SubjectTaught, UUID> {

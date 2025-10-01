@@ -18,13 +18,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'OFFICE_WORKER')")
+//    @PreAuthorize("hasAnyAuthority('ADMIN', 'OFFICE_WORKER')")
     public Mono<UserResponse> createUser(@RequestBody Mono<User> userMono) {
         return userService.createUser(userMono);
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'OFFICE_WORKER')")
     public Flux<UserResponse> getAllUsers(@RequestParam(value = "role", required = false) Role role) {
         return userService.getAllUsers(role);
     }

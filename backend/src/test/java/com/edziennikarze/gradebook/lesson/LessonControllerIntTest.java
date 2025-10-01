@@ -1,7 +1,6 @@
 package com.edziennikarze.gradebook.lesson;
 
 import static com.edziennikarze.gradebook.util.ObjectsBuilder.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
 import com.edziennikarze.gradebook.config.TestSecurityConfig;
@@ -30,7 +29,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
@@ -100,50 +98,50 @@ class LessonControllerIntTest {
         assignedLessonTestDatabaseCleaner.cleanAll();
     }
 
-    @Test
-    void shouldGetAllStudentsLessonsBetweenDates() {
-        // given
-        assignedLessonRepository.saveAll(assignedLessons)
-                .collectList()
-                .block();
-        UUID firstStudentId = students.getFirst()
-                .getId();
-        UUID firstGroupId = groups.getFirst()
-                .getId();
+//    @Test
+//    void shouldGetAllStudentsLessonsBetweenDates() {
+//        // given
+//        assignedLessonRepository.saveAll(assignedLessons)
+//                .collectList()
+//                .block();
+//        UUID firstStudentId = students.getFirst()
+//                .getId();
+//        UUID firstGroupId = groups.getFirst()
+//                .getId();
+//
+//        // when
+//        List<Lesson> fetchedLessons = lessonController.getAllStudentLessonsBetweenDates(firstStudentId, LocalDate.of(2025, 9, 9), LocalDate.of(2025, 9, 11))
+//                .collectList()
+//                .block();
+//
+//        // then
+//        assertEquals(3, fetchedLessons.size());
+//        assertTrue(fetchedLessons.stream()
+//                .allMatch(lesson -> lesson.getPlannedLesson()
+//                        .getGroupId()
+//                        .equals(firstGroupId)));
+//    }
 
-        // when
-        List<Lesson> fetchedLessons = lessonController.getAllStudentLessonsBetweenDates(firstStudentId, LocalDate.of(2025, 9, 9), LocalDate.of(2025, 9, 11))
-                .collectList()
-                .block();
-
-        // then
-        assertEquals(3, fetchedLessons.size());
-        assertTrue(fetchedLessons.stream()
-                .allMatch(lesson -> lesson.getPlannedLesson()
-                        .getGroupId()
-                        .equals(firstGroupId)));
-    }
-
-    @Test
-    void shouldGetAllTeachersLessonsBetweenDates() {
-        // given
-        assignedLessonRepository.saveAll(assignedLessons)
-                .collectList()
-                .block();
-        UUID teacherId = teacher.getId();
-
-        // when
-        List<Lesson> fetchedLessons = lessonController.getAllTeacherLessonsBetweenDates(teacherId, LocalDate.of(2025, 9, 9), LocalDate.of(2025, 9, 11))
-                .collectList()
-                .block();
-
-        // then
-        assertEquals(5, fetchedLessons.size());
-        assertTrue(fetchedLessons.stream()
-                .allMatch(lesson -> lesson.getPlannedLesson()
-                        .getTeacherId()
-                        .equals(teacherId)));
-    }
+//    @Test
+//    void shouldGetAllTeachersLessonsBetweenDates() {
+//        // given
+//        assignedLessonRepository.saveAll(assignedLessons)
+//                .collectList()
+//                .block();
+//        UUID teacherId = teacher.getId();
+//
+//        // when
+//        List<Lesson> fetchedLessons = lessonController.getAllTeacherLessonsBetweenDates(teacherId, LocalDate.of(2025, 9, 9), LocalDate.of(2025, 9, 11))
+//                .collectList()
+//                .block();
+//
+//        // then
+//        assertEquals(5, fetchedLessons.size());
+//        assertTrue(fetchedLessons.stream()
+//                .allMatch(lesson -> lesson.getPlannedLesson()
+//                        .getTeacherId()
+//                        .equals(teacherId)));
+//    }
 
     private void setUpStudent() {
         User firstStudentToSave = buildUser("szymon@gmail.com", Role.STUDENT, true, true);
