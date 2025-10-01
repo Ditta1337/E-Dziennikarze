@@ -3,7 +3,7 @@ package com.edziennikarze.gradebook.lesson.planned;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import com.edziennikarze.gradebook.lesson.Lesson;
 import org.springframework.data.r2dbc.repository.Query;

@@ -14,13 +14,19 @@ import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaught;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.studentguardian.StudentGuardian;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-public class ObjectsBuilder {
+public final class ObjectsBuilder {
+
+    private ObjectsBuilder() {}
+
+    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public static User buildUser(String email, Role role, boolean isActive, boolean isChoosingPreferences) {
         String namePart = email.split("@")[0];
@@ -30,7 +36,7 @@ public class ObjectsBuilder {
                 .createdAt(LocalDate.now())
                 .address(namePart + "'s Address")
                 .email(email)
-                .password(namePart)
+                .password(passwordEncoder.encode(namePart))
                 .role(role)
                 .contact("123456789")
                 .imageBase64("someImageBase64")

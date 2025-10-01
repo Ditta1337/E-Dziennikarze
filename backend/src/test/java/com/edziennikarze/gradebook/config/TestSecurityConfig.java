@@ -1,10 +1,8 @@
 package com.edziennikarze.gradebook.config;
 
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
@@ -18,10 +16,5 @@ public class TestSecurityConfig {
                 .authorizeExchange(exchanges -> exchanges.anyExchange()
                         .permitAll())
                 .build();
-    }
-
-    @Bean
-    public ReactiveAuthenticationManager reactiveAuthenticationManager() {
-        return Mockito.mock(ReactiveAuthenticationManager.class);
     }
 }
