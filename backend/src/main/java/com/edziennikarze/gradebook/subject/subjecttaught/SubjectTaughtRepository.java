@@ -18,4 +18,6 @@ public interface SubjectTaughtRepository extends ReactiveCrudRepository<SubjectT
     Flux<SubjectTaught> findAllBySubjectId(@NotNull UUID subjectId);
 
     Mono<Void> deleteAllByTeacherId(@NotNull UUID teacherId);
+
+    Mono<Void> deleteByTeacherIdAndSubjectId(@NotNull UUID teacherId, @NotNull UUID subjectId);
 }

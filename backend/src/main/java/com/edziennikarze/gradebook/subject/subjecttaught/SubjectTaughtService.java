@@ -50,4 +50,8 @@ public class SubjectTaughtService {
 
         return userRepository.findAllById(teacherIds);
     }
+
+    public Mono<Void> deleteByTeacherIdAndSubjectId(UUID teacherId, UUID subjectId) {
+        return subjectTaughtRepository.deleteByTeacherIdAndSubjectId(teacherId, subjectId);
+    }
 }

@@ -1,5 +1,5 @@
-import {useParams} from "react-router";
 import React, {useEffect, useState} from "react";
+import {useParams} from "react-router";
 import * as Yup from "yup";
 import NameInput, {NameSchema} from "../../../components/form/fields/name-input/NameInput";
 import SurnameInput, {SurnameSchema} from "../../../components/form/fields/surname-input/SurnameInput";
@@ -10,49 +10,85 @@ import AddressCodeInput, {AddressCodeSchema} from "../../../components/form/fiel
 import CityInput, {CitySchema} from "../../../components/form/fields/city-input/CityInput";
 import AddressInput, {AddressSchema} from "../../../components/form/fields/address-input/AddressInput";
 import SelectInput from "../../../components/form/fields/select-input/SelectInput";
-import {rolesToPolish, StudentRole, TeacherRole} from "../roles";
+import {GuardianRole, rolesToPolish, StudentRole, TeacherRole} from "../roles";
 import {Alert, Avatar, Box, Button, CircularProgress, Snackbar, Typography} from "@mui/material";
 import {Form, FormikProvider, useFormik} from "formik";
-import {submitUser} from "../add-user/submitUser";
-import "./EditUser.scss"
+import {updateUser} from "../add-user/submitUser";
+import "./EditUser.scss";
+import {get} from "../../../api";
 
 function EditUser() {
     const {id} = useParams();
     const [user, setUser] = useState(null);
-    const [guardians, setGuardians] = useState();
-    const [subjects, setSubjects] = useState();
+    const [guardians, setGuardians] = useState([]);
+    const [currentGuardiansIds, setCurrentGuardiansIds] = useState([]);
+    const [subjects, setSubjects] = useState([]);
+    const [currentSubjectsIds, setCurrentSubjectsIds] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-    useEffect(() => { //TODO connect to back, get information based on the userType
-        setUser(
-            {
-                name: "Artur",
-                surname: "Dwornik",
-                email: "a@a.a",
-                phone: "+48 12 312 31 23",
-                country: "Polska",
-                address_code: "31-230",
-                city: "Kraków",
-                address: "Ulica 32/2",
-                role: StudentRole,
-                image_base64: 'https://bi.im-g.pl/im/0a/27/16/z23231498Q,Joanna-Senyszyn.jpg',
-            }
-        );
-        setGuardians([
-            {label: "guardian1@gmail.com", value: "guardian1uuid"},
-            {label: "guardian2@gmail.com", value: "guardian2uuid"},
-            {label: "guardian3@gmail.com", value: "guardian3uuid"},
-        ]);
-        setSubjects([
-            {label: "Matematyka", value: "matematykauuid"},
-            {label: "J. Polski", value: "polskiuuid"},
-            {label: "Informatyka", value: "informatykauuid"},
-            {label: "Fizyka", value: "fizykauuid"},
-        ]);
-    }, []);
+    useEffect(() => {
+        fetchData();
+    }, [id]);
+
+    const fetchData = async () => {
+        try {
+            const [userData, guardiansData, subjectsData, currentGuardiansData, currentSubjectsData] = await Promise.all([
+                get(`/user/${id}`),
+                get(`/user/all`, {role: GuardianRole}),
+                get(`/subject/all`),
+                get(`/student-guardian/student/${id}`),
+                get(`/subject-taught/teacher/${id}`)
+            ]);
+
+            const user = userData.data;
+            const addressParts = user.address.split(';');
+            const userWithFormattedData = {
+                ...user,
+                phone: user.contact,
+                address: addressParts[0],
+                address_code: addressParts[1],
+                city: addressParts[2],
+                country: addressParts[3],
+            };
+
+            const allGuardians = guardiansData.data.map(g => ({
+                value: g.id,
+                label: `${g.name} ${g.surname} (${g.email})`
+            }));
+
+            const currentGuardianIds = currentGuardiansData.data.map(g => g.id);
+
+            const allSubjects = subjectsData.data.map(s => ({
+                value: s.id,
+                label: s.name
+            }));
+
+            const currentSubjectIds = currentSubjectsData.data.map(s => s.id);
+
+            setGuardians(allGuardians);
+            setSubjects(allSubjects);
+            setCurrentSubjectsIds(currentSubjectIds);
+            setCurrentGuardiansIds(currentGuardianIds);
+
+            setUser({
+                ...userWithFormattedData,
+                guardian_ids: currentGuardianIds,
+                subjects: currentSubjectIds,
+            });
+
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setSnackbarMessage("Wystąpił błąd podczas pobierania danych");
+            setSnackbarSeverity("error");
+            setSnackbarOpen(true);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const validationSchema = Yup.object({
         name: NameSchema,
@@ -63,12 +99,11 @@ function EditUser() {
         address_code: AddressCodeSchema,
         city: CitySchema,
         address: AddressSchema,
-        guardian_id: Yup.string()
-            .when("role", (role, schema) =>
-                role === StudentRole
-                    ? schema.required("Wybór opiekuna jest wymagany")
-                    : schema.notRequired()
-            ),
+        guardian_ids: Yup.array().when("role", (role, schema) =>
+            role === StudentRole
+                ? schema.min(1, "Wybór opiekuna jest wymagany")
+                : schema.notRequired()
+        ),
         subjects: Yup.array().when("role", (role, schema) =>
             role === TeacherRole
                 ? schema.min(1, "Wybór conajmniej jednego przedmiotu jest wymagany")
@@ -82,14 +117,12 @@ function EditUser() {
             ...(user || {}),
         },
         validationSchema,
-        onSubmit: async (values, {setSubmitting, resetForm}) => {
+        onSubmit: async (values, {setSubmitting}) => {
             try {
-                console.log(values);
-                await submitUser(values);
+                await updateUser(values, id, currentGuardiansIds, currentSubjectsIds);
                 setSnackbarMessage("Dane użytkownika zostały zaktualizowane pomyślnie");
                 setSnackbarSeverity("success");
                 setSnackbarOpen(true);
-                resetForm();
             } catch (error) {
                 console.error(error);
                 setSnackbarMessage("Wystąpił błąd podczas aktualizacji danych użytkownika");
@@ -114,6 +147,10 @@ function EditUser() {
         }
     }
 
+    if (loading) {
+        return <CircularProgress/>;
+    }
+
     return (
         <Box className="edit-user">
             <Typography className="title">Edytuj użytkownika</Typography>
@@ -124,7 +161,6 @@ function EditUser() {
                     ) : (
                         <Avatar className="avatar"/>
                     )}
-
                     <Button
                         className="delete-avatar"
                         variant="contained"
@@ -151,8 +187,10 @@ function EditUser() {
                             {formik.values.role === StudentRole && (
                                 <SelectInput
                                     label="Opiekun"
-                                    name="guardian_id"
+                                    name="guardian_ids"
+                                    shouldShrink={true}
                                     options={guardians}
+                                    multi
                                 />
                             )}
 
@@ -161,10 +199,10 @@ function EditUser() {
                                     label="Nauczane przedmioty"
                                     name="subjects"
                                     options={subjects}
+                                    shouldShrink={true}
                                     multi
                                 />
                             )}
-
                             <Button
                                 className="submit"
                                 variant="contained"
@@ -179,7 +217,6 @@ function EditUser() {
                             </Button>
                         </Form>
                     </FormikProvider>
-
                     <Snackbar
                         open={snackbarOpen}
                         autoHideDuration={6000}
@@ -191,11 +228,8 @@ function EditUser() {
                         </Alert>
                     </Snackbar>
                 </Box>
-
             </Box>
         </Box>
-
-
     );
 }
 

@@ -61,8 +61,8 @@ const columns = [
         width: 130,
     },
     {
-        field: 'is_active',
-        headerName: 'Is Active',
+        field: 'active',
+        headerName: 'Active',
     },
 ];
 

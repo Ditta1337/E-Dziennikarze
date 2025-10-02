@@ -70,6 +70,7 @@ public class SecurityConfig {
                         // Subject-Taught endpoints
                         .pathMatchers(HttpMethod.GET, "/subject-taught/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.POST, "/subject-taught", "/subject-taught/bulk").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.DELETE, "/subject-taught/teacher/{teacherId}/subject/{subjectId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.GET, "/subject-taught/teacher/{teacherId}", "/subject-taught/subject/{subjectId}").authenticated()
 
                         // Room endpoints

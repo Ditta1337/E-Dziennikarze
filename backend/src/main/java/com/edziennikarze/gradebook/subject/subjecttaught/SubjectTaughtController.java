@@ -40,4 +40,9 @@ public class SubjectTaughtController {
     public Flux<User> getTeachersTeachingSubject(@PathVariable UUID subjectId) {
         return subjectTaughtService.getTeachersTeachingSubject(subjectId);
     }
+
+    @DeleteMapping("/teacher/{teacherId}/subject/{subjectId}")
+    public Mono<Void> deleteSubjectTaught(@PathVariable UUID teacherId, @PathVariable UUID subjectId) {
+        return subjectTaughtService.deleteByTeacherIdAndSubjectId(teacherId, subjectId);
+    }
 }
