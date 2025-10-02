@@ -33,11 +33,11 @@ const AddUserPage = () => {
     const fetchGuardians = async () => {
         try {
             const guardians = await get(`/user/all`, {role: GuardianRole})
-            const guardianEmails = guardians.data.map(g => ({
+            const guardiansData = guardians.data.map(g => ({
                 value: g.id,
                 label: `${g.name} ${g.surname} (${g.email})`
             }));
-            setGuardians(guardianEmails);
+            setGuardians(guardiansData);
         } catch (error) {
             console.error("Error fetching guardians:", error);
             setSnackbarMessage("Wystąpił błąd podczas pobierania opiekunów");
@@ -74,12 +74,11 @@ const AddUserPage = () => {
         city: CitySchema,
         address: AddressSchema,
         role: SelectSchema,
-        guardian_id: Yup.string()
-            .when("role", (role, schema) =>
-                role === StudentRole
-                    ? schema.required("Wybór opiekuna jest wymagany")
-                    : schema.notRequired()
-            ),
+        guardian_ids: Yup.array().when("role", (role, schema) =>
+            role === StudentRole
+                ? schema.min(1, "Wybór opiekuna jest wymagany")
+                : schema.notRequired()
+        ),
         subjects: Yup.array().when("role", (role, schema) =>
             role === TeacherRole
                 ? schema.min(1, "Wybór conajmniej jednego przedmiotu jest wymagany")
@@ -99,13 +98,12 @@ const AddUserPage = () => {
             city: "Kraków",
             address: "Ulica 32/2",
             role: "",
-            guardian_id: "",
+            guardian_ids: [],
             subjects: [],
         },
         validationSchema,
         onSubmit: async (values, {setSubmitting, resetForm}) => {
             try {
-                console.log(values);
                 await submitUser(values);
                 setSnackbarMessage("Użytkownik został dodany pomyślnie");
                 setSnackbarSeverity("success");
@@ -149,9 +147,11 @@ const AddUserPage = () => {
                         <>
                             <SelectInput
                                 label="Opiekun"
-                                name="guardian_id"
+                                name="guardian_ids"
                                 shouldShrink={true}
                                 options={guardians}
+                                wrap
+                                multi
                             />
                         </>
                     )}

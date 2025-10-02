@@ -1,12 +1,13 @@
-.list-users{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.list-users {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 
-  .title {
-    padding: 20px;
-    font-size: x-large;
-    font-weight: bold;
-  }
+    .title {
+        padding: 20px;
+        font-size: x-large;
+        font-weight: bold;
+    }
 }
 
