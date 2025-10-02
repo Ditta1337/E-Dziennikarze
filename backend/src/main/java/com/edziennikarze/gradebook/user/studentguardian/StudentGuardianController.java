@@ -1,6 +1,6 @@
 package com.edziennikarze.gradebook.user.studentguardian;
 
-import com.edziennikarze.gradebook.user.dto.User;
+import com.edziennikarze.gradebook.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -20,13 +20,18 @@ public class StudentGuardianController {
         return studentGuardianService.createStudentGuardian(studentGuardian);
     }
 
+    @GetMapping("/all")
+    public Flux<UserResponse> getAllStudentGuardians() {
+        return studentGuardianService.getAllStudentGuardians();
+    }
+
     @GetMapping("/guardian/{guardianId}")
-    public Flux<User> getGuardiansStudents(@PathVariable UUID guardianId) {
+    public Flux<UserResponse> getGuardiansStudents(@PathVariable UUID guardianId) {
         return studentGuardianService.getAllByGuardianId(guardianId);
     }
 
     @GetMapping("/student/{studentId}")
-    public Flux<User> getStudentsGuardians(@PathVariable UUID studentId) {
+    public Flux<UserResponse> getStudentsGuardians(@PathVariable UUID studentId) {
         return studentGuardianService.getAllByStudentId(studentId);
     }
 
