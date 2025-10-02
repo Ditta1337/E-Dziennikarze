@@ -12,7 +12,8 @@ import AddressInput, {AddressSchema} from "../../../components/form/fields/addre
 import EmailInput, {EmailSchema} from "../../../components/form/fields/email-input/EmailInput";
 import PasswordInput, {PasswordSchema} from "../../../components/form/fields/password-input/PasswordInput";
 import SelectInput, {SelectSchema} from "../../../components/form/fields/select-input/SelectInput";
-import {rolesToPolish, StudentRole, TeacherRole} from "../roles";
+import {GuardianRole, rolesToPolish, StudentRole, TeacherRole} from "../roles";
+import {get} from "../../../api";
 import {submitUser} from "./submitUser";
 import "./AddUser.scss";
 
@@ -25,19 +26,42 @@ const AddUserPage = () => {
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
     useEffect(() => {
-        // TODO: get from backend
-        setGuardians([
-            {label: "guardian1@gmail.com", value: "guardian1uuid"},
-            {label: "guardian2@gmail.com", value: "guardian2uuid"},
-            {label: "guardian3@gmail.com", value: "guardian3uuid"},
-        ]);
-        setSubjects([
-            {label: "Matematyka", value: "matematykauuid"},
-            {label: "J. Polski", value: "polskiuuid"},
-            {label: "Informatyka", value: "informatykauuid"},
-            {label: "Fizyka", value: "fizykauuid"},
-        ]);
+        fetchGuardians()
+        fetchSubjects()
     }, []);
+
+    const fetchGuardians = async () => {
+        try {
+            const guardians = await get(`/user/all`, {role: GuardianRole})
+            const guardianEmails = guardians.data.map(g => ({
+                value: g.id,
+                label: `${g.name} ${g.surname} (${g.email})`
+            }));
+            setGuardians(guardianEmails);
+        } catch (error) {
+            console.error("Error fetching guardians:", error);
+            setSnackbarMessage("Wystąpił błąd podczas pobierania opiekunów");
+            setSnackbarSeverity("error");
+            setSnackbarOpen(true);
+        }
+    }
+
+    const fetchSubjects = async () => {
+        try {
+            const subjects = await get(`/subject/all`)
+            const subjectOptions = subjects.data.map(s => ({
+                value: s.id,
+                label: s.name
+            }));
+            setSubjects(subjectOptions);
+        }
+        catch (error) {
+            console.error("Error fetching subjects:", error);
+            setSnackbarMessage("Wystąpił błąd podczas pobierania przedmiotów");
+            setSnackbarSeverity("error");
+            setSnackbarOpen(true);
+        }
+    }
 
     const validationSchema = Yup.object({
         name: NameSchema,
@@ -88,8 +112,8 @@ const AddUserPage = () => {
                 setSnackbarOpen(true);
                 resetForm();
             } catch (error) {
-                console.error(error);
-                setSnackbarMessage("Wystąpił błąd podczas dodawania użytkownika");
+                console.log(error);
+                setSnackbarMessage(error.message);
                 setSnackbarSeverity("error");
                 setSnackbarOpen(true);
             } finally {
@@ -110,22 +134,23 @@ const AddUserPage = () => {
             <Typography className="title">Dodaj użytkownika</Typography>
             <FormikProvider value={formik}>
                 <Form className="form">
-                    <NameInput label="Imię" name="name" shouldShrink={true} />
-                    <SurnameInput label="Nazwisko" name="surname" shouldShrink={true} />
-                    <EmailInput label="Email" name="email" shouldShrink={true} />
-                    <PasswordInput label="Hasło" name="password" allowGenerate shouldShrink={true} />
-                    <PhoneInput label="Telefon" name="phone" shouldShrink={true} />
-                    <CountryInput label="Państwo" name="country" shouldShrink={true} />
-                    <AddressCodeInput label="Kod pocztowy" name="address_code" shouldShrink={true} />
-                    <CityInput label="Miasto" name="city" shouldShrink={true} />
-                    <AddressInput label="Adres" name="address" shouldShrink={true} />
-                    <SelectInput label="Rola" name="role" options={rolesToPolish} shouldShrink={true} />
+                    <NameInput label="Imię" name="name" shouldShrink={true}/>
+                    <SurnameInput label="Nazwisko" name="surname" shouldShrink={true}/>
+                    <EmailInput label="Email" name="email" shouldShrink={true}/>
+                    <PasswordInput label="Hasło" name="password" allowGenerate shouldShrink={true}/>
+                    <PhoneInput label="Telefon" name="phone" shouldShrink={true}/>
+                    <CountryInput label="Państwo" name="country" shouldShrink={true}/>
+                    <AddressCodeInput label="Kod pocztowy" name="address_code" shouldShrink={true}/>
+                    <CityInput label="Miasto" name="city" shouldShrink={true}/>
+                    <AddressInput label="Adres" name="address" shouldShrink={true}/>
+                    <SelectInput label="Rola" name="role" options={rolesToPolish} shouldShrink={true}/>
 
                     {formik.values.role === StudentRole && (
                         <>
                             <SelectInput
                                 label="Opiekun"
                                 name="guardian_id"
+                                shouldShrink={true}
                                 options={guardians}
                             />
                         </>
@@ -148,7 +173,7 @@ const AddUserPage = () => {
                         disabled={formik.isSubmitting}
                     >
                         {formik.isSubmitting ? (
-                            <CircularProgress size={24} />
+                            <CircularProgress size={24}/>
                         ) : (
                             "Dodaj użytkownika"
                         )}
@@ -160,9 +185,9 @@ const AddUserPage = () => {
                 open={snackbarOpen}
                 autoHideDuration={6000}
                 onClose={handleSnackbarClose}
-                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                anchorOrigin={{vertical: "bottom", horizontal: "left"}}
             >
-                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{width: '100%'}}>
                     {snackbarMessage}
                 </Alert>
             </Snackbar>

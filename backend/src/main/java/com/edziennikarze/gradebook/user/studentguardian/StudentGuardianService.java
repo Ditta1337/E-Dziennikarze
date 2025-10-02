@@ -2,9 +2,9 @@ package com.edziennikarze.gradebook.user.studentguardian;
 
 import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.user.Role;
-import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.UserRepository;
 
+import com.edziennikarze.gradebook.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -28,16 +28,24 @@ public class StudentGuardianService {
         return studentGuardian.flatMap(studentGuardianRepository::save);
     }
 
-    public Flux<User> getAllByGuardianId(UUID guardianId) {
-        return loggedInUserService.isSelfOrAllowedRoleElseThrow(guardianId, Role.OFFICE_WORKER, Role.PRINCIPAL, Role.TEACHER)
-                .thenMany(studentGuardianRepository.findAllByGuardianId(guardianId)
-                        .flatMap(studentGuardian -> userRepository.findById(studentGuardian.getStudentId())));
+    public Flux<UserResponse> getAllStudentGuardians() {
+        return studentGuardianRepository.findAll()
+                .flatMap(studentGuardian -> userRepository.findById(studentGuardian.getGuardianId()))
+                .map(UserResponse::from);
     }
 
-    public Flux<User> getAllByStudentId(UUID studentId) {
+    public Flux<UserResponse> getAllByGuardianId(UUID guardianId) {
+        return loggedInUserService.isSelfOrAllowedRoleElseThrow(guardianId, Role.OFFICE_WORKER, Role.PRINCIPAL, Role.TEACHER)
+                .thenMany(studentGuardianRepository.findAllByGuardianId(guardianId)
+                        .flatMap(studentGuardian -> userRepository.findById(studentGuardian.getStudentId()))
+                        .map(UserResponse::from));
+    }
+
+    public Flux<UserResponse> getAllByStudentId(UUID studentId) {
         return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, Role.OFFICE_WORKER, Role.PRINCIPAL, Role.TEACHER)
                 .thenMany(studentGuardianRepository.findAllByStudentId(studentId)
-                        .flatMap(studentGuardian -> userRepository.findById(studentGuardian.getGuardianId())));
+                        .flatMap(studentGuardian -> userRepository.findById(studentGuardian.getGuardianId()))
+                        .map(UserResponse::from));
     }
 
     public Mono<Void> deleteByGuardianIdAndStudentId(UUID guardianId, UUID studentId) {

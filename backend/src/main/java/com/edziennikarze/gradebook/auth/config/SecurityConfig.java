@@ -58,6 +58,7 @@ public class SecurityConfig {
 
                         // Student-Guardian endpoints
                         .pathMatchers(HttpMethod.GET, "/student-guardian/guardian/{guardianId}", "/student-guardian/student/{studentId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.GET, "/student-guardian/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.POST, "/student-guardian").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.DELETE, "/student-guardian/guardian/{guardianId}/student/{studentId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
 
