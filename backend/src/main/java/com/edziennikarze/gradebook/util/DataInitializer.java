@@ -25,9 +25,10 @@ import com.edziennikarze.gradebook.user.UserRepository;
 import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.studentguardian.StudentGuardian;
 import com.edziennikarze.gradebook.user.studentguardian.StudentGuardianRepository;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +48,7 @@ import static com.edziennikarze.gradebook.util.ObjectsBuilder.*;
 @Slf4j
 @RequiredArgsConstructor
 @Profile("!test")
-public class DataInitializer {
+public class DataInitializer implements ApplicationListener<ApplicationReadyEvent> {
 
     //<editor-fold desc="Repositories">
     private final UserRepository userRepository;
@@ -84,9 +85,11 @@ public class DataInitializer {
     private List<Attendance> attendances;
     //</editor-fold>
 
-    @PostConstruct
-    @Transactional
-    public void initializeData() {
+    public void onApplicationEvent(ApplicationReadyEvent event) {
+        initializeData();
+    }
+
+    private void initializeData() {
         if (userRepository.count().blockOptional().orElse(0L) > 0) {
             log.info("Users table is not empty. Skipping data initialization.");
             return;
