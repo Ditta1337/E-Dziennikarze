@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
-import {Box, Typography} from '@mui/material';
+import {Box} from '@mui/material';
 import Sidebar from '../sidebar/Sidebar';
 import Breadcrumb from "../breadcrumb/Breadcrumb";
 import './Card.scss';
+import Header from "../header/Header";
+import Footer from "../footer/Footer";
 
 const Card = ({children, className = ''}) => {
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -11,17 +13,12 @@ const Card = ({children, className = ''}) => {
         <Box className={`card ${sidebarOpen ? 'sidebar-open' : ''} ${className}`}>
             <Sidebar open={sidebarOpen} toggle={() => setSidebarOpen(prev => !prev)}/>
             <Box className="content">
-                <Box className="header">
-                    <Typography>Here will be header content like school name, user icon and logout button</Typography>
-                </Box>
+                <Header/>
                 <Breadcrumb/>
                 <Box className="main">
                     {children}
                 </Box>
-
-                <Box className="footer">
-                    <Typography>Here will be footer content like contact links etc.</Typography>
-                </Box>
+                <Footer/>
             </Box>
         </Box>
     );

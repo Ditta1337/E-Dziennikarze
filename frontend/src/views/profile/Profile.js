@@ -98,6 +98,7 @@ const Profile = () => {
         const currentPhoto = user.image_base64;
         try {
             await updateUser({...user, image_base64: croppedAvatar}, userId);
+            setUser({...user, image_base64: croppedAvatar})
             setSnackbarMessage("Zdjęcie zaaktualizowane pomyślnie");
             setSnackbarSeverity("success");
             setSnackbarOpen(true);
