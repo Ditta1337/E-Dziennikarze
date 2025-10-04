@@ -11,10 +11,6 @@
         text-decoration: none;
         padding: 5px;
         border-radius: 8px;
-        cursor: pointer;
-
-        &:hover {
-            background-color: #8b96d3;
-        }
+        cursor: default;
     }
 }
