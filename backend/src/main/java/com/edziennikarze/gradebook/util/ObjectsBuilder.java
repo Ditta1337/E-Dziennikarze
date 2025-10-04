@@ -8,6 +8,8 @@ import com.edziennikarze.gradebook.group.teachergroup.TeacherGroup;
 import com.edziennikarze.gradebook.lesson.assigned.AssignedLesson;
 import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
 import com.edziennikarze.gradebook.planner.restriction.teacherunavailability.TeacherUnavailability;
+import com.edziennikarze.gradebook.property.Property;
+import com.edziennikarze.gradebook.property.PropertyType;
 import com.edziennikarze.gradebook.room.Room;
 import com.edziennikarze.gradebook.subject.Subject;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaught;
@@ -132,6 +134,15 @@ public final class ObjectsBuilder {
                 .startTime(startTime)
                 .endTime(endTime)
                 .weekDay(dayOfWeek)
+                .build();
+    }
+
+    public static Property buildProperty(String name, PropertyType type, String defaultValue, String value) {
+        return Property.builder()
+                .name(name)
+                .type(type)
+                .defaultValue(defaultValue)
+                .value(value)
                 .build();
     }
 }
