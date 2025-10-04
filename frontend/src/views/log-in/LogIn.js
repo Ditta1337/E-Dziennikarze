@@ -1,12 +1,11 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./LogIn.scss";
 import * as Yup from "yup";
 import {Form, useFormik, FormikProvider} from "formik";
 import {Alert, Box, Button, CircularProgress, Snackbar, Typography} from "@mui/material";
 import {useNavigate} from "react-router";
 import {jwtDecode} from "jwt-decode";
-
-import {post} from "../../api"
+import {post, get} from "../../api"
 import {useStore} from "../../store";
 import EmailInput, {EmailSchema} from "../../components/form/fields/email-input/EmailInput";
 import PasswordInput from "../../components/form/fields/password-input/PasswordInput";
@@ -15,9 +14,30 @@ function LogIn() {
     const navigate = useNavigate();
     const {setUser, setToken, setRefresh} = useStore();
 
+    const [schoolName, setSchoolName] = useState("Szkoła");
+    const [schoolLogo, setSchoolLogo] = useState("");
+    const [loading, setLoading] = useState(true);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+    useEffect(() => {
+        fetchSchoolData();
+    }, []);
+
+    const fetchSchoolData = async () => {
+        try {
+            const [schoolNameData, schoolImageData] = await Promise.all([
+                get("/property/name/schoolFullName"),
+                get("/property/name/schoolLogoBase64")]
+            );
+            setSchoolName(schoolNameData.data.value);
+            setSchoolLogo(schoolImageData.data.value);
+            setLoading(false);
+        } catch (error) {
+            console.error("Failed to fetch school data:", error);
+        }
+    }
 
     const validationSchema = Yup.object({
         email: EmailSchema,
@@ -75,10 +95,13 @@ function LogIn() {
     return (
         <Box className="login">
             <Box className="login-image">
-                <Typography className="school-name">
-                    Akademii Górniczo-Hutniczej im. Stanisława Staszica w Krakowie
-                </Typography>
-                <img className="logo" src="/Znak_graficzny_AGH.svg" alt="AGH Logo"/>
+                {loading ? <CircularProgress/> :
+                    <>
+                        <Typography className="school-name">
+                            {schoolName}
+                        </Typography>
+                        <img className="logo" src={schoolLogo} alt="School Logo"/>
+                    </>}
             </Box>
             <Box className="login-inputs">
                 <Typography className="title">Zaloguj się</Typography>
