@@ -11,27 +11,11 @@
         flex-direction: column;
         margin-left: 60px;
 
-        .header {
-            padding: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: gray;
-        }
-
         .main {
             flex: 1;
             align-items: center;
             justify-items: center;
             display: flex;
-        }
-
-        .footer {
-            padding: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: dimgray;
         }
     }
 
