@@ -1,5 +1,7 @@
 package com.edziennikarze.gradebook.property;
 
+import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
+import com.edziennikarze.gradebook.exception.AccessDenialException;
 import com.edziennikarze.gradebook.exception.PropertyParseException;
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,8 @@ public class PropertyService {
 
     private final PropertyRepository propertyRepository;
 
+    private final LoggedInUserService loggedInUserService;
+
     public Flux<Property> getAllProperties() {
         return propertyRepository.findAll()
                 .map(this::mapValue);
@@ -22,6 +26,7 @@ public class PropertyService {
 
     public Mono<Property> getPropertyByName(String name) {
         return propertyRepository.findByName(name)
+                .flatMap(this::ensurePropertyIsFetchable)
                 .map(this::mapValue);
     }
 
@@ -57,5 +62,15 @@ public class PropertyService {
                 .defaultValue(property.getDefaultValue())
                 .value(value)
                 .build();
+    }
+
+    private Mono<Property> ensurePropertyIsFetchable(Property property) {
+        if (property.saveToFetch) {
+            return Mono.just(property);
+        }
+
+        return loggedInUserService.getLoggedInUser()
+                .then(Mono.just(property))
+                .switchIfEmpty(Mono.error(new AccessDenialException("Access to property " + property.getName() + " is denied")));
     }
 }

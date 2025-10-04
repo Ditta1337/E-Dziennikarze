@@ -124,7 +124,7 @@ public class SecurityConfig {
 
                         // Property endpoints
                         .pathMatchers(HttpMethod.GET, "/property/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
-                        .pathMatchers(HttpMethod.GET, "/property/name/{name}").authenticated()
+                        .pathMatchers(HttpMethod.GET, "/property/name/{name}").permitAll()
                         .pathMatchers(HttpMethod.PUT, "/property").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
 
                         .anyExchange().denyAll()

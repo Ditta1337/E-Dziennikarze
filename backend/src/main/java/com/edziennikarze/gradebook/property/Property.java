@@ -30,4 +30,6 @@ public class Property {
     private String defaultValue;
 
     private Object value;
+
+    boolean saveToFetch;
 }
