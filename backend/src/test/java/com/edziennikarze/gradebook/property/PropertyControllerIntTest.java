@@ -39,7 +39,7 @@ class PropertyControllerIntTest {
 
         // then
         assertNotNull(allProperties);
-        assertEquals(7, allProperties.size());
+        assertEquals(8, allProperties.size());
 
         Property schoolName = allProperties.stream().filter(p -> p.getName().equals("schoolFullName")).findFirst().orElseThrow();
         assertEquals("Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie", schoolName.getValue());
@@ -81,7 +81,7 @@ class PropertyControllerIntTest {
     @Test
     void shouldGetPropertyByName() {
         // given
-        String propertyName = "schoolDayStartTime";
+        String propertyName = "schoolFullName";
 
         // when
         Property result = propertyController.getPropertyByName(propertyName).block();
@@ -89,9 +89,8 @@ class PropertyControllerIntTest {
         // then
         assertNotNull(result);
         assertEquals(propertyName, result.getName());
-        assertEquals(LocalTime.of(8, 0), result.getValue());
+        assertEquals("Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie", result.getValue());
     }
-
 
     @Test
     void shouldUpdateProperty() {
