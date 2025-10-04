@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.UUID;
 
+import com.edziennikarze.gradebook.user.dto.UserResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -96,10 +97,10 @@ class StudentGuardianControllerIntTest {
         when(loggedInUserService.isSelfOrAllowedRoleElseThrow(any(), any(Role[].class))).thenReturn(Mono.just(true));
 
         // when
-        List<User> firstGuardianPupils = studentGuardianController.getGuardiansStudents(firstGuardianId)
+        List<UserResponse> firstGuardianPupils = studentGuardianController.getGuardiansStudents(firstGuardianId)
                 .collectList()
                 .block();
-        List<User> secondGuardianPupils = studentGuardianController.getGuardiansStudents(secondGuardianId)
+        List<UserResponse> secondGuardianPupils = studentGuardianController.getGuardiansStudents(secondGuardianId)
                 .collectList()
                 .block();
 
@@ -123,13 +124,13 @@ class StudentGuardianControllerIntTest {
         when(loggedInUserService.isSelfOrAllowedRoleElseThrow(any(), any(Role[].class))).thenReturn(Mono.just(true));
 
         // when
-        List<User> firstStudentGuardians = studentGuardianController.getStudentsGuardians(firstStudentId)
+        List<UserResponse> firstStudentGuardians = studentGuardianController.getStudentsGuardians(firstStudentId)
                 .collectList()
                 .block();
-        List<User> secondStudentGuardians = studentGuardianController.getStudentsGuardians(secondStudentId)
+        List<UserResponse> secondStudentGuardians = studentGuardianController.getStudentsGuardians(secondStudentId)
                 .collectList()
                 .block();
-        List<User> thirdStudentGuardians = studentGuardianController.getStudentsGuardians(thirdStudentId)
+        List<UserResponse> thirdStudentGuardians = studentGuardianController.getStudentsGuardians(thirdStudentId)
                 .collectList()
                 .block();
 

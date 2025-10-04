@@ -122,6 +122,11 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.POST, "/attendance").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name())
                         .pathMatchers(HttpMethod.PUT, "/attendance").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name())
 
+                        // Property endpoints
+                        .pathMatchers(HttpMethod.GET, "/property/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.GET, "/property/name/{name}").authenticated()
+                        .pathMatchers(HttpMethod.PUT, "/property").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+
                         .anyExchange().denyAll()
                 )
                 .build();

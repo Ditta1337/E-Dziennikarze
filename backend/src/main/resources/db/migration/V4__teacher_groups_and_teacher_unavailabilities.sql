@@ -1,5 +1,5 @@
 CREATE
-    EXTENSION IF NOT EXISTS "uuid-ossp";
+EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE teacher_groups
 (
