@@ -76,14 +76,19 @@ const WeeklyUnavailableHoursCalendar = ({
         setSnackbarOpen(false);
     };
 
-    const onSelectSlot = async ({start, end}) => {
+    const createEventOnSlotSelect = async ({start, end}) => {
         try {
             const response = await postUnavailability(format(start, AppLocale.timeFormat), format(end, AppLocale.timeFormat), getDatesWeekday(start))
             const newEvent = makeSingularEventFromFetchedResponse(response.data)
             setEvents([...events, newEvent])
-        } catch (e) {
-            setSnackbarOpen(true)
-            setSnackbarMessage("Wystąpił nieoczekiwany błąd")
+        } catch (error) {
+            if (error.response && error.response.status === 409) {
+                setSnackbarOpen(true)
+                setSnackbarMessage("Konflikt")
+            } else {
+                setSnackbarOpen(true)
+                setSnackbarMessage("Wystąpił nieoczekiwany błąd")
+            }
         }
     }
 
@@ -103,7 +108,7 @@ const WeeklyUnavailableHoursCalendar = ({
             const eventsWithoutMovedEvent = events.filter((eventToCheck) => eventToCheck.id !== event.id)
             setEvents([...eventsWithoutMovedEvent, makeSingularEventFromFetchedResponse(response.data)])
         } catch (error) {
-            if (error.response && error.response.status) {
+            if (error.response && error.response.status === 409) {
                 setSnackbarOpen(true)
                 setSnackbarMessage("Konflikt")
             } else {
@@ -138,7 +143,7 @@ const WeeklyUnavailableHoursCalendar = ({
                 event: UnavalibleEvent,
             }}
             events={events}
-            onSelectSlot={onSelectSlot}
+            onSelectSlot={createEventOnSlotSelect}
             onEventDrop={handleEventEdit}
             onEventResize={handleEventEdit}
             defaultView={Views.WORK_WEEK}
