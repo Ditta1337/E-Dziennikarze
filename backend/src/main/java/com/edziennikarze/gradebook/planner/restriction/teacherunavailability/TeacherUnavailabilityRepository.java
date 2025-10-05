@@ -17,4 +17,6 @@ public interface TeacherUnavailabilityRepository extends ReactiveCrudRepository<
     Flux<TeacherUnavailability> findAllByTeacherId(@NotNull UUID teacherId);
 
     Mono<Boolean> existsByTeacherIdAndWeekDayAndStartTimeBeforeAndEndTimeAfter(@NotNull UUID teacherId, @NotNull DayOfWeek weekDay, @NotNull LocalTime start, @NotNull LocalTime end);
+
+    Flux<TeacherUnavailability> getAllByTeacherIdAndWeekDayAndStartTimeBeforeAndEndTimeAfter(@NotNull UUID teacherId, @NotNull DayOfWeek weekDay, @NotNull LocalTime start, @NotNull LocalTime end);
 }

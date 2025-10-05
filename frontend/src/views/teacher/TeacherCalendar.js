@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import {useStore} from "../../store";
 import {get} from "../../api";
-import WeeklyCalendar from "../../components/calendar/WeeklyCalendar";
+import WeeklyReadOnlyCalendar from "../../components/calendar/weekly-read-only-calendar/WeeklyReadOnlyCalendar";
+import {useState} from "react";
 import TeacherLessonDetails from "../../components/calendar/lesson-details/teacher/TeacherLessonDetails";
 import AttendanceModal from "../../components/attendance-modal/AttendanceModal";
 
@@ -16,7 +17,7 @@ const TeacherCalendar = () => {
 
     return (
         <>
-            <WeeklyCalendar
+            <WeeklyReadOnlyCalendar
                 fetchLessons={fetchLessons}
                 onSelectEvent={setSelectedEvent}
             />

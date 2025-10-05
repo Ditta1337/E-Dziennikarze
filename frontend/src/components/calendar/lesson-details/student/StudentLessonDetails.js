@@ -1,16 +1,16 @@
 import Modal from "../../../modal/Modal";
-import { Typography } from "@mui/material";
-import { AppLocale } from "../../../../config/localization";
-import { format } from "date-fns";
-import { useEffect, useState } from "react";
-import { get } from "../../../../api";
+import {Typography} from "@mui/material";
+import {AppLocale} from "../../../../config/localization";
+import {format} from "date-fns";
+import {useEffect, useState} from "react";
+import {get} from "../../../../api";
 import "./StudentLessonDetails.scss"
 
-const StudentLessonDetails = ({ event, isOpen, onClose }) => {
+const StudentLessonDetails = ({event, isOpen, onClose}) => {
     const [teacher, setTeacher] = useState(null);
 
     useEffect(() => {
-        if (!event) return; // safe early exit inside effect
+        if (!event) return;
 
         const fetchTeacher = async () => {
             try {
