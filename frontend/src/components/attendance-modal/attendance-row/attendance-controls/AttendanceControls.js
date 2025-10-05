@@ -1,10 +1,11 @@
 import {ToggleButton, ToggleButtonGroup, Tooltip} from "@mui/material";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import CreateIcon from '@mui/icons-material/Create';
+import {attendanceTypeMap, absentValue, presentValue, lateValue, excusedValue} from "./attendanceTypeMap";
 import "./AttendanceControls.scss"
 
-const presentValue = "PRESENT"
-const absentValue = "ABSENT"
 
 const AttendanceControls = ({value, onChange}) => {
 
@@ -19,14 +20,24 @@ const AttendanceControls = ({value, onChange}) => {
                               onChange={handleChange}
                               size="small"
                               className="attendance-controls">
-        <Tooltip title="Present">
+        <Tooltip title={attendanceTypeMap.presentValue}>
             <ToggleButton value={presentValue} className="present">
                 <CheckBoxIcon/>
             </ToggleButton>
         </Tooltip>
-        <Tooltip title="Absent">
+        <Tooltip title={attendanceTypeMap.absentValue}>
             <ToggleButton value={absentValue} className="absent" aria-label="absent">
                 <DisabledByDefaultIcon/>
+            </ToggleButton>
+        </Tooltip>
+        <Tooltip title={attendanceTypeMap.lateValue}>
+            <ToggleButton value={lateValue} className="late" aria-label="late">
+                <AccessTimeIcon/>
+            </ToggleButton>
+        </Tooltip>
+        <Tooltip title={attendanceTypeMap.excusedValue}>
+            <ToggleButton value={excusedValue} className="excused" aria-label="absent">
+                <CreateIcon/>
             </ToggleButton>
         </Tooltip>
     </ToggleButtonGroup>

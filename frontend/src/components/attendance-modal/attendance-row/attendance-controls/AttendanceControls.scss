@@ -17,12 +17,20 @@
 
     &.Mui-selected {
       &.present {
-        background-color: #00800066;
+        background-color: rgba(31, 206, 31, 0.4);
       }
 
       &.absent {
-        background-color: #ff0000b2;
+        background-color: rgba(255, 163, 163, 0.7);
       }
+
+        &.late {
+            background-color: #FFA50066;
+        }
+
+        &.excused {
+            background-color: #00BFFF66;
+        }
     }
   }
 
@@ -33,4 +41,12 @@
   .absent {
     color: red;
   }
+
+  .late {
+    color: orange;
+  }
+
+    .excused {
+        color: deepskyblue;
+    }
 }

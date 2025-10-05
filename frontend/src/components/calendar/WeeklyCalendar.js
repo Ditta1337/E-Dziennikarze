@@ -50,7 +50,11 @@ const makeCalendarEventsFromFetchedResponse = (response) => {
         start: makeDateFromDateAndTimeString(lessonData.date, lessonData.start_time),
         end: makeDateFromDateAndTimeString(lessonData.date, lessonData.end_time),
         teacherId: lessonData.teacher_id,
-        room: lessonData.room
+        room: lessonData.room,
+        assignedLessonId: lessonData.assigned_lesson_id,
+        subjectId: lessonData.subject_id,
+        groupId: lessonData.group_id,
+        groupCode: lessonData.group_code
     }))
 }
 

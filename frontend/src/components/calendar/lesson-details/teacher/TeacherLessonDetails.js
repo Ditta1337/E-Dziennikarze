@@ -4,7 +4,7 @@ import {format} from "date-fns";
 import {AppLocale} from "../../../../config/localization";
 import "./TeacherLessonDetails.scss"
 
-const TeacherLessonDetails = ({event, isOpen, onClose}) => {
+const TeacherLessonDetails = ({event, setCheckAttendanceModalOpen, isOpen, onClose}) => {
     if (!event) return null
 
     return (
@@ -25,6 +25,7 @@ const TeacherLessonDetails = ({event, isOpen, onClose}) => {
             <Button
                 className="attendance-button"
                 variant="contained"
+                onClick={() => setCheckAttendanceModalOpen(true)}
             >
                 Sprawdź obecność
             </Button>

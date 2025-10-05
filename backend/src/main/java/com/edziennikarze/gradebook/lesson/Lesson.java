@@ -24,11 +24,17 @@ public class Lesson {
     private UUID groupId;
 
     @NotNull
+    private String groupCode;
+
+    @NotNull
     private LocalDate date;
 
     private boolean cancelled;
 
     private boolean modified;
+
+    @NotNull
+    private String subjectId;
 
     @NotNull
     private String subject;
