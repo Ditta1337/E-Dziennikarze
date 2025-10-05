@@ -24,6 +24,11 @@ public class AttendanceController {
         return attendanceService.getStudentsAttendanceBySubject(studentId, subjectId);
     }
 
+    @GetMapping("/lesson/{lessonId}")
+    public Flux<Attendance> getLessonAttendance(@PathVariable UUID lessonId) {
+        return attendanceService.getLessonAttendance(lessonId);
+    }
+
     @GetMapping("/average/student/{studentId}")
     public Mono<Double> getStudentsAverageAttendance(@PathVariable UUID studentId) {
         return attendanceService.getStudentsAverageAttendance(studentId);

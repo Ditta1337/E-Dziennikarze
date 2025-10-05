@@ -17,5 +17,7 @@ public interface AttendanceRepository extends ReactiveCrudRepository<Attendance,
 
     Flux<Attendance> findAllByStudentIdAndSubjectId(@NotNull UUID studentId, @NotNull UUID subjectId);
 
+    Flux<Attendance> findAllByLessonId(@NotNull UUID lessonId);
+
     Mono<Void> deleteByStudentId(@NotNull UUID studentId);
 }

@@ -50,8 +50,8 @@ public class SecurityConfig {
                         .pathMatchers("/auth/**").permitAll()
 
                         // User endpoints
-                        .pathMatchers(HttpMethod.GET, "/user/all").authenticated()
-                        .pathMatchers(HttpMethod.GET, "/user/{userId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), STUDENT.name())
+                        .pathMatchers(HttpMethod.GET, "/user/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.GET, "/user/{userId}").authenticated()
                         .pathMatchers(HttpMethod.POST, "/user").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.PUT, "/user").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.PATCH, "/user/{userId}/deactivate", "/user/{userId}/activate").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
@@ -119,6 +119,7 @@ public class SecurityConfig {
 
                         // Attendance endpoints
                         .pathMatchers(HttpMethod.GET, "/attendance/student/{studentId}/subject/{subjectId}", "/attendance/average/student/{studentId}", "/attendance/average/student/{studentId}/subject/{subjectId}").authenticated()
+                        .pathMatchers(HttpMethod.GET, "/attendance/lesson/{lessonId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name())
                         .pathMatchers(HttpMethod.POST, "/attendance").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name())
                         .pathMatchers(HttpMethod.PUT, "/attendance").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name())
 

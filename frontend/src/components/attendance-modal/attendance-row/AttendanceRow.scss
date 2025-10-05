@@ -7,17 +7,11 @@
   .student-name {
     font-weight: 600;
     font-size: 1rem;
-    color: #2c3e50
   }
 
   .attendance-actions {
     display: flex;
     align-items: center;
     gap: 12px;
-  }
-
-  &:hover {
-    background-color: #f7f9ff;
-    transition: background-color 0.2s ease-in-out;
   }
 }
