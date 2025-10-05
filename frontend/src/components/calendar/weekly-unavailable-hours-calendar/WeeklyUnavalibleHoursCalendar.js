@@ -115,7 +115,6 @@ const WeeklyUnavailableHoursCalendar = ({
 
     const handleEventDeletion = async (event) => {
         try {
-            console.log(event)
             await deleteUnavailability(event.id)
             const eventsWithoutDeletedEvent = events.filter((eventToCheck) => eventToCheck.id !== event.id)
             setEvents(eventsWithoutDeletedEvent)
