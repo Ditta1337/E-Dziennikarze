@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.planner.restriction.teacherunavailability;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -32,8 +33,8 @@ public class TeacherUnavailabilityService {
     }
 
     public Mono<TeacherUnavailability> updateTeacherUnavailability(Mono<TeacherUnavailability> teacherUnavailabilityMono) {
-        return teacherUnavailabilityMono.flatMap(
-                unavailability -> loggedInUserService.isSelfOrAllowedRoleElseThrow(unavailability.getTeacherId(), Role.PRINCIPAL, Role.OFFICE_WORKER)
+        return teacherUnavailabilityMono.flatMap(this::validateNoCollisionForUpdate)
+                .flatMap(unavailability -> loggedInUserService.isSelfOrAllowedRoleElseThrow(unavailability.getTeacherId(), Role.PRINCIPAL, Role.OFFICE_WORKER)
                         .then(teacherUnavailabilityRepository.findById(unavailability.getId())
                                 .switchIfEmpty(
                                         Mono.error(new ResourceNotFoundException("TeacherUnavailability with id " + unavailability.getId() + " not found")))
@@ -57,10 +58,26 @@ public class TeacherUnavailabilityService {
         return teacherUnavailabilityRepository.existsByTeacherIdAndWeekDayAndStartTimeBeforeAndEndTimeAfter(unavailability.getTeacherId(),
                         unavailability.getWeekDay(), unavailability.getEndTime(), unavailability.getStartTime())
                 .flatMap(collisionExists -> {
-                    if ( Boolean.TRUE.equals(collisionExists) ) {
+                    if (Boolean.TRUE.equals(collisionExists)) {
                         return Mono.error(new CollisionException("Teacher unavailability collides with an existing entry"));
                     }
                     return Mono.just(unavailability);
                 });
+    }
+
+    private Mono<TeacherUnavailability> validateNoCollisionForUpdate(TeacherUnavailability unavailability) {
+        return teacherUnavailabilityRepository.getAllByTeacherIdAndWeekDayAndStartTimeBeforeAndEndTimeAfter(unavailability.getTeacherId(),
+                        unavailability.getWeekDay(), unavailability.getEndTime(), unavailability.getStartTime())
+                .collectList()
+                .flatMap(collidingUnavailabilities -> {
+                    if (validateCollidingListWithUnavailability(collidingUnavailabilities, unavailability)) {
+                        return Mono.just(unavailability);
+                    }
+                    return Mono.error(new CollisionException("Teacher unavailability collides with an existing entry"));
+                });
+    }
+
+    private boolean validateCollidingListWithUnavailability(List<TeacherUnavailability> collidingUnavailabiliteis, TeacherUnavailability unavailability) {
+        return collidingUnavailabiliteis.isEmpty() || collidingUnavailabiliteis.size() == 1 && collidingUnavailabiliteis.getFirst().getId().equals(unavailability.getId());
     }
 }
