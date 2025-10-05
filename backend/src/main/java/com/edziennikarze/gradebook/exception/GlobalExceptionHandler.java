@@ -13,6 +13,24 @@ import org.springframework.web.server.ServerWebInputException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(PropertyParseException.class)
+    public ResponseEntity<ErrorResponse> handlePropertyParse(PropertyParseException ex, ServerWebExchange exchange) {
+        return createErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ex.getMessage(),
+                exchange.getRequest().getPath().value()
+        );
+    }
+
+    @ExceptionHandler(CollisionException.class)
+    public ResponseEntity<ErrorResponse> handleCollision(CollisionException ex, ServerWebExchange exchange) {
+        return createErrorResponse(
+                HttpStatus.CONFLICT,
+                ex.getMessage(),
+                exchange.getRequest().getPath().value()
+        );
+    }
+
     @ExceptionHandler(AuthorizationDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDenied(AuthorizationDeniedException ex, ServerWebExchange exchange) {
         return createErrorResponse(
