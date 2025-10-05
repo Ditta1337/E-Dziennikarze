@@ -2,8 +2,10 @@ import React, {useEffect, useState} from "react";
 import {Calendar, Views, dateFnsLocalizer} from "react-big-calendar";
 import {format, parse, startOfWeek, getDay} from "date-fns";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import {AppLocale} from "../../config/localization";
+import {AppLocale} from "../../../config/localization";
 import {Alert, Box, CircularProgress, Snackbar} from "@mui/material";
+import LessonEvent from "../lesson-event/LessonEvent";
+import "./WeeklyReadOnlyCalendar.scss"
 
 const localizer = dateFnsLocalizer({
     format,
@@ -13,7 +15,7 @@ const localizer = dateFnsLocalizer({
     locales: AppLocale.locales,
 });
 
-const defaultMinMaxHours = [new Date(1970, 0, 1, 8, 0), new Date(1970, 0, 1, 18, 0)]
+const defaultMinMaxHours = [new Date(1970, 0, 1, 8, 0), new Date(1970, 0, 1, 15, 0)]
 
 const errorSnackBarMessage = "Wystąpił błąd podczas ładowania planu lekcji"
 
@@ -54,7 +56,7 @@ const makeCalendarEventsFromFetchedResponse = (response) => {
     }))
 }
 
-const WeeklyCalendar = ({ fetchLessons, onSelectEvent }) => {
+const WeeklyReadOnlyCalendar = ({ fetchLessons, onSelectEvent }) => {
     const [calendarEvents, setCalendarEvents] = useState(null);
     const [currentWeekStart, setCurrentWeekStart] = useState(startOfWeek(new Date(), {weekStartsOn: 1}))
     const [minMaxHours, setMinMaxHours] = useState(defaultMinMaxHours)
@@ -111,15 +113,18 @@ const WeeklyCalendar = ({ fetchLessons, onSelectEvent }) => {
     }, []);
 
     return (
-        <Box style={{height: "90vh", width: "100%"}}>
+        <Box className="calendar-container">
             {calendarEvents === null && currentWeekStart ? (
                 <CircularProgress/>
             ) : (
-                <div style={{height: "90vh", width: "100%", padding: "10px", boxSizing: "border-box"}}>
+                <Box className="calendar">
                     <Calendar
                         key={`${minMaxHours[0].getTime()}-${minMaxHours[1].getTime()}`}
                         localizer={localizer}
                         events={calendarEvents || []}
+                        components={{
+                            event: LessonEvent,
+                        }}
                         startAccessor="start"
                         endAccessor="end"
                         defaultView={Views.WORK_WEEK}
@@ -132,8 +137,13 @@ const WeeklyCalendar = ({ fetchLessons, onSelectEvent }) => {
                         max={minMaxHours[1]}
                         onNavigate={(newDate, view, action) => handleNavigationAction(action, newDate)}
                         onSelectEvent={(event) => {onSelectEvent(event)}}
+                        formats={{
+                            timeGutterFormat: AppLocale.timeFormat,
+                            eventTimeRangeFormat: ({ start, end }, culture, localizer) =>
+                                `${localizer.format(start, AppLocale.timeFormat, culture)} – ${localizer.format(end, AppLocale.timeFormat, culture)}`,
+                        }}
                     />
-                </div>
+                </Box>
             )}
 
             <Snackbar
@@ -151,4 +161,4 @@ const WeeklyCalendar = ({ fetchLessons, onSelectEvent }) => {
 };
 
 
-export default WeeklyCalendar;
+export default WeeklyReadOnlyCalendar;

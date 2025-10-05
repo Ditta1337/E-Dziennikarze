@@ -11,7 +11,7 @@ CREATE TABLE properties
 
 INSERT INTO properties (name, type, default_value, value)
 VALUES ('schoolFullName', 'STRING', 'Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie', NULL),
-       ('schoolDayStartTime', 'TIME', '08:00', NULL),
+       ('schoolDayStartTime', 'TIME', '07:00', NULL),
        ('schoolDayEndTime', 'TIME', '20:00', NULL),
        ('lessonDurationMinutes', 'INTEGER', '45', NULL),
        ('breakDurationMinutes', 'INTEGER', '15', NULL),

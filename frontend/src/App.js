@@ -17,6 +17,8 @@ import Attendance from "./views/attendance/Attendance";
 import StudentCalendar from "./views/student/StudentCalendar";
 import TeacherCalendar from "./views/teacher/TeacherCalendar";
 import CalendarRouter from "./role-based-routers/CalendarRouter";
+import TeacherUnavailabilitiesPreferenceChooser from "./views/teacher/TeacherUnavailabilitiesPreferenceChooser";
+import UnavailableCalendarRouter from "./role-based-routers/UnavailableCalendarRouter";
 
 function App() {
 
@@ -40,6 +42,8 @@ function App() {
                     <Route path="/add/students/group" element={<Card><AddStudentsToGroup /></Card>} />
                     <Route path="/create/room" element={<Card><CreateRoom /></Card>} />
                     <Route path="/attendance" element={<Card><Attendance /></Card>} />
+
+                    <Route path="/teacher/unavailable" element={<Card><UnavailableCalendarRouter /></Card>} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

@@ -1,7 +1,7 @@
-import Modal from "../../modal/Modal";
+import Modal from "../../../modal/Modal";
 import {Button, Typography} from "@mui/material";
 import {format} from "date-fns";
-import {AppLocale} from "../../../config/localization";
+import {AppLocale} from "../../../../config/localization";
 import "./TeacherLessonDetails.scss"
 
 const TeacherLessonDetails = ({event, isOpen, onClose}) => {
