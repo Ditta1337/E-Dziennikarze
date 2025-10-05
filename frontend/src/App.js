@@ -41,7 +41,6 @@ function App() {
                     <Route path="/create/group" element={<Card><CreateGroup /></Card>} />
                     <Route path="/add/students/group" element={<Card><AddStudentsToGroup /></Card>} />
                     <Route path="/create/room" element={<Card><CreateRoom /></Card>} />
-                    <Route path="/attendance" element={<Card><Attendance /></Card>} />
 
                     <Route path="/teacher/unavailable" element={<Card><UnavailableCalendarRouter /></Card>} />
                 </Route>
