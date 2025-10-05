@@ -42,7 +42,7 @@ public interface PlannedLessonRepository extends ReactiveCrudRepository<PlannedL
             INNER JOIN rooms r ON r.id = p.room_id
             INNER JOIN groups g ON g.id = p.group_id    
             WHERE a.date BETWEEN :startDate AND :endDate
-              AND p.teacher_id = :teacherId
+              AND g.id = :groupId
             """)
     Flux<Lesson> findAllByGroupIdBetweenDates(UUID groupId, LocalDate startDate, LocalDate endDate
     );
