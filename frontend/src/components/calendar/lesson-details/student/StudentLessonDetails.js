@@ -1,9 +1,9 @@
-import Modal from "../../modal/Modal";
+import Modal from "../../../modal/Modal";
 import { Typography } from "@mui/material";
-import { AppLocale } from "../../../config/localization";
+import { AppLocale } from "../../../../config/localization";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { get } from "../../../api";
+import { get } from "../../../../api";
 import "./StudentLessonDetails.scss"
 
 const StudentLessonDetails = ({ event, isOpen, onClose }) => {

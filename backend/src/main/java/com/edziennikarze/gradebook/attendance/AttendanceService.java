@@ -30,6 +30,10 @@ public class AttendanceService {
                 .thenMany(attendanceRepository.findAllByStudentIdAndSubjectId(studentId, subjectId));
     }
 
+    public Flux<Attendance> getLessonAttendance(UUID lessonId) {
+        return attendanceRepository.findAllByLessonId(lessonId);
+    }
+
     public Mono<Double> getStudentsAverageAttendance(UUID studentId) {
         return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, Role.TEACHER, Role.PRINCIPAL, Role.OFFICE_WORKER, Role.GUARDIAN)
                 .then(attendanceRepository.findAllByStudentId(studentId)
