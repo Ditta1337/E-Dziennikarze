@@ -4,7 +4,7 @@ import "./UnavalibleEvent.scss"
 const UnavalibleEvent = () => {
 
     return <Box className="event">
-        <Typography>Unavailable</Typography>
+        <Typography>Niedostępność</Typography>
     </Box>
 }
 
