@@ -1,18 +1,36 @@
 {
-  "url":"some/url",
   "max_hours_per_day": 6,
   "teaching_days": 5,
   "goals": [
     {
-      "name": "subject types",
-      "time": 600
+      "name": "goal_subject_types",
+      "time": 30
     },
     {
-      "name": "classrooms",
-      "time": 600
+      "name": "goal_ballance_day_lenght",
+      "time": 30
+    },
+    {
+      "name":"goal_room_preferences",
+      "time": 30
     }
   ],
-  "classrooms":["a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01","b3d7e2f4-6c91-4c2b-a6f3-4e7d1c2f0a09","c4d8f7a1-2e09-4d3f-b1c7-6f2d3a4b5c0e","d2e4f6a8-1b3c-4d5f-9a7b-0c2e3f4a5b6c"],
+  "rooms": [
+    "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01",
+    "b3d7e2f4-6c91-4c2b-a6f3-4e7d1c2f0a09",
+    "c4d8f7a1-2e09-4d3f-b1c7-6f2d3a4b5c0e",
+    "d2e4f6a8-1b3c-4d5f-9a7b-0c2e3f4a5b6c",
+    "f1a2b3c4-5d6e-7f8a-9b0c-1d2e3f4a5b6c",
+    "b1c2d3e4-5f6a-7b8c-9d0e-1f2a3b4c5d6e",
+    "a2b3c4d5-6e7f-8a9b-0c1d-2e3f4a5b6c7d",
+    "e2f3a4b5-6c7d-8e9f-0a1b-2c3d4e5f6a7b",
+    "b5c6d7e8-9f0a-1b2c-3d4e-5f6a7b8c9d0e",
+    "f3a4b5c6-7d8e-9f0a-1b2c-3d4e5f6a7b8c",
+    "e8f9a0b1-2c3d-4e5f-6a7b-8c9d0e1f2a3b",
+    "c6d7e8f9-0a1b-2c3d-4e5f-6a7b8c9d0e1f",
+    "d7e8f9a0-1b2c-3d4e-5f6a-7b8c9d0e1f2a",
+    "d3e4f5a6-7b8c-9d0e-1f2a-3b4c5d6e7f8a"
+    ],
   "groups": [
     {
       "group_id": "0a64a408-722c-4dbe-a8ed-c7822c2fc45b",
@@ -23,26 +41,35 @@
           "subject_id": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
           "teacher_id": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
           "hours": 1,
+          "max_hours_per_day": 1,
           "subject_name": "Plastyka",
           "type": "ANY",
-          "classroom": {
-            "REQUIRED": ["a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01","b3d7e2f4-6c91-4c2b-a6f3-4e7d1c2f0a09"],
-            "FORBIDDEN": ["c4d8f7a1-2e09-4d3f-b1c7-6f2d3a4b5c0e"],
-            "PREFERRED": ["d2e4f6a8-1b3c-4d5f-9a7b-0c2e3f4a5b6c"],
-            "DISCOURAGED": ["e1f2d3c4-5b6a-4d3f-8a1b-2c3d4e5f6a7b"]
+          "room": {
+            "allowed": [
+              "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01",
+              "b3d7e2f4-6c91-4c2b-a6f3-4e7d1c2f0a09",
+              "c4d8f7a1-2e09-4d3f-b1c7-6f2d3a4b5c0e",
+              "d2e4f6a8-1b3c-4d5f-9a7b-0c2e3f4a5b6c"
+            ],
+            "dispreferred": ["c4d8f7a1-2e09-4d3f-b1c7-6f2d3a4b5c0e"],
+            "preferred": ["d2e4f6a8-1b3c-4d5f-9a7b-0c2e3f4a5b6c"]
           }
         },
         {
-          "subject_id": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
+          "subject_id": "iwasdf-4189-4420-b53b-90fb8bd57a7c",
           "teacher_id": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
           "hours": 3,
+          "max_hours_per_day": 1,
           "subject_name": "Język angielski",
           "type": "EARLY",
-          "classroom": {
-            "REQUIRED": ["f1a2b3c4-5d6e-7f8a-9b0c-1d2e3f4a5b6c"],
-            "FORBIDDEN": ["a2b3c4d5-6e7f-8a9b-0c1d-2e3f4a5b6c7d"],
-            "PREFERRED": ["b1c2d3e4-5f6a-7b8c-9d0e-1f2a3b4c5d6e"],
-            "DISCOURAGED": ["c1d2e3f4-5a6b-7c8d-9e0f-1a2b3c4d5e6f"]
+          "room": {
+            "allowed": [
+              "f1a2b3c4-5d6e-7f8a-9b0c-1d2e3f4a5b6c",
+              "a2b3c4d5-6e7f-8a9b-0c1d-2e3f4a5b6c7d",
+              "b1c2d3e4-5f6a-7b8c-9d0e-1f2a3b4c5d6e"
+            ],
+            "dispreferred": ["a2b3c4d5-6e7f-8a9b-0c1d-2e3f4a5b6c7d"],
+            "preferred": ["b1c2d3e4-5f6a-7b8c-9d0e-1f2a3b4c5d6e"]
           }
         }
       ]
@@ -56,26 +83,35 @@
           "subject_id": "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
           "teacher_id": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
           "hours": 1,
+          "max_hours_per_day": 1,
           "subject_name": "Religia",
           "type": "EDGE",
-          "classroom": {
-            "REQUIRED": ["d3e4f5a6-7b8c-9d0e-1f2a-3b4c5d6e7f8a"],
-            "FORBIDDEN": ["e2f3a4b5-6c7d-8e9f-0a1b-2c3d4e5f6a7b"],
-            "PREFERRED": ["f3a4b5c6-7d8e-9f0a-1b2c-3d4e5f6a7b8c"],
-            "DISCOURAGED": ["a4b5c6d7-8e9f-0a1b-2c3d-4e5f6a7b8c9d"]
+          "room": {
+            "allowed": [
+              "d3e4f5a6-7b8c-9d0e-1f2a-3b4c5d6e7f8a",
+              "e2f3a4b5-6c7d-8e9f-0a1b-2c3d4e5f6a7b",
+              "f3a4b5c6-7d8e-9f0a-1b2c-3d4e5f6a7b8c"
+            ],
+            "dispreferred": ["e2f3a4b5-6c7d-8e9f-0a1b-2c3d4e5f6a7b"],
+            "preferred": ["f3a4b5c6-7d8e-9f0a-1b2c-3d4e5f6a7b8c"]
           }
         },
         {
           "subject_id": "9782cc5a-23f9-4007-8ba0-95a1694d879b",
           "teacher_id": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
           "hours": 3,
+          "max_hours_per_day": 1,
           "subject_name": "Wychowanie fizyczne",
           "type": "LATE",
-          "classroom": {
-            "REQUIRED": ["b5c6d7e8-9f0a-1b2c-3d4e-5f6a7b8c9d0e","c6d7e8f9-0a1b-2c3d-4e5f-6a7b8c9d0e1f"],
-            "FORBIDDEN": ["d7e8f9a0-1b2c-3d4e-5f6a-7b8c9d0e1f2a"],
-            "PREFERRED": ["e8f9a0b1-2c3d-4e5f-6a7b-8c9d0e1f2a3b"],
-            "DISCOURAGED": ["f9a0b1c2-3d4e-5f6a-7b8c-9d0e1f2a3b4c"]
+          "room": {
+            "allowed": [
+              "b5c6d7e8-9f0a-1b2c-3d4e-5f6a7b8c9d0e",
+              "c6d7e8f9-0a1b-2c3d-4e5f-6a7b8c9d0e1f",
+              "d7e8f9a0-1b2c-3d4e-5f6a-7b8c9d0e1f2a",
+              "e8f9a0b1-2c3d-4e5f-6a7b-8c9d0e1f2a3b"
+            ],
+            "dispreferred": ["d7e8f9a0-1b2c-3d4e-5f6a-7b8c9d0e1f2a"],
+            "preferred": ["e8f9a0b1-2c3d-4e5f-6a7b-8c9d0e1f2a3b"]
           }
         }
       ]
@@ -91,10 +127,7 @@
       "teacher_name": "Bartosz Kowalski",
       "teacher_id": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
       "unavailability": [
-        {
-          "day": 0,
-          "hour": 0
-        }
+        { "day": 0, "hour": 0 }
       ]
     },
     {
@@ -106,22 +139,10 @@
       "teacher_name": "Dariusz Kamiński",
       "teacher_id": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
       "unavailability": [
-        {
-          "day": 0,
-          "hour": 0
-        },
-        {
-          "day": 1,
-          "hour": 1
-        },
-        {
-          "day": 2,
-          "hour": 2
-        },
-        {
-          "day": 3,
-          "hour": 3
-        }
+        { "day": 0, "hour": 0 },
+        { "day": 1, "hour": 1 },
+        { "day": 2, "hour": 2 },
+        { "day": 3, "hour": 3 }
       ]
     }
   ]
