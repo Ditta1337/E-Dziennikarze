@@ -133,7 +133,7 @@ const WeeklyUnavailableHoursCalendar = ({
     useEffect(() => {
         updateEvents()
         updateMinMaxHoursByProperty()
-    });
+    }, []);
 
     return <Box className="calendar">
         <DnDCalendar

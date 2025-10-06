@@ -38,7 +38,6 @@ apiClient.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        console.log(error)
         if (error.response?.status === 401 && !originalRequest._retry) {
             if (isRefreshing) {
                 return new Promise(function(resolve, reject) {
@@ -87,9 +86,89 @@ apiClient.interceptors.response.use(
     }
 );
 
+const websocketClient = {
+    socket: null,
+    listeners: {},
+
+    connect(path) {
+        if (this.socket) {
+            this.disconnect();
+        }
+
+        const token = useStore.getState().token;
+
+        if (!token || !path) {
+            return;
+        }
+
+        const wsProtocol = apiClient.defaults.baseURL.startsWith('https://') ? 'wss' : 'ws';
+        const wsBaseURL = apiClient.defaults.baseURL.replace(/^https?/, wsProtocol);
+        const wsURL = `${wsBaseURL}${path}?token=${token}`;
+
+        this.socket = new WebSocket(wsURL);
+
+        this.socket.onopen = () => this._emit('open');
+
+        this.socket.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                this._emit('message', data);
+            } catch (e) {
+                this._emit('message', event.data);
+            }
+        };
+
+        this.socket.onclose = () => {
+            if (this.socket) {
+                this.socket = null;
+                this._emit('close');
+            }
+        };
+
+        this.socket.onerror = (error) => this._emit('error', error);
+    },
+
+    disconnect() {
+        if (this.socket) {
+            this.socket.onopen = null;
+            this.socket.onmessage = null;
+            this.socket.onerror = null;
+            this.socket.onclose = null;
+            this.socket.close();
+            this.socket = null;
+        }
+    },
+
+    send(data) {
+        if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+            this.socket.send(JSON.stringify(data));
+        }
+    },
+
+    on(eventName, callback) {
+        if (!this.listeners[eventName]) {
+            this.listeners[eventName] = [];
+        }
+        this.listeners[eventName].push(callback);
+    },
+
+    off(eventName, callback) {
+        if (this.listeners[eventName]) {
+            this.listeners[eventName] = this.listeners[eventName].filter(
+                (cb) => cb !== callback
+            );
+        }
+    },
+
+    _emit(eventName, data) {
+        (this.listeners[eventName] || []).forEach(callback => callback(data));
+    }
+};
 
 export const get = (url, params = {}) => apiClient.get(url, { params });
 export const post = (url, data) => apiClient.post(url, data);
 export const put = (url, data) => apiClient.put(url, data);
 export const patch = (url, data) => apiClient.patch(url, data);
 export const del = (url) => apiClient.delete(url);
+export { websocketClient };
+

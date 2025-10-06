@@ -5,8 +5,8 @@ import NotFound from "../views/not-found/NotFound";
 import {TeacherRole} from "../views/admin/roles";
 
 const UnavailableCalendarRouter = () => {
-    const role = useStore((state) => state.user.role[0])
-    if(role == TeacherRole){
+    const role = useStore((state) => state.user.role)
+    if(role === TeacherRole){
         return <TeacherUnavailabilitiesPreferenceChooser />
     }
     return <NotFound />
