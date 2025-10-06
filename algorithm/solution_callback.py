@@ -1,99 +1,58 @@
 from ortools.sat.python.cp_model import CpSolverSolutionCallback
-import json
 import requests
+import os
 import numpy as np
 from entities import DataParser
 
-class SolutionCallback (CpSolverSolutionCallback):
-
-    def __init__(self,url,schedule, groups, teachers, subjects, solver, teaching_days, max_hours_per_day):
-        CpSolverSolutionCallback.__init__(self)
-        self.url=url
-        self.schedule=schedule
-        self.groups=groups
-        self.teachers=teachers
-        self.subjects=subjects
-        self.solver=solver
-        self.teaching_days=teaching_days
-        self.max_hours_per_day=max_hours_per_day
+class SolutionCallback(CpSolverSolutionCallback):
+    def __init__(self, schedule, goals, groups, teachers, subjects,rooms, teaching_days, max_hours_per_day):
+        super().__init__()
+        self.schedule = schedule
+        self.goals= goals
+        self.groups = groups
+        self.teachers = teachers
+        self.subjects = subjects
+        self.rooms = rooms
+        self.teaching_days = teaching_days
+        self.max_hours_per_day = max_hours_per_day
+        self.url = os.getenv("CALLBACK_URL")
+        self.last_solution= None
 
     def on_solution_callback(self):
-        print(self.best_objective_bound,self.objective_value,self.	num_conflicts,self.num_branches)
-        self.schedule_to_json()
-        #with open("algorithm/data/output.json", "w", encoding="utf-8") as f:
-        #    json.dump(self.schedule_to_json(), f, ensure_ascii=False, indent=4)
-        # response = requests.post(self.url, data=self.schedule_to_json())
-        # print(response)
-
+        print(
+            "bound:", self.BestObjectiveBound(),
+            "objective:", self.ObjectiveValue(),
+            "conflicts:", self.NumConflicts(),
+            "branches:", self.NumBranches(),
+            )
+ 
+        self.last_solution = {var: self.Value(var) for var in self.schedule.values()}
+        print(self.schedule_to_json())
 
     def schedule_to_json(self):
         groups = {group.id: {"group_id": group.uuid, "schedule": []} for group in self.groups}
         teachers = {teacher.id: {"teacher_id": teacher.uuid, "schedule": []} for teacher in self.teachers}
 
-        for idx, var in np.ndenumerate(self.schedule):
-            if self.value(var):
-                group, teacher, subject, day, hour = idx
+        for idx, var in self.schedule.items():
+            if self.Value(var):
+                group, teacher, subject, room, day, hour = idx
                 groups[group]["schedule"].append({
-                    "hour":hour,
-                    "day":day,
-                    "subject":DataParser.get_subject_by_id(subject).uuid,
-                    "teacher":DataParser.get_teacher_by_id(teacher).uuid,
-                    "room":"uid"
-                    })
+                    "hour": hour,
+                    "day": day,
+                    "subject": DataParser.get_subject_by_id(subject).uuid,
+                    "teacher": DataParser.get_teacher_by_id(teacher).uuid,
+                    "room": DataParser.get_room_by_id(room).uuid
+                })
                 teachers[teacher]["schedule"].append({
-                    "hour":hour,
-                    "day":day,
-                    "subject":DataParser.get_subject_by_id(subject).uuid,
-                    "group":DataParser.get_group_by_id(group).uuid,
-                    "room":"uid"
-                    })
-        print({
-            "goals": [],
+                    "hour": hour,
+                    "day": day,
+                    "subject": DataParser.get_subject_by_id(subject).uuid,
+                    "group": DataParser.get_group_by_id(group).uuid,
+                    "room": DataParser.get_room_by_id(room).uuid
+                })
+
+        return {
+                "goals": [{'name':goal.function_name, 'value':goal.value } for goal in self.goals],
             "groups": list(groups.values()),
             "teachers": list(teachers.values())
-            })
-
-
-
-
-
-    def sadfasdfasdfasd(self):
-        subject_names = {s.id: s.name for s in self.subjects}
-        data = {"groups": [], "teachers": []}
-
-        for group in self.groups:
-            group_schedule = []
-            for day in range(self.teaching_days):
-                day_schedule = []
-                for hour in range(self.max_hours_per_day):
-                    subject_found = None
-                    for subject in group.subjects:
-                        val = self.schedule[group.id, subject.teacher.id, subject.id, day, hour]
-                        if val is not None and self.Value(val) == 1:
-                            subject_found = subject_names[subject.id]
-                            break
-                    day_schedule.append(subject_found)
-                group_schedule.append(day_schedule)
-            data["groups"].append({"group_id": group.id, "schedule": group_schedule})
-
-        teacher_ids = list(set(s.teacher.id for s in self.subjects))
-        for teacher_id in teacher_ids:
-            teacher_schedule = []
-            for day in range(self.teaching_days):
-                day_schedule = []
-                for hour in range(self.max_hours_per_day):
-                    subject_found = None
-                    for group in self.groups:
-                        for subject in group.subjects:
-                            if subject.teacher.id != teacher_id:
-                                continue
-                            val = self.schedule[group.id, teacher_id, subject.id, day, hour]
-                            if val is not None and self.Value(val) == 1:
-                                subject_found = group.name
-                                break
-                        if subject_found:
-                            break
-                    day_schedule.append(subject_found)
-                teacher_schedule.append(day_schedule)
-            data["teachers"].append({"teacher_id": teacher_id, "schedule": teacher_schedule})
-        return data 
+        }

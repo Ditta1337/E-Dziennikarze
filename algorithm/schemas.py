@@ -3,18 +3,17 @@ from enum import Enum
 from pydantic import BaseModel, Field
 
 
-class SubjectType(str, Enum):
+class SubjectPriority(str, Enum):
     ANY = "ANY"
     EARLY = "EARLY"
     EDGE = "EDGE"
     LATE = "LATE"
 
 
-class ClassroomPreferences(BaseModel):
-    required: List[str] = Field(..., alias="REQUIRED")
-    forbidden: List[str] = Field(..., alias="FORBIDDEN")
-    preferred: List[str] = Field(..., alias="PREFERRED")
-    discouraged: List[str] = Field(..., alias="DISCOURAGED")
+class RoomPreferences(BaseModel):
+    allowed: List[str] 
+    dispreferred: List[str] 
+    preferred: List[str] 
 
     model_config = {"from_attributes": True}
 
@@ -23,9 +22,10 @@ class SubjectInput(BaseModel):
     id: str = Field(..., alias="subject_id")
     teacher_id : str 
     hours: int
+    max_hours_per_day: int
     name: str = Field(..., alias="subject_name")
-    type: SubjectType
-    classroom: ClassroomPreferences
+    type: SubjectPriority
+    room: RoomPreferences
 
     model_config = {"from_attributes": True}
 
@@ -62,11 +62,10 @@ class Goal(BaseModel):
 
 
 class ScheduleConfig(BaseModel):
-    url: str
     max_hours_per_day: int
     teaching_days: int
     goals: List[Goal]
-    classrooms: List[str]
+    rooms: List[str]
     groups: List[GroupInput]
     teachers: List[TeacherInput]
 

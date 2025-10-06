@@ -7,6 +7,7 @@ class Teacher:
         self._uuid = uuid
         self._id=next(self.id_iterator)
         self._name=name
+        self._subjects=[]
         self._unavailability=unavailability
 
 
@@ -17,6 +18,10 @@ class Teacher:
     @property
     def uuid(self):
         return self._uuid
+
+    @property
+    def subjects(self):
+        return self._subjects
 
     @property
     def unavailability(self):

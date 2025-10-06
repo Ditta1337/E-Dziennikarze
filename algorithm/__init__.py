@@ -1,2 +1,3 @@
-from .schemas.py import ScheduleConfig  
-from .sheduler.py import solve 
+from .schemas import ScheduleConfig  
+from .solution_callback import SolutionCallback
+from .sheduler import solve 
