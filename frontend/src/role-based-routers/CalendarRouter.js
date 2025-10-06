@@ -5,7 +5,7 @@ import NotFound from "../views/not-found/NotFound";
 import {StudentRole, TeacherRole} from "../views/admin/roles";
 
 const CalendarRouter = () => {
-    const role = useStore((state) => state.user.role[0])
+    const role = useStore((state) => state.user.role)
     if(role === StudentRole){
         return <StudentCalendar />
     }

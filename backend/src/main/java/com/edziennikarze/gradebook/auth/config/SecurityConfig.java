@@ -2,6 +2,7 @@ package com.edziennikarze.gradebook.auth.config;
 
 import com.edziennikarze.gradebook.auth.AuthManager;
 import com.edziennikarze.gradebook.auth.AuthRepository;
+import com.edziennikarze.gradebook.config.websocket.WebSocketTokenAuthenticationConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +10,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -27,11 +31,19 @@ import static com.edziennikarze.gradebook.user.Role.*;
 public class SecurityConfig {
 
     private final AuthManager authenticationManager;
+
     private final AuthRepository authRepository;
+
+    private final WebSocketTokenAuthenticationConverter webSocketTokenAuthenticationConverter;
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+        AuthenticationWebFilter wsAuthFilter = new AuthenticationWebFilter(authenticationManager);
+        wsAuthFilter.setServerAuthenticationConverter(webSocketTokenAuthenticationConverter);
+        wsAuthFilter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/ws/**"));
+
         return http
+                .addFilterAt(wsAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
@@ -127,6 +139,9 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/property/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.GET, "/property/name/{name}").permitAll()
                         .pathMatchers(HttpMethod.PUT, "/property").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+
+                        // WebSocket endpoints
+                        .pathMatchers("/ws/echo").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name(), PRINCIPAL.name())
 
                         .anyExchange().denyAll()
                 )

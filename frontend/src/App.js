@@ -14,6 +14,7 @@ import AddStudentsToGroup from "./views/add-students-to-groups/AddStudentsToGrou
 import CreateRoom from "./views/create-room/CreateRoom";
 import CalendarRouter from "./role-based-routers/CalendarRouter";
 import UnavailableCalendarRouter from "./role-based-routers/UnavailableCalendarRouter";
+import WebsocketTest from "./views/websocket-test/WebsocketTest";
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
                     <Route path="/create/room" element={<Card><CreateRoom /></Card>} />
 
                     <Route path="/teacher/unavailable" element={<Card><UnavailableCalendarRouter /></Card>} />
+                    <Route path="/websocket-test" element={<Card><WebsocketTest /></Card>} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

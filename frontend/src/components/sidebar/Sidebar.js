@@ -11,16 +11,33 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import {useLocation, useNavigate} from 'react-router';
 import {useStore} from "../../store";
-import {HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites} from "./paths";
+import {HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, WebsocketTest} from "./paths";
 import './Sidebar.scss';
+import {
+    AdminRole,
+    GuardianRole,
+    OfficeWorkerRole,
+    PrincipalRole,
+    StudentRole,
+    TeacherRole
+} from "../../views/admin/roles";
 
 const Sidebar = ({open, toggle}) => {
-    const role = useStore((state) => state.role);
+    const role = useStore((state) => state.user.role);
     const navigation = useNavigate();
     const location = useLocation();
 
-    const routes = role === "admin" ? [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites]
-        : [HomePath, CalendarPath, GradebookPath];
+
+    const getRoutesByRole = (role) => {
+        switch (role) {
+            case AdminRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, WebsocketTest];
+            case TeacherRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, TeacherUnavailabilites, WebsocketTest];
+            case StudentRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest];
+            case GuardianRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest];
+            case OfficeWorkerRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest];
+            case PrincipalRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest];
+        }
+    }
 
     return (
         <Box className={`sidebar ${open ? 'open' : ''}`}>
@@ -29,7 +46,7 @@ const Sidebar = ({open, toggle}) => {
                     <MenuIcon/>
                 </ListItem>
                 <Divider/>
-                {routes.map(({text, icon, path}) => (
+                {getRoutesByRole(role).map(({text, icon, path}) => (
                     <ListItemButton
                         className="route-button"
                         key={text}
