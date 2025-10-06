@@ -12,7 +12,7 @@ import PasswordInput from "../../components/form/fields/password-input/PasswordI
 
 function LogIn() {
     const navigate = useNavigate();
-    const {setUser, setToken, setRefresh} = useStore();
+    const {setUser, setToken, setRefresh, logout} = useStore();
 
     const [schoolName, setSchoolName] = useState("Szkoła");
     const [schoolLogo, setSchoolLogo] = useState("");
@@ -22,6 +22,7 @@ function LogIn() {
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
     useEffect(() => {
+        logout()
         fetchSchoolData();
     }, []);
 
