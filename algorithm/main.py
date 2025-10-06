@@ -1,9 +1,9 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
+import json
 import uvicorn
 from schemas import ScheduleConfig
-from scheduler import solve
+from scheduler import Scheduler
 app = FastAPI()
-
 
 # app.add_middleware(
 #     CORSMiddleware,
@@ -17,24 +17,17 @@ app = FastAPI()
 
 @app.post("/solve")
 async def solve_endpoint(schedule_config: ScheduleConfig):
-    solve(schedule_config)
+    scheduler = Scheduler(schedule_config)
+    scheduler.build()
+    scheduler.solve()
 
-@app.post("/echo")
-async def echo(request: Request):
-    body = await request.body()
-    return {"echo": body.decode("utf-8")}
+@app.get("/goals")
+async def echo():
+    with open("algorithm/data/goals.json") as f:
+        goals=json.load(f)
+        return {"goals": goals}
 
 
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
-# @app.post("/solve")
-# async def solve(data,endpont):
-#     solve(data,endpoint)
-#     return {"message":"started"}
-
-
-# @app.post("/status")
-# async def solve(data,endpont):
-#     status="solving"
-#     return {"status":status}
