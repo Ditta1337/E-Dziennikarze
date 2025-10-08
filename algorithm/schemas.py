@@ -1,6 +1,6 @@
 from typing import List
 from enum import Enum
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class SubjectPriority(str, Enum):
@@ -19,11 +19,10 @@ class RoomPreferences(BaseModel):
 
 
 class SubjectInput(BaseModel):
-    id: str = Field(..., alias="subject_id")
+    subject_id: str 
     teacher_id : str 
-    hours: int
-    max_hours_per_day: int
-    name: str = Field(..., alias="subject_name")
+    lessons_per_week: int
+    max_lessons_per_day: int
     type: SubjectPriority
     room: RoomPreferences
 
@@ -31,8 +30,7 @@ class SubjectInput(BaseModel):
 
 
 class GroupInput(BaseModel):
-    id: str = Field(..., alias="group_id")
-    name: str = Field(..., alias="group_name")
+    group_id: str
     conflicting_groups: List[str]
     subjects: List[SubjectInput]
 
@@ -41,14 +39,13 @@ class GroupInput(BaseModel):
 
 class UnavailabilityInput(BaseModel):
     day: int
-    hour: int
+    lesson: int
 
     model_config = {"from_attributes": True}
 
 
 class TeacherInput(BaseModel):
-    id: str = Field(..., alias="teacher_id")
-    name: str = Field(..., alias="teacher_name")
+    teacher_id: str
     unavailability: List[UnavailabilityInput]
 
     model_config = {"from_attributes": True}
@@ -62,8 +59,8 @@ class Goal(BaseModel):
 
 
 class ScheduleConfig(BaseModel):
-    max_hours_per_day: int
-    teaching_days: int
+    id_id:str
+    lessons_per_day: int
     goals: List[Goal]
     rooms: List[str]
     groups: List[GroupInput]

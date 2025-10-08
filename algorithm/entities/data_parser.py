@@ -1,5 +1,6 @@
 from entities import Teacher, Subject, Group, Room, Goal, Unavailability, RoomPreference
 from schemas import ScheduleConfig, TeacherInput, GroupInput, SubjectInput 
+TEACHING_DAYS=5
 
 class DataParser:
     _teachers_by_uuid = {}
@@ -23,8 +24,8 @@ class DataParser:
                 [teacher for _, teacher in cls._teachers_by_uuid.items()],
                 [subject for _, subject in cls._subjects_by_uuid.items()],
                 [room for _, room in cls._rooms_by_uuid.items()],
-                schedule_config.teaching_days,
-                schedule_config.max_hours_per_day)
+                TEACHING_DAYS,
+                schedule_config.lessons_per_day)
 
     @staticmethod
     def _parse_all_goals(goals):
@@ -56,13 +57,12 @@ class DataParser:
             
     @classmethod
     def _parse_teacher(cls, input_teacher:TeacherInput )-> Teacher:
-        if not input_teacher.id in cls._teachers_by_uuid:
-            teacher = Teacher(input_teacher.id,
-                              input_teacher.name,
-                              [Unavailability(unavailability.day, unavailability.hour) for unavailability in input_teacher.unavailability] )
+        if not input_teacher.teacher_id in cls._teachers_by_uuid:
+            teacher = Teacher(input_teacher.teacher_id,
+                              [Unavailability(unavailability.day, unavailability.lesson) for unavailability in input_teacher.unavailability] )
             cls._teachers_by_uuid[teacher.uuid] = teacher
             cls._teachers_by_id[teacher.id] = teacher
-        return cls._teachers_by_uuid[input_teacher.id]
+        return cls._teachers_by_uuid[input_teacher.teacher_id]
 
 
     @staticmethod
@@ -72,14 +72,14 @@ class DataParser:
 
     @staticmethod
     def _parse_subject(input_subject: SubjectInput) -> None:
-        if not input_subject.id in DataParser._subjects_by_uuid:
+        if not input_subject.subject_id in DataParser._subjects_by_uuid:
             room_preference=RoomPreference(
                     allowed=[DataParser.get_room_by_uuid(room) for room in input_subject.room.allowed],
                     preferred=[DataParser.get_room_by_uuid(room) for room in input_subject.room.preferred],
                     dispreferred=[DataParser.get_room_by_uuid(room) for room in input_subject.room.dispreferred],
                     )
             teacher=DataParser._teachers_by_uuid[input_subject.teacher_id]
-            subject = Subject(input_subject.id, input_subject.name, input_subject.hours,input_subject.max_hours_per_day, input_subject.type, teacher, room_preference)
+            subject = Subject(input_subject.subject_id, input_subject.lessons_per_week,input_subject.max_lessons_per_day, input_subject.type, teacher, room_preference)
             teacher.subjects.append(subject)
             DataParser._subjects_by_uuid[subject.uuid] = subject
             DataParser._subjects_by_id[subject.id] = subject
@@ -91,14 +91,14 @@ class DataParser:
 
     @staticmethod 
     def _parse_group(input_group: GroupInput)  -> Group:
-        if not input_group.id in DataParser._groups_by_uuid:
+        if not input_group.group_id in DataParser._groups_by_uuid:
             DataParser._parse_all_subjects(input_group.subjects)
-            group = Group(input_group.id, input_group.name,[DataParser._subjects_by_uuid[subject.id] for subject in input_group.subjects])
+            group = Group(input_group.group_id, [DataParser._subjects_by_uuid[subject.subject_id] for subject in input_group.subjects])
             for subject in group.subjects:
                 subject.group=group
             DataParser._groups_by_uuid[group.uuid] = group
             DataParser._groups_by_id[group.id] = group
-        return DataParser._groups_by_uuid[input_group.id]
+        return DataParser._groups_by_uuid[input_group.group_id]
 
     @classmethod
     def get_group_by_id(cls, group_id) -> Group:

@@ -27,7 +27,7 @@ class SolutionCallback(CpSolverSolutionCallback):
             )
  
         self.last_solution = {var: self.Value(var) for var in self.schedule.values()}
-        print(self.schedule_to_json())
+        #print(self.schedule_to_json())
 
     def schedule_to_json(self):
         groups = {group.id: {"group_id": group.uuid, "schedule": []} for group in self.groups}

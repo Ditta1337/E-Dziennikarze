@@ -1,19 +1,19 @@
 class Unavailability:
 
-    def __init__(self, day, hour):
+    def __init__(self, day, lesson):
         self._day = day
-        self._hour = hour
+        self._lesson = lesson
 
     @property
     def day(self):
-        return self._hour
+        return self._lesson
 
     @property
-    def hour(self):
+    def lesson(self):
         return self._day
 
     def __str__(self):
-        return f"day:{self._day} hour:{self._hour}"
+        return f"day:{self._day} lesson:{self._lesson}"
 
     def __repr__(self):
         return self.__str__()

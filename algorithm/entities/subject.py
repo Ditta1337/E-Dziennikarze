@@ -14,12 +14,11 @@ class RoomPreference():
 class Subject:
     id_iterator = count()
 
-    def __init__(self, uuid: str, name: str, hours: int, max_hours_per_day: int, priority: SubjectPriority, teacher: Teacher, room_preference:RoomPreference):
+    def __init__(self, uuid: str, lessons: int, max_lessons_per_day: int, priority: SubjectPriority, teacher: Teacher, room_preference:RoomPreference):
         self._uuid = uuid
         self._teacher = teacher
-        self._hours = hours
-        self._name = name
-        self._max_hours_per_day = max_hours_per_day
+        self._lessons = lessons
+        self._max_lessons_per_day = max_lessons_per_day
         self._priority = priority
         self._id = next(self.id_iterator)
         self._room_preference=room_preference
@@ -42,16 +41,12 @@ class Subject:
         return self._id
 
     @property
-    def max_hours_per_day(self):
-        return self._max_hours_per_day
+    def max_lessons_per_day(self):
+        return self._max_lessons_per_day
     
     @property
     def priority(self):
         return self._priority
-
-    @property
-    def name(self):
-        return self._name
 
     @property
     def uuid(self):
@@ -66,11 +61,11 @@ class Subject:
         return self._room_preference
 
     @property
-    def hours(self):
-        return self._hours
+    def lessons(self):
+        return self._lessons
 
     def __str__(self):
-        return f"name:{self._name} id:{self._id} hours:{self._hours} priority:{self.priority} teacher_name:{self._teacher.name}"
+        return f"id:{self._id} lessons:{self._lessons} priority:{self.priority}"
 
     def __repr__(self):
         return self.__str__()
