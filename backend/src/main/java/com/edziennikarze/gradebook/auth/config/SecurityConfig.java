@@ -65,7 +65,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/user/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
                         .pathMatchers(HttpMethod.GET, "/user/{userId}").authenticated()
                         .pathMatchers(HttpMethod.POST, "/user").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
-                        .pathMatchers(HttpMethod.PUT, "/user").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.PUT, "/user").authenticated()
                         .pathMatchers(HttpMethod.PATCH, "/user/{userId}/deactivate", "/user/{userId}/activate").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
 
                         // Student-Guardian endpoints

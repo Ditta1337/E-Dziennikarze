@@ -1,6 +1,5 @@
 {
-  "max_hours_per_day": 6,
-  "teaching_days": 5,
+  "lessons_per_day": 6,
   "goals": [
     {
       "name": "goal_subject_types",
@@ -34,15 +33,13 @@
   "groups": [
     {
       "group_id": "0a64a408-722c-4dbe-a8ed-c7822c2fc45b",
-      "group_name": "4a",
       "conflicting_groups": ["eded15c2-0e39-4e04-9a91-302315942249"],
       "subjects": [
         {
           "subject_id": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
           "teacher_id": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
-          "hours": 1,
-          "max_hours_per_day": 1,
-          "subject_name": "Plastyka",
+          "lessons_per_week": 1,
+          "max_lessons_per_day": 1,
           "type": "ANY",
           "room": {
             "allowed": [
@@ -58,9 +55,8 @@
         {
           "subject_id": "iwasdf-4189-4420-b53b-90fb8bd57a7c",
           "teacher_id": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
-          "hours": 3,
-          "max_hours_per_day": 1,
-          "subject_name": "Język angielski",
+          "lessons_per_week": 3,
+          "max_lessons_per_day": 1,
           "type": "EARLY",
           "room": {
             "allowed": [
@@ -82,9 +78,8 @@
         {
           "subject_id": "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
           "teacher_id": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
-          "hours": 1,
-          "max_hours_per_day": 1,
-          "subject_name": "Religia",
+          "lessons_per_week": 1,
+          "max_lessons_per_day": 1,
           "type": "EDGE",
           "room": {
             "allowed": [
@@ -99,9 +94,8 @@
         {
           "subject_id": "9782cc5a-23f9-4007-8ba0-95a1694d879b",
           "teacher_id": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
-          "hours": 3,
-          "max_hours_per_day": 1,
-          "subject_name": "Wychowanie fizyczne",
+          "lessons_per_week": 3,
+          "max_lessons_per_day": 1,
           "type": "LATE",
           "room": {
             "allowed": [
@@ -119,30 +113,26 @@
   ],
   "teachers": [
     {
-      "teacher_name": "Anna Nowak",
       "teacher_id": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
       "unavailability": []
     },
     {
-      "teacher_name": "Bartosz Kowalski",
       "teacher_id": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
       "unavailability": [
-        { "day": 0, "hour": 0 }
+        { "day": 0, "lesson": 0 }
       ]
     },
     {
-      "teacher_name": "Celina Wiśniewska",
       "teacher_id": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
       "unavailability": []
     },
     {
-      "teacher_name": "Dariusz Kamiński",
       "teacher_id": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
       "unavailability": [
-        { "day": 0, "hour": 0 },
-        { "day": 1, "hour": 1 },
-        { "day": 2, "hour": 2 },
-        { "day": 3, "hour": 3 }
+        { "day": 0, "lesson": 0 },
+        { "day": 1, "lesson": 1 },
+        { "day": 2, "lesson": 2 },
+        { "day": 3, "lesson": 3 }
       ]
     }
   ]
