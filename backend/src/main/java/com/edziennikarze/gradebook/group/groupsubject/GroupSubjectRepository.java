@@ -22,8 +22,7 @@ public interface GroupSubjectRepository extends ReactiveCrudRepository<GroupSubj
 
     Mono<Void> deleteAllByTeacherId(@NotNull UUID teacherId);
 
-    @Query(
-            """
+    @Query("""
             SELECT
                 gs.id AS id,
                 gs.subject_id AS subject_id,
@@ -43,7 +42,18 @@ public interface GroupSubjectRepository extends ReactiveCrudRepository<GroupSubj
             INNER JOIN users u ON u.id = gs.teacher_id
             INNER JOIN student_groups sg ON sg.group_id = g.id
             WHERE gs.active = true
-            """
-    )
+            GROUP BY
+                gs.id,
+                gs.subject_id,
+                s.name,
+                gs.group_id,
+                g.group_code,
+                gs.teacher_id,
+                u.name,
+                u.surname,
+                gs.max_lessons_per_week,
+                gs.max_lessons_per_day,
+                gs.active
+            """)
     Flux<GroupSubjectResponse> findAllByActiveTrue();
 }
