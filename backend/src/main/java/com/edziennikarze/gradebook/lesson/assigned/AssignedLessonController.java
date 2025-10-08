@@ -1,13 +1,13 @@
 package com.edziennikarze.gradebook.lesson.assigned;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/assigned-lesson")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AssignedLessonController {
 
     private final AssignedLessonService assignedLessonService;

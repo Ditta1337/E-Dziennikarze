@@ -4,8 +4,6 @@ import java.util.UUID;
 
 import jakarta.validation.constraints.NotNull;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -14,8 +12,6 @@ import lombok.Data;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Table("group_subjects")
 public class GroupSubject {
 
@@ -31,7 +27,7 @@ public class GroupSubject {
     @NotNull
     private UUID teacherId;
 
-    private int maxLessonsPerWeek;
+    private int lessonsPerWeek;
 
     private int maxLessonsPerDay;
 

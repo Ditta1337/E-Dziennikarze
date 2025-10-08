@@ -1,6 +1,6 @@
 package com.edziennikarze.gradebook.lesson;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/lesson")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LessonController {
 
     private final LessonService lessonService;

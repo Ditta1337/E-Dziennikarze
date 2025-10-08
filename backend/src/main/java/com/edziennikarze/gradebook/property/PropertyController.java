@@ -1,14 +1,14 @@
 package com.edziennikarze.gradebook.property;
 
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/property")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PropertyController {
 
     private final PropertyService propertyService;

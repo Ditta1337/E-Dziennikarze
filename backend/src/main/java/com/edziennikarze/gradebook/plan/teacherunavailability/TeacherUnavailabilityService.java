@@ -1,4 +1,4 @@
-package com.edziennikarze.gradebook.planner.restriction.teacherunavailability;
+package com.edziennikarze.gradebook.plan.teacherunavailability;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,12 +10,12 @@ import com.edziennikarze.gradebook.exception.CollisionException;
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
 import com.edziennikarze.gradebook.user.Role;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TeacherUnavailabilityService {
 
     private final TeacherUnavailabilityRepository teacherUnavailabilityRepository;

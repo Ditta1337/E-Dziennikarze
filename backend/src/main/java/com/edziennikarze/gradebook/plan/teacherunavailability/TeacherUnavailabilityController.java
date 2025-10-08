@@ -1,6 +1,6 @@
-package com.edziennikarze.gradebook.planner.restriction.teacherunavailability;
+package com.edziennikarze.gradebook.plan.teacherunavailability;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/teacher-unavailability")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TeacherUnavailabilityController {
 
     private final TeacherUnavailabilityService teacherUnavailabilityService;

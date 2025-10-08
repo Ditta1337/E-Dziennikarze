@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RoomService {
 
     private final RoomRepository roomRepository;

@@ -1,7 +1,7 @@
-package com.edziennikarze.gradebook.solver.websocket;
+package com.edziennikarze.gradebook.config.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.springframework.web.reactive.socket.WebSocketMessage;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EchoWebSocketHandler implements WebSocketHandler {
 
     private final ObjectMapper objectMapper;

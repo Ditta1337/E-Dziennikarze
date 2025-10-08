@@ -1,4 +1,4 @@
-package com.edziennikarze.gradebook.planner.restriction.teacherunavailability;
+package com.edziennikarze.gradebook.plan.teacherunavailability;
 
 import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildTeacherUnavailability;
 import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildUser;
@@ -22,7 +22,7 @@ import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
 import com.edziennikarze.gradebook.config.TestSecurityConfig;
 import com.edziennikarze.gradebook.exception.CollisionException;
-import com.edziennikarze.gradebook.planner.restriction.teacherunavailability.util.TeacherUnavailabilityTestDatabaseCleaner;
+import com.edziennikarze.gradebook.plan.teacherunavailability.util.TeacherUnavailabilityTestDatabaseCleaner;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.UserRepository;
 import com.edziennikarze.gradebook.user.dto.User;
@@ -66,7 +66,7 @@ class TeacherUnavailabilityControllerIntTest {
 
     @AfterEach
     void tearDown() {
-        teacherUnavailabilityRepository.deleteAll();
+        teacherUnavailabilityTestDatabaseCleaner.cleanAll();
     }
 
     @Test

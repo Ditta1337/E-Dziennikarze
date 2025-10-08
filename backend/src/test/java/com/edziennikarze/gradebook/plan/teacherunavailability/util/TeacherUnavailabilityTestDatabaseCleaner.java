@@ -1,8 +1,8 @@
-package com.edziennikarze.gradebook.planner.restriction.teacherunavailability.util;
+package com.edziennikarze.gradebook.plan.teacherunavailability.util;
 
 import org.springframework.stereotype.Component;
 
-import com.edziennikarze.gradebook.planner.restriction.teacherunavailability.TeacherUnavailabilityRepository;
+import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailabilityRepository;
 import com.edziennikarze.gradebook.user.UserRepository;
 
 @Component

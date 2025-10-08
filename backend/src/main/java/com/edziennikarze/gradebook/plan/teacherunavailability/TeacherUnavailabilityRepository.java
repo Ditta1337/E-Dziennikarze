@@ -1,4 +1,4 @@
-package com.edziennikarze.gradebook.planner.restriction.teacherunavailability;
+package com.edziennikarze.gradebook.plan.teacherunavailability;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;

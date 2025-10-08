@@ -1,6 +1,6 @@
 package com.edziennikarze.gradebook.room;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/room")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RoomController {
 
     private final RoomService roomService;

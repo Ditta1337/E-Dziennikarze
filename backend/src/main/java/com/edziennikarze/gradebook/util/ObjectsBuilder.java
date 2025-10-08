@@ -7,7 +7,7 @@ import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
 import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubject;
 import com.edziennikarze.gradebook.lesson.assigned.AssignedLesson;
 import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
-import com.edziennikarze.gradebook.planner.restriction.teacherunavailability.TeacherUnavailability;
+import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailability;
 import com.edziennikarze.gradebook.property.Property;
 import com.edziennikarze.gradebook.property.PropertyType;
 import com.edziennikarze.gradebook.room.Room;
@@ -82,13 +82,13 @@ public final class ObjectsBuilder {
                 .build();
     }
 
-    public static GroupSubject buildGroupSubject(UUID teacherId, UUID groupId, UUID subjectId, int maxLessonsPerWeek, int maxLessonsPerDay, boolean active) {
+    public static GroupSubject buildGroupSubject(UUID teacherId, UUID groupId, UUID subjectId, int lessonsPerWeek, int maxLessonsPerDay, boolean active) {
         return GroupSubject.builder()
                 .teacherId(teacherId)
                 .groupId(groupId)
                 .subjectId(subjectId)
                 .maxLessonsPerDay(maxLessonsPerDay)
-                .maxLessonsPerWeek(maxLessonsPerWeek)
+                .lessonsPerWeek(lessonsPerWeek)
                 .active(active)
                 .build();
     }

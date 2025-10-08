@@ -46,7 +46,7 @@ class PropertyControllerIntTest {
         assertInstanceOf(String.class, schoolName.getValue());
 
         Property startTime = allProperties.stream().filter(p -> p.getName().equals("schoolDayStartTime")).findFirst().orElseThrow();
-        assertEquals(LocalTime.of(8, 0), startTime.getValue());
+        assertEquals(LocalTime.of(7, 0), startTime.getValue());
         assertInstanceOf(LocalTime.class, startTime.getValue());
 
         Property lessonDuration = allProperties.stream().filter(p -> p.getName().equals("lessonDurationMinutes")).findFirst().orElseThrow();

@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
 import com.edziennikarze.gradebook.lesson.assigned.AssignedLessonRepository;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PlannedLessonService {
 
     private final PlannedLessonRepository plannedLessonRepository;

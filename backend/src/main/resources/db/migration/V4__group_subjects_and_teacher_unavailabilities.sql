@@ -3,13 +3,13 @@ EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE group_subjects
 (
-    id                   uuid    NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
-    teacher_id           uuid    NOT NULL,
-    subject_id           uuid    NOT NULL,
-    group_id             uuid    NOT NULL,
-    max_lessons_per_week int     NOT NULL,
-    max_lessons_per_day  int     NOT NULL,
-    active               boolean NOT NULL
+    id                  uuid    NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    teacher_id          uuid    NOT NULL,
+    subject_id          uuid    NOT NULL,
+    group_id            uuid    NOT NULL,
+    lessons_per_week    int     NOT NULL,
+    max_lessons_per_day int     NOT NULL,
+    active              boolean NOT NULL
 );
 
 CREATE TABLE teacher_unavailabilities

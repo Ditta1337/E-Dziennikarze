@@ -5,17 +5,17 @@ import java.util.List;
 import java.util.UUID;
 
 import com.edziennikarze.gradebook.exception.ParseException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
 
-import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GroupService {
 
     private final GroupRepository groupRepository;
@@ -67,11 +67,12 @@ public class GroupService {
 
     private String replaceCurrentCodeWithIncrementedYear(String currentCode) {
         List<String> parts = Arrays.asList(currentCode.split("_"));
-        if (parts.size() != 2) {
+        if (parts.size() < 2) {
             throw new ParseException("Cannot parse group code: " + currentCode);
         }
-        Integer parsedYear = tryParseYearFromGroupCode(parts.get(0));
-        return String.format("%s_%s", parsedYear + 1, parts.get(1));
+        int parsedYear = tryParseYearFromGroupCode(parts.get(0));
+        String otherParts = String.join("_", parts.subList(1, parts.size()));
+        return String.format("%s_%s", parsedYear + 1, otherParts);
     }
 
     private int tryParseYearFromGroupCode(String yearPart) {

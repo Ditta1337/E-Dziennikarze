@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.group;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -163,11 +164,11 @@ class GroupControllerIntTest {
 
         // then
         for (int i = 0; i < savedGroups.size(); i++) {
-            int expectedYear = savedGroups.get(i)
-                    .getStartYear() + 1;
-            int actualYear = groupsWithIncrementedStartYears.get(i)
-                    .getStartYear();
-            assertEquals(expectedYear, actualYear);
+            String expectedCode = getExpectedGroupCode(savedGroups.get(i).getGroupCode());
+            List<Group> groupsWithExpectedCode = groupsWithIncrementedStartYears.stream()
+                    .filter(g -> g.getGroupCode().equals(expectedCode))
+                    .toList();
+            assertEquals(1, groupsWithExpectedCode.size());
         }
     }
 
@@ -191,7 +192,14 @@ class GroupControllerIntTest {
     }
 
     private void setUpGroups() {
-        groups = List.of(buildGroup(1, "a", true), buildGroup(1, "b", true), buildGroup(1, "c", true), buildGroup(2, "a", true), buildGroup(3, "a", true),
-                buildGroup(4, "a", true), buildGroup(5, "angielski zaawansowany", false), buildGroup(5, "angielski podstawowy", false));
+        groups = List.of(buildGroup(1, "1_a", true), buildGroup(1, "1_b", true), buildGroup(1, "1_c", true), buildGroup(2, "2_a", true), buildGroup(3, "2_b", true),
+                buildGroup(4, "2_c", true), buildGroup(5, "2_c_ang_advanced", false), buildGroup(5, "2_c_ang_standard", false));
+    }
+
+    private String getExpectedGroupCode(String initialCode) {
+        List<String> parts = Arrays.asList(initialCode.split("_"));
+        int year = Integer.parseInt(parts.get(0)) + 1;
+        String otherParts = String.join("_", parts.subList(1, parts.size()));
+        return year + "_" + otherParts;
     }
 }

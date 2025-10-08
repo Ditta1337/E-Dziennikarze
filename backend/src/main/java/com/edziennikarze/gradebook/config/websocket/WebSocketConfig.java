@@ -1,7 +1,6 @@
 package com.edziennikarze.gradebook.config.websocket;
 
-import com.edziennikarze.gradebook.solver.websocket.EchoWebSocketHandler;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.HandlerMapping;
@@ -12,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class WebSocketConfig {
     private final EchoWebSocketHandler echoWebSocketHandler;
 

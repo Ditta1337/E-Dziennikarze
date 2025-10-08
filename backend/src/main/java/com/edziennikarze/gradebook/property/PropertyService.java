@@ -4,7 +4,7 @@ import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.exception.AccessDenialException;
 import com.edziennikarze.gradebook.exception.ParseException;
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 import java.time.LocalTime;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PropertyService {
 
     private final PropertyRepository propertyRepository;

@@ -1,6 +1,6 @@
 package com.edziennikarze.gradebook.group.studentgroup;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -12,7 +12,7 @@ import com.edziennikarze.gradebook.user.dto.UserResponse;
 
 @RestController
 @RequestMapping("/student-group")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class StudentGroupController {
 
     private final StudentGroupService studentGroupService;

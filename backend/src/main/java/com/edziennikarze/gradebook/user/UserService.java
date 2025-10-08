@@ -11,8 +11,7 @@ import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.dto.UserResponse;
 import com.edziennikarze.gradebook.user.studentguardian.StudentGuardianRepository;
 
-import lombok.AllArgsConstructor;
-
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +26,7 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService implements ReactiveUserDetailsService {
 
     private final UserRepository userRepository;

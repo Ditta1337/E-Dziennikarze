@@ -9,11 +9,11 @@ import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
 import com.edziennikarze.gradebook.lesson.planned.PlannedLessonRepository;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LessonService {
 
     private final PlannedLessonRepository plannedLessonRepository;

@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubject;
 import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubjectResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.edziennikarze.gradebook.group.Group;
@@ -11,12 +12,11 @@ import com.edziennikarze.gradebook.group.GroupRepository;
 import com.edziennikarze.gradebook.user.UserRepository;
 import com.edziennikarze.gradebook.user.dto.UserResponse;
 
-import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GroupSubjectService {
 
     private final GroupSubjectRepository groupSubjectRepository;

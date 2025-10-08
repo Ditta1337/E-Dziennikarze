@@ -2,7 +2,7 @@ package com.edziennikarze.gradebook.group.groupsubject;
 
 import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubject;
 import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubjectResponse;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -14,7 +14,7 @@ import com.edziennikarze.gradebook.user.dto.UserResponse;
 
 @RestController
 @RequestMapping("/group-subject")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GroupSubjectController {
 
     private final GroupSubjectService groupSubjectService;

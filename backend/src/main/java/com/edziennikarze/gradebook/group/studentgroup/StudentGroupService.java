@@ -2,6 +2,7 @@ package com.edziennikarze.gradebook.group.studentgroup;
 
 import java.util.UUID;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.edziennikarze.gradebook.group.Group;
@@ -9,12 +10,11 @@ import com.edziennikarze.gradebook.group.GroupRepository;
 import com.edziennikarze.gradebook.user.UserRepository;
 import com.edziennikarze.gradebook.user.dto.UserResponse;
 
-import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class StudentGroupService {
 
     private final StudentGroupRepository studentGroupRepository;

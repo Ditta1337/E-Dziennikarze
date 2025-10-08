@@ -144,6 +144,9 @@ public class SecurityConfig {
                         // WebSocket endpoints
                         .pathMatchers("/ws/echo").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name(), PRINCIPAL.name())
 
+                        // Plan endpoints
+                        .pathMatchers(HttpMethod.POST, "/plan").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+
                         .anyExchange().denyAll()
                 )
                 .build();
