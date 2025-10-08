@@ -1,7 +1,9 @@
-package com.edziennikarze.gradebook.group.teachergroup;
+package com.edziennikarze.gradebook.group.groupsubject;
 
 import java.util.UUID;
 
+import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubject;
+import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubjectResponse;
 import org.springframework.stereotype.Service;
 
 import com.edziennikarze.gradebook.group.Group;
@@ -15,36 +17,40 @@ import reactor.core.publisher.Mono;
 
 @Service
 @AllArgsConstructor
-public class TeacherGroupService {
+public class GroupSubjectService {
 
-    private final TeacherGroupRepository teacherGroupRepository;
+    private final GroupSubjectRepository groupSubjectRepository;
 
     private final GroupRepository groupRepository;
 
     private final UserRepository userRepository;
 
-    public Mono<TeacherGroup> createTeacherGroup(Mono<TeacherGroup> teacherGroupMono) {
-        return teacherGroupMono.flatMap(teacherGroupRepository::save);
+    public Mono<GroupSubject> createTeacherGroup(Mono<GroupSubject> teacherGroupMono) {
+        return teacherGroupMono.flatMap(groupSubjectRepository::save);
+    }
+
+    public Flux<GroupSubjectResponse> findAllByActiveTrue() {
+        return groupSubjectRepository.findAllByActiveTrue();
     }
 
     public Flux<Group> getAllTeacherGroups(UUID teacherId) {
-        Flux<UUID> groupIds = teacherGroupRepository.findAllByTeacherId(teacherId)
-                .map(TeacherGroup::getGroupId);
+        Flux<UUID> groupIds = groupSubjectRepository.findAllByTeacherId(teacherId)
+                .map(GroupSubject::getGroupId);
 
         return groupRepository.findAllById(groupIds);
     }
 
     public Flux<UserResponse> getAllGroupTeachers(UUID groupId) {
-        Flux<UUID> teacherIds = teacherGroupRepository.findAllByGroupId(groupId)
-                .map(TeacherGroup::getTeacherId);
+        Flux<UUID> teacherIds = groupSubjectRepository.findAllByGroupId(groupId)
+                .map(GroupSubject::getTeacherId);
 
         return userRepository.findAllById(teacherIds)
                 .map(UserResponse::from);
     }
 
     public Flux<UserResponse> getAllSubjectTeachers(UUID subjectId) {
-        Flux<UUID> teachersIds = teacherGroupRepository.findAllBySubjectId(subjectId)
-                .map(TeacherGroup::getTeacherId);
+        Flux<UUID> teachersIds = groupSubjectRepository.findAllBySubjectId(subjectId)
+                .map(GroupSubject::getTeacherId);
 
         return userRepository.findAllById(teachersIds)
                 .map(UserResponse::from);

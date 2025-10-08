@@ -22,10 +22,4 @@ public class Subject {
 
     @NotNull
     private String name;
-
-    @NotNull
-    private int maxLessonsPerDay;
-
-    @NotNull
-    private int lessonsPerWeek;
 }

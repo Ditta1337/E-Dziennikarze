@@ -157,7 +157,7 @@ class GroupControllerIntTest {
                 .block();
 
         // when
-        List<Group> groupsWithIncrementedStartYears = groupController.incrementAllGroupsStartYear()
+        List<Group> groupsWithIncrementedStartYears = groupController.incrementAllGroupsCode()
                 .collectList()
                 .block();
 

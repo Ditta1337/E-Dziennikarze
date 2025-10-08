@@ -26,8 +26,6 @@ public class SubjectService {
                 .switchIfEmpty(Mono.error(new RuntimeException("Subject with id " + subject.getId() + " not found")))
                 .flatMap(existingSubject -> {
                     existingSubject.setName(subject.getName());
-                    existingSubject.setMaxLessonsPerDay(subject.getMaxLessonsPerDay());
-                    existingSubject.setLessonsPerWeek(subject.getLessonsPerWeek());
                     return subjectRepository.save(existingSubject);
                 }));
     }

@@ -40,8 +40,8 @@ public class GroupController {
     }
 
     @PatchMapping("/increment")
-    public Flux<Group> incrementAllGroupsStartYear() {
-        return groupService.incrementAllGroupsStartYear();
+    public Flux<Group> incrementAllGroupsCode() {
+        return groupService.incrementAllGroupsCode();
     }
 
     @DeleteMapping("/{groupId}")

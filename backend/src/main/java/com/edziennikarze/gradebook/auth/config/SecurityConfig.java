@@ -121,9 +121,10 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.PATCH, "/group/increment").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.DELETE, "/group/{groupId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
 
-                        // Teacher-Group endpoints
-                        .pathMatchers(HttpMethod.GET, "/teacher-group/teacher/{teacherId}", "/teacher-group/group/{groupId}", "/teacher-group/subject/{subjectId}").authenticated()
-                        .pathMatchers(HttpMethod.POST, "/teacher-group").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        // Group-Subject endpoints
+                        .pathMatchers(HttpMethod.GET, "/group_subject/teacher/{teacherId}", "/group_subject/group/{groupId}", "/group_subject/subject/{subjectId}").authenticated()
+                        .pathMatchers(HttpMethod.GET, "/group_subject/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.POST, "/group_subject").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
 
                         // Student-Group endpoints
                         .pathMatchers(HttpMethod.GET, "/student-group/student/{studentId}", "/student-group/group/{groupId}").authenticated()

@@ -2,7 +2,7 @@ package com.edziennikarze.gradebook.property;
 
 import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
 import com.edziennikarze.gradebook.config.TestSecurityConfig;
-import com.edziennikarze.gradebook.exception.PropertyParseException;
+import com.edziennikarze.gradebook.exception.ParseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -75,7 +75,7 @@ class PropertyControllerIntTest {
         Mono<Property> resultMono = propertyController.getPropertyByName("malformedInteger");
 
         // then
-        assertThrows(PropertyParseException.class, resultMono::block);
+        assertThrows(ParseException.class, resultMono::block);
     }
 
     @Test

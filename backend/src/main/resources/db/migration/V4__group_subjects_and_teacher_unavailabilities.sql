@@ -1,12 +1,15 @@
 CREATE
 EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE teacher_groups
+CREATE TABLE group_subjects
 (
-    id         uuid NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
-    teacher_id uuid NOT NULL,
-    subject_id uuid NOT NULL,
-    group_id   uuid NOT NULL
+    id                   uuid    NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    teacher_id           uuid    NOT NULL,
+    subject_id           uuid    NOT NULL,
+    group_id             uuid    NOT NULL,
+    max_lessons_per_week int     NOT NULL,
+    max_lessons_per_day  int     NOT NULL,
+    active               boolean NOT NULL
 );
 
 CREATE TABLE teacher_unavailabilities
@@ -18,20 +21,20 @@ CREATE TABLE teacher_unavailabilities
     teacher_id uuid        NOT NULL
 );
 
-ALTER TABLE teacher_groups
-    ADD CONSTRAINT teacher_groups_users
+ALTER TABLE group_subjects
+    ADD CONSTRAINT group_subjects_users
         FOREIGN KEY (teacher_id)
             REFERENCES users (id)
             ON DELETE CASCADE;
 
-ALTER TABLE teacher_groups
-    ADD CONSTRAINT teacher_groups_groups
+ALTER TABLE group_subjects
+    ADD CONSTRAINT group_subjects_groups
         FOREIGN KEY (group_id)
             REFERENCES groups (id)
             ON DELETE CASCADE;
 
-ALTER TABLE teacher_groups
-    ADD CONSTRAINT teacher_groups_subjects
+ALTER TABLE group_subjects
+    ADD CONSTRAINT group_subjects_subjects
         FOREIGN KEY (subject_id)
             REFERENCES subjects (id)
             ON DELETE CASCADE;

@@ -6,8 +6,8 @@ import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.GroupRepository;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
-import com.edziennikarze.gradebook.group.teachergroup.TeacherGroup;
-import com.edziennikarze.gradebook.group.teachergroup.TeacherGroupRepository;
+import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubject;
+import com.edziennikarze.gradebook.group.groupsubject.GroupSubjectRepository;
 import com.edziennikarze.gradebook.lesson.assigned.AssignedLesson;
 import com.edziennikarze.gradebook.lesson.assigned.AssignedLessonRepository;
 import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
@@ -31,7 +31,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -55,7 +54,7 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
     private final StudentGuardianRepository studentGuardianRepository;
     private final GroupRepository groupRepository;
     private final StudentGroupRepository studentGroupRepository;
-    private final TeacherGroupRepository teacherGroupRepository;
+    private final GroupSubjectRepository groupSubjectRepository;
     private final TeacherUnavailabilityRepository teacherUnavailabilityRepository;
     private final SubjectRepository subjectRepository;
     private final SubjectTaughtRepository subjectTaughtRepository;
@@ -78,7 +77,7 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
     private List<TeacherUnavailability> teacherUnavailabilities;
     private List<Subject> subjects;
     private List<SubjectTaught> subjectTaught;
-    private List<TeacherGroup> teacherGroups;
+    private List<GroupSubject> groupSubjects;
     private List<Room> rooms;
     private List<PlannedLesson> plannedLessons;
     private List<AssignedLesson> assignedLessons;
@@ -105,7 +104,7 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
             initializeStudentGroups();
             initializeTeacherUnavailabilities();
             initializeSubjectTaught();
-            initializeTeacherGroups();
+            initializeGroupSubjects();
             initializeRooms();
             initializePlannedLessons();
             initializeAssignedLessons();
@@ -168,10 +167,10 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
         log.info("Initializing Groups...");
         groupRepository.deleteAll().block();
         List<Group> groupsToSave = List.of(
-                buildGroup(1, "A", true),
-                buildGroup(1, "A_ANG", false),
-                buildGroup(2, "A", true),
-                buildGroup(2, "B", false));
+                buildGroup(1, "1_A", true),
+                buildGroup(1, "1_A_ANG", false),
+                buildGroup(2, "2_A", true),
+                buildGroup(2, "2_B", false));
         this.groups = groupRepository.saveAll(groupsToSave).collectList().block();
     }
 
@@ -225,18 +224,18 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
         this.subjectTaught = subjectTaughtRepository.saveAll(subjectTaughtToSave).collectList().block();
     }
 
-    private void initializeTeacherGroups() {
-        log.info("Initializing Teacher-Group relationships...");
-        teacherGroupRepository.deleteAll().block();
-        List<TeacherGroup> teacherGroupsToSave = List.of(
-                buildTeacherGroup(teachers.get(0).getId(), groups.get(0).getId(), subjects.get(0).getId()), // t1 -> 1A Matematyka
-                buildTeacherGroup(teachers.get(0).getId(), groups.get(2).getId(), subjects.get(0).getId()), // t1 -> 2A Matematyka
-                buildTeacherGroup(teachers.get(1).getId(), groups.get(0).getId(), subjects.get(1).getId()), // t2 -> 1A Biologia
-                buildTeacherGroup(teachers.get(2).getId(), groups.get(2).getId(), subjects.get(2).getId()), // t3 -> 2A Niemiecki
-                buildTeacherGroup(teachers.get(3).getId(), groups.get(1).getId(), subjects.get(3).getId()), // t4 -> 1A_ANG Angielski
-                buildTeacherGroup(teachers.get(4).getId(), groups.get(3).getId(), subjects.get(4).getId())  // t5 -> 2B Informatyka
+    private void initializeGroupSubjects() {
+        log.info("Initializing Group-Subjects relationships...");
+        groupSubjectRepository.deleteAll().block();
+        List<GroupSubject> groupsToSaveSubject = List.of(
+                buildGroupSubject(teachers.get(0).getId(), groups.get(0).getId(), subjects.get(0).getId(), 3, 5, true), // t1 -> 1A Matematyka
+                buildGroupSubject(teachers.get(0).getId(), groups.get(2).getId(), subjects.get(0).getId(), 3, 5, true), // t1 -> 2A Matematyka
+                buildGroupSubject(teachers.get(1).getId(), groups.get(0).getId(), subjects.get(1).getId(), 3, 5, true), // t2 -> 1A Biologia
+                buildGroupSubject(teachers.get(2).getId(), groups.get(2).getId(), subjects.get(2).getId(), 3, 5, true), // t3 -> 2A Niemiecki
+                buildGroupSubject(teachers.get(3).getId(), groups.get(1).getId(), subjects.get(3).getId(), 3, 5, true), // t4 -> 1A_ANG Angielski
+                buildGroupSubject(teachers.get(4).getId(), groups.get(3).getId(), subjects.get(4).getId(), 3, 5, true)  // t5 -> 2B Informatyka
         );
-        this.teacherGroups = teacherGroupRepository.saveAll(teacherGroupsToSave).collectList().block();
+        this.groupSubjects = groupSubjectRepository.saveAll(groupsToSaveSubject).collectList().block();
     }
 
     private void initializeRooms() {
@@ -276,7 +275,8 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
                 int daysDifference = weekDay.getValue() - dayOfWeek.getValue() + (i * 7);
                 LocalDate currentDate = today.plusDays(daysDifference);
                 lessonsToAssign.add(buildAssignedLesson(plannedLesson.getId(), currentDate, false, false));
-            }}
+            }
+        }
 
         this.assignedLessons = assignedLessonRepository.saveAll(lessonsToAssign).collectList().block();
     }

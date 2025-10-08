@@ -5,7 +5,7 @@ import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
 import com.edziennikarze.gradebook.exception.UserAlreadyExistsException;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
-import com.edziennikarze.gradebook.group.teachergroup.TeacherGroupRepository;
+import com.edziennikarze.gradebook.group.groupsubject.GroupSubjectRepository;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaughtRepository;
 import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.dto.UserResponse;
@@ -40,7 +40,7 @@ public class UserService implements ReactiveUserDetailsService {
 
     private final AttendanceRepository attendanceRepository;
 
-    private final TeacherGroupRepository teacherGroupRepository;
+    private final GroupSubjectRepository groupSubjectRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -123,7 +123,7 @@ public class UserService implements ReactiveUserDetailsService {
 
     private Mono<Void> deleteTeacherFromRelatedTables(UUID teacherId) {
         return subjectTaughtRepository.deleteAllByTeacherId(teacherId)
-                .then(teacherGroupRepository.deleteAllByTeacherId(teacherId));
+                .then(groupSubjectRepository.deleteAllByTeacherId(teacherId));
     }
 
     private Mono<User> validateUserDoesNotExist(User user) {

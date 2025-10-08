@@ -1,8 +1,8 @@
-package com.edziennikarze.gradebook.group.teachergroup;
+package com.edziennikarze.gradebook.group.groupsubject;
 
 import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildGroup;
 import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildSubject;
-import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildTeacherGroup;
+import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildGroupSubject;
 import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.UUID;
 
+import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,13 +39,13 @@ import reactor.core.publisher.Mono;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "server.port=0")
 @ImportTestcontainers(PostgresTestContainerConfig.class)
 @Import(TestSecurityConfig.class)
-class TeacherGroupControllerIntTest {
+class GroupSubjectControllerIntTest {
 
     @Autowired
-    private TeacherGroupController teacherGroupController;
+    private GroupSubjectController groupSubjectController;
 
     @Autowired
-    private TeacherGroupRepository teacherGroupRepository;
+    private GroupSubjectRepository groupSubjectRepository;
 
     @Autowired
     private GroupRepository groupRepository;
@@ -64,7 +65,7 @@ class TeacherGroupControllerIntTest {
 
     private List<Subject> subjects;
 
-    private List<TeacherGroup> teacherGroupsToSave;
+    private List<GroupSubject> groupsToSaveSubject;
 
     @BeforeEach
     void setUp() {
@@ -82,18 +83,18 @@ class TeacherGroupControllerIntTest {
     @Test
     void shouldCreateTeacherGroup() {
         // when
-        TeacherGroup savedTeacherGroup = teacherGroupController.createTeacherGroup(Mono.just(teacherGroupsToSave.getFirst()))
+        GroupSubject savedGroupSubject = groupSubjectController.createTeacherGroup(Mono.just(groupsToSaveSubject.getFirst()))
                 .block();
 
         // then
-        assertNotNull(savedTeacherGroup);
-        assertNotNull(savedTeacherGroup.getId());
+        assertNotNull(savedGroupSubject);
+        assertNotNull(savedGroupSubject.getId());
     }
 
     @Test
     void shouldGetTeacherGroups() {
         // given
-        teacherGroupRepository.saveAll(teacherGroupsToSave)
+        groupSubjectRepository.saveAll(groupsToSaveSubject)
                 .collectList()
                 .block();
 
@@ -103,11 +104,11 @@ class TeacherGroupControllerIntTest {
                 .getId();
 
         // when
-        List<Group> jacekGroups = teacherGroupController.getTeacherGroups(jacekId)
+        List<Group> jacekGroups = groupSubjectController.getTeacherGroups(jacekId)
                 .collectList()
                 .block();
 
-        List<Group> miloszGroups = teacherGroupController.getTeacherGroups(miloszId)
+        List<Group> miloszGroups = groupSubjectController.getTeacherGroups(miloszId)
                 .collectList()
                 .block();
 
@@ -120,7 +121,7 @@ class TeacherGroupControllerIntTest {
     @Test
     void shouldGetGroupTeachers() {
         // given
-        teacherGroupRepository.saveAll(teacherGroupsToSave)
+        groupSubjectRepository.saveAll(groupsToSaveSubject)
                 .collectList()
                 .block();
 
@@ -131,11 +132,11 @@ class TeacherGroupControllerIntTest {
                 .getId();
 
         // when
-        List<UserResponse> groupATeachers = teacherGroupController.getGroupTeachers(groupAId)
+        List<UserResponse> groupATeachers = groupSubjectController.getGroupTeachers(groupAId)
                 .collectList()
                 .block();
 
-        List<UserResponse> groupBTeachers = teacherGroupController.getGroupTeachers(groupBId)
+        List<UserResponse> groupBTeachers = groupSubjectController.getGroupTeachers(groupBId)
                 .collectList()
                 .block();
 
@@ -149,7 +150,7 @@ class TeacherGroupControllerIntTest {
     @Test
     void shouldGetSubjectTeachers() {
         // given
-        teacherGroupRepository.saveAll(teacherGroupsToSave)
+        groupSubjectRepository.saveAll(groupsToSaveSubject)
                 .collectList()
                 .block();
 
@@ -160,11 +161,11 @@ class TeacherGroupControllerIntTest {
                 .getId();
 
         // when
-        List<UserResponse> firstSubjectTeachers = teacherGroupController.getSubjectTeachers(firstSubjectId)
+        List<UserResponse> firstSubjectTeachers = groupSubjectController.getSubjectTeachers(firstSubjectId)
                 .collectList()
                 .block();
 
-        List<UserResponse> secondSubjectTeachers = teacherGroupController.getSubjectTeachers(secondSubjectId)
+        List<UserResponse> secondSubjectTeachers = groupSubjectController.getSubjectTeachers(secondSubjectId)
                 .collectList()
                 .block();
 
@@ -212,7 +213,7 @@ class TeacherGroupControllerIntTest {
         UUID secondTeacherId = teachers.getLast()
                 .getId();
 
-        teacherGroupsToSave = List.of(buildTeacherGroup(firstTeacherId, groupAId, firstSubjectId), buildTeacherGroup(firstTeacherId, groupBId, firstSubjectId),
-                buildTeacherGroup(secondTeacherId, groupAId, firstSubjectId), buildTeacherGroup(secondTeacherId, groupBId, secondSubjectId));
+        groupsToSaveSubject = List.of(buildGroupSubject(firstTeacherId, groupAId, firstSubjectId, 3, 5, true), buildGroupSubject(firstTeacherId, groupBId, firstSubjectId, 3, 5, true),
+                buildGroupSubject(secondTeacherId, groupAId, firstSubjectId, 3, 5, true), buildGroupSubject(secondTeacherId, groupBId, secondSubjectId, 3, 5, true));
     }
 }

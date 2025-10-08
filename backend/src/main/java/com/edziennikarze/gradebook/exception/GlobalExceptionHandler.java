@@ -13,8 +13,8 @@ import org.springframework.web.server.ServerWebInputException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(PropertyParseException.class)
-    public ResponseEntity<ErrorResponse> handlePropertyParse(PropertyParseException ex, ServerWebExchange exchange) {
+    @ExceptionHandler(ParseException.class)
+    public ResponseEntity<ErrorResponse> handlePropertyParse(ParseException ex, ServerWebExchange exchange) {
         return createErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 ex.getMessage(),

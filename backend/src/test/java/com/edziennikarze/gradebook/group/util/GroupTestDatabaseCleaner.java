@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.edziennikarze.gradebook.group.GroupRepository;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
-import com.edziennikarze.gradebook.group.teachergroup.TeacherGroupRepository;
+import com.edziennikarze.gradebook.group.groupsubject.GroupSubjectRepository;
 import com.edziennikarze.gradebook.subject.SubjectRepository;
 import com.edziennikarze.gradebook.user.utils.UserTestDatabaseCleaner;
 
@@ -15,18 +15,18 @@ public class GroupTestDatabaseCleaner {
 
     private final StudentGroupRepository studentGroupRepository;
 
-    private final TeacherGroupRepository teacherGroupRepository;
+    private final GroupSubjectRepository groupSubjectRepository;
 
     private final SubjectRepository subjectRepository;
 
     private final UserTestDatabaseCleaner userTestDatabaseCleaner;
 
     public GroupTestDatabaseCleaner(GroupRepository groupRepository, StudentGroupRepository studentGroupRepository, UserTestDatabaseCleaner userTestDatabaseCleaner,
-            TeacherGroupRepository teacherGroupRepository, SubjectRepository subjectRepository) {
+                                    GroupSubjectRepository groupSubjectRepository, SubjectRepository subjectRepository) {
         this.groupRepository = groupRepository;
         this.studentGroupRepository = studentGroupRepository;
         this.userTestDatabaseCleaner = userTestDatabaseCleaner;
-        this.teacherGroupRepository = teacherGroupRepository;
+        this.groupSubjectRepository = groupSubjectRepository;
         this.subjectRepository = subjectRepository;
     }
 
@@ -35,6 +35,6 @@ public class GroupTestDatabaseCleaner {
         groupRepository.deleteAll().block();
         studentGroupRepository.deleteAll().block();
         subjectRepository.deleteAll().block();
-        teacherGroupRepository.deleteAll().block();
+        groupSubjectRepository.deleteAll().block();
     }
 }

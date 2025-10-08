@@ -1,4 +1,4 @@
-package com.edziennikarze.gradebook.group.teachergroup;
+package com.edziennikarze.gradebook.group.groupsubject.dto;
 
 import java.util.UUID;
 
@@ -16,8 +16,8 @@ import lombok.Data;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("teacher_groups")
-public class TeacherGroup {
+@Table("group_subjects")
+public class GroupSubject {
 
     @Id
     private UUID id;
@@ -30,4 +30,10 @@ public class TeacherGroup {
 
     @NotNull
     private UUID teacherId;
+
+    private int maxLessonsPerWeek;
+
+    private int maxLessonsPerDay;
+
+    private boolean active;
 }

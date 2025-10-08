@@ -2,7 +2,7 @@ package com.edziennikarze.gradebook.property;
 
 import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.exception.AccessDenialException;
-import com.edziennikarze.gradebook.exception.PropertyParseException;
+import com.edziennikarze.gradebook.exception.ParseException;
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -52,7 +52,7 @@ public class PropertyService {
                 case TIME -> LocalTime.parse(valueToParse);
             };
         } catch (Exception e) {
-            throw new PropertyParseException("Cannot parse property " + property.getName() + " with value " + valueToParse + " to type " + property.getType());
+            throw new ParseException("Cannot parse property " + property.getName() + " with value " + valueToParse + " to type " + property.getType());
         }
 
         return Property.builder()
