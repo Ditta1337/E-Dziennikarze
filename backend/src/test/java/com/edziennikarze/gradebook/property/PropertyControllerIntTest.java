@@ -39,7 +39,7 @@ class PropertyControllerIntTest {
 
         // then
         assertNotNull(allProperties);
-        assertEquals(8, allProperties.size());
+        assertEquals(11, allProperties.size());
 
         Property schoolName = allProperties.stream().filter(p -> p.getName().equals("schoolFullName")).findFirst().orElseThrow();
         assertEquals("Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie", schoolName.getValue());

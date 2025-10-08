@@ -20,6 +20,8 @@ VALUES ('schoolFullName', 'STRING', 'Akademia Górniczo-Hutnicza im. Stanisława
        ('schoolDayStartTime', 'TIME', '07:00', NULL, false),
        ('schoolDayEndTime', 'TIME', '20:00', NULL, false),
        ('lessonDurationMinutes', 'INTEGER', '45', NULL, false),
-       ('breakDurationMinutes', 'INTEGER', '15', NULL, false),
+       ('shortBreakDurationMinutes', 'INTEGER', '10', NULL, false),
+       ('longBreakDurationMinutes', 'INTEGER', '20', NULL, false),
+       ('longBreakAfterLessons', 'INTEGER', '4', NULL, false),
        ('maxLessonsPerDay', 'INTEGER', '8', NULL, false),
        ('allowTeacherPickPreferences', 'BOOLEAN', 'false', NULL, false);

@@ -15,13 +15,18 @@ public class SubjectController {
     private final SubjectService subjectService;
 
     @PostMapping
-    public Mono<Subject> createSubject(@RequestBody Mono<Subject> subject) {
-        return subjectService.createSubject(subject);
+    public Mono<Subject> createSubject(@RequestBody Mono<Subject> subjectMono) {
+        return subjectService.createSubject(subjectMono);
     }
 
     @GetMapping("/all")
     public Flux<Subject> getAllSubjects() {
         return subjectService.getAllSubjects();
+    }
+
+    @PutMapping
+    public Mono<Subject> updateSubject(@RequestBody Mono<Subject> subjectMono) {
+        return subjectService.updateSubject(subjectMono);
     }
 
     @DeleteMapping("/{subjectId}")

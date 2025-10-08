@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
-import com.edziennikarze.gradebook.group.GroupService;
 
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -16,8 +15,6 @@ import reactor.core.publisher.Mono;
 public class RoomService {
 
     private final RoomRepository roomRepository;
-
-    private final GroupService groupService;
 
     public Mono<Room> createRoom(Mono<Room> roomMono) {
         return roomMono.flatMap(roomRepository::save);
