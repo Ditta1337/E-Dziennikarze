@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 500px;
+  height: 60px;
+  padding: 0 1.2rem;
+
+  background: linear-gradient(135deg, #f6f7fb, #eaeef5);
+  border: 1px solid #d0d6e0;
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+  .duration-info-container{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .MuiTypography-root {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2a2f3a;
+    letter-spacing: 0.3px;
+    user-select: none;
+  }
+}

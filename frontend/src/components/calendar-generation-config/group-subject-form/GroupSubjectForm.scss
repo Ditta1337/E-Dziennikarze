@@ -1,0 +1,155 @@
+.group-subject-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 2rem;  // more breathing room
+
+  .title {
+    padding: 12px 0;
+    font-size: x-large;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  form,
+  & > form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 380px;
+    width: 100%;
+    gap: 1.5rem; // increased spacing between sections
+  }
+
+  .group-subject {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem; // spacing between group and subject
+
+    .group,
+    .subject {
+      width: 100%;
+    }
+  }
+
+  .possible-rooms {
+    width: 100%;
+    margin-top: 1rem; // extra space above
+  }
+
+  .prefered-not-prefered-rooms {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem; // space between preferred and unpreferred rooms
+
+    .preferred-rooms,
+    .not-preferred-rooms {
+      width: 100%;
+    }
+  }
+
+  .lessons-number-input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+
+    .lessons-per-week,
+    .max-lessons-per-day {
+      width: 100%;
+    }
+  }
+
+  .action-button {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem; // more spacing between buttons
+
+    button {
+      min-width: 120px;
+      padding: 0.7rem 1.4rem;
+      font-weight: 600;
+      border-radius: 8px;
+      text-transform: none;
+    }
+  }
+
+  .MuiAutocomplete-root,
+  .MuiTextField-root {
+    width: 100%;
+
+    .MuiInputBase-root {
+      background-color: #fff;
+      border-radius: 8px;
+      transition: box-shadow 0.15s ease;
+      margin-bottom: 0.5rem; // extra space below inputs
+    }
+  }
+
+  .MuiChip-root {
+    margin: 3px;
+    border-radius: 6px;
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    font-weight: 500;
+  }
+
+  .MuiFormLabel-root {
+    font-weight: 500;
+    color: #444;
+  }
+
+  @media (min-width: 860px) {
+    form,
+    & > form {
+      min-width: 600px;
+      gap: 2rem; // more spacing on wide screens
+    }
+
+    .group-subject {
+      flex-direction: row;
+      gap: 2rem;
+
+      .group,
+      .subject {
+        width: 280px;
+      }
+    }
+
+    .possible-rooms {
+      width: 590px;
+      margin-top: 1.5rem;
+    }
+
+    .prefered-not-prefered-rooms {
+      flex-direction: row;
+      gap: 1.5rem;
+
+      .preferred-rooms,
+      .not-preferred-rooms {
+        width: 280px;
+      }
+    }
+
+    .lessons-number-input {
+      flex-direction: row;
+      gap: 1.5rem;
+
+      .lessons-per-week,
+      .max-lessons-per-day {
+        width: 280px;
+      }
+    }
+
+    .action-button {
+      width: 100%;
+      justify-content: center;
+      gap: 2rem;
+    }
+  }
+}
