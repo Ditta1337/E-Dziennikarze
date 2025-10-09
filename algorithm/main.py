@@ -5,6 +5,7 @@ from schemas import ScheduleConfig
 from scheduler import Scheduler
 app = FastAPI()
 
+
 # app.add_middleware(
 #     CORSMiddleware,
 #     allow_origins=["*"],
