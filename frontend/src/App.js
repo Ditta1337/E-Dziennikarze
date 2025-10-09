@@ -15,6 +15,7 @@ import CreateRoom from "./views/create-room/CreateRoom";
 import CalendarRouter from "./role-based-routers/CalendarRouter";
 import UnavailableCalendarRouter from "./role-based-routers/UnavailableCalendarRouter";
 import WebsocketTest from "./views/websocket-test/WebsocketTest";
+import CalendarGenerationConfig from "./views/office-worker/calendar-generation-config/CalendarGenerationConfig";
 import GradeRouter from "./role-based-routers/GradeRouter";
 
 function App() {
@@ -41,7 +42,9 @@ function App() {
                     <Route path="/create/room" element={<Card><CreateRoom /></Card>} />
 
                     <Route path="/teacher/unavailable" element={<Card><UnavailableCalendarRouter /></Card>} />
+                    <Route path="/calendar/generation/config" element={<Card><CalendarGenerationConfig /></Card>} />
                     <Route path="/websocket-test" element={<Card><WebsocketTest /></Card>} />
+
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

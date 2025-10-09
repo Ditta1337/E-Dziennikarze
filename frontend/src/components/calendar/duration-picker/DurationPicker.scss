@@ -1,0 +1,27 @@
+.duration-pickers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  .picker {
+    width: 80px;
+
+    .MuiInputBase-root {
+      font-size: 0.8rem;
+      height: 30px;
+    }
+
+    label.Mui-focused,
+    label.MuiInputLabel-root {
+      font-size: 1rem;
+    }
+
+    input {
+      padding: 4px;
+    }
+  }
+
+  Typography {
+    font-size: 0.8rem;
+  }
+}
