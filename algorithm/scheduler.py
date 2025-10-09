@@ -10,8 +10,9 @@ NUM_WORKERS = 8
 
 class Scheduler():
     def __init__(self, schedule_config: ScheduleConfig):
-        goals, groups, teachers, subjects, rooms, teaching_days, max_lessons_per_day = DataParser.parse_input(schedule_config)
+        goals, groups,unique_groups_combinations, teachers, subjects, rooms, teaching_days, max_lessons_per_day = DataParser.parse_input(schedule_config)
         self.goals = goals
+        self.unique_groups_combinations = unique_groups_combinations
         self.groups = groups
         self.teachers = teachers
         self.subjects = subjects
@@ -21,7 +22,7 @@ class Scheduler():
 
         self.model = cp_model.CpModel()
         self.solver = cp_model.CpSolver()
-        self.vars: dict[tuple[int, int, int, int, int, int], cp_model.IntVar] = {}
+        self.vars: dict[tuple[int, int, int, int], cp_model.IntVar] = {}
 
         self._create_vars()
         self.solution_callback = SolutionCallback(
@@ -30,24 +31,21 @@ class Scheduler():
         )
 
     def _create_vars(self):
-        for group in self.groups:
-            for subject in group.subjects:
-                for room in subject.room_preference.allowed:
-                    for day in range(self.teaching_days):
-                        for lesson in range(self.max_lessons_per_day):
-                            if any(u.lesson == lesson and u.day == day for u in subject.teacher.unavailability):
-                                continue
-                            key = (group.id, subject.teacher.id, subject.id, room.id, day, lesson)
-                            if key not in self.vars:
-                                self.vars[key] = self.model.new_bool_var(
-                                    f"group:{group.id} teacher:{subject.teacher.id} subject:{subject.id} "
-                                    f"room:{room.id} day:{day} lesson:{lesson}"
-                                )
+        for subject in self.subjects:
+            for room in subject.room_preference.allowed:
+                for day in range(self.teaching_days):
+                    for lesson in range(self.max_lessons_per_day):
+                        if any(u.lesson == lesson and u.day == day for u in subject.teacher.unavailability):
+                            continue
+                        key = (subject.id, room.id, day, lesson)
+                        if key not in self.vars:
+                            self.vars[key] = self.model.new_bool_var(
+                                f"subject:{subject.id} room:{room.id} day:{day} lesson:{lesson}"
+                            )
 
     def build(self):
-        self.no_gaps()
+        self.no_gaps_for_students()
         self.no_more_than_one_lesson_per_teacher()
-        self.no_more_than_one_lesson_per_group()
         self.ensure_subjects_lessons()
         self.lesson_limit_per_day()
         self.no_gaps_between_same_subjects()
@@ -84,22 +82,26 @@ class Scheduler():
             self.model.add_hint(var, val)
 
     # ====================== Constraints ======================
-    def no_gaps(self):
-        for day in range(self.teaching_days):
-            for group in self.groups:
-                for lesson in range(self.max_lessons_per_day - 1):
+    def no_gaps_for_students(self):
+        for combination in self.unique_groups_combinations:
+            for day in range(self.teaching_days):
+                for lesson in range(self.max_lessons_per_day):
                     prev_subj = [
-                        self.vars[group.id, subject.teacher.id, subject.id, room.id, day, lesson]
+                        self.vars[subject.id, room.id, day, lesson]
+                        for group in combination
                         for subject in group.subjects
                         for room in subject.room_preference.allowed
-                        if (group.id, subject.teacher.id, subject.id, room.id, day, lesson) in self.vars
+                        if (subject.id, room.id, day, lesson) in self.vars
                     ]
                     next_subj = [
-                        self.vars[group.id, subject.teacher.id, subject.id, room.id, day, lesson + 1]
+                        self.vars[subject.id, room.id, day, lesson + 1]
+                        for group in combination
                         for subject in group.subjects
                         for room in subject.room_preference.allowed
-                        if (group.id, subject.teacher.id, subject.id, room.id, day, lesson + 1) in self.vars
+                        if (subject.id, room.id, day, lesson + 1) in self.vars
                     ]
+                    self.model.add(sum(prev_subj)<=1)
+                    self.model.add(sum(next_subj)<=1)
                     self.model.add(sum(prev_subj) >= sum(next_subj))
 
     def no_more_than_one_lesson_per_teacher(self):
@@ -107,22 +109,10 @@ class Scheduler():
             for day in range(self.teaching_days):
                 for lesson in range(self.max_lessons_per_day):
                     possible = [
-                        self.vars[subject.group.id, teacher.id, subject.id, room.id, day, lesson]
+                        self.vars[subject.id, room.id, day, lesson]
                         for subject in teacher.subjects
                         for room in subject.room_preference.allowed
-                        if (subject.group.id, teacher.id, subject.id, room.id, day, lesson) in self.vars
-                    ]
-                    self.model.add(sum(possible) <= 1)
-
-    def no_more_than_one_lesson_per_group(self):
-        for group in self.groups:
-            for day in range(self.teaching_days):
-                for lesson in range(self.max_lessons_per_day):
-                    possible = [
-                        self.vars[group.id, subject.teacher.id, subject.id, room.id, day, lesson]
-                        for subject in group.subjects
-                        for room in subject.room_preference.allowed
-                        if (group.id, subject.teacher.id, subject.id, room.id, day, lesson) in self.vars
+                        if (subject.id, room.id, day, lesson) in self.vars
                     ]
                     self.model.add(sum(possible) <= 1)
 
@@ -130,11 +120,11 @@ class Scheduler():
         for group in self.groups:
             for subject in group.subjects:
                 possible = [
-                    self.vars[group.id, subject.teacher.id, subject.id, room.id, day, lesson]
+                    self.vars[subject.id, room.id, day, lesson]
                     for room in subject.room_preference.allowed
                     for day in range(self.teaching_days)
                     for lesson in range(self.max_lessons_per_day)
-                    if (group.id, subject.teacher.id, subject.id, room.id, day, lesson) in self.vars
+                    if (subject.id, room.id, day, lesson) in self.vars
                 ]
                 self.model.add(sum(possible) == subject.lessons)
 
@@ -143,10 +133,10 @@ class Scheduler():
             for subject in group.subjects:
                 for day in range(self.teaching_days):
                     possible = [
-                        self.vars[group.id, subject.teacher.id, subject.id, room.id, day, lesson]
+                        self.vars[subject.id, room.id, day, lesson]
                         for room in subject.room_preference.allowed
                         for lesson in range(self.max_lessons_per_day)
-                        if (group.id, subject.teacher.id, subject.id, room.id, day, lesson) in self.vars
+                        if (subject.id, room.id, day, lesson) in self.vars
                     ]
                     self.model.add(sum(possible) <= subject.max_lessons_per_day)
 
@@ -160,17 +150,17 @@ class Scheduler():
                             f"subject_changing_group{group.id}_subject{subject.id}_day{day}_lesson{lesson}"
                         )
                         prev_subj = sum([
-                            self.vars[group.id, subject.teacher.id, subject.id, room.id, day, lesson]
+                            self.vars[subject.id, room.id, day, lesson]
                             for room in subject.room_preference.allowed
-                            if (group.id, subject.teacher.id, subject.id, room.id, day, lesson) in self.vars
+                            if (subject.id, room.id, day, lesson) in self.vars
                         ])
                         if lesson == self.max_lessons_per_day - 1:
                             next_subj = 0
                         else:
                             next_subj = sum([
-                                self.vars[group.id, subject.teacher.id, subject.id, room.id, day, lesson + 1]
+                                self.vars[subject.id, room.id, day, lesson + 1]
                                 for room in subject.room_preference.allowed
-                                if (group.id, subject.teacher.id, subject.id, room.id, day, lesson + 1) in self.vars
+                                if (subject.id, room.id, day, lesson + 1) in self.vars
                             ])
                         self.model.add_abs_equality(subject_changing, prev_subj - next_subj)
                         changes.append(subject_changing)
@@ -183,18 +173,18 @@ class Scheduler():
             for day_i in range(self.teaching_days - 1):
                 for day_j in range(day_i + 1, self.teaching_days):
                     schedule_day_i = [
-                        self.vars[group.id, subject.teacher.id, subject.id, room.id, day_i, lesson]
+                        self.vars[subject.id, room.id, day_i, lesson]
                         for subject in group.subjects
                         for room in subject.room_preference.allowed
                         for lesson in range(self.max_lessons_per_day)
-                        if (group.id, subject.teacher.id, subject.id, room.id, day_i, lesson) in self.vars
+                        if (subject.id, room.id, day_i, lesson) in self.vars
                     ]
                     schedule_day_j = [
-                        self.vars[group.id, subject.teacher.id, subject.id, room.id, day_j, lesson]
+                        self.vars[subject.id, room.id, day_j, lesson]
                         for subject in group.subjects
                         for room in subject.room_preference.allowed
                         for lesson in range(self.max_lessons_per_day)
-                        if (group.id, subject.teacher.id, subject.id, room.id, day_j, lesson) in self.vars
+                        if (subject.id, room.id, day_j, lesson) in self.vars
                     ]
                     partial_diff = self.model.new_int_var(
                         0, self.max_lessons_per_day,
@@ -218,9 +208,9 @@ class Scheduler():
                             f'is_assigned_group{group.id}_subject{subject.id}_day{day}_lesson{lesson}'
                         )
                         self.model.add(is_assigned == sum([
-                            self.vars[group.id, subject.teacher.id, subject.id, room.id, day, lesson]
+                            self.vars[subject.id, room.id, day, lesson]
                             for room in subject.room_preference.allowed
-                            if (group.id, subject.teacher.id, subject.id, room.id, day, lesson) in self.vars
+                            if (subject.id, room.id, day, lesson) in self.vars
                         ]))
 
                         match subject.priority:
@@ -232,18 +222,18 @@ class Scheduler():
                                     f'late_subject{subject.id}_lessons_after_day{day}_lesson{lesson}'
                                 )
                                 self.model.add(num_of_lessons_after == sum([
-                                    self.vars[group.id, subject.teacher.id, subject.id, room.id, day, lesson_after]
+                                    self.vars[subject.id, room.id, day, lesson_after]
                                     for room in subject.room_preference.allowed
                                     for lesson_after in range(lesson + 1, self.max_lessons_per_day)
-                                    if (group.id, subject.teacher.id, subject.id, room.id, day, lesson_after) in self.vars
+                                    if (subject.id, room.id, day, lesson_after) in self.vars
                                 ]))
                                 self.model.add_multiplication_equality(partial_penalty, [is_assigned, num_of_lessons_after])
                             case SubjectPriority.EDGE:
                                 num_of_lessons_after = sum([
-                                    self.vars[group.id, subject.teacher.id, subject.id, room.id, day, lesson_after]
+                                    self.vars[subject.id, room.id, day, lesson_after]
                                     for room in subject.room_preference.allowed
                                     for lesson_after in range(lesson + 1, self.max_lessons_per_day)
-                                    if (group.id, subject.teacher.id, subject.id, room.id, day, lesson_after) in self.vars
+                                    if (subject.id, room.id, day, lesson_after) in self.vars
                                 ])
                                 late_penalty = self.model.new_int_var(
                                     0, self.max_lessons_per_day,
@@ -263,17 +253,17 @@ class Scheduler():
         for subject in self.subjects:
             for room in subject.room_preference.preferred:
                 preferred.extend([
-                    self.vars[subject.group.id, subject.teacher.id, subject.id, room.id, day, lesson]
+                    self.vars[subject.id, room.id, day, lesson]
                     for day in range(self.teaching_days)
                     for lesson in range(self.max_lessons_per_day)
-                    if (subject.group.id, subject.teacher.id, subject.id, room.id, day, lesson) in self.vars
+                    if (subject.id, room.id, day, lesson) in self.vars
                 ])
             for room in subject.room_preference.dispreferred:
                 dispreferred.extend([
-                    self.vars[subject.group.id, subject.teacher.id, subject.id, room.id, day, lesson]
+                    self.vars[subject.id, room.id, day, lesson]
                     for day in range(self.teaching_days)
                     for lesson in range(self.max_lessons_per_day)
-                    if (subject.group.id, subject.teacher.id, subject.id, room.id, day, lesson) in self.vars
+                    if (subject.id, room.id, day, lesson) in self.vars
                 ])
 
         goal.variables = [sum(preferred) - sum(dispreferred)]

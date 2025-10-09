@@ -14,13 +14,14 @@ class DataParser:
     _goals= []
 
     @classmethod
-    def parse_input(cls, schedule_config: ScheduleConfig) -> tuple[list[Goal], list[Group], list[Teacher], list[Subject],list[Room], int, int]:
+    def parse_input(cls, schedule_config: ScheduleConfig) -> tuple[list[Goal], list[Group], list[list[Group]], list[Teacher], list[Subject],list[Room], int, int]:
         DataParser._parse_all_goals(schedule_config.goals)
         DataParser._parse_all_rooms(schedule_config.rooms)
         DataParser._parse_all_teachers(schedule_config.teachers)
         DataParser._parse_all_groups(schedule_config.groups)
         return ( cls._goals, 
                 [group for _, group in cls._groups_by_uuid.items()],
+                [[DataParser.get_group_by_uuid(uuid) for uuid in grups] for grups in schedule_config.unique_groups_combinations],
                 [teacher for _, teacher in cls._teachers_by_uuid.items()],
                 [subject for _, subject in cls._subjects_by_uuid.items()],
                 [room for _, room in cls._rooms_by_uuid.items()],
