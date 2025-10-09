@@ -2,139 +2,241 @@
   "id_id": "<UUID>",
   "lessons_per_day": 6,
   "goals": [
-    {
-      "name": "goal_subject_types",
-      "time": 30
-    },
-    {
-      "name": "goal_ballance_day_lenght",
-      "time": 30
-    },
-    {
-      "name":"goal_room_preferences",
-      "time": 30
-    }
+    { "name": "goal_subject_types", "time": 30 },
+    { "name": "goal_ballance_day_lenght", "time": 30 },
+    { "name": "goal_room_preferences", "time": 30 }
   ],
   "rooms": [
-    "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01",
-    "b3d7e2f4-6c91-4c2b-a6f3-4e7d1c2f0a09",
-    "c4d8f7a1-2e09-4d3f-b1c7-6f2d3a4b5c0e",
-    "d2e4f6a8-1b3c-4d5f-9a7b-0c2e3f4a5b6c",
-    "f1a2b3c4-5d6e-7f8a-9b0c-1d2e3f4a5b6c",
-    "b1c2d3e4-5f6a-7b8c-9d0e-1f2a3b4c5d6e",
-    "a2b3c4d5-6e7f-8a9b-0c1d-2e3f4a5b6c7d",
-    "e2f3a4b5-6c7d-8e9f-0a1b-2c3d4e5f6a7b",
-    "b5c6d7e8-9f0a-1b2c-3d4e-5f6a7b8c9d0e",
-    "f3a4b5c6-7d8e-9f0a-1b2c-3d4e5f6a7b8c",
-    "e8f9a0b1-2c3d-4e5f-6a7b-8c9d0e1f2a3b",
-    "c6d7e8f9-0a1b-2c3d-4e5f-6a7b8c9d0e1f",
-    "d7e8f9a0-1b2c-3d4e-5f6a-7b8c9d0e1f2a",
-    "d3e4f5a6-7b8c-9d0e-1f2a-3b4c5d6e7f8a"
-    ],
+    "a1-klasa",
+    "a2-klasa",
+    "a3-klasa",
+    "a4-klasa",
+    "b1-klasa",
+    "b2-klasa",
+    "b3-klasa",
+    "b4-klasa",
+    "sala-komputerowa",
+    "sala-plastyczna",
+    "sala-gimnastyczna",
+    "sala-muzyczna",
+    "sala-chemiczna",
+    "biblioteka"
+  ],
   "groups": [
     {
-      "group_id": "0a64a408-722c-4dbe-a8ed-c7822c2fc45b",
-      "conflicting_groups": ["eded15c2-0e39-4e04-9a91-302315942249"],
+      "group_id": "klasa5-ang-podstawowy",
       "subjects": [
         {
-          "subject_id": "0529e07d-4189-4420-b53b-90fb8bd57a7c",
-          "teacher_id": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
+          "subject_id": "plastyka-4a",
+          "teacher_id": "nauczyciel-plastyka",
           "lessons_per_week": 1,
           "max_lessons_per_day": 1,
           "type": "ANY",
           "room": {
-            "allowed": [
-              "a1f8c9e2-9f28-4b2f-8f3b-1f7d8d9c2e01",
-              "b3d7e2f4-6c91-4c2b-a6f3-4e7d1c2f0a09",
-              "c4d8f7a1-2e09-4d3f-b1c7-6f2d3a4b5c0e",
-              "d2e4f6a8-1b3c-4d5f-9a7b-0c2e3f4a5b6c"
-            ],
-            "dispreferred": ["c4d8f7a1-2e09-4d3f-b1c7-6f2d3a4b5c0e"],
-            "preferred": ["d2e4f6a8-1b3c-4d5f-9a7b-0c2e3f4a5b6c"]
+            "allowed": ["sala-plastyczna", "a1-klasa"],
+            "preferred": ["sala-plastyczna"],
+            "dispreferred": ["a1-klasa"]
           }
         },
         {
-          "subject_id": "iwasdf-4189-4420-b53b-90fb8bd57a7c",
-          "teacher_id": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
+          "subject_id": "angielski-4a",
+          "teacher_id": "nauczyciel-angielski",
           "lessons_per_week": 3,
           "max_lessons_per_day": 1,
           "type": "EARLY",
           "room": {
-            "allowed": [
-              "f1a2b3c4-5d6e-7f8a-9b0c-1d2e3f4a5b6c",
-              "a2b3c4d5-6e7f-8a9b-0c1d-2e3f4a5b6c7d",
-              "b1c2d3e4-5f6a-7b8c-9d0e-1f2a3b4c5d6e"
-            ],
-            "dispreferred": ["a2b3c4d5-6e7f-8a9b-0c1d-2e3f4a5b6c7d"],
-            "preferred": ["b1c2d3e4-5f6a-7b8c-9d0e-1f2a3b4c5d6e"]
+            "allowed": ["a2-klasa", "a3-klasa"],
+            "preferred": ["a2-klasa"],
+            "dispreferred": []
+          }
+        },
+        {
+          "subject_id": "wf-4a",
+          "teacher_id": "nauczyciel-wf",
+          "lessons_per_week": 3,
+          "max_lessons_per_day": 1,
+          "type": "LATE",
+          "room": {
+            "allowed": ["sala-gimnastyczna"],
+            "preferred": ["sala-gimnastyczna"],
+            "dispreferred": []
           }
         }
       ]
     },
     {
-      "group_id": "eded15c2-0e39-4e04-9a91-302315942249",
-      "group_name": "4b",
-      "conflicting_groups": ["0a64a408-722c-4dbe-a8ed-c7822c2fc45b"],
+      "group_id": "klasa5-ang-rozszerzony",
       "subjects": [
         {
-          "subject_id": "0fa1f416-65c1-4c53-a4c2-78046d2acaf5",
-          "teacher_id": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
+          "subject_id": "religia-4b",
+          "teacher_id": "nauczyciel-religia",
           "lessons_per_week": 1,
           "max_lessons_per_day": 1,
           "type": "EDGE",
           "room": {
-            "allowed": [
-              "d3e4f5a6-7b8c-9d0e-1f2a-3b4c5d6e7f8a",
-              "e2f3a4b5-6c7d-8e9f-0a1b-2c3d4e5f6a7b",
-              "f3a4b5c6-7d8e-9f0a-1b2c-3d4e5f6a7b8c"
-            ],
-            "dispreferred": ["e2f3a4b5-6c7d-8e9f-0a1b-2c3d4e5f6a7b"],
-            "preferred": ["f3a4b5c6-7d8e-9f0a-1b2c-3d4e5f6a7b8c"]
+            "allowed": ["a4-klasa", "biblioteka"],
+            "preferred": ["a4-klasa"],
+            "dispreferred": []
           }
         },
         {
-          "subject_id": "9782cc5a-23f9-4007-8ba0-95a1694d879b",
-          "teacher_id": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
+          "subject_id": "wf-4b",
+          "teacher_id": "nauczyciel-wf",
           "lessons_per_week": 3,
           "max_lessons_per_day": 1,
           "type": "LATE",
           "room": {
-            "allowed": [
-              "b5c6d7e8-9f0a-1b2c-3d4e-5f6a7b8c9d0e",
-              "c6d7e8f9-0a1b-2c3d-4e5f-6a7b8c9d0e1f",
-              "d7e8f9a0-1b2c-3d4e-5f6a-7b8c9d0e1f2a",
-              "e8f9a0b1-2c3d-4e5f-6a7b-8c9d0e1f2a3b"
-            ],
-            "dispreferred": ["d7e8f9a0-1b2c-3d4e-5f6a-7b8c9d0e1f2a"],
-            "preferred": ["e8f9a0b1-2c3d-4e5f-6a7b-8c9d0e1f2a3b"]
+            "allowed": ["sala-gimnastyczna"],
+            "preferred": ["sala-gimnastyczna"],
+            "dispreferred": []
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "klasa5a",
+      "subjects": [
+        {
+          "subject_id": "matematyka-5a",
+          "teacher_id": "nauczyciel-matematyka",
+          "lessons_per_week": 4,
+          "max_lessons_per_day": 2,
+          "type": "ANY",
+          "room": {
+            "allowed": ["b1-klasa", "b2-klasa"],
+            "preferred": ["b1-klasa"],
+            "dispreferred": []
+          }
+        },
+        {
+          "subject_id": "informatyka-5a",
+          "teacher_id": "nauczyciel-informatyka",
+          "lessons_per_week": 2,
+          "max_lessons_per_day": 1,
+          "type": "EARLY",
+          "room": {
+            "allowed": ["sala-komputerowa"],
+            "preferred": ["sala-komputerowa"],
+            "dispreferred": []
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "klasa6a",
+      "subjects": [
+        {
+          "subject_id": "historia-6a",
+          "teacher_id": "nauczyciel-historia",
+          "lessons_per_week": 2,
+          "max_lessons_per_day": 1,
+          "type": "ANY",
+          "room": {
+            "allowed": ["b3-klasa", "b4-klasa"],
+            "preferred": ["b3-klasa"],
+            "dispreferred": []
+          }
+        },
+        {
+          "subject_id": "muzyka-6a",
+          "teacher_id": "nauczyciel-muzyka",
+          "lessons_per_week": 1,
+          "max_lessons_per_day": 1,
+          "type": "ANY",
+          "room": {
+            "allowed": ["sala-muzyczna"],
+            "preferred": ["sala-muzyczna"],
+            "dispreferred": []
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "klasa7a",
+      "subjects": [
+        {
+          "subject_id": "chemia-7a",
+          "teacher_id": "nauczyciel-chemia",
+          "lessons_per_week": 2,
+          "max_lessons_per_day": 1,
+          "type": "ANY",
+          "room": {
+            "allowed": ["sala-chemiczna"],
+            "preferred": ["sala-chemiczna"],
+            "dispreferred": []
+          }
+        },
+        {
+          "subject_id": "biologia-7a",
+          "teacher_id": "nauczyciel-biologia",
+          "lessons_per_week": 2,
+          "max_lessons_per_day": 1,
+          "type": "ANY",
+          "room": {
+            "allowed": ["b2-klasa", "sala-chemiczna"],
+            "preferred": ["sala-chemiczna"],
+            "dispreferred": []
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "klasa8a",
+      "subjects": [
+        {
+          "subject_id": "polski-8a",
+          "teacher_id": "nauczyciel-polski",
+          "lessons_per_week": 5,
+          "max_lessons_per_day": 2,
+          "type": "EARLY",
+          "room": {
+            "allowed": ["a1-klasa", "b1-klasa"],
+            "preferred": ["a1-klasa"],
+            "dispreferred": []
+          }
+        },
+        {
+          "subject_id": "matematyka-8a",
+          "teacher_id": "nauczyciel-matematyka",
+          "lessons_per_week": 5,
+          "max_lessons_per_day": 2,
+          "type": "ANY",
+          "room": {
+            "allowed": ["b1-klasa", "b2-klasa"],
+            "preferred": ["b2-klasa"],
+            "dispreferred": []
+          }
+        },
+        {
+          "subject_id": "wf-8a",
+          "teacher_id": "nauczyciel-wf",
+          "lessons_per_week": 3,
+          "max_lessons_per_day": 1,
+          "type": "LATE",
+          "room": {
+            "allowed": ["sala-gimnastyczna"],
+            "preferred": ["sala-gimnastyczna"],
+            "dispreferred": []
           }
         }
       ]
     }
   ],
+  "unique_groups_combinations":[
+     ["klasa5a","klasa5-ang-podstawowy"],["klasa5a","klasa5-ang-rozszerzony"],["klasa6a"],["klasa7a"],["klasa8a"]
+  ],
   "teachers": [
-    {
-      "teacher_id": "191af2ca-0bc0-4f96-bd9e-b4f7f770d8b7",
-      "unavailability": []
-    },
-    {
-      "teacher_id": "8ad40bb6-9c71-4fba-be1d-ca9be4f8982c",
-      "unavailability": [
-        { "day": 0, "lesson": 0 }
-      ]
-    },
-    {
-      "teacher_id": "575f1dc4-3276-4a79-a0d4-9aac0559bfae",
-      "unavailability": []
-    },
-    {
-      "teacher_id": "3ed2f1bd-ff59-43eb-8447-beb83508f1b9",
-      "unavailability": [
-        { "day": 0, "lesson": 0 },
-        { "day": 1, "lesson": 1 },
-        { "day": 2, "lesson": 2 },
-        { "day": 3, "lesson": 3 }
-      ]
-    }
+    { "teacher_id": "nauczyciel-polski", "unavailability": [] },
+    { "teacher_id": "nauczyciel-angielski", "unavailability": [{ "day": 0, "lesson": 0 }] },
+    { "teacher_id": "nauczyciel-plastyka", "unavailability": [] },
+    { "teacher_id": "nauczyciel-wf", "unavailability": [{ "day": 2, "lesson": 4 }] },
+    { "teacher_id": "nauczyciel-religia", "unavailability": [] },
+    { "teacher_id": "nauczyciel-matematyka", "unavailability": [{ "day": 1, "lesson": 2 }] },
+    { "teacher_id": "nauczyciel-chemia", "unavailability": [] },
+    { "teacher_id": "nauczyciel-biologia", "unavailability": [{ "day": 3, "lesson": 1 }] },
+    { "teacher_id": "nauczyciel-muzyka", "unavailability": [] },
+    { "teacher_id": "nauczyciel-historia", "unavailability": [{ "day": 4, "lesson": 5 }] },
+    { "teacher_id": "nauczyciel-informatyka", "unavailability": [] }
   ]
 }
+

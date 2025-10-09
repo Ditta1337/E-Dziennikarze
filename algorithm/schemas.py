@@ -31,7 +31,6 @@ class SubjectInput(BaseModel):
 
 class GroupInput(BaseModel):
     group_id: str
-    conflicting_groups: List[str]
     subjects: List[SubjectInput]
 
     model_config = {"from_attributes": True}
@@ -61,6 +60,7 @@ class Goal(BaseModel):
 class ScheduleConfig(BaseModel):
     id_id:str
     lessons_per_day: int
+    unique_groups_combinations:List[List[str]]
     goals: List[Goal]
     rooms: List[str]
     groups: List[GroupInput]
