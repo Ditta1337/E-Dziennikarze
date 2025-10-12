@@ -141,8 +141,14 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/property/name/{name}").permitAll()
                         .pathMatchers(HttpMethod.PUT, "/property").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
 
+                        // Notification endpoints
+                        .pathMatchers(HttpMethod.GET, "/notification/unread/user/{userId}").authenticated()
+                        .pathMatchers(HttpMethod.PATCH, "/notification/{notificationId}/read").authenticated()
+                        .pathMatchers(HttpMethod.PATCH, "/notification/read-all").authenticated()
+
                         // WebSocket endpoints
                         .pathMatchers("/ws/echo").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name(), PRINCIPAL.name())
+                        .pathMatchers("/ws/notification").authenticated()
 
                         // Plan endpoints
                         .pathMatchers(HttpMethod.POST, "/plan").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())

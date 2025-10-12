@@ -29,8 +29,10 @@ ext {
 }
 
 dependencies {
+    implementation platform('org.springframework.boot:spring-boot-dependencies:3.4.4')
+
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
-    implementation 'io.r2dbc:r2dbc-postgresql:0.8.12.RELEASE'
+    implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
     implementation 'org.flywaydb:flyway-core'
@@ -44,7 +46,6 @@ dependencies {
     implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
 
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-//    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.3'
     implementation 'me.paulschwarz:spring-dotenv:4.0.0'

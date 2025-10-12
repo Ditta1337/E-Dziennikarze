@@ -6,6 +6,7 @@ import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
 import com.edziennikarze.gradebook.exception.UserAlreadyExistsException;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
 import com.edziennikarze.gradebook.group.groupsubject.GroupSubjectRepository;
+import com.edziennikarze.gradebook.notification.NotificationService;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaughtRepository;
 import com.edziennikarze.gradebook.user.dto.User;
 import com.edziennikarze.gradebook.user.dto.UserResponse;
@@ -45,10 +46,13 @@ public class UserService implements ReactiveUserDetailsService {
 
     private final LoggedInUserService loggedInUserService;
 
+    private final NotificationService notificationService;
+
     public Mono<UserResponse> createUser(Mono<User> userMono) {
         return userMono.flatMap(this::validateUserDoesNotExist)
                 .map(this::prepareNewUser)
                 .flatMap(userRepository::save)
+                .flatMap(user -> sendNotification(user, "Your account has been created."))
                 .map(UserResponse::from);
     }
 
@@ -77,12 +81,13 @@ public class UserService implements ReactiveUserDetailsService {
                     existingUser.setActive(user.isActive());
                     existingUser.setChoosingPreferences(user.isChoosingPreferences());
 
-                    if ( user.getPassword() != null && !user.getPassword()
-                            .isEmpty() ) {
+                    if (user.getPassword() != null && !user.getPassword()
+                            .isEmpty()) {
                         existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
                     }
 
-                    return userRepository.save(existingUser);
+                    return this.sendNotification(existingUser, "Your account details have been updated.")
+                            .then(userRepository.save(existingUser));
                 })
                 .map(UserResponse::from));
     }
@@ -114,6 +119,13 @@ public class UserService implements ReactiveUserDetailsService {
                 .map(UserResponse::from);
     }
 
+    @Override
+    public Mono<UserDetails> findByUsername(String email) {
+        return userRepository.findByEmail(email)
+                .cast(UserDetails.class)
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("User with email " + email + " not found")));
+    }
+
     private Mono<Void> deleteStudentFromRelatedTables(UUID studentId) {
         return studentGuardianRepository.deleteAllByStudentId(studentId)
                 .then(studentGroupRepository.deleteAllByStudentId(studentId))
@@ -129,7 +141,7 @@ public class UserService implements ReactiveUserDetailsService {
         return userRepository.findByEmail(user.getEmail())
                 .hasElement()
                 .flatMap(emailExists -> {
-                    if ( Boolean.TRUE.equals(emailExists) ) {
+                    if (Boolean.TRUE.equals(emailExists)) {
                         return Mono.error(new UserAlreadyExistsException("User with email " + user.getEmail() + " already exists."));
                     }
                     return Mono.just(user);
@@ -143,11 +155,9 @@ public class UserService implements ReactiveUserDetailsService {
         return user;
     }
 
-    @Override
-    public Mono<UserDetails> findByUsername(String email) {
-        return userRepository.findByEmail(email)
-                .cast(UserDetails.class)
-                .switchIfEmpty(Mono.error(new ResourceNotFoundException("User with email " + email + " not found")));
+    private Mono<User> sendNotification(User user, String message) {
+        return notificationService.sendNotification(user.getId(), message)
+                .thenReturn(user);
     }
 }
 

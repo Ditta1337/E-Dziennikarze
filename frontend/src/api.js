@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useStore } from "./store";
+import { useStore } from "./store"; // Assuming your Zustand store is in './store'
 
 const apiClient = axios.create({
     baseURL: process.env.BACKEND_BASE_URL || "http://localhost:8443",
@@ -86,7 +86,7 @@ apiClient.interceptors.response.use(
     }
 );
 
-const websocketClient = {
+export const websocketClient = {
     socket: null,
     listeners: {},
 
@@ -98,6 +98,7 @@ const websocketClient = {
         const token = useStore.getState().token;
 
         if (!token || !path) {
+            console.error("WebSocket connection failed: No token or path provided.");
             return;
         }
 
@@ -108,7 +109,6 @@ const websocketClient = {
         this.socket = new WebSocket(wsURL);
 
         this.socket.onopen = () => this._emit('open');
-
         this.socket.onmessage = (event) => {
             try {
                 const data = JSON.parse(event.data);
@@ -117,14 +117,12 @@ const websocketClient = {
                 this._emit('message', event.data);
             }
         };
-
         this.socket.onclose = () => {
             if (this.socket) {
                 this.socket = null;
                 this._emit('close');
             }
         };
-
         this.socket.onerror = (error) => this._emit('error', error);
     },
 
@@ -170,5 +168,3 @@ export const post = (url, data) => apiClient.post(url, data);
 export const put = (url, data) => apiClient.put(url, data);
 export const patch = (url, data) => apiClient.patch(url, data);
 export const del = (url) => apiClient.delete(url);
-export { websocketClient };
-

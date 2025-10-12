@@ -2,6 +2,8 @@ package com.edziennikarze.gradebook.attendance;
 
 import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
+import com.edziennikarze.gradebook.notification.NotificationService;
+import com.edziennikarze.gradebook.subject.SubjectRepository;
 import com.edziennikarze.gradebook.user.Role;
 
 
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
 import java.util.UUID;
 
 @Service
@@ -19,10 +20,15 @@ public class AttendanceService {
 
     private final AttendanceRepository attendanceRepository;
 
+    private final SubjectRepository subjectRepository;
+
     private final LoggedInUserService loggedInUserService;
 
+    private final NotificationService notificationService;
+
     public Mono<Attendance> createAttendance(Mono<Attendance> attendanceMono) {
-        return attendanceMono.flatMap(attendanceRepository::save);
+        return attendanceMono.flatMap(attendanceRepository::save)
+                .flatMap(attendance -> sendNotification(attendance, "Dodano nową obecność: " + attendance.getStatus().getDisplayName()));
     }
 
     public Flux<Attendance> getStudentsAttendanceBySubject(UUID studentId, UUID subjectId) {
@@ -39,7 +45,7 @@ public class AttendanceService {
                 .then(attendanceRepository.findAllByStudentId(studentId)
                         .collectList())
                 .map(studentAttendance -> {
-                    if ( studentAttendance.isEmpty() ) {
+                    if (studentAttendance.isEmpty()) {
                         return 0.0;
                     }
                     long presentCount = studentAttendance.stream()
@@ -55,7 +61,7 @@ public class AttendanceService {
                 .then(attendanceRepository.findAllByStudentIdAndSubjectId(studentId, subjectId)
                         .collectList())
                 .map(studentAttendance -> {
-                    if ( studentAttendance.isEmpty() ) {
+                    if (studentAttendance.isEmpty()) {
                         return 0.0;
                     }
                     long presentCount = studentAttendance.stream()
@@ -70,10 +76,28 @@ public class AttendanceService {
         return attendanceMono.flatMap(attendance -> attendanceRepository.findById(attendance.getId())
                 .switchIfEmpty(Mono.error(new ResourceNotFoundException("Attendance with id " + attendance.getId() + " not found")))
                 .flatMap(existingAttendance -> {
+                    AttendanceStatus oldStatus = existingAttendance.getStatus();
                     existingAttendance.setStudentId(attendance.getStudentId());
                     existingAttendance.setSubjectId(attendance.getSubjectId());
                     existingAttendance.setStatus(attendance.getStatus());
-                    return attendanceRepository.save(existingAttendance);
+
+                    return sendNotification(attendance, String.format("Zmodyfikowano obecność z %s na %s", oldStatus.getDisplayName(), attendance.getStatus().getDisplayName()))
+                            .then(attendanceRepository.save(existingAttendance));
                 }));
+    }
+
+    private Mono<Attendance> sendNotification(Attendance attendance, String message) {
+        return subjectRepository.findById(attendance.getSubjectId())
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("Subject not found for attendance ID: " + attendance.getId())))
+                .flatMap(subject -> {
+                    UUID recipientId = attendance.getStudentId();
+                    String detailedMessage = String.format(
+                            "%s dla przedmiotu: %s",
+                            message,
+                            subject.getName()
+                    );
+                    return notificationService.sendNotification(recipientId, detailedMessage)
+                            .thenReturn(attendance);
+                });
     }
 }

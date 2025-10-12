@@ -5,6 +5,7 @@ import {Avatar, Box, CircularProgress, Typography} from "@mui/material";
 import {useNavigate} from "react-router";
 import "./Header.scss";
 import PopupMenu from "../popup-menu/PopupMenu";
+import NotificationBell from "../notification-bell/NotificationBell";
 
 function Header() {
     const userId = useStore((state) => state.user.userId);
@@ -60,8 +61,8 @@ function Header() {
     }
 
     const menuOptions = [
-        { label: "Przejdź do profilu", onClick: navigateToProfile },
-        { label: "Wyloguj się", onClick: handleLogout },
+        {label: "Przejdź do profilu", onClick: navigateToProfile},
+        {label: "Wyloguj się", onClick: handleLogout},
     ];
 
     return (
@@ -82,6 +83,7 @@ function Header() {
                                     {`${user.name} ${user.surname}`}
                                 </Typography>
                             </Box>
+                            <NotificationBell/>
                             <PopupMenu options={menuOptions}>
                                 <Avatar className="avatar" alt={user.name} src={user.image_base64}/>
                             </PopupMenu>
