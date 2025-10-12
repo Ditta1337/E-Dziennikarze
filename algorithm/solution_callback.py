@@ -5,7 +5,7 @@ import numpy as np
 from entities import DataParser
 
 class SolutionCallback(CpSolverSolutionCallback):
-    def __init__(self, schedule, goals, groups, teachers, subjects,rooms, teaching_days, max_hours_per_day):
+    def __init__(self, schedule, goals, groups, teachers, subjects,rooms, teaching_days, max_lessons_per_day):
         super().__init__()
         self.schedule = schedule
         self.goals= goals
@@ -14,7 +14,7 @@ class SolutionCallback(CpSolverSolutionCallback):
         self.subjects = subjects
         self.rooms = rooms
         self.teaching_days = teaching_days
-        self.max_hours_per_day = max_hours_per_day
+        self.max_lessons_per_day = max_lessons_per_day
         self.url = os.getenv("CALLBACK_URL")
         self.last_solution= None
 
@@ -25,7 +25,7 @@ class SolutionCallback(CpSolverSolutionCallback):
             "conflicts:", self.NumConflicts(),
             "branches:", self.NumBranches(),
             )
- 
+        self.print_schedule()
         self.last_solution = {var: self.Value(var) for var in self.schedule.values()}
         #print(self.schedule_to_json())
 
@@ -35,16 +35,16 @@ class SolutionCallback(CpSolverSolutionCallback):
 
         for idx, var in self.schedule.items():
             if self.Value(var):
-                group, teacher, subject, room, day, hour = idx
+                group, teacher, subject, room, day, lesson = idx
                 groups[group]["schedule"].append({
-                    "hour": hour,
+                    "lesson": lesson,
                     "day": day,
                     "subject": DataParser.get_subject_by_id(subject).uuid,
                     "teacher": DataParser.get_teacher_by_id(teacher).uuid,
                     "room": DataParser.get_room_by_id(room).uuid
                 })
                 teachers[teacher]["schedule"].append({
-                    "hour": hour,
+                    "lesson": lesson,
                     "day": day,
                     "subject": DataParser.get_subject_by_id(subject).uuid,
                     "group": DataParser.get_group_by_id(group).uuid,
@@ -56,3 +56,20 @@ class SolutionCallback(CpSolverSolutionCallback):
             "groups": list(groups.values()),
             "teachers": list(teachers.values())
         }
+    def print_schedule(self):
+        print("\n=== PLAN LEKCJI DLA GRUP ===")
+        for group in self.groups:
+            print(f"\nGrupa: {group.uuid}")
+            timetable = [["-" for _ in range(self.max_lessons_per_day)] for _ in range(self.teaching_days)]
+            for (subject_id, room_id, day, lesson), var in self.schedule.items():
+                if self.Value(var):
+                    subject = DataParser.get_subject_by_id(subject_id).uuid
+                    room = DataParser.get_room_by_id(room_id).uuid
+                    teacher = DataParser.get_teacher_by_id(
+                        next(s.teacher.id for s in self.subjects if s.id == subject_id)
+                    ).uuid
+                    if group.id in [g.id for g in self.groups if subject_id in [s.id for s in g.subjects]]:
+                        #timetable[day][lesson] = f"{subject} ({teacher}, {room})"
+                        timetable[day][lesson] = f"X"
+            for day_idx, lessons in enumerate(timetable):
+                print(f"Dzień {day_idx + 1}: {lessons}")
