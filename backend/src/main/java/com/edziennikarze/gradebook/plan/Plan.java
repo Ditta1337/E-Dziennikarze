@@ -28,5 +28,8 @@ public class Plan {
     private List<PlanGroup> groups;
 
     @NotNull
+    private List<List<UUID>> uniqueGroupCombinations;
+
+    @NotNull
     private List<PlanTeacher> teachers;
 }

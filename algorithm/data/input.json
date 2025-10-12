@@ -222,7 +222,7 @@
       ]
     }
   ],
-  "unique_groups_combinations":[
+  "unique_group_combinations":[
      ["klasa5a","klasa5-ang-podstawowy"],["klasa5a","klasa5-ang-rozszerzony"],["klasa6a"],["klasa7a"],["klasa8a"]
   ],
   "teachers": [
