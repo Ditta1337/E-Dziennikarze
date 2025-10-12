@@ -4,7 +4,6 @@ import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
 import com.edziennikarze.gradebook.notification.NotificationService;
 import com.edziennikarze.gradebook.subject.SubjectRepository;
-import com.edziennikarze.gradebook.user.Role;
 
 
 import lombok.RequiredArgsConstructor;
@@ -13,6 +12,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import java.util.UUID;
+
+import static com.edziennikarze.gradebook.user.Role.*;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +33,7 @@ public class AttendanceService {
     }
 
     public Flux<Attendance> getStudentsAttendanceBySubject(UUID studentId, UUID subjectId) {
-        return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, Role.TEACHER, Role.PRINCIPAL, Role.OFFICE_WORKER, Role.GUARDIAN)
+        return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, TEACHER, PRINCIPAL, OFFICE_WORKER, GUARDIAN)
                 .thenMany(attendanceRepository.findAllByStudentIdAndSubjectId(studentId, subjectId));
     }
 
@@ -41,7 +42,7 @@ public class AttendanceService {
     }
 
     public Mono<Double> getStudentsAverageAttendance(UUID studentId) {
-        return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, Role.TEACHER, Role.PRINCIPAL, Role.OFFICE_WORKER, Role.GUARDIAN)
+        return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, TEACHER, PRINCIPAL, OFFICE_WORKER, GUARDIAN)
                 .then(attendanceRepository.findAllByStudentId(studentId)
                         .collectList())
                 .map(studentAttendance -> {
@@ -57,7 +58,7 @@ public class AttendanceService {
     }
 
     public Mono<Double> getStudentsAverageAttendanceBySubject(UUID studentId, UUID subjectId) {
-        return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, Role.TEACHER, Role.PRINCIPAL, Role.OFFICE_WORKER, Role.GUARDIAN)
+        return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, TEACHER, PRINCIPAL, OFFICE_WORKER, GUARDIAN)
                 .then(attendanceRepository.findAllByStudentIdAndSubjectId(studentId, subjectId)
                         .collectList())
                 .map(studentAttendance -> {
@@ -88,7 +89,7 @@ public class AttendanceService {
 
     private Mono<Attendance> sendNotification(Attendance attendance, String message) {
         return subjectRepository.findById(attendance.getSubjectId())
-                .switchIfEmpty(Mono.error(new ResourceNotFoundException("Subject not found for attendance ID: " + attendance.getId())))
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("Subject with id " + attendance.getId() + " not found")))
                 .flatMap(subject -> {
                     UUID recipientId = attendance.getStudentId();
                     String detailedMessage = String.format(

@@ -16,6 +16,8 @@ public interface StudentGuardianRepository extends ReactiveCrudRepository<Studen
 
     Flux<StudentGuardian> findAllByGuardianId(@NotNull UUID guardianId);
 
+    Mono<Boolean> existsByGuardianIdAndStudentId(@NotNull UUID guardianId, @NotNull UUID studentId);
+
     Mono<Void> deleteAllByGuardianId(@NotNull UUID guardianId);
 
     Mono<Void> deleteAllByStudentId(@NotNull UUID studentId);

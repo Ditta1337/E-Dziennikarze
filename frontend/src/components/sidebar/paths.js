@@ -6,6 +6,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 import MessageIcon from '@mui/icons-material/Message';
+import GradeIcon from '@mui/icons-material/Grade';
 
 export const ProfilePath = {text: "Profil", icon: <AccountCircleIcon/>, path: "/profile"}
 export const GradebookPath = {text: "Dziennik", icon: <MenuBookIcon/>, path: "/gradebook"}
@@ -15,3 +16,4 @@ export const AddUser = {text: "Dodaj użytkownika", icon: <PersonAddAltIcon/>, p
 export const ListUsers = {text: "Lista użytkowników", icon: <PeopleOutlineIcon/>, path: "/admin/list-users"}
 export const TeacherUnavailabilites = {text: "Uzupełnij niedostępność", icon: <EventBusyIcon/>, path: "/teacher/unavailable"}
 export const WebsocketTest = {text: "Test WebSocket", icon: <MessageIcon/>, path: "/websocket-test"}
+export const Grades = {text: "Oceny", icon: <GradeIcon/>, path: "/grades"}

@@ -11,7 +11,17 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import {useLocation, useNavigate} from 'react-router';
 import {useStore} from "../../store";
-import {HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, WebsocketTest} from "./paths";
+import {
+    HomePath,
+    CalendarPath,
+    GradebookPath,
+    ProfilePath,
+    AddUser,
+    ListUsers,
+    TeacherUnavailabilites,
+    WebsocketTest,
+    Grades
+} from "./paths";
 import './Sidebar.scss';
 import {
     AdminRole,
@@ -32,8 +42,8 @@ const Sidebar = ({open, toggle}) => {
         switch (role) {
             case AdminRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, WebsocketTest];
             case TeacherRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, TeacherUnavailabilites, WebsocketTest];
-            case StudentRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest];
-            case GuardianRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest];
+            case StudentRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, Grades];
+            case GuardianRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, Grades];
             case OfficeWorkerRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest];
             case PrincipalRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest];
         }

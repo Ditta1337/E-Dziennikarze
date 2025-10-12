@@ -4,7 +4,7 @@ import {format} from "date-fns";
 import {AppLocale} from "../../../../config/localization";
 import "./TeacherLessonDetails.scss"
 
-const TeacherLessonDetails = ({event, setCheckAttendanceModalOpen, isOpen, onClose}) => {
+const TeacherLessonDetails = ({event, setCheckAttendanceModalOpen, setGradesModalOpen, isOpen, onClose}) => {
     if (!event) return null
 
     return (
@@ -22,15 +22,25 @@ const TeacherLessonDetails = ({event, setCheckAttendanceModalOpen, isOpen, onClo
             <Typography className="room">
                 {`Sala: ${event.room}`}
             </Typography>
-            <Button
-                className="attendance-button"
-                variant="contained"
-                onClick={() => setCheckAttendanceModalOpen(true)}
-            >
-                Sprawdź obecność
-            </Button>
+            <div className="actions">
+                <Button
+                    className="action-button"
+                    variant="contained"
+                    onClick={() => setCheckAttendanceModalOpen(true)}
+                >
+                    Sprawdź obecność
+                </Button>
+                <Button
+                    className="action-button"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setGradesModalOpen(true)}
+                >
+                    Zarządzaj ocenami
+                </Button>
+            </div>
         </Modal>
     )
 }
 
-export default TeacherLessonDetails
+export default TeacherLessonDetails;

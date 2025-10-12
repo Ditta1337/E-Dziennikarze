@@ -11,7 +11,7 @@ CREATE TABLE notifications
 );
 
 ALTER TABLE notifications
-    ADD CONSTRAINT notifications_users_user
+    ADD CONSTRAINT notifications_users
         FOREIGN KEY (user_id)
             REFERENCES users (id)
             ON DELETE CASCADE;

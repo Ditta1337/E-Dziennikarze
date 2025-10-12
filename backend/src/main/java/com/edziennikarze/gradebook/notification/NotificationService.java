@@ -16,7 +16,9 @@ import java.util.UUID;
 public class NotificationService {
 
     private final NotificationDispatcher dispatcher;
+
     private final NotificationRepository notificationRepository;
+
     private final LoggedInUserService loggedInUserService;
 
     public Mono<Void> sendNotification(UUID userId, String message) {

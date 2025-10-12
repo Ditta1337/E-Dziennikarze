@@ -15,6 +15,7 @@ import CreateRoom from "./views/create-room/CreateRoom";
 import CalendarRouter from "./role-based-routers/CalendarRouter";
 import UnavailableCalendarRouter from "./role-based-routers/UnavailableCalendarRouter";
 import WebsocketTest from "./views/websocket-test/WebsocketTest";
+import GradeRouter from "./role-based-routers/GradeRouter";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
 
                 <Route element={<ProtectedRoute />}>
                     <Route path="/gradebook" element={<Card><Gradebook /></Card>} />
+                    <Route path="/grades" element={<Card><GradeRouter /></Card>} />
                     <Route path="/calendar" element={<Card><CalendarRouter /></Card>} />
                     <Route path="/profile" element={<Card><Profile /></Card>} />
 

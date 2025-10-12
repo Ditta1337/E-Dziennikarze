@@ -1,0 +1,28 @@
+.grade-list-teacher {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    width: 100%;
+    padding: 20px;
+
+    .title {
+        text-align: center;
+        padding-bottom: 20px;
+        font-size: xx-large;
+        font-weight: bold;
+    }
+
+    .MuiDataGrid-root {
+        border: none;
+    }
+
+    .grades-cell {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+        height: 100%;
+        padding: 8px 0;
+    }
+}

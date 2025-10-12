@@ -69,7 +69,8 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.PATCH, "/user/{userId}/deactivate", "/user/{userId}/activate").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
 
                         // Student-Guardian endpoints
-                        .pathMatchers(HttpMethod.GET, "/student-guardian/guardian/{guardianId}", "/student-guardian/student/{studentId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.GET, "/student-guardian/student/{studentId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.GET, "/student-guardian/guardian/{guardianId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), GUARDIAN.name())
                         .pathMatchers(HttpMethod.GET, "/student-guardian/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.POST, "/student-guardian").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.DELETE, "/student-guardian/guardian/{guardianId}/student/{studentId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
@@ -135,6 +136,14 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/attendance/lesson/{lessonId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name())
                         .pathMatchers(HttpMethod.POST, "/attendance").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name())
                         .pathMatchers(HttpMethod.PUT, "/attendance").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name())
+
+                        // Grade endpoints
+                        .pathMatchers(HttpMethod.POST, "/grade").hasAnyAuthority(ADMIN.name(), TEACHER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.GET, "/grade/all/group/{groupId}/subject/{subjectId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.GET, "/grade/all/student/{studentId}/subject/{subjectId}", "/grade/all/student/{studentId}").authenticated()
+                        .pathMatchers(HttpMethod.GET, "/grade/average/student/{studentId}", "/grade/average/student/{studentId}/subject/{subjectId}").authenticated()
+                        .pathMatchers(HttpMethod.PUT, "/grade").hasAnyAuthority(ADMIN.name(), TEACHER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.DELETE, "/grade").hasAnyAuthority(ADMIN.name(), TEACHER.name(), PRINCIPAL.name())
 
                         // Property endpoints
                         .pathMatchers(HttpMethod.GET, "/property/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())

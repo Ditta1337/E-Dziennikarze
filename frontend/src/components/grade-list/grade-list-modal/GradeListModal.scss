@@ -1,0 +1,19 @@
+.grade-modal {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+
+    .title {
+        padding: 20px;
+        font-size: x-large;
+        font-weight: bold;
+    }
+
+    .grade-list-teacher {
+        width: 95%;
+        max-width: 1100px;
+        height: 65vh;
+        padding: 0;
+    }
+}
