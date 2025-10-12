@@ -1,8 +1,10 @@
 package com.edziennikarze.gradebook.user.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +22,8 @@ import com.edziennikarze.gradebook.user.Role;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table("users")
 public class User implements UserDetails {
 

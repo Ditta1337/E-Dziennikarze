@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -13,6 +15,8 @@ import lombok.Data;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table("teacher_unavailabilities")
 public class TeacherUnavailability {
 
