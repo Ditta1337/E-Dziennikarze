@@ -3,6 +3,8 @@ package com.edziennikarze.gradebook.plan;
 import com.edziennikarze.gradebook.plan.dto.PlanGoal;
 import com.edziennikarze.gradebook.plan.dto.PlanGroup;
 import com.edziennikarze.gradebook.plan.dto.PlanTeacher;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +15,7 @@ import org.springframework.data.annotation.Id;
 import java.util.List;
 import java.util.UUID;
 
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Data
 @Builder
 @NoArgsConstructor

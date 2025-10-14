@@ -6,9 +6,14 @@ import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.GroupRepository;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
+import com.edziennikarze.gradebook.plan.dto.PlanGroup;
+import com.edziennikarze.gradebook.plan.dto.PlanTeacher;
+import com.edziennikarze.gradebook.plan.dto.PlanUnavailability;
 import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailability;
 import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailabilityRepository;
 import com.edziennikarze.gradebook.plan.util.PlanTestDatabaseCleaner;
+import com.edziennikarze.gradebook.property.PropertyRepository;
+import com.edziennikarze.gradebook.property.PropertyType;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.UserRepository;
 import com.edziennikarze.gradebook.user.dto.User;
@@ -20,14 +25,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
+import reactor.core.publisher.Mono;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.edziennikarze.gradebook.util.ObjectsBuilder.*;
 import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildGroup;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "server.port=0")
@@ -52,6 +64,9 @@ class PlanControllerIntTest {
 
     @Autowired
     private TeacherUnavailabilityRepository teacherUnavailabilityRepository;
+
+    @Autowired
+    private PropertyRepository propertyRepository;
 
 
     private List<User> students;
@@ -78,14 +93,71 @@ class PlanControllerIntTest {
         planTestDatabaseCleaner.cleanAll();
     }
 
+
     @Test
     void shouldEnrichPlanCorrectly() {
-        // TODO szywoj
         // given
+        Plan plan = Plan.builder()
+                .goals(List.of())
+                .groups(groups.stream()
+                        .map(g -> PlanGroup.builder()
+                                .id(g.getId())
+                                .subjects(List.of())
+                                .build())
+                        .toList())
+                .teachers(teachers.stream()
+                        .map(t -> PlanTeacher.builder()
+                                .teacherId(t.getId())
+                                .build())
+                        .toList())
+                .uniqueGroupCombinations(List.of())
+                .lessonsPerDay(5)
+                .build();
+
+        teacherUnavailabilityRepository.saveAll(teacherUnavailabilities)
+                .collectList()
+                .block();
 
         // when
+        Plan enrichedPlan = planController.initializePlan(Mono.just(plan)).block();
 
         // then
+
+        //gourps
+        UUID groupA = groups.get(0).getId();
+        UUID groupB = groups.get(1).getId();
+
+        List<Set<UUID>> expected = List.of(
+                Set.of(groupA),
+                Set.of(groupB),
+                Set.of(groupA, groupB)
+        );
+
+        List<Set<UUID>> actual = enrichedPlan.getUniqueGroupCombinations().stream()
+                .map(HashSet::new)
+                .collect(Collectors.toList());
+
+        assertTrue(actual.containsAll(expected) && expected.containsAll(actual),
+                "The unique group combinations do not match, ignoring order");
+
+
+        //teachers
+        List<PlanUnavailability> expectedUnavailabilities = List.of(
+                PlanUnavailability.builder().day(0).lesson(0).build(),
+                PlanUnavailability.builder().day(0).lesson(1).build(),
+                PlanUnavailability.builder().day(0).lesson(6).build(),
+                PlanUnavailability.builder().day(0).lesson(7).build(),
+                PlanUnavailability.builder().day(1).lesson(1).build(),
+                PlanUnavailability.builder().day(1).lesson(2).build(),
+                PlanUnavailability.builder().day(1).lesson(3).build()
+        );
+
+        List<PlanUnavailability> actualUnavailabilities = enrichedPlan.getTeachers().stream()
+                .flatMap(t -> t.getUnavailability().stream())
+                .toList();
+        assertTrue(actualUnavailabilities.containsAll(expectedUnavailabilities)
+                        && expectedUnavailabilities.containsAll(actualUnavailabilities),
+                "The teacher unavailabilities do not match, ignoring order");
     }
 
     private void setUpStudents() {
@@ -136,12 +208,12 @@ class PlanControllerIntTest {
         UUID secondTeacherId = teachers.getLast()
                 .getId();
 
-        teacherUnavailabilities = List.of(buildTeacherUnavailability(firstTeacherId, LocalTime.of(7, 0), LocalTime.of(8, 30), DayOfWeek.MONDAY),
+        teacherUnavailabilities = List.of(
+                buildTeacherUnavailability(firstTeacherId, LocalTime.of(7, 0), LocalTime.of(8, 30), DayOfWeek.MONDAY),
                 buildTeacherUnavailability(firstTeacherId, LocalTime.of(18, 30), LocalTime.of(20, 15), DayOfWeek.MONDAY),
                 buildTeacherUnavailability(firstTeacherId, LocalTime.of(8, 0), LocalTime.of(10, 30), DayOfWeek.TUESDAY),
                 buildTeacherUnavailability(firstTeacherId, LocalTime.of(17, 0), LocalTime.of(21, 30), DayOfWeek.TUESDAY),
                 buildTeacherUnavailability(secondTeacherId, LocalTime.of(13, 0), LocalTime.of(17, 30), DayOfWeek.MONDAY));
     }
-
 
 }

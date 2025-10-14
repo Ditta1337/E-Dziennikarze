@@ -33,5 +33,6 @@ public class PlanTestDatabaseCleaner {
                 .block();
         teacherUnavailabilityRepository.deleteAll()
                 .block();
+
     }
 }
