@@ -1,21 +1,15 @@
 package com.edziennikarze.gradebook.grade.dto;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Table("grades")
 public class GradeResponse {
 
     @Id
@@ -34,12 +28,12 @@ public class GradeResponse {
     private Double grade;
 
     @NotNull
-    @Builder.Default
-    private Double weight = 1.0;
+    private Double weight;
+
+    private boolean isFinal;
 
     @NotNull
-    @Builder.Default
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     public static GradeResponse from(Grade grade, String subjectName) {
         return GradeResponse.builder()
@@ -49,6 +43,7 @@ public class GradeResponse {
                 .subjectName(subjectName)
                 .grade(grade.getGrade())
                 .weight(grade.getWeight())
+                .isFinal(grade.isFinal())
                 .createdAt(grade.getCreatedAt())
                 .build();
     }

@@ -1,6 +1,7 @@
 package com.edziennikarze.gradebook.grade;
 
 import com.edziennikarze.gradebook.grade.dto.Grade;
+import com.edziennikarze.gradebook.grade.dto.GradeAverageResponse;
 import com.edziennikarze.gradebook.grade.dto.GradeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,14 +37,33 @@ public class GradeController {
         return gradeService.getGroupsGradesBySubject(groupId, subjectId);
     }
 
-    @GetMapping("/average/student/{studentId}")
-    public Mono<Double> getStudentsAverageGrade(@PathVariable UUID studentId) {
-        return gradeService.getStudentsAverageGrade(studentId);
+    @GetMapping("/final/student/{studentId}/subject/{subjectId}")
+    public Mono<GradeResponse> getStudentsFinalGradeBySubject(@PathVariable UUID studentId, @PathVariable UUID subjectId) {
+        return gradeService.getStudentsFinalGradeBySubject(studentId, subjectId);
+    }
+    @GetMapping("/final/group/{groupId}/subject/{subjectId}")
+    public Flux<GradeResponse> getGroupsFinalGradesBySubject(@PathVariable UUID groupId, @PathVariable UUID subjectId) {
+        return gradeService.getGroupsFinalGradesBySubject(groupId, subjectId);
     }
 
-    @GetMapping("/average/student/{studentId}/subject/{subjectId}")
-    public Mono<Double> getStudentsAverageGradeBySubject(@PathVariable UUID studentId, @PathVariable UUID subjectId) {
-        return gradeService.getStudentsAverageGradeBySubject(studentId, subjectId);
+    @GetMapping("/final/student/{studentId}")
+    public Flux<GradeResponse> getAllStudentsFinalGrades(@PathVariable UUID studentId) {
+        return gradeService.getAllStudentsFinalGrades(studentId);
+    }
+
+    @GetMapping("/final/average/student/{studentId}")
+    public Mono<Double> getStudentsAverageFinalGrade(@PathVariable UUID studentId) {
+        return gradeService.getStudentsAverageFinalGrade(studentId);
+    }
+
+    @GetMapping("/average/student/{studentId}")
+    public Flux<GradeAverageResponse> getStudentsAverageGrades(@PathVariable UUID studentId) {
+        return gradeService.getStudentsAverageGrades(studentId);
+    }
+
+    @GetMapping("/average/group/{groupId}/subject/{subjectId}")
+    public Flux<GradeAverageResponse> getGroupsAverageGradeBySubject(@PathVariable UUID groupId, @PathVariable UUID subjectId) {
+        return gradeService.getGroupsAverageGradeBySubject(groupId, subjectId);
     }
 
     @PutMapping

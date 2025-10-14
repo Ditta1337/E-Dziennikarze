@@ -3,7 +3,10 @@ package com.edziennikarze.gradebook.grade;
 import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;
 import com.edziennikarze.gradebook.grade.dto.Grade;
+import com.edziennikarze.gradebook.grade.dto.GradeAverageResponse;
 import com.edziennikarze.gradebook.grade.dto.GradeResponse;
+import com.edziennikarze.gradebook.group.groupsubject.GroupSubjectRepository;
+import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubject;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
 import com.edziennikarze.gradebook.notification.NotificationService;
@@ -26,6 +29,7 @@ public class GradeService {
     private final GradeRepository gradeRepository;
     private final SubjectRepository subjectRepository;
     private final StudentGroupRepository studentGroupRepository;
+    private final GroupSubjectRepository groupSubjectRepository;
     private final NotificationService notificationService;
     private final LoggedInUserService loggedInUserService;
 
@@ -33,8 +37,9 @@ public class GradeService {
         return gradeMono.flatMap(gradeRepository::save)
                 .flatMap(this::enrichGradeWithSubjectName)
                 .flatMap(response -> {
-                    String message = String.format("Dodano nową ocenę %s o wadze %s z przedmiotu %s",
-                            response.getGrade(), response.getWeight(), response.getSubjectName());
+                    boolean isFinal = response.isFinal();
+                    String message = String.format("Dodano nową %socenę %s o wadze %s z przedmiotu %s",
+                            isFinal ? "końcową " : "", response.getGrade(), response.getWeight(), response.getSubjectName());
                     return notificationService.sendNotification(response.getStudentId(), message)
                             .thenReturn(response);
                 });
@@ -42,13 +47,13 @@ public class GradeService {
 
     public Flux<GradeResponse> getStudentsGradesBySubject(UUID studentId, UUID subjectId) {
         Flux<Grade> gradesFlux = loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, TEACHER, PRINCIPAL, OFFICE_WORKER, GUARDIAN)
-                .thenMany(gradeRepository.findAllByStudentIdAndSubjectId(studentId, subjectId));
+                .thenMany(gradeRepository.findAllByStudentIdAndSubjectIdAndIsFinal(studentId, subjectId, false));
         return enrichGradesWithSubjectNames(gradesFlux);
     }
 
     public Flux<GradeResponse> getAllStudentsGrades(UUID studentId) {
-        Flux<Grade> gradesFlux = loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, TEACHER, PRINCIPAL, OFFICE_WORKER, GUARDIAN)
-                .thenMany(gradeRepository.findAllByStudentId(studentId));
+        Flux<Grade> gradesFlux = loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, PRINCIPAL, OFFICE_WORKER, GUARDIAN)
+                .thenMany(gradeRepository.findAllByStudentIdAndIsFinal(studentId, false));
         return enrichGradesWithSubjectNames(gradesFlux);
     }
 
@@ -56,37 +61,77 @@ public class GradeService {
         Flux<Grade> gradesFlux = studentGroupRepository.findAllByGroupId(groupId)
                 .map(StudentGroup::getStudentId)
                 .collectList()
-                .flatMapMany(studentIds -> gradeRepository.findAllByStudentIdInAndSubjectId(studentIds, subjectId));
+                .flatMapMany(studentIds -> gradeRepository.findAllByStudentIdInAndSubjectIdAndIsFinal(studentIds, subjectId, false));
         return enrichGradesWithSubjectNames(gradesFlux);
     }
 
-    public Mono<Double> getStudentsAverageGrade(UUID studentId) {
+    public Mono<GradeResponse> getStudentsFinalGradeBySubject(UUID studentId, UUID subjectId) {
+        Mono<Grade> gradeMono = loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, TEACHER, PRINCIPAL, OFFICE_WORKER, GUARDIAN)
+                .thenMany(gradeRepository.findAllByStudentIdAndSubjectIdAndIsFinal(studentId, subjectId, true))
+                .singleOrEmpty()
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("Final grade for student with id " + studentId + " and subject id " + subjectId + " not found")));
+        return gradeMono.flatMap(this::enrichGradeWithSubjectName);
+    }
+
+    public Flux<GradeResponse> getGroupsFinalGradesBySubject(UUID groupId, UUID subjectId) {
+        Flux<Grade> gradesFlux = studentGroupRepository.findAllByGroupId(groupId)
+                .map(StudentGroup::getStudentId)
+                .collectList()
+                .flatMapMany(studentIds -> gradeRepository.findAllByStudentIdInAndSubjectIdAndIsFinal(studentIds, subjectId, true));
+        return enrichGradesWithSubjectNames(gradesFlux);
+    }
+
+    public Flux<GradeResponse> getAllStudentsFinalGrades(UUID studentId) {
+        Flux<Grade> gradesFlux = loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, PRINCIPAL, OFFICE_WORKER, GUARDIAN)
+                .thenMany(gradeRepository.findAllByStudentIdAndIsFinal(studentId, true));
+        return enrichGradesWithSubjectNames(gradesFlux);
+    }
+
+    public Mono<Double> getStudentsAverageFinalGrade(UUID studentId) {
         return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, TEACHER, PRINCIPAL, OFFICE_WORKER, GUARDIAN)
-                .then(gradeRepository.findAllByStudentId(studentId).collectList())
+                .then(gradeRepository.findAllByStudentIdAndIsFinal(studentId, true).collectList())
                 .map(this::calculateWeightedAverage);
     }
 
-    public Mono<Double> getStudentsAverageGradeBySubject(UUID studentId, UUID subjectId) {
-        return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, TEACHER, PRINCIPAL, OFFICE_WORKER, GUARDIAN)
-                .then(gradeRepository.findAllByStudentIdAndSubjectId(studentId, subjectId).collectList())
-                .map(this::calculateWeightedAverage);
+    public Flux<GradeAverageResponse> getStudentsAverageGrades(UUID studentId) {
+        return loggedInUserService.isSelfOrAllowedRoleElseThrow(studentId, PRINCIPAL, GUARDIAN)
+                .thenMany(getSubjectIdsForStudent(studentId)
+                        .flatMapMany(Flux::fromIterable)
+                        .flatMap(subjectId -> calculateAverageForSubject(studentId, subjectId))
+                );
+    }
+
+    public Flux<GradeAverageResponse> getGroupsAverageGradeBySubject(UUID groupId, UUID subjectId) {
+        return studentGroupRepository.findAllByGroupId(groupId)
+                .map(StudentGroup::getStudentId)
+                .collectList()
+                .flatMapMany(studentIds -> gradeRepository.findAllByStudentIdInAndSubjectIdAndIsFinal(studentIds, subjectId, false)
+                        .groupBy(Grade::getStudentId)
+                        .flatMap(groupedFlux -> groupedFlux.collectList()
+                                .map(grades -> GradeAverageResponse.builder()
+                                        .studentId(grades.getFirst().getStudentId())
+                                        .subjectId(subjectId)
+                                        .average(calculateWeightedAverage(grades))
+                                        .build()
+                                )
+                        )
+                );
     }
 
     public Mono<GradeResponse> updateGrade(Mono<Grade> gradeMono) {
         return gradeMono.flatMap(grade -> gradeRepository.findById(grade.getId())
                 .switchIfEmpty(Mono.error(new ResourceNotFoundException("Grade with id " + grade.getId() + " not found")))
                 .flatMap(existingGrade -> {
-                    final Double oldGrade = existingGrade.getGrade();
-                    final Double oldWeight = existingGrade.getWeight();
-
+                    boolean isFinal = existingGrade.isFinal();
+                    Double oldGrade = existingGrade.getGrade();
+                    Double oldWeight = existingGrade.getWeight();
                     existingGrade.setGrade(grade.getGrade());
                     existingGrade.setWeight(grade.getWeight());
-
                     return gradeRepository.save(existingGrade)
                             .flatMap(this::enrichGradeWithSubjectName)
                             .flatMap(response -> {
-                                String message = String.format("Zaktualizowano ocenę z %s (waga %s) na %s (waga %s) z przedmiotu %s",
-                                        oldGrade, oldWeight, response.getGrade(), response.getWeight(), response.getSubjectName());
+                                String message = String.format("Zaktualizowano %socenę z %s (waga %s) na %s (waga %s) z przedmiotu %s",
+                                        isFinal ? "końcową " : "", oldGrade, oldWeight, response.getGrade(), response.getWeight(), response.getSubjectName());
                                 return notificationService.sendNotification(response.getStudentId(), message)
                                         .thenReturn(response);
                             });
@@ -100,8 +145,9 @@ public class GradeService {
                 .flatMap(gradeToDelete ->
                         enrichGradeWithSubjectName(gradeToDelete)
                                 .flatMap(response -> {
-                                    String message = String.format("Usunięto ocenę %s o wadze %s z przedmiotu %s",
-                                            response.getGrade(), response.getWeight(), response.getSubjectName());
+                                    boolean isFinal = gradeToDelete.isFinal();
+                                    String message = String.format("Usunięto %socenę %s o wadze %s z przedmiotu %s",
+                                            isFinal ? "końcową " : "", response.getGrade(), response.getWeight(), response.getSubjectName());
                                     return gradeRepository.delete(gradeToDelete)
                                             .then(notificationService.sendNotification(response.getStudentId(), message));
                                 })
@@ -116,34 +162,46 @@ public class GradeService {
     }
 
     private Flux<GradeResponse> enrichGradesWithSubjectNames(Flux<Grade> gradesFlux) {
-        return gradesFlux.collectList()
-                .flatMapMany(grades -> {
-                    List<UUID> subjectIds = grades.stream()
-                            .map(Grade::getSubjectId)
-                            .distinct()
-                            .toList();
-
-                    return subjectRepository.findAllById(subjectIds)
-                            .collectMap(Subject::getId, Subject::getName)
-                            .flatMapMany(subjectMap -> Flux.fromIterable(grades)
-                                    .map(grade -> GradeResponse.from(
-                                            grade, subjectMap.getOrDefault(grade.getSubjectId(), "Nieznany przedmiot"))
-                                    )
-                            );
+        return gradesFlux
+                .groupBy(Grade::getSubjectId)
+                .flatMap(groupedFlux -> {
+                    UUID subjectId = groupedFlux.key();
+                    Mono<String> subjectNameMono = subjectRepository.findById(subjectId)
+                            .map(Subject::getName)
+                            .switchIfEmpty(Mono.just("Nieznany przedmiot"));
+                    return subjectNameMono.flatMapMany(name ->
+                            groupedFlux.map(grade -> GradeResponse.from(grade, name))
+                    );
                 });
     }
 
     private Double calculateWeightedAverage(List<Grade> grades) {
-        if (grades.isEmpty()) {
-            return 0.0;
-        }
+        if (grades.isEmpty()) return 0.0;
         double totalWeights = grades.stream().mapToDouble(Grade::getWeight).sum();
-        if (totalWeights == 0) {
-            return 0.0;
-        }
-        double totalWeightedGrades = grades.stream()
-                .mapToDouble(grade -> grade.getGrade() * grade.getWeight())
-                .sum();
+        if (totalWeights == 0) return 0.0;
+        double totalWeightedGrades = grades.stream().mapToDouble(g -> g.getGrade() * g.getWeight()).sum();
         return totalWeightedGrades / totalWeights;
+    }
+
+    private Mono<List<UUID>> getSubjectIdsForStudent(UUID studentId) {
+        return studentGroupRepository.findAllByStudentId(studentId)
+                .map(StudentGroup::getGroupId)
+                .collectList()
+                .flatMap(groupIds -> groupSubjectRepository.findAllByGroupIdIn(groupIds)
+                        .map(GroupSubject::getSubjectId)
+                        .collectList()
+                );
+    }
+
+    private Mono<GradeAverageResponse> calculateAverageForSubject(UUID studentId, UUID subjectId) {
+        return gradeRepository.findAllByStudentIdAndSubjectIdAndIsFinal(studentId, subjectId, false)
+                .collectList()
+                .map(this::calculateWeightedAverage)
+                .map(avg -> GradeAverageResponse.builder()
+                        .studentId(studentId)
+                        .subjectId(subjectId)
+                        .average(avg)
+                        .build()
+                );
     }
 }

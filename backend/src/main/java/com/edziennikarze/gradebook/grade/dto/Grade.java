@@ -34,5 +34,8 @@ public class Grade {
     private Double weight = 1.0;
 
     @Builder.Default
+    private boolean isFinal = false;
+
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 }

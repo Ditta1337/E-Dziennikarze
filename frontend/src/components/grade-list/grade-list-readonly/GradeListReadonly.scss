@@ -11,12 +11,30 @@
         font-weight: bold;
     }
 
+    .final-average {
+        width: 100%;
+        max-width: 800px;
+        text-align: center;
+        margin-bottom: 25px;
+        padding: 12px;
+        background-color: #f9f9f9;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: large;
+    }
+
     .subjects-container {
         width: 100%;
         max-width: 800px;
 
         .subject-accordion {
             margin-bottom: 10px;
+            border: 1px solid #e0e0e0;
+            box-shadow: none;
+
+            &:before {
+                display: none;
+            }
 
             .subject-name {
                 font-weight: 500;

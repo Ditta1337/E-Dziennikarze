@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.group.groupsubject;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubject;
@@ -17,6 +18,8 @@ public interface GroupSubjectRepository extends ReactiveCrudRepository<GroupSubj
     Flux<GroupSubject> findAllByTeacherId(@NotNull UUID teacherId);
 
     Flux<GroupSubject> findAllByGroupId(@NotNull UUID groupId);
+
+    Flux<GroupSubject> findAllByGroupIdIn(@NotNull List<UUID> groupIds);
 
     Flux<GroupSubject> findAllBySubjectId(@NotNull UUID subjectId);
 
