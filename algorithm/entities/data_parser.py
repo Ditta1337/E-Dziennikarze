@@ -14,19 +14,27 @@ class DataParser:
     _goals= []
 
     @classmethod
-    def parse_input(cls, schedule_config: ScheduleConfig) -> tuple[list[Goal], list[Group], list[list[Group]], list[Teacher], list[Subject],list[Room], int, int]:
+    def parse_input(cls, schedule_config: ScheduleConfig) -> tuple[list[Goal], list[Group], list[list[Group]], list[Teacher], list[Subject],list[Room], int, int, str, str]:
+        Teacher.reset_counter()
+        Subject.reset_counter()
+        Group.reset_counter()
+        Room.reset_counter()
+
         DataParser._parse_all_goals(schedule_config.goals)
         DataParser._parse_all_rooms(schedule_config.rooms)
         DataParser._parse_all_teachers(schedule_config.teachers)
         DataParser._parse_all_groups(schedule_config.groups)
         return ( cls._goals, 
                 [group for _, group in cls._groups_by_uuid.items()],
-                [[DataParser.get_group_by_uuid(uuid) for uuid in grups] for grups in schedule_config.unique_groups_combinations],
+                [[DataParser.get_group_by_uuid(uuid) for uuid in grups] for grups in schedule_config.unique_group_combinations],
                 [teacher for _, teacher in cls._teachers_by_uuid.items()],
                 [subject for _, subject in cls._subjects_by_uuid.items()],
                 [room for _, room in cls._rooms_by_uuid.items()],
                 TEACHING_DAYS,
-                schedule_config.lessons_per_day)
+                schedule_config.lessons_per_day,
+                schedule_config.plan_id,
+                schedule_config.office_worker_id
+                )
 
     @staticmethod
     def _parse_all_goals(goals):
