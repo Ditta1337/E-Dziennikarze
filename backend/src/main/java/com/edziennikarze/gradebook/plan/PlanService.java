@@ -32,8 +32,6 @@ public class PlanService {
 
     private final PropertyService propertyService;
 
-    private final LoggedInUserService loggedInUserService;
-
     private final SolverService solverService;
 
     private static final List<String> LESSON_PROPERTIES_NAMES = List.of(
@@ -47,7 +45,7 @@ public class PlanService {
 
     public Mono<Plan> initializePlan(Mono<Plan> planMono) {
         Mono<Plan> enrichedPlan = planMono
-                .flatMap(this::enrichPlanWithOfficeWorkerId)
+                .flatMap(this::enrichPlanWithRooms)
                 .flatMap(this::enrichPlanWithUniqueGroupCombinations)
                 .flatMap(this::enrichPlanWithTeachers)
                 .flatMap(this::enrichPlanWithTeacherUnavailabilities);
@@ -59,12 +57,15 @@ public class PlanService {
                 );
     }
 
-    private Mono<Plan> enrichPlanWithOfficeWorkerId(Plan plan) {
-        return loggedInUserService.getLoggedInUser()
-                .map(user -> {
-                    plan.setOfficeWorkerId(user.getId());
-                    return plan;
-                });
+    public Mono<Plan> enrichPlanWithRooms(Plan plan) {
+        Set<UUID> roomIds = plan.getGroups().stream()
+                .flatMap(group -> group.getSubjects().stream())
+                .map(subject -> subject.getRoom().getAllowed())
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+
+        plan.setRooms(new ArrayList<>(roomIds));
+        return Mono.just(plan);
     }
 
     private Mono<Plan> enrichPlanWithUniqueGroupCombinations(Plan plan) {

@@ -166,6 +166,10 @@ public class SecurityConfig {
                         // Plan endpoints
                         .pathMatchers(HttpMethod.POST, "/plan/enqueue").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
 
+                        // Plan configuration
+                        .pathMatchers(HttpMethod.POST, "/plan/configuration").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.GET, "/plan/configuration/{configurationId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+
                         .anyExchange().denyAll()
                 )
                 .build();
