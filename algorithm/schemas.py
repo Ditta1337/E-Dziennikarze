@@ -58,9 +58,10 @@ class Goal(BaseModel):
 
 
 class ScheduleConfig(BaseModel):
-    id_id:str
+    plan_id:str
+    office_worker_id:str
     lessons_per_day: int
-    unique_groups_combinations:List[List[str]]
+    unique_group_combinations:List[List[str]]
     goals: List[Goal]
     rooms: List[str]
     groups: List[GroupInput]
