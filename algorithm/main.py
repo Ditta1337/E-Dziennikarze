@@ -18,7 +18,6 @@ solver_status = SolverStatus.IDLE
 
 
 @app.post("/solve")
-
 async def solve_endpoint(schedule_config: ScheduleConfig):
     solver_status=SolverStatus.CALCULATING
     scheduler = Scheduler(schedule_config)

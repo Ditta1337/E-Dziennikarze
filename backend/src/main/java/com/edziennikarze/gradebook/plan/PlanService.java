@@ -1,14 +1,16 @@
 package com.edziennikarze.gradebook.plan;
 
+import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
+import com.edziennikarze.gradebook.plan.dto.Plan;
 import com.edziennikarze.gradebook.plan.dto.PlanTeacher;
 import com.edziennikarze.gradebook.plan.dto.PlanUnavailability;
 import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailability;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
+import com.edziennikarze.gradebook.property.PropertyService;
+import com.edziennikarze.gradebook.solver.SolverService;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.UserRepository;
-import com.edziennikarze.gradebook.property.Property;
-import com.edziennikarze.gradebook.property.PropertyRepository;
 import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailabilityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,11 +25,18 @@ import java.util.stream.Collectors;
 public class PlanService {
 
     private final UserRepository userRepository;
-    private final StudentGroupRepository studentGroupRepository;
-    private final TeacherUnavailabilityRepository teacherUnavailabilityRepository;
-    private final PropertyRepository propertyRepository;
 
-    private final static List<String> lessonPropertiesNames = List.of(
+    private final StudentGroupRepository studentGroupRepository;
+
+    private final TeacherUnavailabilityRepository teacherUnavailabilityRepository;
+
+    private final PropertyService propertyService;
+
+    private final LoggedInUserService loggedInUserService;
+
+    private final SolverService solverService;
+
+    private static final List<String> LESSON_PROPERTIES_NAMES = List.of(
             "schoolDayStartTime",
             "lessonDurationMinutes",
             "shortBreakDurationMinutes",
@@ -37,10 +46,25 @@ public class PlanService {
     );
 
     public Mono<Plan> initializePlan(Mono<Plan> planMono) {
-        return planMono
+        Mono<Plan> enrichedPlan = planMono
+                .flatMap(this::enrichPlanWithOfficeWorkerId)
                 .flatMap(this::enrichPlanWithUniqueGroupCombinations)
                 .flatMap(this::enrichPlanWithTeachers)
                 .flatMap(this::enrichPlanWithTeacherUnavailabilities);
+
+        return enrichedPlan
+                .flatMap(plan ->
+                    solverService.calculatePlan(plan)
+                    .then(Mono.just(plan))
+                );
+    }
+
+    private Mono<Plan> enrichPlanWithOfficeWorkerId(Plan plan) {
+        return loggedInUserService.getLoggedInUser()
+                .map(user -> {
+                    plan.setOfficeWorkerId(user.getId());
+                    return plan;
+                });
     }
 
     private Mono<Plan> enrichPlanWithUniqueGroupCombinations(Plan plan) {
@@ -58,8 +82,8 @@ public class PlanService {
 
     private Mono<Plan> enrichPlanWithTeachers(Plan plan) {
         return userRepository.findAllByRole(Role.TEACHER)
-                .map(user -> PlanTeacher.builder()
-                        .teacherId(user.getId())
+                .map(teacher -> PlanTeacher.builder()
+                        .teacherId(teacher.getId())
                         .build())
                 .collectList()
                 .map(teachers -> {
@@ -69,69 +93,78 @@ public class PlanService {
     }
 
     private Mono<Plan> enrichPlanWithTeacherUnavailabilities(Plan plan) {
-        if (plan.getTeachers() == null) {
-            plan.setTeachers(new ArrayList<>());
-        }
+        Mono<Map<String, Object>> propertiesMono = propertyService.getPropertiesAsMap(LESSON_PROPERTIES_NAMES);
+        Mono<List<TeacherUnavailability>> unavailabilitiesMono = teacherUnavailabilityRepository.findAll().collectList();
 
-        return propertyRepository.findAllByNameIn(lessonPropertiesNames)
-                .collectList()
-                .flatMap(properties -> {
-                    Map<String, String> props = makePropertiesMap(properties);
+        return Mono.zip(propertiesMono, unavailabilitiesMono)
+                .map(tuple -> {
+                    Map<String, Object> properties = tuple.getT1();
+                    List<TeacherUnavailability> unavailabilities = tuple.getT2();
 
-                    LocalTime dayStart = LocalTime.parse(props.get("schoolDayStartTime"));
-                    int lessonMinutes = Integer.parseInt(props.get("lessonDurationMinutes"));
-                    int shortBreak = Integer.parseInt(props.get("shortBreakDurationMinutes"));
-                    int longBreak = Integer.parseInt(props.get("longBreakDurationMinutes"));
-                    int longBreakAfter = Integer.parseInt(props.get("longBreakAfterLessons"));
-                    int maxLessons = Integer.parseInt(props.get("maxLessonsPerDay"));
+                    List<LocalTime> lessonStartTimes = calculateLessonStartTimes(properties);
+                    int lessonMinutes = (Integer) properties.get("lessonDurationMinutes");
 
-                    List<LocalTime> lessonStartTimes = new ArrayList<>();
-                    LocalTime current = dayStart;
-                    for (int i = 1; i <= maxLessons; i++) {
-                        lessonStartTimes.add(current);
-                        current = current.plusMinutes(lessonMinutes);
-                        current = current.plusMinutes(i == longBreakAfter ? longBreak : shortBreak);
-                    }
+                    Map<UUID, List<PlanUnavailability>> unavailabilityMap = buildTeacherUnavailabilityMap(
+                            unavailabilities, lessonStartTimes, lessonMinutes
+                    );
 
-                    return teacherUnavailabilityRepository.findAll()
-                            .collectList()
-                            .map(unavailabilities -> {
-                                Map<UUID, List<PlanUnavailability>> map = new HashMap<>();
+                    attachUnavailabilitiesToPlan(plan, unavailabilityMap);
 
-                                for (TeacherUnavailability un : unavailabilities) {
-                                    List<PlanUnavailability> list = map.computeIfAbsent(un.getTeacherId(), k -> new ArrayList<>());
-
-                                    for (int lessonIndex = 0; lessonIndex < lessonStartTimes.size(); lessonIndex++) {
-                                        LocalTime start = lessonStartTimes.get(lessonIndex);
-                                        LocalTime end = start.plusMinutes(lessonMinutes);
-
-                                        if (!end.isBefore(un.getStartTime()) && !start.isAfter(un.getEndTime())) {
-                                            list.add(PlanUnavailability.builder()
-                                                    .day(un.getWeekDay().getValue()-1)
-                                                    .lesson(lessonIndex )
-                                                    .build());
-                                        }
-                                    }
-                                }
-
-                                for (PlanTeacher teacher : plan.getTeachers()) {
-                                    teacher.setUnavailability(map.getOrDefault(teacher.getTeacherId(), List.of()));
-                                }
-
-                                return plan;
-                            });
+                    return plan;
                 });
     }
 
+    private List<LocalTime> calculateLessonStartTimes(Map<String, Object> properties) {
+        LocalTime dayStart = (LocalTime) properties.get("schoolDayStartTime");
+        int lessonMinutes = (Integer) properties.get("lessonDurationMinutes");
+        int shortBreak = (Integer) properties.get("shortBreakDurationMinutes");
+        int longBreak = (Integer) properties.get("longBreakDurationMinutes");
+        int longBreakAfter = (Integer) properties.get("longBreakAfterLessons");
+        int maxLessons = (Integer) properties.get("maxLessonsPerDay");
 
-    private Map<String, String> makePropertiesMap(List<Property> properties) {
-        Map<String, String> map = new HashMap<>();
-        for (Property p : properties) {
-            map.put(
-                    p.getName(),
-                    p.getValue() != null ? p.getValue().toString() : p.getDefaultValue().toString()
-            );
+        List<LocalTime> lessonStartTimes = new ArrayList<>();
+        LocalTime currentTime = dayStart;
+
+        for (int i = 1; i <= maxLessons; i++) {
+            lessonStartTimes.add(currentTime);
+            currentTime = currentTime.plusMinutes(lessonMinutes);
+            int breakToAdd = (i == longBreakAfter) ? longBreak : shortBreak;
+            currentTime = currentTime.plusMinutes(breakToAdd);
+        }
+        return lessonStartTimes;
+    }
+
+    private Map<UUID, List<PlanUnavailability>> buildTeacherUnavailabilityMap(
+            List<TeacherUnavailability> unavailabilities, List<LocalTime> lessonStartTimes, int lessonMinutes) {
+
+        Map<UUID, List<PlanUnavailability>> map = new HashMap<>();
+
+        for (TeacherUnavailability un : unavailabilities) {
+            List<PlanUnavailability> teacherUnavailabilitySlots = map.computeIfAbsent(un.getTeacherId(), k -> new ArrayList<>());
+
+            for (int lessonIndex = 0; lessonIndex < lessonStartTimes.size(); lessonIndex++) {
+                LocalTime lessonStart = lessonStartTimes.get(lessonIndex);
+                LocalTime lessonEnd = lessonStart.plusMinutes(lessonMinutes);
+
+                if (isOverlapping(lessonStart, lessonEnd, un.getStartTime(), un.getEndTime())) {
+                    PlanUnavailability slot = PlanUnavailability.builder()
+                            .day(un.getWeekDay().getValue() - 1)
+                            .lesson(lessonIndex)
+                            .build();
+                    teacherUnavailabilitySlots.add(slot);
+                }
+            }
         }
         return map;
+    }
+
+    private void attachUnavailabilitiesToPlan(Plan plan, Map<UUID, List<PlanUnavailability>> unavailabilityMap) {
+        for (PlanTeacher teacher : plan.getTeachers()) {
+            teacher.setUnavailability(unavailabilityMap.getOrDefault(teacher.getTeacherId(), Collections.emptyList()));
+        }
+    }
+
+    private boolean isOverlapping(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
+        return !end1.isBefore(start2) && !start1.isAfter(end2);
     }
 }

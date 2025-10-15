@@ -164,7 +164,7 @@ public class SecurityConfig {
                         .pathMatchers("/ws/notification").authenticated()
 
                         // Plan endpoints
-                        .pathMatchers(HttpMethod.POST, "/plan").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.POST, "/plan/enqueue").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
 
                         .anyExchange().denyAll()
                 )

@@ -6,6 +6,7 @@ import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.GroupRepository;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
+import com.edziennikarze.gradebook.plan.dto.Plan;
 import com.edziennikarze.gradebook.plan.dto.PlanGroup;
 import com.edziennikarze.gradebook.plan.dto.PlanTeacher;
 import com.edziennikarze.gradebook.plan.dto.PlanUnavailability;
@@ -13,7 +14,6 @@ import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailabil
 import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailabilityRepository;
 import com.edziennikarze.gradebook.plan.util.PlanTestDatabaseCleaner;
 import com.edziennikarze.gradebook.property.PropertyRepository;
-import com.edziennikarze.gradebook.property.PropertyType;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.UserRepository;
 import com.edziennikarze.gradebook.user.dto.User;
@@ -25,7 +25,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import reactor.core.publisher.Mono;
 
 import java.time.DayOfWeek;
@@ -38,7 +37,6 @@ import java.util.stream.Collectors;
 
 import static com.edziennikarze.gradebook.util.ObjectsBuilder.*;
 import static com.edziennikarze.gradebook.util.ObjectsBuilder.buildGroup;
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ActiveProfiles("test")
@@ -101,7 +99,7 @@ class PlanControllerIntTest {
                 .goals(List.of())
                 .groups(groups.stream()
                         .map(g -> PlanGroup.builder()
-                                .id(g.getId())
+                                .groupId(g.getId())
                                 .subjects(List.of())
                                 .build())
                         .toList())

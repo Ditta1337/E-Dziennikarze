@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.plan;
 
+import com.edziennikarze.gradebook.plan.dto.Plan;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,7 @@ public class PlanController {
 
     private final PlanService planService;
 
-    @PostMapping("")
+    @PostMapping("/enqueue")
     public Mono<Plan> initializePlan(@RequestBody Mono<Plan> planMono) {
         return planService.initializePlan(planMono);
     }

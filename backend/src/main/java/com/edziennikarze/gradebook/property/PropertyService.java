@@ -10,6 +10,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalTime;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +40,12 @@ public class PropertyService {
                     return propertyRepository.save(existingProperty);
                 }))
                 .map(this::mapValue);
+    }
+
+    public Mono<Map<String, Object>> getPropertiesAsMap(List<String> propertyNames) {
+        return propertyRepository.findAllByNameIn(propertyNames)
+                .map(this::mapValue)
+                .collectMap(Property::getName, Property::getValue);
     }
 
     private Property mapValue(Property property) {
