@@ -14,7 +14,7 @@ class DataParser:
     _goals= []
 
     @classmethod
-    def parse_input(cls, schedule_config: ScheduleConfig) -> tuple[list[Goal], list[Group], list[list[Group]], list[Teacher], list[Subject],list[Room], int, int, str, str]:
+    def parse_input(cls, schedule_config: ScheduleConfig) -> tuple[list[Goal], list[Group], list[list[Group]], list[Teacher], list[Subject],list[Room], int, int, str]:
         Teacher.reset_counter()
         Subject.reset_counter()
         Group.reset_counter()
@@ -33,7 +33,6 @@ class DataParser:
                 TEACHING_DAYS,
                 schedule_config.lessons_per_day,
                 schedule_config.plan_id,
-                schedule_config.office_worker_id
                 )
 
     @staticmethod

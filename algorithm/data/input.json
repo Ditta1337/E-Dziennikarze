@@ -1,6 +1,5 @@
 {
   "plan_id": "<UUID>",
-  "office_worker_id":"id",
   "lessons_per_day": 6,
   "goals": [
     { "name": "goal_subject_types", "time": 30 },

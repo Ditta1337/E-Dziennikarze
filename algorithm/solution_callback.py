@@ -6,7 +6,7 @@ from entities import DataParser
 from dotenv import load_dotenv
 
 class SolutionCallback(CpSolverSolutionCallback):
-    def __init__(self, schedule, goals, groups, teachers, subjects,rooms, teaching_days, max_lessons_per_day, plan_id, office_worker_id):
+    def __init__(self, schedule, goals, groups, teachers, subjects,rooms, teaching_days, max_lessons_per_day, plan_id):
         super().__init__()
 
         load_dotenv()
@@ -22,7 +22,6 @@ class SolutionCallback(CpSolverSolutionCallback):
         self.url = os.getenv("CALLBACK_URL")
         self.last_solution= None
         self.plan_id=plan_id
-        self.office_worker_id=office_worker_id
         print(self.url)
 
     def on_solution_callback(self):
@@ -66,7 +65,6 @@ class SolutionCallback(CpSolverSolutionCallback):
 
         return {
             "plan_id": self.plan_id,
-            "office_worker_id": self.office_worker_id,
             "goals": [{'name':goal.function_name, 'value':goal.value } for goal in self.goals],
             "groups": list(groups.values()),
             "teachers": list(teachers.values())
