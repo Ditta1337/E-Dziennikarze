@@ -1,9 +1,11 @@
 {
   "plan_id": "<UUID>",
+  "latest_starting_lesson":2,
   "lessons_per_day": 6,
   "goals": [
-    { "name": "goal_subject_types", "time": 30 },
     { "name": "goal_ballance_day_lenght", "time": 30 },
+    { "name": "goal_early_start", "time": 30 },
+    { "name": "goal_subject_types", "time": 30 },
     { "name": "goal_room_preferences", "time": 30 }
   ],
   "rooms": [

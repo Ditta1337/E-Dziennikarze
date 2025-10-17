@@ -4,10 +4,15 @@
     "name": "Preferencje sal lekcyjnych",
     "description": "Dopasowuje sale lekcyjne do ich preferencji"
   },
-  {
+   {
     "function_name": "goal_subject_time_preferences",
     "name": "Preferencje czasowe przedmiotów",
     "description": "Uwzględnia preferencje dotyczące pory dnia dla przedmiotów"
+  },
+  {
+    "function_name": "goal_early_start",
+    "name": "",
+    "description": ""
   },
   {
     "function_name": "goal_balance_day_length",

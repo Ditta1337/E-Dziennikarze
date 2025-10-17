@@ -10,7 +10,7 @@ NUM_WORKERS = 8
 
 class Scheduler():
     def __init__(self, schedule_config: ScheduleConfig):
-        goals, groups,unique_groups_combinations, teachers, subjects, rooms, teaching_days, max_lessons_per_day, plan_id = DataParser.parse_input(schedule_config)
+        goals, groups,unique_groups_combinations, teachers, subjects, rooms, teaching_days, max_lessons_per_day, latest_starting_lesson, plan_id = DataParser.parse_input(schedule_config)
         self.goals = goals
         self.unique_groups_combinations = unique_groups_combinations
         self.groups = groups
@@ -19,6 +19,7 @@ class Scheduler():
         self.rooms = rooms
         self.teaching_days = teaching_days
         self.max_lessons_per_day = max_lessons_per_day
+        self.latest_starting_lesson=latest_starting_lesson
         self.plan_id=plan_id
 
         self.model = cp_model.CpModel()
@@ -87,7 +88,25 @@ class Scheduler():
     def no_gaps_for_students(self):
         for combination in self.unique_groups_combinations:
             for day in range(self.teaching_days):
-                for lesson in range(self.max_lessons_per_day):
+                for lesson in range(self.latest_starting_lesson):
+                    prev_subj = [
+                        self.vars[subject.id, room.id, day, lesson]
+                        for group in combination
+                        for subject in group.subjects
+                        for room in subject.room_preference.allowed
+                        if (subject.id, room.id, day, lesson) in self.vars
+                    ]
+                    next_subj = [
+                        self.vars[subject.id, room.id, day, lesson + 1]
+                        for group in combination
+                        for subject in group.subjects
+                        for room in subject.room_preference.allowed
+                        if (subject.id, room.id, day, lesson + 1) in self.vars
+                    ]
+                    self.model.add(sum(prev_subj)<=1)
+                    self.model.add(sum(next_subj)<=1)
+                    self.model.add(sum(prev_subj) <= sum(next_subj))
+                for lesson in range(self.latest_starting_lesson, self.max_lessons_per_day):
                     prev_subj = [
                         self.vars[subject.id, room.id, day, lesson]
                         for group in combination
@@ -105,6 +124,7 @@ class Scheduler():
                     self.model.add(sum(prev_subj)<=1)
                     self.model.add(sum(next_subj)<=1)
                     self.model.add(sum(prev_subj) >= sum(next_subj))
+
 
     def no_more_than_one_lesson_per_teacher(self):
         for teacher in self.teachers:
@@ -269,4 +289,15 @@ class Scheduler():
                 ])
 
         goal.variables = [sum(preferred) - sum(dispreferred)]
+        goal.objective = GoalObjective.MAXIMIZE
+
+    def goal_early_start(self, goal):
+        lesson_slots=[lesson*self.vars[subject.id, room.id, day, lesson]
+                    for subject in self.subjects
+                    for room in self.rooms
+                    for day in range(self.teaching_days)
+                    for lesson in range(self.latest_starting_lesson)
+                    if (subject.id, room.id, day, lesson) in self.vars
+                    ]
+        goal.variables = lesson_slots
         goal.objective = GoalObjective.MAXIMIZE

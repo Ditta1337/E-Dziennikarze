@@ -31,10 +31,10 @@ class SolutionCallback(CpSolverSolutionCallback):
             "conflicts:", self.NumConflicts(),
             "branches:", self.NumBranches(),
             )
-        #self.print_schedule()
+        self.print_schedule()
         self.last_solution = {var: self.Value(var) for var in self.schedule.values()}
         #print(self.schedule_to_json())
-        requests.post(self.url, json=self.schedule_to_json())
+        #requests.post(self.url, json=self.schedule_to_json())
 
 
     def schedule_to_json(self):

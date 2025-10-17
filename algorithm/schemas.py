@@ -59,13 +59,13 @@ class Goal(BaseModel):
 
 class ScheduleConfig(BaseModel):
     plan_id:str
-    office_worker_id:str
     lessons_per_day: int
     unique_group_combinations:List[List[str]]
     goals: List[Goal]
     rooms: List[str]
     groups: List[GroupInput]
     teachers: List[TeacherInput]
+    latest_starting_lesson: int
 
     model_config = {"from_attributes": True}
 
