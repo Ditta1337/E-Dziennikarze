@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Builder
 public class PlanConfigurationResponse {

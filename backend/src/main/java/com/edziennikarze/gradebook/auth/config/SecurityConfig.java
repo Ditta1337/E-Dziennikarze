@@ -169,6 +169,8 @@ public class SecurityConfig {
                         // Plan configuration
                         .pathMatchers(HttpMethod.POST, "/plan/configuration").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.GET, "/plan/configuration/{configurationId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.GET, "/plan/configuration/summary/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.PUT, "plan/configuration").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
 
                         .anyExchange().denyAll()
                 )

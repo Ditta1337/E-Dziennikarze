@@ -5,6 +5,7 @@ import com.edziennikarze.gradebook.group.groupsubject.GroupSubjectRepository;
 import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubjectResponse;
 import com.edziennikarze.gradebook.plan.configuration.dto.PlanConfiguration;
 import com.edziennikarze.gradebook.plan.configuration.dto.PlanConfigurationResponse;
+import com.edziennikarze.gradebook.plan.configuration.dto.PlanConfigurationSummary;
 import com.edziennikarze.gradebook.plan.dto.Plan;
 import com.edziennikarze.gradebook.plan.dto.PlanGroup;
 import com.edziennikarze.gradebook.plan.dto.PlanRoom;
@@ -33,29 +34,60 @@ public class PlanConfigurationService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public Mono<PlanConfiguration> createPlanConfiguration(Mono<String> nameMono) {
-        return nameMono.flatMap(name ->
-            createEmptyPlan()
-                    .flatMap(plan ->
-                            loggedInUserService.getLoggedInUser()
-                                    .flatMap(user -> {
-                                                PlanConfiguration planConfiguration = PlanConfiguration.builder()
-                                                        .name(name)
-                                                        .officeWorkerId(user.getId())
-                                                        .calculated(false)
-                                                        .build();
-                                                planConfiguration.setConfigurationObject(plan, objectMapper);
+    public Mono<PlanConfigurationResponse> createPlanConfiguration(Mono<String> nameMono) {
+        return Mono.just(new PlanConfiguration())
+                .flatMap(planConfiguration -> enrichPlanConfigurationWithName(planConfiguration, nameMono))
+                .flatMap(this::enrichPlanConfigurationWithOfficeWorker)
+                .flatMap(this::enrichPlanConfigurationWithCalculated)
+                .flatMap(this::enrichPlanConfigurationWithPlan)
+                .flatMap(planConfigurationRepository::save)
+                .flatMap(planConfiguration -> Mono.just(PlanConfigurationResponse.from(planConfiguration, objectMapper)));
 
-                                                return planConfigurationRepository.save(planConfiguration);
-                                            }
-                                    )
-                    )
-        );
+    }
+
+    private Mono<PlanConfiguration> enrichPlanConfigurationWithName(PlanConfiguration planConfiguration, Mono<String> nameMono) {
+        return nameMono.flatMap(name -> {
+            planConfiguration.setName(name);
+            return Mono.just(planConfiguration);
+        });
+    }
+
+    private Mono<PlanConfiguration> enrichPlanConfigurationWithOfficeWorker(PlanConfiguration planConfiguration) {
+        return loggedInUserService.getLoggedInUser()
+                .flatMap(user -> {
+                    planConfiguration.setOfficeWorkerId(user.getId());
+                    return Mono.just(planConfiguration);
+                });
+    }
+
+    private Mono<PlanConfiguration> enrichPlanConfigurationWithCalculated(PlanConfiguration planConfiguration) {
+        planConfiguration.setCalculated(false);
+        return Mono.just(planConfiguration);
+    }
+
+    private Mono<PlanConfiguration> enrichPlanConfigurationWithPlan(PlanConfiguration planConfiguration) {
+        return createEmptyPlan()
+                .flatMap(plan -> {
+                    planConfiguration.setConfigurationObject(plan, objectMapper);
+                    return Mono.just(planConfiguration);
+                });
     }
 
     public Mono<PlanConfigurationResponse> getPlanConfiguration(UUID planConfigurationId) {
         return planConfigurationRepository.findById(planConfigurationId)
                 .map(planConfiguration -> PlanConfigurationResponse.from(planConfiguration, objectMapper));
+    }
+
+    public Flux<PlanConfigurationSummary> getPlanConfigurationSummaryList() {
+        return planConfigurationRepository.findAllSummary();
+    }
+
+    public Mono<PlanConfigurationResponse> updatePlanConfiguration(Mono<PlanConfigurationResponse> planConfigurationResponseMono) {
+        return planConfigurationResponseMono.flatMap(planConfigurationResponse -> planConfigurationRepository.findById(planConfigurationResponse.getId())
+                .flatMap(planConfiguration -> {
+                    planConfiguration.setConfigurationObject(planConfigurationResponse.getConfiguration(), objectMapper);
+                    return planConfigurationRepository.save(planConfiguration);
+                }).flatMap(planConfiguration -> Mono.just(PlanConfigurationResponse.from(planConfiguration, objectMapper))));
     }
 
 
@@ -106,4 +138,5 @@ public class PlanConfigurationService {
                 .flatMapMany(map -> Flux.fromIterable(map.entrySet()))
                 .map(entry -> Tuples.of(entry.getKey(), new ArrayList<>(entry.getValue())));
     }
+
 }
