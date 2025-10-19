@@ -12,7 +12,7 @@ CREATE TABLE plan_calculations
 ALTER TABLE plan_calculations
     ADD CONSTRAINT plan_calculations_plan_configurations
         FOREIGN KEY (plan_id)
-            REFERENCES plan_calculations (plan_id)
+            REFERENCES plan_calculations (id)
             ON DELETE CASCADE;
 
 
