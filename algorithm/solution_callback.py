@@ -31,10 +31,10 @@ class SolutionCallback(CpSolverSolutionCallback):
             "conflicts:", self.NumConflicts(),
             "branches:", self.NumBranches(),
             )
-        self.print_schedule()
+        #self.print_schedule()
         self.last_solution = {var: self.Value(var) for var in self.schedule.values()}
         #print(self.schedule_to_json())
-        #requests.post(self.url, json=self.schedule_to_json())
+        requests.post(self.url, json=self.schedule_to_json())
 
 
     def schedule_to_json(self):
@@ -51,16 +51,16 @@ class SolutionCallback(CpSolverSolutionCallback):
                 groups[group.id]["schedule"].append({
                     "lesson": lesson,
                     "day": day,
-                    "subject": subject.uuid,
-                    "teacher": teacher.uuid,
-                    "room": room.uuid
+                    "subject_id": subject.uuid,
+                    "teacher_id": teacher.uuid,
+                    "room_id": room.uuid
                 })
                 teachers[teacher.id]["schedule"].append({
                     "lesson": lesson,
                     "day": day,
-                    "subject": subject.uuid, 
-                    "group": group.uuid,
-                    "room": room.uuid
+                    "subject_id": subject.uuid, 
+                    "group_id": group.uuid,
+                    "room_id": room.uuid
                 })
 
         return {
@@ -82,7 +82,7 @@ class SolutionCallback(CpSolverSolutionCallback):
                         next(s.teacher.id for s in self.subjects if s.id == subject_id)
                     ).uuid
                     if group.id in [g.id for g in self.groups if subject_id in [s.id for s in g.subjects]]:
-                        #timetable[day][lesson] = f"{subject} ({teacher}, {room})"
-                        timetable[day][lesson] = f"X"
+                        timetable[day][lesson] = f"{subject}"
+                        #timetable[day][lesson] = f"X"
             for day_idx, lessons in enumerate(timetable):
                 print(f"Dzień {day_idx + 1}: {lessons}")
