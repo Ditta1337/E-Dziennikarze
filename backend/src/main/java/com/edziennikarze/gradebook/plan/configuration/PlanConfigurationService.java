@@ -32,7 +32,7 @@ public class PlanConfigurationService {
 
     private final PlanConfigurationRepository planConfigurationRepository;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     public Mono<PlanConfigurationResponse> createPlanConfiguration(Mono<String> nameMono) {
         return Mono.just(new PlanConfiguration())

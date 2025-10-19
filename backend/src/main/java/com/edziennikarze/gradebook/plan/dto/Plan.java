@@ -23,6 +23,8 @@ public class Plan {
 
     private int lessonsPerDay;
 
+    private int latestStartingLesson;
+
     @NotNull
     private List<PlanGoal> goals;
 

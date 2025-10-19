@@ -1,6 +1,5 @@
 package com.edziennikarze.gradebook.plan.calculation.dto.request;
 
-import com.edziennikarze.gradebook.plan.dto.PlanGoal;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +19,7 @@ public class PlanCalculationRequest {
     private UUID planId;
 
     @NotNull
-    private List<PlanGoal> goals;
+    private List<PlanCalculationRequestGoal> goals;
 
     @NotNull
     private List<PlanCalculationRequestGroup> groups;

@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NotificationDispatcher {
 
     private final ObjectMapper objectMapper;
+
     private final Map<UUID, Sinks.Many<String>> userSinks = new ConcurrentHashMap<>();
 
     public void register(UUID userId) {

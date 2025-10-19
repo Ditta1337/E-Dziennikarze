@@ -33,7 +33,6 @@ class SolutionCallback(CpSolverSolutionCallback):
             )
         #self.print_schedule()
         self.last_solution = {var: self.Value(var) for var in self.schedule.values()}
-        #print(self.schedule_to_json())
         requests.post(self.url, json=self.schedule_to_json())
 
 

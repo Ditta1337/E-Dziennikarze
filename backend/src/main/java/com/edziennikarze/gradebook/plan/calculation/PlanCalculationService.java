@@ -26,7 +26,7 @@ public class PlanCalculationService {
 
     private final PropertyService propertyService;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     private static final List<String> LESSON_PROPERTIES_NAMES = List.of(
             "schoolDayStartTime",
@@ -70,12 +70,12 @@ public class PlanCalculationService {
                         .map(schedule -> createPlannedLesson(teacher.getTeacherId(), schedule, properties))
                 )
                 .filter(plannedLesson -> validGroupIds.contains(plannedLesson.getGroupId()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private PlannedLesson createPlannedLesson(UUID teacherId, PlanCalculationRequestTeacherLesson schedule, Map<String, Object> properties) {
         return PlannedLesson.builder()
-                .weekDay(DayOfWeek.of(schedule.getDay()))
+                .weekDay(DayOfWeek.of(schedule.getDay() + 1))
                 .subjectId(schedule.getSubjectId())
                 .roomId(schedule.getRoomId())
                 .groupId(schedule.getGroupId())

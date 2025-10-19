@@ -1,0 +1,395 @@
+{
+  "plan_id": "3ded5ed9-ff79-444c-90d8-cfdefa1f8de9",
+  "latest_starting_lesson": 2,
+  "lessons_per_day": 6,
+  "goals": [
+    {
+      "name": "goal_ballance_day_lenght",
+      "time": 30
+    },
+    {
+      "name": "goal_early_start",
+      "time": 30
+    },
+    {
+      "name": "goal_subject_types",
+      "time": 30
+    },
+    {
+      "name": "goal_room_preferences",
+      "time": 30
+    }
+  ],
+  "rooms": [
+    "82235304-56b7-4e14-8c67-3460a2233fd7",
+    "9373c576-cfc5-47c5-97f4-aa4c3fa328d9",
+    "ed1691b3-b24b-4c6d-9aa2-aa1883235562",
+    "3c87ee1f-8f6d-4515-9f9a-2d13dd24a7f6",
+    "c9fad4ef-b0a5-4f61-a0cc-08514d044a3c",
+    "f92295c8-13d7-48dc-8cea-60b04a993880",
+    "a502b5b8-8c9c-4df4-b6bd-362a4edf4d77",
+    "d0b06e25-3304-4132-8b21-c59e49a9bc1d",
+    "62145267-0b10-4205-b8bb-733d31e934db",
+    "a9778a1f-7849-4cb2-b4f7-0ce8a50fc1c8",
+    "133a67e3-ccc7-42a3-8373-a91d3268ada1",
+    "fce0cec6-b952-4fc3-868f-6e510d342831",
+    "ad6a3b3f-39c7-4dc4-8faf-81e87912b9d3",
+    "ff68a413-b208-4128-8cb7-d3005276f21b"
+  ],
+  "groups": [
+    {
+      "group_id": "89aa4faa-1549-4bcf-9a3f-1b5fa510f441",
+      "subjects": [
+        {
+          "subject_id": "01366b24-e41f-4361-86b7-bdff1363e5d3",
+          "teacher_id": "64e82fed-0b2f-43fc-ae44-38e7ae419fe4",
+          "lessons_per_week": 1,
+          "max_lessons_per_day": 1,
+          "type": "ANY",
+          "room": {
+            "allowed": [
+              "a9778a1f-7849-4cb2-b4f7-0ce8a50fc1c8",
+              "82235304-56b7-4e14-8c67-3460a2233fd7"
+            ],
+            "preferred": [
+              "a9778a1f-7849-4cb2-b4f7-0ce8a50fc1c8"
+            ],
+            "dispreferred": [
+              "82235304-56b7-4e14-8c67-3460a2233fd7"
+            ]
+          }
+        },
+        {
+          "subject_id": "922311c9-ec41-4906-8159-d8002f97e858",
+          "teacher_id": "0a19efaf-f905-4582-9126-d71579240024",
+          "lessons_per_week": 3,
+          "max_lessons_per_day": 1,
+          "type": "EARLY",
+          "room": {
+            "allowed": [
+              "9373c576-cfc5-47c5-97f4-aa4c3fa328d9",
+              "ed1691b3-b24b-4c6d-9aa2-aa1883235562"
+            ],
+            "preferred": [
+              "9373c576-cfc5-47c5-97f4-aa4c3fa328d9"
+            ],
+            "dispreferred": []
+          }
+        },
+        {
+          "subject_id": "20d7eb95-2440-4b6a-9568-33429e588d5d",
+          "teacher_id": "533f5fb2-d4b6-4ac8-9832-03b18b7fa27c",
+          "lessons_per_week": 3,
+          "max_lessons_per_day": 1,
+          "type": "LATE",
+          "room": {
+            "allowed": [
+              "133a67e3-ccc7-42a3-8373-a91d3268ada1"
+            ],
+            "preferred": [
+              "133a67e3-ccc7-42a3-8373-a91d3268ada1"
+            ],
+            "dispreferred": []
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "24f2213c-1e36-4c5a-ba61-e2b4958e793c",
+      "subjects": [
+        {
+          "subject_id": "1e845f95-f3db-417a-8385-949410951fc4",
+          "teacher_id": "f1ffda55-4670-4b28-bff8-a1cc1baefd33",
+          "lessons_per_week": 1,
+          "max_lessons_per_day": 1,
+          "type": "EDGE",
+          "room": {
+            "allowed": [
+              "3c87ee1f-8f6d-4515-9f9a-2d13dd24a7f6",
+              "ff68a413-b208-4128-8cb7-d3005276f21b"
+            ],
+            "preferred": [
+              "3c87ee1f-8f6d-4515-9f9a-2d13dd24a7f6"
+            ],
+            "dispreferred": []
+          }
+        },
+        {
+          "subject_id": "85716085-acb6-4dc0-9f72-5ab367bd2e94",
+          "teacher_id": "533f5fb2-d4b6-4ac8-9832-03b18b7fa27c",
+          "lessons_per_week": 3,
+          "max_lessons_per_day": 1,
+          "type": "LATE",
+          "room": {
+            "allowed": [
+              "133a67e3-ccc7-42a3-8373-a91d3268ada1"
+            ],
+            "preferred": [
+              "133a67e3-ccc7-42a3-8373-a91d3268ada1"
+            ],
+            "dispreferred": []
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "95a06f5c-334e-4c8d-b054-44f8b477c1e0",
+      "subjects": [
+        {
+          "subject_id": "9004822a-71da-49f7-a596-476550b8296b",
+          "teacher_id": "2b348a88-cba0-451d-9f56-1c9d5d08e61e",
+          "lessons_per_week": 4,
+          "max_lessons_per_day": 2,
+          "type": "ANY",
+          "room": {
+            "allowed": [
+              "c9fad4ef-b0a5-4f61-a0cc-08514d044a3c",
+              "f92295c8-13d7-48dc-8cea-60b04a993880"
+            ],
+            "preferred": [
+              "c9fad4ef-b0a5-4f61-a0cc-08514d044a3c"
+            ],
+            "dispreferred": []
+          }
+        },
+        {
+          "subject_id": "4561e219-f55f-4341-ae84-091a98341ff4",
+          "teacher_id": "a0170aa8-e97a-468c-8d79-b722e2c2221d",
+          "lessons_per_week": 2,
+          "max_lessons_per_day": 1,
+          "type": "EARLY",
+          "room": {
+            "allowed": [
+              "62145267-0b10-4205-b8bb-733d31e934db"
+            ],
+            "preferred": [
+              "62145267-0b10-4205-b8bb-733d31e934db"
+            ],
+            "dispreferred": []
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "617c5395-6f80-47e3-b742-f4466cd06968",
+      "subjects": [
+        {
+          "subject_id": "1657a213-32b7-4d67-b04f-6073a42cfde9",
+          "teacher_id": "b8c85125-d565-4459-b303-390d601b907c",
+          "lessons_per_week": 2,
+          "max_lessons_per_day": 1,
+          "type": "ANY",
+          "room": {
+            "allowed": [
+              "a502b5b8-8c9c-4df4-b6bd-362a4edf4d77",
+              "d0b06e25-3304-4132-8b21-c59e49a9bc1d"
+            ],
+            "preferred": [
+              "a502b5b8-8c9c-4df4-b6bd-362a4edf4d77"
+            ],
+            "dispreferred": []
+          }
+        },
+        {
+          "subject_id": "f9d36778-e1f4-4efc-8755-d3e983426c16",
+          "teacher_id": "7510aabe-62b9-49cb-adfb-7b061c2249d8",
+          "lessons_per_week": 1,
+          "max_lessons_per_day": 1,
+          "type": "ANY",
+          "room": {
+            "allowed": [
+              "fce0cec6-b952-4fc3-868f-6e510d342831"
+            ],
+            "preferred": [
+              "fce0cec6-b952-4fc3-868f-6e510d342831"
+            ],
+            "dispreferred": []
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "8458a22f-37ab-4aea-b5af-d5d7397df06a",
+      "subjects": [
+        {
+          "subject_id": "03517e55-4bc5-4b04-a0eb-64f7579e1222",
+          "teacher_id": "3c2cb7a3-f967-4fed-8301-1d9f770cb1b9",
+          "lessons_per_week": 2,
+          "max_lessons_per_day": 1,
+          "type": "ANY",
+          "room": {
+            "allowed": [
+              "ad6a3b3f-39c7-4dc4-8faf-81e87912b9d3"
+            ],
+            "preferred": [
+              "ad6a3b3f-39c7-4dc4-8faf-81e87912b9d3"
+            ],
+            "dispreferred": []
+          }
+        },
+        {
+          "subject_id": "1499e552-0cf0-40b4-b989-e5398a46e293",
+          "teacher_id": "961eb6e7-0823-4d2d-8675-2554bd966892",
+          "lessons_per_week": 2,
+          "max_lessons_per_day": 1,
+          "type": "ANY",
+          "room": {
+            "allowed": [
+              "f92295c8-13d7-48dc-8cea-60b04a993880",
+              "ad6a3b3f-39c7-4dc4-8faf-81e87912b9d3"
+            ],
+            "preferred": [
+              "ad6a3b3f-39c7-4dc4-8faf-81e87912b9d3"
+            ],
+            "dispreferred": []
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "4688b5ff-551a-411d-a10a-d132133f85b4",
+      "subjects": [
+        {
+          "subject_id": "05f4340f-4239-4c54-8c8e-b9153577f761",
+          "teacher_id": "b9b61562-9571-443f-8d43-28c8dfc40f96",
+          "lessons_per_week": 5,
+          "max_lessons_per_day": 2,
+          "type": "EARLY",
+          "room": {
+            "allowed": [
+              "82235304-56b7-4e14-8c67-3460a2233fd7",
+              "c9fad4ef-b0a5-4f61-a0cc-08514d044a3c"
+            ],
+            "preferred": [
+              "82235304-56b7-4e14-8c67-3460a2233fd7"
+            ],
+            "dispreferred": []
+          }
+        },
+        {
+          "subject_id": "691106c1-14aa-412f-baee-39148477129f",
+          "teacher_id": "2b348a88-cba0-451d-9f56-1c9d5d08e61e",
+          "lessons_per_week": 5,
+          "max_lessons_per_day": 2,
+          "type": "ANY",
+          "room": {
+            "allowed": [
+              "c9fad4ef-b0a5-4f61-a0cc-08514d044a3c",
+              "f92295c8-13d7-48dc-8cea-60b04a993880"
+            ],
+            "preferred": [
+              "f92295c8-13d7-48dc-8cea-60b04a993880"
+            ],
+            "dispreferred": []
+          }
+        },
+        {
+          "subject_id": "7a0059fa-afe7-4130-bfb6-7cac0e016ffc",
+          "teacher_id": "533f5fb2-d4b6-4ac8-9832-03b18b7fa27c",
+          "lessons_per_week": 3,
+          "max_lessons_per_day": 1,
+          "type": "LATE",
+          "room": {
+            "allowed": [
+              "133a67e3-ccc7-42a3-8373-a91d3268ada1"
+            ],
+            "preferred": [
+              "133a67e3-ccc7-42a3-8373-a91d3268ada1"
+            ],
+            "dispreferred": []
+          }
+        }
+      ]
+    }
+  ],
+  "unique_group_combinations": [
+    [
+      "95a06f5c-334e-4c8d-b054-44f8b477c1e0",
+      "89aa4faa-1549-4bcf-9a3f-1b5fa510f441"
+    ],
+    [
+      "95a06f5c-334e-4c8d-b054-44f8b477c1e0",
+      "24f2213c-1e36-4c5a-ba61-e2b4958e793c"
+    ],
+    [
+      "617c5395-6f80-47e3-b742-f4466cd06968"
+    ],
+    [
+      "8458a22f-37ab-4aea-b5af-d5d7397df06a"
+    ],
+    [
+      "4688b5ff-551a-411d-a10a-d132133f85b4"
+    ]
+  ],
+  "teachers": [
+    {
+      "teacher_id": "b9b61562-9571-443f-8d43-28c8dfc40f96",
+      "unavailability": []
+    },
+    {
+      "teacher_id": "0a19efaf-f905-4582-9126-d71579240024",
+      "unavailability": [
+        {
+          "day": 0,
+          "lesson": 0
+        }
+      ]
+    },
+    {
+      "teacher_id": "64e82fed-0b2f-43fc-ae44-38e7ae419fe4",
+      "unavailability": []
+    },
+    {
+      "teacher_id": "533f5fb2-d4b6-4ac8-9832-03b18b7fa27c",
+      "unavailability": [
+        {
+          "day": 2,
+          "lesson": 4
+        }
+      ]
+    },
+    {
+      "teacher_id": "f1ffda55-4670-4b28-bff8-a1cc1baefd33",
+      "unavailability": []
+    },
+    {
+      "teacher_id": "2b348a88-cba0-451d-9f56-1c9d5d08e61e",
+      "unavailability": [
+        {
+          "day": 1,
+          "lesson": 2
+        }
+      ]
+    },
+    {
+      "teacher_id": "3c2cb7a3-f967-4fed-8301-1d9f770cb1b9",
+      "unavailability": []
+    },
+    {
+      "teacher_id": "961eb6e7-0823-4d2d-8675-2554bd966892",
+      "unavailability": [
+        {
+          "day": 3,
+          "lesson": 1
+        }
+      ]
+    },
+    {
+      "teacher_id": "7510aabe-62b9-49cb-adfb-7b061c2249d8",
+      "unavailability": []
+    },
+    {
+      "teacher_id": "b8c85125-d565-4459-b303-390d601b907c",
+      "unavailability": [
+        {
+          "day": 4,
+          "lesson": 5
+        }
+      ]
+    },
+    {
+      "teacher_id": "a0170aa8-e97a-468c-8d79-b722e2c2221d",
+      "unavailability": []
+    }
+  ]
+}
