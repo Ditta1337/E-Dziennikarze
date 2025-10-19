@@ -1,8 +1,11 @@
 package com.edziennikarze.gradebook.plan.configuration.dto;
 
+import com.edziennikarze.gradebook.exception.MarshallException;
+import com.edziennikarze.gradebook.exception.UnmarshallException;
 import com.edziennikarze.gradebook.plan.dto.Plan;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -11,21 +14,26 @@ import org.springframework.data.relational.core.mapping.Table;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Table("plan_configurations")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table("plan_configurations")
 public class PlanConfiguration {
 
     @Id
     private UUID id;
 
+    @NotNull
+    private UUID planId;
+
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @NotNull
     private String name;
 
+    @NotNull
     private UUID officeWorkerId;
 
     private boolean calculated;
@@ -33,19 +41,19 @@ public class PlanConfiguration {
     @Column("configuration")
     private String configuration;
 
-    public void setConfigurationObject(Plan plan, ObjectMapper objectMapper) {
+    public void setConfiguration(Plan plan, ObjectMapper objectMapper) {
         try {
             this.configuration = objectMapper.writeValueAsString(plan);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Failed to convert plan to JSON string", e);
+            throw new MarshallException("Failed to convert Plan to JSON string");
         }
     }
 
-    public Plan getConfigurationObject(ObjectMapper objectMapper) {
+    public Plan getConfiguration(ObjectMapper objectMapper) {
         try {
             return objectMapper.readValue(configuration, Plan.class);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Failed to convert JSON string to Plan object", e);
+            throw new UnmarshallException("Failed to convert JSON string to Plan object");
         }
     }
 }

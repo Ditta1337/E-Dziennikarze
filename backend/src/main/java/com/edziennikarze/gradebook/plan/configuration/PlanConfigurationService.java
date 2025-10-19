@@ -36,6 +36,7 @@ public class PlanConfigurationService {
 
     public Mono<PlanConfigurationResponse> createPlanConfiguration(Mono<String> nameMono) {
         return Mono.just(new PlanConfiguration())
+                .flatMap(this::enrichPlanConfigurationWithPlanId)
                 .flatMap(planConfiguration -> enrichPlanConfigurationWithName(planConfiguration, nameMono))
                 .flatMap(this::enrichPlanConfigurationWithOfficeWorker)
                 .flatMap(this::enrichPlanConfigurationWithCalculated)
@@ -43,6 +44,11 @@ public class PlanConfigurationService {
                 .flatMap(planConfigurationRepository::save)
                 .flatMap(planConfiguration -> Mono.just(PlanConfigurationResponse.from(planConfiguration, objectMapper)));
 
+    }
+
+    private Mono<PlanConfiguration> enrichPlanConfigurationWithPlanId(PlanConfiguration planConfiguration) {
+        planConfiguration.setPlanId(UUID.randomUUID());
+        return Mono.just(planConfiguration);
     }
 
     private Mono<PlanConfiguration> enrichPlanConfigurationWithName(PlanConfiguration planConfiguration, Mono<String> nameMono) {
@@ -66,9 +72,9 @@ public class PlanConfigurationService {
     }
 
     private Mono<PlanConfiguration> enrichPlanConfigurationWithPlan(PlanConfiguration planConfiguration) {
-        return createEmptyPlan()
+        return createEmptyPlan(planConfiguration.getPlanId())
                 .flatMap(plan -> {
-                    planConfiguration.setConfigurationObject(plan, objectMapper);
+                    planConfiguration.setConfiguration(plan, objectMapper);
                     return Mono.just(planConfiguration);
                 });
     }
@@ -85,17 +91,18 @@ public class PlanConfigurationService {
     public Mono<PlanConfigurationResponse> updatePlanConfiguration(Mono<PlanConfigurationResponse> planConfigurationResponseMono) {
         return planConfigurationResponseMono.flatMap(planConfigurationResponse -> planConfigurationRepository.findById(planConfigurationResponse.getId())
                 .flatMap(planConfiguration -> {
-                    planConfiguration.setConfigurationObject(planConfigurationResponse.getConfiguration(), objectMapper);
+                    planConfiguration.setConfiguration(planConfigurationResponse.getConfiguration(), objectMapper);
                     return planConfigurationRepository.save(planConfiguration);
                 }).flatMap(planConfiguration -> Mono.just(PlanConfigurationResponse.from(planConfiguration, objectMapper))));
     }
 
 
-    private Mono<Plan> createEmptyPlan() {
+    private Mono<Plan> createEmptyPlan(UUID planId) {
         return createGroupToGroupSubjectsTuple()
                 .map(this::createPlanGroup)
                 .collectList()
                 .map(groups -> Plan.builder()
+                        .planId(planId)
                         .goals(List.of())
                         .groups(groups)
                         .teachers(List.of())

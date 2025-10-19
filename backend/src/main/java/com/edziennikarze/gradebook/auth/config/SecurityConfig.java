@@ -166,11 +166,17 @@ public class SecurityConfig {
                         // Plan endpoints
                         .pathMatchers(HttpMethod.POST, "/plan/enqueue").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
 
-                        // Plan configuration
+                        // Plan configuration endpoints
                         .pathMatchers(HttpMethod.POST, "/plan/configuration").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.GET, "/plan/configuration/{configurationId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.GET, "/plan/configuration/summary/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.PUT, "plan/configuration").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+
+
+                        // Plan calculation endpoints
+                        .pathMatchers(HttpMethod.POST, "/plan/calculation").permitAll() // TODO: TEMPORARY PERMIT ALL
+                        .pathMatchers(HttpMethod.GET, "/plan/calculation/plan/{planId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+
 
                         .anyExchange().denyAll()
                 )

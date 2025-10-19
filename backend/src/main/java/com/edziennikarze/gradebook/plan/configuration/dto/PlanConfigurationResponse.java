@@ -8,14 +8,17 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PlanConfigurationResponse {
 
     @NotNull
     private UUID id;
+
+    @NotNull
+    private UUID planId;
 
     @NotNull
     private LocalDateTime createdAt;
@@ -35,10 +38,11 @@ public class PlanConfigurationResponse {
     public static PlanConfigurationResponse from(PlanConfiguration planConfiguration, ObjectMapper objectMapper) {
         return PlanConfigurationResponse.builder()
                 .id(planConfiguration.getId())
+                .planId(planConfiguration.getPlanId())
                 .createdAt(planConfiguration.getCreatedAt())
                 .name(planConfiguration.getName())
                 .officeWorkerId(planConfiguration.getOfficeWorkerId())
-                .configuration(planConfiguration.getConfigurationObject(objectMapper))
+                .configuration(planConfiguration.getConfiguration(objectMapper))
                 .calculated(planConfiguration.isCalculated())
                 .build();
     }

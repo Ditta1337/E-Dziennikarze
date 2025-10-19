@@ -15,6 +15,28 @@ import org.springframework.web.server.ServerWebInputException;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(MarshallException.class)
+    public ResponseEntity<ErrorResponse> handleMarshall(MarshallException ex, ServerWebExchange
+            exchange) {
+        log.error(ex.getMessage(), ex);
+        return createErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ex.getMessage(),
+                exchange.getRequest().getPath().value()
+        );
+    }
+
+    @ExceptionHandler(UnmarshallException.class)
+    public ResponseEntity<ErrorResponse> handleUnmarshall(UnmarshallException ex, ServerWebExchange
+            exchange) {
+        log.error(ex.getMessage(), ex);
+        return createErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ex.getMessage(),
+                exchange.getRequest().getPath().value()
+        );
+    }
+
     @ExceptionHandler(ParseException.class)
     public ResponseEntity<ErrorResponse> handlePropertyParse(ParseException ex, ServerWebExchange exchange) {
         log.error(ex.getMessage(), ex);
