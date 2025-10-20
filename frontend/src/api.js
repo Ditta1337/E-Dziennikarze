@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useStore } from "./store"; // Assuming your Zustand store is in './store'
 
+const apiUrl = "http://localhost:8443"
+
 const apiClient = axios.create({
-    baseURL: process.env.BACKEND_BASE_URL || "http://localhost:8443",
+    baseURL: process.env.BACKEND_BASE_URL || apiUrl,
     headers: {
         "Content-Type": "application/json",
     },
@@ -164,7 +166,7 @@ export const websocketClient = {
 };
 
 export const get = (url, params = {}) => apiClient.get(url, { params });
-export const post = (url, data) => apiClient.post(url, data);
+export const post = (url, data, config = {}) => apiClient.post(url, data, config);
 export const put = (url, data) => apiClient.put(url, data);
 export const patch = (url, data) => apiClient.patch(url, data);
 export const del = (url) => apiClient.delete(url);

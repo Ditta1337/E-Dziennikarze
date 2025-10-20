@@ -3,10 +3,12 @@ package com.edziennikarze.gradebook.solver;
 import com.edziennikarze.gradebook.plan.dto.Plan;
 import com.edziennikarze.gradebook.plan.dto.PlanResponse;
 import lombok.RequiredArgsConstructor;
+import com.edziennikarze.gradebook.solver.dto.GoalFunction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -28,6 +30,18 @@ public class SolverService {
                 .onErrorResume(WebClientResponseException.class, e -> {
                     log.error("Solver API returned an error status: {} with body {}", e.getStatusCode(), e.getResponseBodyAsString());
                     return Mono.empty();
+                });
+    }
+
+    public Flux<GoalFunction> getGoalFunctions() {
+        return solverWebClient.get()
+                .uri("/goals")
+                .retrieve()
+                .bodyToFlux(GoalFunction.class)
+                .doOnError(e -> log.error("Error calling Szywoj API", e))
+                .onErrorResume(WebClientResponseException.class, e -> {
+                    log.error("Solver API returned an error status: {} with body {}", e.getStatusCode(), e.getResponseBodyAsString());
+                    return Flux.empty();
                 });
     }
 

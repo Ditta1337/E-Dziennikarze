@@ -1,9 +1,57 @@
-.goal-functions{
-  margin-left: auto;
-  padding-right: 100px;
-}
+.calendar-generation-config {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 
-.groups-subjects{
-  margin-right: auto;
-  padding-left: 100px;
+  .title {
+    padding-top: 20px;
+    font-size: x-large;
+    font-weight: bold;
+  }
+
+  .config-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .goal-functions {
+      padding-right: 100px;
+      width: 50%;
+    }
+
+    .groups-subjects {
+      padding-left: 100px;
+      width: 50%;
+    }
+  }
+
+  .save-generate{
+    display: flex;
+    flex: row;
+    align-items: center;
+
+    .save{
+      width: 80px;
+      margin:30px;
+    }
+
+    .generate{
+      width: 80px;
+      margin: 30px;
+    }
+
+  }
+
+  .copy-button-title-container{
+    width: 100%;
+    display: flex;
+    padding-right: 40px;
+    padding-top: 20px;
+    .copy{
+      max-width: fit-content;
+      margin-left: auto;
+    }
+  }
+
 }

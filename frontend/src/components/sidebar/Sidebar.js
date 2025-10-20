@@ -20,7 +20,7 @@ import {
     ListUsers,
     TeacherUnavailabilites,
     WebsocketTest,
-    Grades,
+    Grades, CalendarConfigurationList,
     CreateGroup,
     ManageRooms,
     EditGroups
@@ -43,12 +43,18 @@ const Sidebar = ({open, toggle}) => {
 
     const getRoutesByRole = (role) => {
         switch (role) {
-            case AdminRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, WebsocketTest, CreateGroup, EditGroups, ManageRooms];
-            case TeacherRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, TeacherUnavailabilites, WebsocketTest];
-            case StudentRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, Grades];
-            case GuardianRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, Grades];
-            case OfficeWorkerRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, CreateGroup, EditGroups, ManageRooms];
-            case PrincipalRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, CreateGroup, EditGroups, ManageRooms];
+            case AdminRole:
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, WebsocketTest, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList];
+            case TeacherRole:
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, TeacherUnavailabilites, WebsocketTest];
+            case StudentRole:
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, Grades];
+            case GuardianRole:
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, Grades];
+            case OfficeWorkerRole:
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList];
+            case PrincipalRole:
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList];
         }
     }
 

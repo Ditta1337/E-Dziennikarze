@@ -3,6 +3,7 @@ package com.edziennikarze.gradebook.plan.configuration;
 import com.edziennikarze.gradebook.plan.configuration.dto.PlanConfigurationResponse;
 import com.edziennikarze.gradebook.plan.configuration.dto.PlanConfigurationSummary;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -16,9 +17,14 @@ public class PlanConfigurationController {
 
     private final PlanConfigurationService planConfigurationService;
 
-    @PostMapping()
+    @PostMapping(consumes = MediaType.TEXT_PLAIN_VALUE)
     public Mono<PlanConfigurationResponse> createPlanConfiguration(@RequestBody Mono<String> nameMono) {
         return planConfigurationService.createPlanConfiguration(nameMono);
+    }
+
+    @PostMapping(path = "/copy/{planConfigurationId}", consumes = MediaType.TEXT_PLAIN_VALUE)
+    public Mono<PlanConfigurationResponse> copyPlanConfiguration(@PathVariable UUID planConfigurationId, @RequestBody Mono<String> nameMono) {
+        return planConfigurationService.copyPlanConfiguration(planConfigurationId, nameMono);
     }
 
     @GetMapping("/{planConfigurationId}")

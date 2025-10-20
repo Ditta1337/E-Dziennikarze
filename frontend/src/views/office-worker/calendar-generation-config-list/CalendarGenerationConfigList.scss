@@ -1,0 +1,26 @@
+.config-list-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  .config-creation-container{
+    margin-left: auto;
+    padding-right: 40px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+
+  .config-summary-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+}
+
+.configuration-name-button{
+  margin-top: 10px;
+  width: 70%;
+}

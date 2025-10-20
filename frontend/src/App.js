@@ -16,6 +16,8 @@ import UnavailableCalendarRouter from "./role-based-routers/UnavailableCalendarR
 import WebsocketTest from "./views/websocket-test/WebsocketTest";
 import CalendarGenerationConfig from "./views/office-worker/calendar-generation-config/CalendarGenerationConfig";
 import GradeRouter from "./role-based-routers/GradeRouter";
+import CalendarGenerationConfigList
+    from "./views/office-worker/calendar-generation-config-list/CalendarGenerationConfigList";
 import { AdminRole, TeacherRole, StudentRole, GuardianRole, OfficeWorkerRole, PrincipalRole } from './views/admin/roles.js';
 
 function App() {
@@ -50,6 +52,10 @@ function App() {
                     <Route path="/edit/group" element={<Card><EditGroups /></Card>} />
                     <Route path="/manage/rooms" element={<Card><CreateRoom /></Card>} />
                     <Route path="/calendar/generation/config" element={<Card><CalendarGenerationConfig /></Card>} />
+                    <Route path="/calendar/generation/config/list" element={<Card><CalendarGenerationConfigList /></Card>} />
+                    <Route path="/calendar/generation/config/:id" element={<Card><CalendarGenerationConfig /></Card>} />
+                    <Route path="/websocket-test" element={<Card><WebsocketTest /></Card>} />
+
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

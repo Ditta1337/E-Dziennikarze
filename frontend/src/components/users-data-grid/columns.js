@@ -4,7 +4,7 @@ import ViewButton from "./edit-user-button/EditUserButton"
 const columns = [
     {
         field: 'edit',
-        headerName: 'EDIT',
+        headerName: 'EDYTUJ',
         renderCell: (params) => <ViewButton id={params.row.id}/>,
         sortable: false,
         filterable: false,
@@ -13,7 +13,7 @@ const columns = [
         field: 'image_base64',
         headerName: 'Icon',
         renderCell: (params) => (
-            <Avatar alt={params.row.name} src={params.value} />
+            <Avatar alt={params.row.name} src={params.value}/>
         ),
         filterable: false,
         sortable: false,

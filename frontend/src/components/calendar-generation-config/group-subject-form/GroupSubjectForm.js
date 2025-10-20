@@ -1,21 +1,27 @@
 import {useCallback, useEffect, useMemo, useState} from "react"
 import {Autocomplete, Box, Button, Chip, TextField} from "@mui/material"
-import {Formik, Form, Field} from "formik"
+import {Formik, Form} from "formik"
 import * as Yup from "yup"
 import "./GroupSubjectForm.scss"
-import {LessonAnyType, lessonPlacementTypesTopPolish} from "../lesson-placement-type/LessonPlacementType";
+import {lessonPlacementTypesTopPolish} from "../lesson-placement-type/LessonPlacementType"
 
-const GroupSubjectForm = ({fetchGroupSubjectData, fetchRooms}) => {
+const GroupSubjectForm = ({
+                              configurationData,
+                              setConfigurationData,
+                              fetchGroupSubjectData,
+                              fetchRooms,
+                              displaySnackBarMessage
+                          }) => {
     const [groupSubjectData, setGroupSubjectData] = useState([])
     const [rooms, setRooms] = useState([])
 
     const updateGroupSubjectData = useCallback(async () => {
         try {
             const response = await fetchGroupSubjectData()
-            console.log(response.data)
             setGroupSubjectData(response?.data || [])
         } catch (e) {
-            console.error("Failed to fetch group subjects:", e)
+            console.error(e)
+            displaySnackBarMessage("Wystąpił błąd podczas pobierania danych o grupach")
         }
     }, [fetchGroupSubjectData])
 
@@ -24,7 +30,8 @@ const GroupSubjectForm = ({fetchGroupSubjectData, fetchRooms}) => {
             const response = await fetchRooms()
             setRooms(response?.data || [])
         } catch (e) {
-            console.error("Failed to fetch rooms:", e)
+            displaySnackBarMessage("Wystąpił błąd podczas pobierania danych o pokojach.")
+            console.error(e)
         }
     }, [fetchRooms])
 
@@ -75,6 +82,9 @@ const GroupSubjectForm = ({fetchGroupSubjectData, fetchRooms}) => {
             .required("Podaj maksymalną liczbę lekcji w dniu"),
     })
 
+    useEffect(() => {
+    }, [configurationData])
+
     return (
         <Formik
             initialValues={{
@@ -88,26 +98,62 @@ const GroupSubjectForm = ({fetchGroupSubjectData, fetchRooms}) => {
                 lessonPlacementType: ""
             }}
             validationSchema={validationSchema}
-            onSubmit={(values, {setTouched, validateForm}) => {
+            validateOnChange={false}
+            validateOnBlur={false}
+            onSubmit={(values, {setTouched, validateForm, resetForm}) => {
                 validateForm(values).then((errors) => {
                     if (Object.keys(errors).length) {
                         setTouched({rooms: true})
-                        return
                     }
                 })
                 const payload = {
-                    group: values.group?.group_id || values.group?.id || null,
-                    subject: values.subject?.id || null,
-                    rooms: values.rooms.map((r) => r.id),
-                    preferredRooms: values.preferredRooms.map((r) => r.id),
-                    unpreferredRooms: values.unpreferredRooms.map((r) => r.id),
-                    lessonsPerWeek: values.lessonsPerWeek,
-                    maxLessonsPerDay: values.maxLessonsPerDay,
-                    lessonPlacementType: values.lessonPlacementType.value
+                    subject_id: values.subject?.id || null,
+                    lessons_per_week:
+                        values.lessonsPerWeek === 0 ? 0 : Number(values.lessonsPerWeek),
+                    max_lessons_per_day:
+                        values.maxLessonsPerDay === 0 ? 0 : Number(values.maxLessonsPerDay),
+                    type: values.lessonPlacementType?.value || "ANY",
+                    room: {
+                        allowed: values.rooms.map((r) => r.id),
+                        preferred: values.preferredRooms.map((r) => r.id),
+                        dispreferred: values.unpreferredRooms.map((r) => r.id),
+                    },
                 }
-
-                console.log("Payload to submit:", payload)
+                setConfigurationData((prev) => {
+                    const updated = structuredClone(prev)
+                    const groupToUpdate = updated.configuration.groups.find(
+                        (g) => g.group_id === values.group.group_id
+                    )
+                    if (!groupToUpdate) return prev
+                    const subjectToUpdate = groupToUpdate.subjects.find(
+                        (s) => s.subject_id === values.subject.id
+                    )
+                    if (subjectToUpdate) {
+                        subjectToUpdate.lessons_per_week =
+                            payload.lessons_per_week === 0 ? null : payload.lessons_per_week
+                        subjectToUpdate.max_lessons_per_day =
+                            payload.max_lessons_per_day === 0 ? null : payload.max_lessons_per_day
+                        subjectToUpdate.type = payload.type
+                        subjectToUpdate.room.allowed = payload.room.allowed
+                        subjectToUpdate.room.preferred = payload.room.preferred
+                        subjectToUpdate.room.dispreferred = payload.room.dispreferred
+                    }
+                    return updated
+                })
+                resetForm({
+                    values: {
+                        group: values.group,
+                        subject: "",
+                        rooms: [],
+                        preferredRooms: [],
+                        unpreferredRooms: [],
+                        lessonsPerWeek: "",
+                        maxLessonsPerDay: "",
+                        lessonPlacementType: "",
+                    },
+                })
             }}
+
         >
             {({
                   values,
@@ -119,6 +165,54 @@ const GroupSubjectForm = ({fetchGroupSubjectData, fetchRooms}) => {
                   setFieldTouched
               }) => {
                 const availableSubjects = subjectsForGroup(values.group)
+
+                const fillGroupSubjectConfiguration = (newSubjectValue) => {
+                    const existingConfiguration = findGroupSubjectFilledConfiguration(newSubjectValue)
+                    if (existingConfiguration) {
+                        setFieldValue(
+                            "lessonsPerWeek",
+                            existingConfiguration.lessons_per_week > 0 ? existingConfiguration.lessons_per_week : ""
+                        )
+                        setFieldValue(
+                            "maxLessonsPerDay",
+                            existingConfiguration.max_lessons_per_day > 0 ? existingConfiguration.max_lessons_per_day : ""
+                        )
+                        setFieldValue(
+                            "lessonPlacementType",
+                            lessonPlacementTypesTopPolish.find(
+                                (t) => t.value === existingConfiguration.type) || ""
+                        )
+                        const allowedRoomIds = existingConfiguration.room.allowed || []
+                        const preferredRoomIds = existingConfiguration.room.preferred || []
+                        const dispreferredRoomIds = existingConfiguration.room.dispreferred || []
+
+                        const allowedRooms = rooms.filter((r) =>
+                            allowedRoomIds.includes(r.id)
+                        )
+                        const preferredRooms = rooms.filter((r) =>
+                            preferredRoomIds.includes(r.id)
+                        )
+                        const unpreferredRooms = rooms.filter((r) =>
+                            dispreferredRoomIds.includes(r.id)
+                        )
+
+                        setFieldValue("rooms", allowedRooms)
+                        setFieldValue("preferredRooms", preferredRooms)
+                        setFieldValue("unpreferredRooms", unpreferredRooms)
+                    } else {
+                        setFieldValue("rooms", [])
+                        setFieldValue("preferredRooms", [])
+                        setFieldValue("unpreferredRooms", [])
+                        setFieldValue("lessonPlacementType", "")
+                    }
+
+                }
+
+                const findGroupSubjectFilledConfiguration = (newSubjectValue) => {
+                    if (newSubjectValue === null) return
+                    const groupSubjectData = configurationData.configuration.groups.find((groupSubjectPair) => groupSubjectPair.group_id === values.group.group_id)
+                    return groupSubjectData.subjects.find((subject) => subject.subject_id === newSubjectValue.id)
+                }
 
                 return (
                     <Form onSubmit={handleSubmit} className="group-subject-form">
@@ -134,6 +228,8 @@ const GroupSubjectForm = ({fetchGroupSubjectData, fetchRooms}) => {
                                     setFieldValue("rooms", [])
                                     setFieldValue("preferredRooms", [])
                                     setFieldValue("unpreferredRooms", [])
+                                    setFieldValue("maxLessonsPerDay", "")
+                                    setFieldValue("lessonsPerWeek", "")
                                     setFieldValue("lessonPlacementType", "")
                                 }}
                                 renderInput={(params) => (
@@ -153,18 +249,7 @@ const GroupSubjectForm = ({fetchGroupSubjectData, fetchRooms}) => {
                                 value={values.subject}
                                 onChange={(e, newValue) => {
                                     setFieldValue("subject", newValue || null)
-                                    setFieldValue("rooms", [])
-                                    setFieldValue("preferredRooms", [])
-                                    setFieldValue("unpreferredRooms", [])
-                                    if (newValue) {
-                                        setFieldValue(
-                                            "lessonPlacementType",
-                                            lessonPlacementTypesTopPolish.find(type => type.value === LessonAnyType)
-                                        );
-                                    } else {
-                                        setFieldValue("lessonPlacementType", "");
-                                    }
-
+                                    fillGroupSubjectConfiguration(newValue)
                                 }}
                                 renderInput={(params) => (
                                     <TextField
@@ -219,7 +304,6 @@ const GroupSubjectForm = ({fetchGroupSubjectData, fetchRooms}) => {
                         />
 
                         <Box className="prefered-not-prefered-rooms">
-                            {/* Preferred Rooms */}
                             <Autocomplete
                                 multiple
                                 className="preferred-rooms"
@@ -258,7 +342,6 @@ const GroupSubjectForm = ({fetchGroupSubjectData, fetchRooms}) => {
                                 disabled={values.rooms.length < 1}
                             />
 
-                            {/* Unpreferred Rooms */}
                             <Autocomplete
                                 multiple
                                 className="not-preferred-rooms"
@@ -298,7 +381,6 @@ const GroupSubjectForm = ({fetchGroupSubjectData, fetchRooms}) => {
                             />
                         </Box>
 
-                        {/* Numeric Inputs */}
                         <Box className="lessons-number-input">
                             <TextField
                                 className="lessons-per-week"
@@ -332,7 +414,7 @@ const GroupSubjectForm = ({fetchGroupSubjectData, fetchRooms}) => {
                                 disabled={!values.subject}
                             />
                         </Box>
-                        
+
                         <Autocomplete
                             className="lesson-placement-type"
                             options={lessonPlacementTypesTopPolish}
@@ -350,8 +432,11 @@ const GroupSubjectForm = ({fetchGroupSubjectData, fetchRooms}) => {
                         />
 
                         <Box className="action-button">
-                            <Button variant="contained" type="submit">
-                                Zapisz
+                            <Button
+                                variant="contained"
+                                type="submit"
+                            >
+                                Zatwierdź
                             </Button>
                             <Button
                                 variant="outlined"

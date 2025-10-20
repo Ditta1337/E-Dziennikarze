@@ -33,6 +33,11 @@ public class PlanService {
 
     private final SolverService solverService;
 
+    private static final List<String> PLAN_PROPERTIES = List.of(
+            "latestStartingLesson",
+            "lessonsPerDay"
+    );
+
     private static final List<String> LESSON_PROPERTIES_NAMES = List.of(
             "schoolDayStartTime",
             "lessonDurationMinutes",
@@ -44,7 +49,7 @@ public class PlanService {
 
     public Mono<Plan> initializePlan(Mono<Plan> planMono) {
         Mono<Plan> enrichedPlan = planMono
-                .flatMap(this::enrichPlanWithLatestStartingLesson)
+                .flatMap(this::enrichPlanWithProperties)
                 .flatMap(this::enrichPlanWithRooms)
                 .flatMap(this::enrichPlanWithUniqueGroupCombinations)
                 .flatMap(this::enrichPlanWithTeachers)
@@ -52,15 +57,18 @@ public class PlanService {
 
         return enrichedPlan
                 .flatMap(plan ->
-                    solverService.calculatePlan(plan)
-                    .then(Mono.just(plan))
+                        solverService.calculatePlan(plan)
+                                .then(Mono.just(plan))
                 );
     }
 
-    public Mono<Plan> enrichPlanWithLatestStartingLesson(Plan plan) {
-        return  propertyService.getPropertyByName("latestStartingLesson")
-                .map(latestStartingLessonProperty -> {
-                    plan.setLatestStartingLesson((Integer) latestStartingLessonProperty.getValue());
+    public Mono<Plan> enrichPlanWithProperties(Plan plan) {
+        return propertyService.getPropertiesAsMap(PLAN_PROPERTIES)
+                .map(props -> {
+                    int latestStartingLesson = (int) props.get("latestStartingLesson");
+                    int lessonsPerDay = (int) props.get("lessonsPerDay");
+                    plan.setLatestStartingLesson(latestStartingLesson);
+                    plan.setLessonsPerDay(lessonsPerDay);
                     return plan;
                 });
     }

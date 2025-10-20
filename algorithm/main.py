@@ -31,9 +31,9 @@ async def status():
 
 @app.get("/goals")
 async def echo():
-    with open("algorithm/data/goals.json") as f:
+    with open("data/goals.json") as f:
         goals=json.load(f)
-        return {"goals": goals}
+        return goals
 
 
 

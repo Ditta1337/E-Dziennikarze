@@ -1,33 +1,40 @@
-import React, { useState } from "react"
-import { Box, TextField, Typography } from "@mui/material"
+import React, {useState} from "react"
+import {Box, TextField, Typography} from "@mui/material"
 import "./DurationPicker.scss"
 
 const transformStringToCorrectNumber = (stringNumber) => {
-    if(stringNumber === ""){
+    if (stringNumber === "") {
         return "0"
     }
     return stringNumber.replace(/^0+/, "")
 }
 
-export default function DurationPicker({ onChange, isActive}) {
-    const [duration, setDuration] = useState({ hours: "0", minutes: "0" })
+const createHoursMinutesFromSeconds = (seconds) => {
+    const hours = Math.floor(seconds / 3600)
+    const remainingSeconds = seconds - hours * 3600
+    const minutes = Math.floor( remainingSeconds / 60 )
+    return {hours: hours, minutes: minutes}
+}
+
+export default function DurationPicker({onChange, isActive, functionDuration}) {
+    const [duration, setDuration] = useState(createHoursMinutesFromSeconds(functionDuration))
 
     const handleChange = (e) => {
-        const { name, value } = e.target
+        const {name, value} = e.target
         if (value === "" || /^\d*$/.test(value)) {
             let newValue = transformStringToCorrectNumber(value)
             if (name === "minutes" && Number(value) > 59) {
                 newValue = "59"
+            } else if (name === "hours" && Number(value) > 10000) {
+                newValue = "1000"
             }
-            else if(name === "hours" && Number(value) > 10000){
-                newValue = "10000"
-            }
-            const newDuration = { ...duration, [name]: newValue }
+            const newDuration = {...duration, [name]: newValue}
             setDuration(newDuration)
-            if (onChange) {
-                onChange(newDuration.hours * 3600 + newDuration.minutes * 60)
-            }
         }
+    }
+
+    const handleBlur = () => {
+        onChange(duration.hours * 3600 + duration.minutes * 60)
     }
 
     return (
@@ -38,10 +45,11 @@ export default function DurationPicker({ onChange, isActive}) {
                 type="text"
                 value={duration.hours}
                 onChange={handleChange}
-                inputProps={{ inputMode: "numeric", pattern: "[0-9]*", min: 0, max: 10000 }}
+                inputProps={{inputMode: "numeric", pattern: "[0-9]*", min: 0, max: 10000}}
                 className="picker"
                 size="small"
                 disabled={!isActive}
+                onBlur={handleBlur}
             />
             <Typography>:</Typography>
             <TextField
@@ -50,10 +58,11 @@ export default function DurationPicker({ onChange, isActive}) {
                 type="text"
                 value={duration.minutes}
                 onChange={handleChange}
-                inputProps={{ inputMode: "numeric", pattern: "[0-9]*", min: 0, max: 59 }}
+                inputProps={{inputMode: "numeric", pattern: "[0-9]*", min: 0, max: 59}}
                 className="picker"
                 size="small"
                 disabled={!isActive}
+                onBlur={handleBlur}
             />
         </Box>
     )

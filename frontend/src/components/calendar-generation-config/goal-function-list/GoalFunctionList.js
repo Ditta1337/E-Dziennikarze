@@ -1,29 +1,51 @@
 import React, {useEffect, useState} from "react"
-import {
-    DndContext,
-    DragOverlay,
-    PointerSensor,
-    useSensor,
-    useSensors,
-    rectIntersection,
-} from "@dnd-kit/core"
-import { SortableContext, arrayMove, rectSortingStrategy } from "@dnd-kit/sortable"
-import { Box, IconButton, Typography } from "@mui/material"
+import {DndContext, DragOverlay, PointerSensor, rectIntersection, useSensor, useSensors,} from "@dnd-kit/core"
+import {arrayMove, rectSortingStrategy, SortableContext} from "@dnd-kit/sortable"
+import {Box, CircularProgress, IconButton, Typography} from "@mui/material"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 import DraggableGoalFunction from "../draggable-goal-function/DraggableGoalFunction"
 import SortableItem from "../../dnd-sortable-item/SortableItem"
 import DroppableContainer from "./droppable-container/DroppableContainer"
 import "./GoalFunctionList.scss"
 
-const GoalFunctionList = ({ goalFunctions, constructConfigData }) => {
-    const [containers, setContainers] = useState({
-        ACTIVE: goalFunctions || [],
-        INACTIVE: [],
-    })
-    const [functionDuration, setFunctionDuration] = useState( Object.fromEntries((goalFunctions || []).map(goal => [goal.function_name, 0])) )
+
+const GoalFunctionList = ({configurationData, setConfigurationData, fetchGoalFunctions, displaySnackbarMessage}) => {
+    const [goalFunctions, setGoalFunctions] = useState(null)
+    const [containers, setContainers] = useState(null)
+    const [functionDuration, setFunctionDuration] = useState(null)
     const [activeId, setActiveId] = useState(null)
 
     const sensors = useSensors(useSensor(PointerSensor))
+
+    const loadGoalFunctions = async () => {
+        try {
+            const result = await fetchGoalFunctions()
+            setGoalFunctions(result.data)
+        } catch (e) {
+            console.log(e)
+            displaySnackbarMessage("Wystąpił błąd podczas wczytywania funkcji celu")
+        }
+    }
+
+    const fillContainersFromConfigData = () => {
+        if (!goalFunctions || !configurationData?.configuration) {
+            setContainers({ACTIVE: [], INACTIVE: []})
+            return;
+        }
+        const activeGoalNames = configurationData.configuration.goals.map(goal => goal.name)
+        const activeGoals = goalFunctions.filter(goalFunction => activeGoalNames.includes(goalFunction.function_name))
+        const inactiveGoals = goalFunctions.filter(goalFunction => !activeGoalNames.includes(goalFunction.function_name))
+        const activeDurations = Object.fromEntries(
+            configurationData.configuration.goals.map(goal => [goal.name, goal.time])
+        )
+        const inactiveDurations = Object.fromEntries(
+            inactiveGoals.map(goal => [goal.function_name, 0])
+        )
+        const allDurations = {...activeDurations, ...inactiveDurations}
+
+        setFunctionDuration(allDurations)
+        setContainers({ACTIVE: activeGoals, INACTIVE: inactiveGoals,})
+    }
 
     const findContainer = (id) => {
         if (!id) return null
@@ -41,12 +63,10 @@ const GoalFunctionList = ({ goalFunctions, constructConfigData }) => {
 
     const handleDurationChange = (functionName, durationInSeconds) => {
         setFunctionDuration(prev => {
-            const updated = {
+            return {
                 ...prev,
                 [functionName]: durationInSeconds,
             }
-            constructConfigData(containers.ACTIVE, updated) // ✅ use the updated object
-            return updated
         })
     }
 
@@ -55,46 +75,88 @@ const GoalFunctionList = ({ goalFunctions, constructConfigData }) => {
     }
 
     const handleDragEnd = (event) => {
-        const { active, over } = event
-        setActiveId(null)
-        if (!over) return
+        const {active, over} = event;
+        setActiveId(null);
+        if (!over) return;
 
-        const activeContainer = findContainer(active.id)
-        const overContainer = findContainer(over.id) || over.id
+        const activeContainer = findContainer(active.id);
+        const overContainer = findContainer(over.id) || over.id;
 
-        if (!activeContainer || !overContainer) return
+        if (!activeContainer || !overContainer) return;
+
+        if (activeContainer === "ACTIVE" && overContainer === "INACTIVE") {
+            if (containers.ACTIVE.length <= 1) {
+                return;
+            }
+        }
 
         if (activeContainer === overContainer) {
             setContainers((prev) => {
-                const items = [...prev[activeContainer]]
-                const oldIndex = items.findIndex((g) => g.function_name === active.id)
-                const newIndex = items.findIndex((g) => g.function_name === over.id)
+                const items = [...prev[activeContainer]];
+                console.log(items)
+                const oldIndex = items.findIndex((g) => g.function_name === active.id);
+                console.log(oldIndex)
+                const newIndex = items.findIndex((g) => g.function_name === over.id);
+                console.log(newIndex)
                 return {
                     ...prev,
                     [activeContainer]: arrayMove(items, oldIndex, newIndex),
-                }
-            })
+                };
+            });
         } else {
             setContainers((prev) => {
-                const activeItems = [...prev[activeContainer]]
-                const overItems = [...prev[overContainer]]
-                const oldIndex = activeItems.findIndex((g) => g.function_name === active.id)
-                const [movedItem] = activeItems.splice(oldIndex, 1)
-                overItems.push(movedItem)
+                const activeItems = [...prev[activeContainer]];
+                const overItems = [...prev[overContainer]];
+                const oldIndex = activeItems.findIndex((g) => g.function_name === active.id);
+                const [movedItem] = activeItems.splice(oldIndex, 1);
+                overItems.push(movedItem);
                 return {
                     ...prev,
                     [activeContainer]: activeItems,
                     [overContainer]: overItems,
-                }
-            })
+                };
+            });
         }
-    }
+    };
 
     const activeGoal = getActiveGoal()
 
     useEffect(() => {
-        constructConfigData(containers.ACTIVE, functionDuration)
-    }, [containers, goalFunctions])
+        loadGoalFunctions()
+    }, [])
+
+    useEffect(() => {
+        fillContainersFromConfigData()
+    }, [goalFunctions]);
+
+    useEffect(() => {
+        if (!containers || !functionDuration) return;
+
+        const activeGoals = containers.ACTIVE.map(goal => ({
+            name: goal.function_name,
+            time: functionDuration[goal.function_name] || 0,
+        }));
+
+        setConfigurationData(prev => {
+            const prevGoals = prev?.configuration?.goals || [];
+            const isEqual = prevGoals.length === activeGoals.length &&
+                prevGoals.every((g, i) => g.name === activeGoals[i].name && g.time === activeGoals[i].time);
+
+            if (isEqual) return prev;
+            return {
+                ...prev,
+                configuration: {
+                    ...prev.configuration,
+                    goals: activeGoals,
+                }
+            };
+        });
+    }, [containers, functionDuration, setConfigurationData]);
+
+
+    if (!goalFunctions || !functionDuration || !containers) {
+        return <CircularProgress/>;
+    }
 
     return (
         <DndContext
@@ -120,7 +182,9 @@ const GoalFunctionList = ({ goalFunctions, constructConfigData }) => {
                         <Box className="sortable-items">
                             {containers.ACTIVE.map((goal) => (
                                 <SortableItem key={goal.function_name} id={goal.function_name}>
-                                    <DraggableGoalFunction functionData={goal} onDurationChange={handleDurationChange} isActive={true}/>
+                                    <DraggableGoalFunction functionData={goal}
+                                                           functionDuration={functionDuration[goal.function_name]}
+                                                           onDurationChange={handleDurationChange}/>
                                 </SortableItem>
                             ))}
                         </Box>
@@ -139,7 +203,9 @@ const GoalFunctionList = ({ goalFunctions, constructConfigData }) => {
                         <Box className="sortable-items">
                             {containers.INACTIVE.map((goal) => (
                                 <SortableItem key={goal.function_name} id={goal.function_name}>
-                                    <DraggableGoalFunction functionData={goal} isActive={false}/>
+                                    <DraggableGoalFunction functionData={goal}
+                                                           functionDuration={functionDuration[goal.function_name]}
+                                                           isActive={false}/>
                                 </SortableItem>
                             ))}
                         </Box>
@@ -151,10 +217,10 @@ const GoalFunctionList = ({ goalFunctions, constructConfigData }) => {
                 {activeGoal && (
                     <Box className="drag-overlay">
                         <IconButton size="small" className="drag-overlay-handle">
-                            <DragIndicatorIcon />
+                            <DragIndicatorIcon/>
                         </IconButton>
                         <Box className="drag-overlay-content">
-                            <DraggableGoalFunction functionData={activeGoal} onDurationChange={handleDurationChange}/>
+                            <DraggableGoalFunction functionData={activeGoal}/>
                         </Box>
                     </Box>
                 )}

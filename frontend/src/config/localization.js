@@ -7,5 +7,6 @@ export const AppLocale = {
     },
     dateFormat: "yyyy-MM-dd",
     timeFormat: "HH:mm",
+    dateTimeFormat: "dd-MM-yyyy HH:mm",
     timeZone: "Europe/Warsaw"
 }

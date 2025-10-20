@@ -119,28 +119,28 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/planned-lesson/all/group/{groupId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.GET, "/planned-lesson/all/subject/{subjectId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.GET, "/planned-lesson/all/teacher/{teacherId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name())
-                        .pathMatchers(HttpMethod.PUT, "/planned-lesson").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.PUT, "/planned-lesson").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
 
                         // Assigned-Lesson endpoints
-                        .pathMatchers(HttpMethod.POST, "/assigned-lesson").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
-                        .pathMatchers(HttpMethod.GET, "/assigned-lesson/all", "/assigned-lesson/all/cancelled").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
-                        .pathMatchers(HttpMethod.PUT, "/assigned-lesson").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.POST, "/assigned-lesson").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.GET, "/assigned-lesson/all", "/assigned-lesson/all/cancelled").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.PUT, "/assigned-lesson").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
 
                         // Group endpoints
                         .pathMatchers(HttpMethod.GET, "/group/all", "/group/all/classes", "/group/all/{startingYear}").authenticated()
-                        .pathMatchers(HttpMethod.POST, "/group").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
-                        .pathMatchers(HttpMethod.PUT, "/group").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
-                        .pathMatchers(HttpMethod.PATCH, "/group/increment").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
-                        .pathMatchers(HttpMethod.DELETE, "/group/{groupId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.POST, "/group").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.PUT, "/group").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.PATCH, "/group/increment").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.DELETE, "/group/{groupId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
 
                         // Group-Subject endpoints
                         .pathMatchers(HttpMethod.GET, "/group-subject/teacher/{teacherId}", "/group_subject/group/{groupId}", "/group_subject/subject/{subjectId}").authenticated()
-                        .pathMatchers(HttpMethod.GET, "/group-subject/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
-                        .pathMatchers(HttpMethod.POST, "/group-subject").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.GET, "/group-subject/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.POST, "/group-subject").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
 
                         // Student-Group endpoints
                         .pathMatchers(HttpMethod.GET, "/student-group/student/{studentId}", "/student-group/group/{groupId}").authenticated()
-                        .pathMatchers(HttpMethod.POST, "/student-group").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.POST, "/student-group").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
                         .pathMatchers(HttpMethod.DELETE, "/student-group/student/{studentId}/group/{groupId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
 
                         // Attendance endpoints
@@ -162,7 +162,7 @@ public class SecurityConfig {
 
 
                         // Property endpoints
-                        .pathMatchers(HttpMethod.GET, "/property/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.GET, "/property/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
                         .pathMatchers(HttpMethod.GET, "/property/name/{name}").permitAll()
                         .pathMatchers(HttpMethod.PUT, "/property").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
 
@@ -176,17 +176,22 @@ public class SecurityConfig {
                         .pathMatchers("/ws/notification").authenticated()
 
                         // Plan endpoints
-                        .pathMatchers(HttpMethod.POST, "/plan/enqueue").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.POST, "/plan/enqueue").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
 
                         // Plan configuration endpoints
-                        .pathMatchers(HttpMethod.POST, "/plan/configuration").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
-                        .pathMatchers(HttpMethod.GET, "/plan/configuration/{configurationId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
-                        .pathMatchers(HttpMethod.GET, "/plan/configuration/summary/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
-                        .pathMatchers(HttpMethod.PUT, "plan/configuration").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.POST, "/plan/configuration").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.GET, "/plan/configuration/{configurationId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.GET, "/plan/configuration/summary/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.PUT, "/plan/configuration").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.POST, "/plan/configuration/copy/{planConfigurationId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+
 
                         // Plan calculation endpoints
                         .pathMatchers(HttpMethod.POST, "/plan/calculation").hasAnyAuthority(ADMIN.name())
                         .pathMatchers(HttpMethod.GET, "/plan/calculation/plan/{planId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+
+                        // Solver endpoint
+                        .pathMatchers(HttpMethod.GET, "/solver/goal/functions").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
 
                         .anyExchange().denyAll()
                 )

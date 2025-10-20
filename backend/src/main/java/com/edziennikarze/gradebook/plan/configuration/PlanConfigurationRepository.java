@@ -18,6 +18,7 @@ public interface PlanConfigurationRepository extends ReactiveCrudRepository<Plan
                             p.created_at AS created_at,
                             p.name AS name,
                             p.office_worker_id AS office_worker_id,
+                            p.calculated AS calculated,
                             u.name AS office_worker_name,
                             u.surname AS office_worker_surname
                         FROM plan_configurations p

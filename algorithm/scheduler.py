@@ -192,7 +192,7 @@ class Scheduler():
                     self.model.add(sum(changes) <= 2)
 
     # ====================== Goals ======================
-    def goal_ballance_day_lenght(self, goal):
+    def goal_balance_day_length(self, goal):
         diff = []
         for group in self.groups:
             for day_i in range(self.teaching_days - 1):
@@ -294,7 +294,7 @@ class Scheduler():
         goal.variables = [sum(preferred) - sum(dispreferred)]
         goal.objective = GoalObjective.MAXIMIZE
 
-    def goal_early_start(self, goal):
+    def goal_subject_time_preferences(self, goal):
         lesson_slots=[lesson*self.vars[subject.id, room.id, day, lesson]
                     for subject in self.subjects
                     for room in self.rooms

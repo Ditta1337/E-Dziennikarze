@@ -56,6 +56,17 @@ public class PlanConfiguration {
             throw new UnmarshallException("Failed to convert JSON string to Plan object");
         }
     }
+
+    public static PlanConfiguration from(PlanConfiguration planConfiguration, String name, UUID officeWorkerId) {
+        return PlanConfiguration.builder()
+                .planId(planConfiguration.planId)
+                .name(name)
+                .officeWorkerId(officeWorkerId)
+                .calculated(false)
+                .configuration(planConfiguration.getConfiguration())
+                .build();
+    }
+
 }
 
 

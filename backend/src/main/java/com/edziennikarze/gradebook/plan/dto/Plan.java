@@ -31,11 +31,11 @@ public class Plan {
     @NotNull
     private List<PlanGroup> groups;
 
-    @NotNull
-    private List<UUID> rooms;
+    @Builder.Default
+    private List<UUID> rooms = new ArrayList<>();
 
-    @NotNull
-    private List<List<UUID>> uniqueGroupCombinations;
+    @Builder.Default
+    private List<List<UUID>> uniqueGroupCombinations = new ArrayList<>();
 
     @Builder.Default
     private List<PlanTeacher> teachers = new ArrayList<>();

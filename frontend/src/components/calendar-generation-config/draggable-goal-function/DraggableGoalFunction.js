@@ -4,7 +4,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import DurationPicker from "../../calendar/duration-picker/DurationPicker"
 import "./DraggableGoalFunction.scss"
 
-const DraggableGoalFunction = ({functionData, onDurationChange, isActive}) => {
+const DraggableGoalFunction = ({functionData, functionDuration, onDurationChange, isActive = true}) => {
     const [anchorEl, setAnchorEl] = useState(null)
 
     const handleDurationChange = (durationInSeconds) => {
@@ -53,7 +53,8 @@ const DraggableGoalFunction = ({functionData, onDurationChange, isActive}) => {
                     <Typography variant="body2">{functionData.description}</Typography>
                 </Popover>
 
-                <DurationPicker onChange={handleDurationChange} isActive={isActive}/>
+                <DurationPicker onChange={handleDurationChange} isActive={isActive}
+                                functionDuration={functionDuration}/>
             </Box>
         </Box>
     )

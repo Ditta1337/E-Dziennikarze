@@ -24,6 +24,9 @@ public class PlanConfigurationSummary {
     private UUID officeWorkerId;
 
     @NotNull
+    private boolean calculated;
+
+    @NotNull
     private String officeWorkerName;
 
     @NotNull

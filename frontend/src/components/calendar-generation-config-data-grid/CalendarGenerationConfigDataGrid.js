@@ -1,8 +1,8 @@
-import {DataGrid} from '@mui/x-data-grid';
-import columns from './columns';
+import {DataGrid} from "@mui/x-data-grid";
+import columns from "./columns";
 import {Box} from "@mui/material";
 
-function UsersDataGrid({ rows }) {
+const CalendarGenerationConfigDataGrid = ({rows}) => {
     return <Box>
         <DataGrid
             rows={rows}
@@ -13,4 +13,4 @@ function UsersDataGrid({ rows }) {
     </Box>
 }
 
-export default UsersDataGrid;
+export default CalendarGenerationConfigDataGrid

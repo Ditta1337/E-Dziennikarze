@@ -1,28 +1,18 @@
 import GoalFunctionList from "../../../components/calendar-generation-config/goal-function-list/GoalFunctionList";
-import {Box} from "@mui/material";
+import {Alert, Box, Button, Popover, Snackbar, TextField, Typography} from "@mui/material";
 import "./CalendarGenerationConfig.scss"
-import {useEffect, useState} from "react";
-import { get } from "../../../api"
+import React, {useEffect, useState} from "react";
+import {get, put, post} from "../../../api"
 import GroupSubjectForm from "../../../components/calendar-generation-config/group-subject-form/GroupSubjectForm";
+import {useNavigate, useParams} from "react-router";
 
-//TODO refactor to a fetch when endpoint ready
-const goal_functions = [
-    {
-        "function_name":"goal_room_preferences",
-        "name":"Preferowanie Pokoi",
-        "description":"Priorytezuje dopasowanie preferowanych pokoi."
-    },
-    {
-        "function_name":"goal_subject_types",
-        "name":"Preferowanie typów lekcji",
-        "description":"Nie wiem co to jest XD szywoj niech wytłumaczy."
-    },
-    {
-        "function_name":"goal_ballance_day_lenght",
-        "name":"Preferewanie balansu dobowego",
-        "description":"Priorytezuje dopasowanie lekcji aby wszystkie klasy zaczynały i kończyły w podobnym czasie"
-    }
-]
+const fetchGoalFunctions = async () => {
+    return get("solver/goal/functions")
+}
+
+const saveConfigurationData = async (configurationData) => {
+    return put("plan/configuration", configurationData)
+}
 
 const fetchGroupSubjectData = async () => {
     return get("group-subject/all")
@@ -32,25 +22,184 @@ const fetchRooms = async () => {
     return get("room/all")
 }
 
-const CalendarGenerationConfig = () => {
-    const [configData, setConfigData] = useState(null)
-
-    const constructConfigData = (goalPriorities, goalDurations) => {
-        const body = {
-            goals: goalPriorities.map(goal => ({
-                name: goal.function_name,
-                time: goalDurations[goal.function_name]
-            }))
+const postConfigurationCopy = async (configurationId, newName) => {
+    return post(`plan/configuration/copy/${configurationId}`, newName , {
+            headers: {"Content-Type": "text/plain"}
         }
-        setConfigData(body)
+    )
+}
+
+const postEnqueuePlan = async (planConfiguration) => {
+    return post("plan/enqueue", planConfiguration)
+}
+
+const CalendarGenerationConfig = () => {
+    const navigate = useNavigate()
+    const {id} = useParams();
+    const [configurationData, setConfigurationData] = useState(null)
+    const [newConfigurationName, setNewConfigurationName] = useState(null)
+    const [anchorEl, setAnchorEl] = useState(null)
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+    const fetchCalendarConfigurationData = async (id) => {
+        try {
+            const result = await get(`plan/configuration/${id}`)
+            return result.data
+        } catch (e) {
+            console.error(e)
+            displaySnackbarMessage("Wystąpił błąd podczas pobierania danych konfiguracji.")
+        }
     }
 
+    const handleOpenCopy = (event) => {
+        setAnchorEl(event.currentTarget)
+    }
+
+    const handleCloseCopy = () => {
+        setAnchorEl(null)
+    }
+
+    const handleConfigurationCopy = async () => {
+        if (newConfigurationName === null) {
+            displaySnackbarMessage("Wpisz nazwę konfiguracji!")
+            return
+        }
+        try {
+            const result = await postConfigurationCopy(id, newConfigurationName)
+            navigate(`/calendar/generation/config/${result.data.id}`)
+            handleCloseCopy()
+        } catch (e) {
+            console.error(e)
+            displaySnackbarMessage("Wystąpił błąd podczas kopiowania konfiguracji.")
+        }
+
+    }
+
+    const handlePlanGeneration = async () => {
+        try{
+            const result = await postEnqueuePlan(configurationData.configuration)
+            console.log(JSON.stringify(result.data))
+        } catch (e) {
+            console.error(e)
+            displaySnackbarMessage("Wystąpił błąd podczas generacji planu lekcji.")
+        }
+    }
+
+    const handleConfigurationSave = async () => {
+        try {
+            await saveConfigurationData(configurationData)
+            displaySnackbarMessage("Zapisano konfigurację!", false)
+        } catch (e) {
+            console.error(e)
+            displaySnackbarMessage("Wystąpił błąd podczas zapisywania konfiguracji.")
+        }
+
+    }
+
+    const displaySnackbarMessage = (message, isErrorMessage = true) => {
+        setSnackbarMessage(message);
+        if(isErrorMessage) {
+            setSnackbarSeverity("error");
+        } else{
+            setSnackbarSeverity("success")
+        }
+        setSnackbarOpen(true);
+    }
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setSnackbarOpen(false);
+    };
+
+    useEffect(() => {
+        const loadConfigData = async () => {
+            const data = await fetchCalendarConfigurationData(id)
+            setConfigurationData(data)
+        }
+
+        loadConfigData()
+    }, [id])
+
+    const copyConfigurationPopoverOpen = Boolean(anchorEl)
+    const popoverId = copyConfigurationPopoverOpen ? "function-info-popover" : undefined
+
     return <>
-        <Box className="groups-subjects">
-            <GroupSubjectForm fetchGroupSubjectData={fetchGroupSubjectData} fetchRooms={fetchRooms}/>
-        </Box>
-        <Box className="goal-functions">
-            <GoalFunctionList goalFunctions={goal_functions} constructConfigData={constructConfigData}/>
+        <Box className="calendar-generation-config">
+            <Typography className="title">{configurationData ? configurationData.name : "Ładowanie..."}</Typography>
+            <Box className="copy-button-title-container">
+                <Button className="copy" variant="contained" onClick={handleOpenCopy}>Kopiuj konfigurację</Button>
+            </Box>
+            <Box className="config-input">
+                <Box className="groups-subjects">
+                    <GroupSubjectForm configurationData={configurationData} setConfigurationData={setConfigurationData}
+                                      fetchGroupSubjectData={fetchGroupSubjectData} fetchRooms={fetchRooms} displaySnackBarMessage={displaySnackbarMessage}/>
+                </Box>
+                <Box className="goal-functions">
+                    <GoalFunctionList configurationData={configurationData} setConfigurationData={setConfigurationData} fetchGoalFunctions={fetchGoalFunctions} displaySnackbarMessage={displaySnackbarMessage}/>
+                </Box>
+            </Box>
+            <Box className="save-generate">
+                <Button onClick={handleConfigurationSave}
+                        variant="contained" className="save">Zapisz</Button>
+                <Button onClick={handlePlanGeneration} variant="contained" className="generate">Generuj</Button>
+            </Box>
+
+            <Popover
+                id={popoverId}
+                open={copyConfigurationPopoverOpen}
+                anchorEl={anchorEl}
+                onClose={handleCloseCopy}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                }}
+                transformOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                }}
+                PaperProps={{
+                    style: {
+                        padding: "0.75rem",
+                        maxWidth: 250,
+                        backgroundColor: "#f9fafc",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center"
+
+                    },
+                }}
+            >
+                <TextField
+                    className="configuration-name-input"
+                    label="Nazwa Konfiguracji"
+                    variant="outlined"
+                    value={newConfigurationName}
+                    onChange={(e) => {
+                        setNewConfigurationName(e.target.value)
+                    }}
+                />
+                <Button className="configuration-name-button" variant="contained" size="small"
+                        onClick={handleConfigurationCopy}>
+                    Kopiuj
+                </Button>
+            </Popover>
+
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            >
+                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
+
         </Box>
     </>
 }

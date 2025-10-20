@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding: 2rem;  // more breathing room
+  padding: 2rem;
 
   .title {
     padding: 12px 0;
@@ -20,14 +20,14 @@
     justify-content: center;
     min-width: 380px;
     width: 100%;
-    gap: 1.5rem; // increased spacing between sections
+    gap: 1.5rem;
   }
 
   .group-subject {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 1rem; // spacing between group and subject
+    gap: 1rem;
 
     .group,
     .subject {
@@ -36,15 +36,17 @@
   }
 
   .possible-rooms {
+    max-width: 580px;
     width: 100%;
-    margin-top: 1rem; // extra space above
+    margin: 1.5rem auto 0;
   }
+
 
   .prefered-not-prefered-rooms {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 1rem; // space between preferred and unpreferred rooms
+    gap: 1rem;
 
     .preferred-rooms,
     .not-preferred-rooms {
@@ -68,7 +70,7 @@
     margin: 20px 0;
     display: flex;
     justify-content: center;
-    gap: 1.5rem; // more spacing between buttons
+    gap: 1.5rem;
 
     button {
       min-width: 120px;
@@ -87,7 +89,7 @@
       background-color: #fff;
       border-radius: 8px;
       transition: box-shadow 0.15s ease;
-      margin-bottom: 0.5rem; // extra space below inputs
+      margin-bottom: 0.5rem;
     }
   }
 
@@ -108,7 +110,7 @@
     form,
     & > form {
       min-width: 600px;
-      gap: 2rem; // more spacing on wide screens
+      gap: 2rem;
     }
 
     .group-subject {
