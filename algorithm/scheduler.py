@@ -1,5 +1,6 @@
 from ortools.sat.python import cp_model
 import os
+from entities import DataParser
 from schemas import ScheduleConfig, SubjectPriority
 from entities import Goal, GoalObjective
 from entities.data_parser import DataParser
@@ -10,7 +11,8 @@ NUM_WORKERS = 8
 
 class Scheduler():
     def __init__(self, schedule_config: ScheduleConfig):
-        goals, groups,unique_groups_combinations, teachers, subjects, rooms, teaching_days, max_lessons_per_day, latest_starting_lesson, plan_id = DataParser.parse_input(schedule_config)
+        self.data_parser=DataParser()
+        goals, groups,unique_groups_combinations, teachers, subjects, rooms, teaching_days, max_lessons_per_day, latest_starting_lesson, plan_id = self.data_parser.parse_input(schedule_config)
         self.goals = goals
         self.unique_groups_combinations = unique_groups_combinations
         self.groups = groups
@@ -30,7 +32,8 @@ class Scheduler():
         self.solution_callback = SolutionCallback(
             self.vars, self.goals, self.groups, self.teachers,
             self.subjects, self.rooms, self.teaching_days, self.max_lessons_per_day,
-            self.plan_id
+            self.plan_id,
+            self.data_parser
         )
 
     def _create_vars(self):

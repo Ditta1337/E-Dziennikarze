@@ -6,7 +6,7 @@ from entities import DataParser
 from dotenv import load_dotenv
 
 class SolutionCallback(CpSolverSolutionCallback):
-    def __init__(self, schedule, goals, groups, teachers, subjects,rooms, teaching_days, max_lessons_per_day, plan_id):
+    def __init__(self, schedule, goals, groups, teachers, subjects,rooms, teaching_days, max_lessons_per_day, plan_id, data_parser):
         super().__init__()
 
         load_dotenv()
@@ -19,6 +19,7 @@ class SolutionCallback(CpSolverSolutionCallback):
         self.rooms = rooms
         self.teaching_days = teaching_days
         self.max_lessons_per_day = max_lessons_per_day
+        self.data_parser= data_parser
         self.url = os.getenv("CALLBACK_URL")
         self.last_solution= None
         self.plan_id=plan_id
@@ -43,10 +44,10 @@ class SolutionCallback(CpSolverSolutionCallback):
         for idx, var in self.schedule.items():
             if self.Value(var):
                 subject, room, day, lesson = idx
-                subject=DataParser.get_subject_by_id(subject)
+                subject=self.data_parser.get_subject_by_id(subject)
                 group=subject.group
                 teacher=subject.teacher
-                room=DataParser.get_room_by_id(room)
+                room=self.data_parser.get_room_by_id(room)
                 groups[group.id]["schedule"].append({
                     "lesson": lesson,
                     "day": day,
@@ -75,9 +76,9 @@ class SolutionCallback(CpSolverSolutionCallback):
             timetable = [["-" for _ in range(self.max_lessons_per_day)] for _ in range(self.teaching_days)]
             for (subject_id, room_id, day, lesson), var in self.schedule.items():
                 if self.Value(var):
-                    subject = DataParser.get_subject_by_id(subject_id).uuid
-                    room = DataParser.get_room_by_id(room_id).uuid
-                    teacher = DataParser.get_teacher_by_id(
+                    subject = self.data_parser.get_subject_by_id(subject_id).uuid
+                    room = self.data_parser.get_room_by_id(room_id).uuid
+                    teacher = self.data_parser.get_teacher_by_id(
                         next(s.teacher.id for s in self.subjects if s.id == subject_id)
                     ).uuid
                     if group.id in [g.id for g in self.groups if subject_id in [s.id for s in g.subjects]]:
