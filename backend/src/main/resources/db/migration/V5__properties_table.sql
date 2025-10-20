@@ -19,6 +19,7 @@ VALUES ('schoolFullName', 'STRING', 'Akademia Górniczo-Hutnicza im. Stanisława
        ('schoolPhoneNumber', 'STRING', '+48 123456789', NULL, false),
        ('schoolDayStartTime', 'TIME', '07:00', NULL, false),
        ('schoolDayEndTime', 'TIME', '20:00', NULL, false),
+       ('latestStartingLesson', 'INTEGER', '3', NULL, false),
        ('lessonDurationMinutes', 'INTEGER', '45', NULL, false),
        ('shortBreakDurationMinutes', 'INTEGER', '10', NULL, false),
        ('longBreakDurationMinutes', 'INTEGER', '20', NULL, false),

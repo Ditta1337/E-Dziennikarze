@@ -2,6 +2,8 @@ package com.edziennikarze.gradebook.auth.config;
 
 import com.edziennikarze.gradebook.auth.AuthManager;
 import com.edziennikarze.gradebook.auth.AuthRepository;
+import com.edziennikarze.gradebook.auth.api.ApiKeyAuthenticationConverter;
+import com.edziennikarze.gradebook.auth.api.ApiKeyAuthenticationManager;
 import com.edziennikarze.gradebook.config.websocket.WebSocketTokenAuthenticationConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -36,13 +38,22 @@ public class SecurityConfig {
 
     private final WebSocketTokenAuthenticationConverter webSocketTokenAuthenticationConverter;
 
+    private final ApiKeyAuthenticationManager apiKeyAuthenticationManager;
+
+    private final ApiKeyAuthenticationConverter apiKeyAuthenticationConverter;
+
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+        AuthenticationWebFilter apiKeyFilter = new AuthenticationWebFilter(apiKeyAuthenticationManager);
+        apiKeyFilter.setServerAuthenticationConverter(apiKeyAuthenticationConverter);
+        apiKeyFilter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, "/plan/calculation"));
+
         AuthenticationWebFilter wsAuthFilter = new AuthenticationWebFilter(authenticationManager);
         wsAuthFilter.setServerAuthenticationConverter(webSocketTokenAuthenticationConverter);
         wsAuthFilter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/ws/**"));
 
         return http
+                .addFilterAt(apiKeyFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .addFilterAt(wsAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
@@ -172,11 +183,9 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/plan/configuration/summary/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.PUT, "plan/configuration").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
 
-
                         // Plan calculation endpoints
-                        .pathMatchers(HttpMethod.POST, "/plan/calculation").permitAll() // TODO: TEMPORARY PERMIT ALL
+                        .pathMatchers(HttpMethod.POST, "/plan/calculation").hasAnyAuthority(ADMIN.name())
                         .pathMatchers(HttpMethod.GET, "/plan/calculation/plan/{planId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
-
 
                         .anyExchange().denyAll()
                 )

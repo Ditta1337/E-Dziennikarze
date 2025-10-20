@@ -2,6 +2,7 @@ package com.edziennikarze.gradebook.solver;
 
 import com.edziennikarze.gradebook.plan.dto.Plan;
 import com.edziennikarze.gradebook.plan.dto.PlanResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -10,12 +11,10 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class SolverService {
-    private final WebClient solverWebClient;
 
-    public SolverService(WebClient solverWebClient) {
-        this.solverWebClient = solverWebClient;
-    }
+    private final WebClient solverWebClient;
 
     public Mono<PlanResponse> calculatePlan(Plan planRequest) {
         log.info("Sending request to solver API for problem: {}", planRequest.toString());
@@ -31,4 +30,6 @@ public class SolverService {
                     return Mono.empty();
                 });
     }
+
+
 }

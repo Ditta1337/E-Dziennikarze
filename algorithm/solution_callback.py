@@ -21,6 +21,7 @@ class SolutionCallback(CpSolverSolutionCallback):
         self.max_lessons_per_day = max_lessons_per_day
         self.data_parser= data_parser
         self.url = os.getenv("CALLBACK_URL")
+        self.api_key = os.getenv("GRADEBOOK_API_KEY")
         self.last_solution= None
         self.plan_id=plan_id
         print(self.url)
@@ -34,7 +35,17 @@ class SolutionCallback(CpSolverSolutionCallback):
             )
         #self.print_schedule()
         self.last_solution = {var: self.Value(var) for var in self.schedule.values()}
-        requests.post(self.url, json=self.schedule_to_json())
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-API-KEY": self.api_key
+        }
+
+        try:
+            response = requests.post(self.url, json=self.schedule_to_json(), headers=headers)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            print(f"ERROR: Failed to send solution to backend: {e}")
 
 
     def schedule_to_json(self):

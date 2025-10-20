@@ -1,6 +1,5 @@
 package com.edziennikarze.gradebook.plan;
 
-import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
 import com.edziennikarze.gradebook.plan.dto.Plan;
 import com.edziennikarze.gradebook.plan.dto.PlanTeacher;
 import com.edziennikarze.gradebook.plan.dto.PlanUnavailability;
@@ -45,6 +44,7 @@ public class PlanService {
 
     public Mono<Plan> initializePlan(Mono<Plan> planMono) {
         Mono<Plan> enrichedPlan = planMono
+                .flatMap(this::enrichPlanWithLatestStartingLesson)
                 .flatMap(this::enrichPlanWithRooms)
                 .flatMap(this::enrichPlanWithUniqueGroupCombinations)
                 .flatMap(this::enrichPlanWithTeachers)
@@ -55,6 +55,14 @@ public class PlanService {
                     solverService.calculatePlan(plan)
                     .then(Mono.just(plan))
                 );
+    }
+
+    public Mono<Plan> enrichPlanWithLatestStartingLesson(Plan plan) {
+        return  propertyService.getPropertyByName("latestStartingLesson")
+                .map(latestStartingLessonProperty -> {
+                    plan.setLatestStartingLesson((Integer) latestStartingLessonProperty.getValue());
+                    return plan;
+                });
     }
 
     public Mono<Plan> enrichPlanWithRooms(Plan plan) {
