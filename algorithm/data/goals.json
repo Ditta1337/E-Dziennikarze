@@ -11,8 +11,8 @@
   },
   {
     "function_name": "goal_early_start",
-    "name": "Szywoj wypełnij to",
-    "description": "Szywoj wypełnij to"
+    "name": "Liczba wczesnych lekcji",
+    "description": "Zwieksza liczbe lekcji przed ustalana lekcja startowa"
   },
   {
     "function_name": "goal_balance_day_length",
