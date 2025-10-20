@@ -1,40 +1,49 @@
 from ortools.sat.python.cp_model import CpSolverSolutionCallback
 import requests
 import os
-import numpy as np
-from entities import DataParser
+import time
 from dotenv import load_dotenv
+from entities import DataParser
 
 class SolutionCallback(CpSolverSolutionCallback):
-    def __init__(self, schedule, goals, groups, teachers, subjects,rooms, teaching_days, max_lessons_per_day, plan_id, data_parser):
+    SOLUTION_SEND_INTERVAL = 10
+
+    def __init__(self, schedule, goals, groups, teachers, subjects, rooms,
+                 teaching_days, max_lessons_per_day, plan_id, data_parser):
         super().__init__()
 
         load_dotenv()
 
         self.schedule = schedule
-        self.goals= goals
+        self.goals = goals
         self.groups = groups
         self.teachers = teachers
         self.subjects = subjects
         self.rooms = rooms
         self.teaching_days = teaching_days
         self.max_lessons_per_day = max_lessons_per_day
-        self.data_parser= data_parser
+        self.data_parser = data_parser
+        self.plan_id = plan_id
+
         self.url = os.getenv("CALLBACK_URL")
         self.api_key = os.getenv("GRADEBOOK_API_KEY")
-        self.last_solution= None
-        self.plan_id=plan_id
-        print(self.url)
+
+        self.last_solution = None
+        self.last_send_time = 0.0
+
 
     def on_solution_callback(self):
-        print(
-            "bound:", self.BestObjectiveBound(),
-            "objective:", self.ObjectiveValue(),
-            "conflicts:", self.NumConflicts(),
-            "branches:", self.NumBranches(),
-            )
-        #self.print_schedule()
+        current_time = time.time()
+
         self.last_solution = {var: self.Value(var) for var in self.schedule.values()}
+
+        if current_time - self.last_send_time >= self.SOLUTION_SEND_INTERVAL:
+            self.last_send_time = current_time
+            self.send_last_solution()
+
+    def send_last_solution(self):
+        if not self.last_solution:
+            return
 
         headers = {
             "Content-Type": "application/json",
@@ -42,10 +51,65 @@ class SolutionCallback(CpSolverSolutionCallback):
         }
 
         try:
-            response = requests.post(self.url, json=self.schedule_to_json(), headers=headers)
-            response.raise_for_status()
+            #response = requests.post(self.url, json=self.schedule_to_json(), headers=headers, timeout=5)
+            #response.raise_for_status()
+            self.print_schedule()
+            self.last_solution=None
         except requests.exceptions.RequestException as e:
-            print(f"ERROR: Failed to send solution to backend: {e}")
+            print("RequestException")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     def schedule_to_json(self):

@@ -14,6 +14,7 @@ import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailabil
 import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailabilityRepository;
 import com.edziennikarze.gradebook.plan.util.PlanTestDatabaseCleaner;
 import com.edziennikarze.gradebook.property.PropertyRepository;
+import com.edziennikarze.gradebook.solver.SolverService;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.UserRepository;
 import com.edziennikarze.gradebook.user.dto.User;
@@ -25,7 +26,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import reactor.core.publisher.Mono;
+import static org.mockito.Mockito.when;
+import reactor.core.publisher.Mono;
+import static org.mockito.ArgumentMatchers.any;
+
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -66,6 +72,8 @@ class PlanControllerIntTest {
     @Autowired
     private PropertyRepository propertyRepository;
 
+    @MockBean
+    private SolverService solverService;
 
     private List<User> students;
 
@@ -84,6 +92,9 @@ class PlanControllerIntTest {
         setUpGroups();
         setUpStudentGroups();
         setUpTeacherUnavailability();
+
+        when(solverService.calculatePlan(any())).thenReturn(Mono.empty());
+
     }
 
     @AfterEach
@@ -122,13 +133,25 @@ class PlanControllerIntTest {
         // then
 
         //gourps
-        UUID groupA = groups.get(0).getId();
-        UUID groupB = groups.get(1).getId();
-
+        UUID groupAId = groups.get(0)
+                .getId();
+        UUID groupBId = groups.get(1)
+                .getId();
+        UUID groupWFABId = groups.get(2)
+                .getId();
+        UUID groupBPId = groups.get(3)
+                .getId();
+        UUID groupBRId = groups.get(4)
+                .getId();
+        UUID groupAPId = groups.get(5)
+                .getId();
+        UUID groupARId = groups.get(6)
+                .getId();
         List<Set<UUID>> expected = List.of(
-                Set.of(groupA),
-                Set.of(groupB),
-                Set.of(groupA, groupB)
+                Set.of(groupWFABId,groupAId,groupAPId),
+                Set.of(groupWFABId,groupAId,groupARId),
+                Set.of(groupWFABId,groupBId,groupBPId),
+                Set.of(groupWFABId,groupBId,groupBRId)
         );
 
         List<Set<UUID>> actual = enrichedPlan.getUniqueGroupCombinations().stream()
@@ -159,8 +182,12 @@ class PlanControllerIntTest {
     }
 
     private void setUpStudents() {
-        List<User> studentsToSave = List.of(buildUser("maciek@gmail.com", Role.STUDENT, true, true), buildUser("artur@gmail.com", Role.STUDENT, true, true),
-                buildUser("szymon@gmail.com", Role.STUDENT, true, true));
+        List<User> studentsToSave = List.of(
+                buildUser("maciek@gmail.com", Role.STUDENT, true, true),
+                buildUser("artur@gmail.com", Role.STUDENT, true, true),
+                buildUser("szymetron@gmail.com", Role.STUDENT, true, true),
+                buildUser("szymon@gmail.com", Role.STUDENT, true, true)
+        );
         students = userRepository.saveAll(studentsToSave)
                 .collectList()
                 .block();
@@ -181,20 +208,56 @@ class PlanControllerIntTest {
                 .getId();
         UUID szymonId = students.get(2)
                 .getId();
+        UUID symetronId = students.get(3)
+                .getId();
+
         UUID groupAId = groups.get(0)
                 .getId();
         UUID groupBId = groups.get(1)
                 .getId();
+        UUID groupWFABId = groups.get(2)
+                .getId();
+        UUID groupBPId = groups.get(3)
+                .getId();
+        UUID groupBRId = groups.get(4)
+                .getId();
+        UUID groupAPId = groups.get(5)
+                .getId();
+        UUID groupARId = groups.get(6)
+                .getId();
 
-        List<StudentGroup> studentGroupsToSave = List.of(buildStudentGroup(arturId, groupAId), buildStudentGroup(arturId, groupBId), buildStudentGroup(maciekId, groupAId),
-                buildStudentGroup(szymonId, groupBId));
+        List<StudentGroup> studentGroupsToSave = List.of(
+                buildStudentGroup(maciekId, groupWFABId),
+                buildStudentGroup(maciekId, groupAId),
+                buildStudentGroup(maciekId, groupAPId),
+
+                buildStudentGroup(arturId, groupWFABId),
+                buildStudentGroup(arturId, groupAId),
+                buildStudentGroup(arturId, groupARId),
+
+                buildStudentGroup(szymonId, groupWFABId),
+                buildStudentGroup(szymonId, groupBId),
+                buildStudentGroup(szymonId, groupBPId),
+
+                buildStudentGroup(symetronId, groupWFABId),
+                buildStudentGroup(symetronId, groupBId),
+                buildStudentGroup(symetronId, groupBRId)
+        );
         studentGroups = studentGroupRepository.saveAll(studentGroupsToSave)
                 .collectList()
                 .block();
     }
 
     private void setUpGroups() {
-        List<Group> groupsToSave = List.of(buildGroup(1, "A", true), buildGroup(2, "B", true));
+        List<Group> groupsToSave = List.of(
+                buildGroup(1, "1_A", true),
+                buildGroup(1, "1_B", true),
+                buildGroup(1, "1_AB_WF", true),
+                buildGroup(1, "1_A_ANG_PODSTAWOWY", true),
+                buildGroup(1, "1_A_ANG_ROZSZERZONY", true),
+                buildGroup(1, "1_B_ANG_PODSTAWOWY", true),
+                buildGroup(1, "1_B_ANG_ROZSZERZONY", true)
+                );
         groups = groupRepository.saveAll(groupsToSave)
                 .collectList()
                 .block();

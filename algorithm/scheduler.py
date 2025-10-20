@@ -71,6 +71,7 @@ class Scheduler():
         self.solver.parameters.max_time_in_seconds = goal.time
         self.model.__getattribute__(goal.objective.value)(sum(goal.variables))
         status = self.solver.solve(self.model, solution_callback=self.solution_callback)
+        self.solution_callback.send_last_solution()
 
         if status == cp_model.INFEASIBLE:
             print("INFEASIBLE")
