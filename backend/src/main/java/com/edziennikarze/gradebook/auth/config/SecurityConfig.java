@@ -141,6 +141,7 @@ public class SecurityConfig {
                         // Student-Group endpoints
                         .pathMatchers(HttpMethod.GET, "/student-group/student/{studentId}", "/student-group/group/{groupId}").authenticated()
                         .pathMatchers(HttpMethod.POST, "/student-group").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
+                        .pathMatchers(HttpMethod.DELETE, "/student-group/student/{studentId}/group/{groupId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
 
                         // Attendance endpoints
                         .pathMatchers(HttpMethod.GET, "/attendance/student/{studentId}/subject/{subjectId}", "/attendance/average/student/{studentId}", "/attendance/average/student/{studentId}/subject/{subjectId}").authenticated()

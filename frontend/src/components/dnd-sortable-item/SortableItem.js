@@ -1,7 +1,7 @@
 import { Box, IconButton } from "@mui/material";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities"; // ✅ add this
+import { CSS } from "@dnd-kit/utilities";
 import "./SortableItem.scss"
 
 const SortableItem = ({ id, children }) => {

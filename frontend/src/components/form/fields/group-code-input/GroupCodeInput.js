@@ -4,7 +4,10 @@ import {TextField} from "@mui/material";
 import './GroupCodeInput.scss'
 
 export const GroupCodeSchema = Yup.string()
-    .matches(/^.{1,39}$/, "Kod grupy może składać się maksymalnie z 40 znaków")
+    .matches(
+        /^\d+_.+$/,
+        "Kod musi zaczynać się od 'numer_' (np. 12_dowolny_tekst)"
+    )
     .required("Kod grupy jest wymagany")
 
 const GroupCodeInput = ({label, ...props}) => {

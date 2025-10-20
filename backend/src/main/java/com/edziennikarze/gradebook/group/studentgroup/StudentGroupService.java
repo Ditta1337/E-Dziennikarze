@@ -41,4 +41,8 @@ public class StudentGroupService {
         return userRepository.findAllById(studentIds)
                 .map(UserResponse::from);
     }
+
+    public Mono<Void> deleteStudentFromGroup(UUID studentId, UUID groupId) {
+        return studentGroupRepository.deleteByStudentIdAndGroupId(studentId, groupId);
+    }
 }

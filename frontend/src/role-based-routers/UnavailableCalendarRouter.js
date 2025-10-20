@@ -1,4 +1,3 @@
-import StudentCalendar from "../views/student/StudentCalendar";
 import {useStore} from "../store";
 import TeacherUnavailabilitiesPreferenceChooser from "../views/teacher/TeacherUnavailabilitiesPreferenceChooser";
 import NotFound from "../views/not-found/NotFound";

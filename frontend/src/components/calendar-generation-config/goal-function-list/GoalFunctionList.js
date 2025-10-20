@@ -11,7 +11,7 @@ import { SortableContext, arrayMove, rectSortingStrategy } from "@dnd-kit/sortab
 import { Box, IconButton, Typography } from "@mui/material"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 import DraggableGoalFunction from "../draggable-goal-function/DraggableGoalFunction"
-import SortableItem from "../../DndSortableItem/SortableItem"
+import SortableItem from "../../dnd-sortable-item/SortableItem"
 import DroppableContainer from "./droppable-container/DroppableContainer"
 import "./GoalFunctionList.scss"
 

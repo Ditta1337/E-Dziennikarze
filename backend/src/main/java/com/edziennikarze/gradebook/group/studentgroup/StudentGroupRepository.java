@@ -16,4 +16,6 @@ public interface StudentGroupRepository extends ReactiveCrudRepository<StudentGr
     Flux<StudentGroup> findAllByGroupId(@NotNull UUID groupId);
 
     Mono<Void> deleteAllByStudentId(@NotNull UUID studentId);
+
+    Mono<Void> deleteByStudentIdAndGroupId(@NotNull UUID studentId, @NotNull UUID groupId);
 }

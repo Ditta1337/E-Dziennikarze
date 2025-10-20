@@ -1,0 +1,56 @@
+.manage-rooms-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 20px;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+
+    .title {
+        padding-bottom: 20px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+    }
+
+    .form-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px;
+        min-width: 400px;
+        flex-shrink: 0;
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding-top: 10px;
+        }
+    }
+
+    .table-section {
+        flex-grow: 1;
+        padding: 24px;
+        min-width: 400px;
+        max-width: 800px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .actions-cell {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+}

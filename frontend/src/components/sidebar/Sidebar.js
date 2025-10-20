@@ -20,7 +20,10 @@ import {
     ListUsers,
     TeacherUnavailabilites,
     WebsocketTest,
-    Grades
+    Grades,
+    CreateGroup,
+    ManageRooms,
+    EditGroups
 } from "./paths";
 import './Sidebar.scss';
 import {
@@ -40,12 +43,12 @@ const Sidebar = ({open, toggle}) => {
 
     const getRoutesByRole = (role) => {
         switch (role) {
-            case AdminRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, WebsocketTest];
+            case AdminRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, WebsocketTest, CreateGroup, EditGroups, ManageRooms];
             case TeacherRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, TeacherUnavailabilites, WebsocketTest];
             case StudentRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, Grades];
             case GuardianRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, Grades];
-            case OfficeWorkerRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest];
-            case PrincipalRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest];
+            case OfficeWorkerRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, CreateGroup, EditGroups, ManageRooms];
+            case PrincipalRole: return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, CreateGroup, EditGroups, ManageRooms];
         }
     }
 

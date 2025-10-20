@@ -31,4 +31,9 @@ public class StudentGroupController {
     public Flux<UserResponse> getGroupUsers(@PathVariable UUID groupId) {
         return studentGroupService.getAllGroupStudents(groupId);
     }
+
+    @DeleteMapping("/student/{studentId}/group/{groupId}")
+    public Mono<Void> deleteStudentFromGroup(@PathVariable UUID studentId, @PathVariable UUID groupId) {
+        return studentGroupService.deleteStudentFromGroup(studentId, groupId);
+    }
 }
