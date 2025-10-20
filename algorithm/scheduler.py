@@ -221,7 +221,7 @@ class Scheduler():
         goal.variables = diff
         goal.objective = GoalObjective.MINIMIZE
 
-    def goal_subject_types(self, goal):
+    def goal_subject_time_preferences(self, goal):
         penalty = []
         for group in self.groups:
             for subject in group.subjects:
@@ -295,7 +295,7 @@ class Scheduler():
         goal.variables = [sum(preferred) - sum(dispreferred)]
         goal.objective = GoalObjective.MAXIMIZE
 
-    def goal_subject_time_preferences(self, goal):
+    def goal_early_start(self, goal):
         lesson_slots=[lesson*self.vars[subject.id, room.id, day, lesson]
                     for subject in self.subjects
                     for room in self.rooms

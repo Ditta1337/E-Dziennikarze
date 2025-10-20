@@ -51,66 +51,12 @@ class SolutionCallback(CpSolverSolutionCallback):
         }
 
         try:
-            #response = requests.post(self.url, json=self.schedule_to_json(), headers=headers, timeout=5)
-            #response.raise_for_status()
+            response = requests.post(self.url, json=self.schedule_to_json(), headers=headers, timeout=5)
+            response.raise_for_status()
             self.print_schedule()
             self.last_solution=None
         except requests.exceptions.RequestException as e:
             print("RequestException")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def schedule_to_json(self):
         groups = {group.id: {"group_id": group.uuid, "schedule": []} for group in self.groups}
