@@ -18,13 +18,16 @@ import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PlanConfigurationService {
 
     private static final String LESSON_PLACEMENT_TYPE_ANY = "ANY";
+
+    private static final String PLAN_ID_REGEX = "\"plan_id\":\"[a-f0-9\\-]{36}\"";
+
+    private static final String PLAN_ID_FORMAT = "\"plan_id\":\"%s\"";
 
     private final GroupSubjectRepository groupSubjectRepository;
 
@@ -38,10 +41,10 @@ public class PlanConfigurationService {
 
     public Mono<PlanConfigurationResponse> createPlanConfiguration(Mono<String> nameMono) {
         return Mono.just(new PlanConfiguration())
-                .flatMap(this::enrichPlanConfigurationWithPlanId)
                 .flatMap(planConfiguration -> enrichPlanConfigurationWithName(planConfiguration, nameMono))
                 .flatMap(this::enrichPlanConfigurationWithOfficeWorker)
                 .flatMap(this::enrichPlanConfigurationWithCalculated)
+                .flatMap(planConfigurationRepository::save)
                 .flatMap(this::enrichPlanConfigurationWithPlan)
                 .flatMap(planConfigurationRepository::save)
                 .flatMap(planConfiguration -> Mono.just(PlanConfigurationResponse.from(planConfiguration, objectMapper)));
@@ -70,11 +73,6 @@ public class PlanConfigurationService {
                 .flatMap(planConfiguration -> copyPlanConfiguration(planConfiguration, nameMono));
     }
 
-    private Mono<PlanConfiguration> enrichPlanConfigurationWithPlanId(PlanConfiguration planConfiguration) {
-        planConfiguration.setPlanId(UUID.randomUUID());
-        return Mono.just(planConfiguration);
-    }
-
     private Mono<PlanConfiguration> enrichPlanConfigurationWithName(PlanConfiguration planConfiguration, Mono<String> nameMono) {
         return nameMono.flatMap(name -> {
             planConfiguration.setName(name);
@@ -96,14 +94,14 @@ public class PlanConfigurationService {
     }
 
     private Mono<PlanConfiguration> enrichPlanConfigurationWithPlan(PlanConfiguration planConfiguration) {
-        return createEmptyPlan(planConfiguration.getPlanId())
+        return createEmptyPlan(planConfiguration.getId(), planConfiguration.getName())
                 .flatMap(plan -> {
                     planConfiguration.setConfiguration(plan, objectMapper);
                     return Mono.just(planConfiguration);
                 });
     }
 
-    private Mono<Plan> createEmptyPlan(UUID planId) {
+    private Mono<Plan> createEmptyPlan(UUID planId, String name) {
         return solverService.getGoalFunctions()
                 .collectList()
                 .flatMap(goalFunctions ->
@@ -112,6 +110,7 @@ public class PlanConfigurationService {
                                 .collectList()
                                 .map(groups -> Plan.builder()
                                         .planId(planId)
+                                        .name(name)
                                         .goals(createPlanGoals(goalFunctions))
                                         .groups(groups)
                                         .teachers(List.of())
@@ -160,7 +159,7 @@ public class PlanConfigurationService {
         return nameMono.flatMap(name -> loggedInUserService.getLoggedInUser()
                 .flatMap(user -> {
                     PlanConfiguration copiedPlanConfiguration = PlanConfiguration.from(planConfiguration, name, user.getId());
-                    return planConfigurationRepository.save(copiedPlanConfiguration);
+                    return updateCopiedPlanConfigurationWithActualPlanId(copiedPlanConfiguration);
                 }).flatMap(copiedPlanConfiguration -> Mono.just(PlanConfigurationResponse.from(copiedPlanConfiguration, objectMapper))));
     }
 
@@ -170,6 +169,21 @@ public class PlanConfigurationService {
                         .name(goalFunction.getFunctionName())
                         .time(0)
                         .build()
-        ).collect(Collectors.toList());
+        ).toList();
+    }
+
+    private Mono<PlanConfiguration> updateCopiedPlanConfigurationWithActualPlanId(PlanConfiguration copiedPlanConfiguration) {
+        return planConfigurationRepository.save(copiedPlanConfiguration)
+                .flatMap(savedCopiedPlanConfiguration -> {
+                    PlanConfiguration copiedPlanConfigurationWithUpdatedPlanId = getPlanConfigurationWithUpdatedPlanId(savedCopiedPlanConfiguration);
+                    return planConfigurationRepository.save(copiedPlanConfigurationWithUpdatedPlanId);
+                });
+    }
+
+    private PlanConfiguration getPlanConfigurationWithUpdatedPlanId(PlanConfiguration planConfiguration) {
+        String updatedConfiguration = planConfiguration.getConfiguration()
+                .replaceFirst(PLAN_ID_REGEX, String.format(PLAN_ID_FORMAT, planConfiguration.getId()));
+        planConfiguration.setConfiguration(updatedConfiguration);
+        return planConfiguration;
     }
 }

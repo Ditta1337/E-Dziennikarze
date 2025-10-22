@@ -29,7 +29,7 @@ public class PlanCalculation {
     private UUID id;
 
     @NotNull
-    private UUID planId;
+    private String name;
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();

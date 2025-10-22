@@ -19,6 +19,9 @@ public class PlanCalculationRequest {
     private UUID planId;
 
     @NotNull
+    private String name;
+
+    @NotNull
     private List<PlanCalculationRequestGoal> goals;
 
     @NotNull

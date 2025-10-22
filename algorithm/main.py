@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Depends
 import json
 import uvicorn
 from schemas import ScheduleConfig
@@ -16,9 +16,17 @@ solver_status = SolverStatus.IDLE
 #     allow_headers=["*"],
 # )
 
+async def get_and_log_schedule_config(request: Request) -> ScheduleConfig:
+    body_bytes = await request.body()
+    body_str = body_bytes.decode()
+
+    print("--- RAW REQUEST BODY ---")
+    print(body_str)
+    print("------------------------")
+    return ScheduleConfig.model_validate_json(body_str)
 
 @app.post("/solve")
-async def solve_endpoint(schedule_config: ScheduleConfig):
+async def solve_endpoint(schedule_config: ScheduleConfig = Depends(get_and_log_schedule_config)):
     solver_status=SolverStatus.CALCULATING
     scheduler = Scheduler(schedule_config)
     scheduler.build()

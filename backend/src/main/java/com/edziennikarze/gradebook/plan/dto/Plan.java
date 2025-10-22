@@ -21,6 +21,9 @@ public class Plan {
     @Builder.Default
     private UUID planId = UUID.randomUUID();
 
+    @NotNull
+    private String name;
+
     private int lessonsPerDay;
 
     private int latestStartingLesson;

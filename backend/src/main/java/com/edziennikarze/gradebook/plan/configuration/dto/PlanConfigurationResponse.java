@@ -18,9 +18,6 @@ public class PlanConfigurationResponse {
     private UUID id;
 
     @NotNull
-    private UUID planId;
-
-    @NotNull
     private LocalDateTime createdAt;
 
     @NotNull
@@ -38,7 +35,6 @@ public class PlanConfigurationResponse {
     public static PlanConfigurationResponse from(PlanConfiguration planConfiguration, ObjectMapper objectMapper) {
         return PlanConfigurationResponse.builder()
                 .id(planConfiguration.getId())
-                .planId(planConfiguration.getPlanId())
                 .createdAt(planConfiguration.getCreatedAt())
                 .name(planConfiguration.getName())
                 .officeWorkerId(planConfiguration.getOfficeWorkerId())

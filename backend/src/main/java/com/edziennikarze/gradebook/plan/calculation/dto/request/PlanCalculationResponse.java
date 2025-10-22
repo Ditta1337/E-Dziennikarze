@@ -23,7 +23,7 @@ public class PlanCalculationResponse {
     private UUID id;
 
     @NotNull
-    private UUID planId;
+    private String name;
 
     @NotNull
     private LocalDateTime calculatedAt;
@@ -34,7 +34,7 @@ public class PlanCalculationResponse {
     public static PlanCalculationResponse from(PlanCalculation planCalculation, ObjectMapper objectMapper) {
         return PlanCalculationResponse.builder()
                 .id(planCalculation.getId())
-                .planId(planCalculation.getPlanId())
+                .name(planCalculation.getName())
                 .calculatedAt(planCalculation.getCreatedAt())
                 .calculation(planCalculation.getCalculation(objectMapper))
                 .build();

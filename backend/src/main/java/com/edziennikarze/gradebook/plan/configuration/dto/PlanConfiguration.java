@@ -24,9 +24,6 @@ public class PlanConfiguration {
     @Id
     private UUID id;
 
-    @NotNull
-    private UUID planId;
-
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -59,7 +56,6 @@ public class PlanConfiguration {
 
     public static PlanConfiguration from(PlanConfiguration planConfiguration, String name, UUID officeWorkerId) {
         return PlanConfiguration.builder()
-                .planId(planConfiguration.planId)
                 .name(name)
                 .officeWorkerId(officeWorkerId)
                 .calculated(false)

@@ -1,14 +1,13 @@
 CREATE
-EXTENSION IF NOT EXISTS "uuid-ossp";
+    EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE plan_configurations
 (
     id               uuid        NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
-    plan_id          uuid        NOT NULL,
     created_at       timestamptz NOT NULL             DEFAULT now(),
     name             varchar(50) NOT NULL,
     office_worker_id uuid        NOT NULL,
-    configuration    text        NOT NULL,
+    configuration    text,
     calculated       boolean     NOT NULL
 );
 

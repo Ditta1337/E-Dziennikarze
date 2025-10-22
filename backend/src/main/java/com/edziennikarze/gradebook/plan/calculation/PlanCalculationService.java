@@ -41,7 +41,7 @@ public class PlanCalculationService {
     }
 
     public Flux<PlanCalculationResponse> getAllPlanCalculationsForPlan(UUID planId) {
-        return planCalculationRepository.findAllByPlanId(planId)
+        return planCalculationRepository.findAllById(planId)
                 .map(planCalculation -> PlanCalculationResponse.from(planCalculation, objectMapper));
     }
 
@@ -50,9 +50,7 @@ public class PlanCalculationService {
                 .flatMap(properties -> {
                     List<PlannedLesson> plannedLessons = generatePlannedLessons(request, properties);
 
-                    PlanCalculation planCalculation = PlanCalculation.builder()
-                            .planId(request.getPlanId())
-                            .build();
+                    PlanCalculation planCalculation = new PlanCalculation();
                     planCalculation.setCalculation(plannedLessons, objectMapper);
 
                     return planCalculationRepository.save(planCalculation);
