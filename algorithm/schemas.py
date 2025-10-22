@@ -58,6 +58,7 @@ class Goal(BaseModel):
 
 
 class ScheduleConfig(BaseModel):
+    name:str
     plan_id:str
     lessons_per_day: int
     unique_group_combinations:List[List[str]]

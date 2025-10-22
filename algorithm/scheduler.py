@@ -12,7 +12,7 @@ NUM_WORKERS = 8
 class Scheduler():
     def __init__(self, schedule_config: ScheduleConfig):
         self.data_parser=DataParser()
-        goals, groups,unique_groups_combinations, teachers, subjects, rooms, teaching_days, max_lessons_per_day, latest_starting_lesson, plan_id = self.data_parser.parse_input(schedule_config)
+        goals, groups,unique_groups_combinations, teachers, subjects, rooms, teaching_days, max_lessons_per_day, latest_starting_lesson, plan_id, plan_name= self.data_parser.parse_input(schedule_config)
         self.goals = goals
         self.unique_groups_combinations = unique_groups_combinations
         self.groups = groups
@@ -23,6 +23,7 @@ class Scheduler():
         self.max_lessons_per_day = max_lessons_per_day
         self.latest_starting_lesson=latest_starting_lesson
         self.plan_id=plan_id
+        self.plan_name=plan_name
 
         self.model = cp_model.CpModel()
         self.solver = cp_model.CpSolver()
@@ -33,6 +34,7 @@ class Scheduler():
             self.vars, self.goals, self.groups, self.teachers,
             self.subjects, self.rooms, self.teaching_days, self.max_lessons_per_day,
             self.plan_id,
+            self.plan_name,
             self.data_parser
         )
 

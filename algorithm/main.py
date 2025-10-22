@@ -25,6 +25,16 @@ async def get_and_log_schedule_config(request: Request) -> ScheduleConfig:
     print("------------------------")
     return ScheduleConfig.model_validate_json(body_str)
 
+@app.post("/solve_szywoj")
+async def solve_dev(schedule_config: ScheduleConfig):
+    'for debugging'
+    solver_status=SolverStatus.CALCULATING
+    scheduler = Scheduler(schedule_config)
+    scheduler.build()
+    scheduler.solve()
+    solver_status=SolverStatus.IDLE
+
+
 @app.post("/solve")
 async def solve_endpoint(schedule_config: ScheduleConfig = Depends(get_and_log_schedule_config)):
     solver_status=SolverStatus.CALCULATING

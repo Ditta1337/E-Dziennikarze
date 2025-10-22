@@ -9,7 +9,7 @@ class SolutionCallback(CpSolverSolutionCallback):
     SOLUTION_SEND_INTERVAL = 10
 
     def __init__(self, schedule, goals, groups, teachers, subjects, rooms,
-                 teaching_days, max_lessons_per_day, plan_id, data_parser):
+                 teaching_days, max_lessons_per_day, plan_id, plan_name, data_parser):
         super().__init__()
 
         load_dotenv()
@@ -24,11 +24,13 @@ class SolutionCallback(CpSolverSolutionCallback):
         self.max_lessons_per_day = max_lessons_per_day
         self.data_parser = data_parser
         self.plan_id = plan_id
+        self.plan_name=plan_name
 
         self.url = os.getenv("CALLBACK_URL")
         self.api_key = os.getenv("GRADEBOOK_API_KEY")
 
         self.last_solution = None
+        self.solution_index=1
         self.last_send_time = 0.0
 
 
@@ -51,9 +53,9 @@ class SolutionCallback(CpSolverSolutionCallback):
         }
 
         try:
+            self.print_schedule()
             response = requests.post(self.url, json=self.schedule_to_json(), headers=headers, timeout=5)
             response.raise_for_status()
-            self.print_schedule()
             self.last_solution=None
         except requests.exceptions.RequestException as e:
             print("RequestException")
@@ -85,6 +87,7 @@ class SolutionCallback(CpSolverSolutionCallback):
                 })
 
         return {
+            "plan_name": str(self.solution_index) + self.plan_name,
             "plan_id": self.plan_id,
             "goals": [{'name':goal.function_name, 'value':goal.value } for goal in self.goals],
             "groups": list(groups.values()),
