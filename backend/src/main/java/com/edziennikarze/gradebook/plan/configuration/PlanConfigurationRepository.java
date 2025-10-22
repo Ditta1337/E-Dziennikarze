@@ -2,10 +2,12 @@ package com.edziennikarze.gradebook.plan.configuration;
 
 import com.edziennikarze.gradebook.plan.configuration.dto.PlanConfiguration;
 import com.edziennikarze.gradebook.plan.configuration.dto.PlanConfigurationSummary;
+import org.springframework.data.r2dbc.repository.Modifying;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
@@ -25,5 +27,9 @@ public interface PlanConfigurationRepository extends ReactiveCrudRepository<Plan
                         INNER JOIN users u ON p.office_worker_id = u.id
             """)
     Flux<PlanConfigurationSummary> findAllSummary();
+
+    @Modifying
+    @Query("UPDATE plan_configurations SET calculated = :calculated WHERE id = :id")
+    Mono<Integer> updateCalculatedStatus(UUID id, boolean calculated);
 
 }

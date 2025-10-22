@@ -3,6 +3,7 @@ package com.edziennikarze.gradebook.plan.calculation;
 import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
 import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculation;
 import com.edziennikarze.gradebook.plan.calculation.dto.request.*;
+import com.edziennikarze.gradebook.plan.configuration.PlanConfigurationRepository;
 import com.edziennikarze.gradebook.property.PropertyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,8 @@ public class PlanCalculationService {
 
     private final PlanCalculationRepository planCalculationRepository;
 
+    private final PlanConfigurationRepository planConfigurationRepository;
+
     private final PropertyService propertyService;
 
     private final ObjectMapper objectMapper;
@@ -37,7 +40,10 @@ public class PlanCalculationService {
     );
 
     public Mono<PlanCalculationResponse> savePlanCalculation(Mono<PlanCalculationRequest> planCalculationRequestMono) {
-        return planCalculationRequestMono.flatMap(this::mapToPlanCalculation);
+        return planCalculationRequestMono.flatMap(planCalculationRequest -> {
+            planConfigurationRepository.updateCalculatedStatus(planCalculationRequest.getPlanId(), true);
+            return mapToPlanCalculation(planCalculationRequest);
+        });
     }
 
     public Flux<PlanCalculationResponse> getAllPlanCalculationsForPlan(UUID planId) {

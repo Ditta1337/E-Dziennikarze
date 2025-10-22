@@ -12,4 +12,5 @@ import java.util.UUID;
 public interface PlanCalculationRepository extends ReactiveCrudRepository<PlanCalculation, UUID> {
 
     Flux<PlanCalculation> findAllById(@NotNull UUID id);
+
 }
