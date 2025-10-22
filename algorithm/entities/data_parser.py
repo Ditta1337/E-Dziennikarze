@@ -18,6 +18,7 @@ class DataParser:
         Subject.reset_counter()
         Group.reset_counter()
         Room.reset_counter()
+        self._goals=[]
 
         self._parse_all_goals(schedule_config.goals)
         self._parse_all_rooms(schedule_config.rooms)
