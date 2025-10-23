@@ -16,4 +16,6 @@ public interface UserRepository extends ReactiveCrudRepository<User, UUID> {
     Flux<User> findAllByRole(@NotNull Role role);
 
     Mono<User> findByEmail(@NotNull String email);
+
+    Flux<User> findAllByRoleAndActiveTrue(@NotNull Role role);
 }

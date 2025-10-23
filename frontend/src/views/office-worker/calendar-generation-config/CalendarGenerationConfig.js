@@ -1,10 +1,10 @@
-import GoalFunctionList from "../../../components/calendar-generation-config/goal-function-list/GoalFunctionList";
-import {Alert, Box, Button, Popover, Snackbar, TextField, Typography} from "@mui/material";
+import GoalFunctionList from "../../../components/calendar-generation-config/goal-function-list/GoalFunctionList"
+import {Alert, Box, Button, Popover, Snackbar, TextField, Typography} from "@mui/material"
 import "./CalendarGenerationConfig.scss"
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react"
 import {get, put, post} from "../../../api"
-import GroupSubjectForm from "../../../components/calendar-generation-config/group-subject-form/GroupSubjectForm";
-import {useNavigate, useParams} from "react-router";
+import GroupSubjectForm from "../../../components/calendar-generation-config/group-subject-form/GroupSubjectForm"
+import {useNavigate, useParams} from "react-router"
 
 const fetchGoalFunctions = async () => {
     return get("solver/goal/functions")
@@ -35,14 +35,14 @@ const postEnqueuePlan = async (planConfiguration) => {
 
 const CalendarGenerationConfig = () => {
     const navigate = useNavigate()
-    const {id} = useParams();
+    const {id} = useParams()
     const [configurationData, setConfigurationData] = useState(null)
     const [newConfigurationName, setNewConfigurationName] = useState(null)
     const [anchorEl, setAnchorEl] = useState(null)
 
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState("");
-    const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+    const [snackbarOpen, setSnackbarOpen] = useState(false)
+    const [snackbarMessage, setSnackbarMessage] = useState("")
+    const [snackbarSeverity, setSnackbarSeverity] = useState("success")
 
     const fetchCalendarConfigurationData = async (id) => {
         try {
@@ -81,7 +81,6 @@ const CalendarGenerationConfig = () => {
     const handlePlanGeneration = async () => {
         try{
             const result = await postEnqueuePlan(configurationData.configuration)
-            console.log(JSON.stringify(result.data))
         } catch (e) {
             console.error(e)
             displaySnackbarMessage("Wystąpił błąd podczas generacji planu lekcji.")
@@ -100,21 +99,21 @@ const CalendarGenerationConfig = () => {
     }
 
     const displaySnackbarMessage = (message, isErrorMessage = true) => {
-        setSnackbarMessage(message);
+        setSnackbarMessage(message)
         if(isErrorMessage) {
-            setSnackbarSeverity("error");
+            setSnackbarSeverity("error")
         } else{
             setSnackbarSeverity("success")
         }
-        setSnackbarOpen(true);
+        setSnackbarOpen(true)
     }
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === "clickaway") {
-            return;
+            return
         }
-        setSnackbarOpen(false);
-    };
+        setSnackbarOpen(false)
+    }
 
     useEffect(() => {
         const loadConfigData = async () => {

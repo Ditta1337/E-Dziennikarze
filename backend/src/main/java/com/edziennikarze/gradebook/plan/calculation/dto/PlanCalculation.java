@@ -29,6 +29,9 @@ public class PlanCalculation {
     private UUID id;
 
     @NotNull
+    private UUID planId;
+
+    @NotNull
     private String name;
 
     @Builder.Default

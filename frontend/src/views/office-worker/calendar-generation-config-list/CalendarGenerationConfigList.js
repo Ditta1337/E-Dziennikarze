@@ -14,7 +14,8 @@ const formatConfigSummary = (configSummary) => {
         created_at: format(new Date(item.created_at), AppLocale.dateTimeFormat),
         name: item.name,
         office_worker_id: item.office_worker_id,
-        calculated: item.calculated ? "TAK" : "NIE",
+        calculated: item.calculated,
+        calculated_readable: item.calculated ? "TAK" : "NIE",
         person: item.office_worker_name + " " + item.office_worker_surname
     }))
 }

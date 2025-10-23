@@ -1,0 +1,12 @@
+.group-teacher-student-chooser{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .group-teacher-student{
+    width: 200px;
+  }
+  .specific-entity{
+    width: 400px;
+  }
+}

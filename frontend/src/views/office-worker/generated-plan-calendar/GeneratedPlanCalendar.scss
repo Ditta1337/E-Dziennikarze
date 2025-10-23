@@ -1,0 +1,16 @@
+.generated-plan-calendar{
+  width: 100%;
+  .chooser{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .browsable-calendar{
+    background-color: white;
+    height: 90vh;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+}

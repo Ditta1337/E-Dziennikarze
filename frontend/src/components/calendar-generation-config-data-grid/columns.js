@@ -1,9 +1,10 @@
-import EditUserConfiguration from "./edit-configuration-button/EditConfigurationButton";
+import EditUserConfiguration from "./buttons/EditConfigurationButton";
+import ViewGeneratedPlansButton from "./buttons/ViewGeneratedPlansButton";
 
 const columns = [
     {
         field: 'edit',
-        headerName: 'EDIT',
+        headerName: 'EDYTUJ',
         renderCell: (params) => <EditUserConfiguration id={params.row.id}/>,
         sortable: false,
         filterable: false,
@@ -11,7 +12,7 @@ const columns = [
     {
         field: 'name',
         headerName: 'Nazwa konfiguracji',
-        width: 300
+        width: 200
     },
     {
         field: 'person',
@@ -21,12 +22,20 @@ const columns = [
     {
         field: 'created_at',
         headerName: 'Czas stworzenia',
-        width: 300
+        width: 250
     },
     {
-        field: 'calculated',
-        headerName: 'Wygenerowano plan zajęć',
-        width: 300
+        field: 'calculated_readable',
+        headerName: 'Wygenerowano',
+        width: 150
+    },
+    {
+        field: 'view_plans',
+        headerName: 'WYŚWIETL PLANY',
+        renderCell: (params) => <ViewGeneratedPlansButton id={params.row.id} disabled={!params.row.calculated} />,
+        sortable: false,
+        filterable: false,
+        width: 155
     }
 ]
 

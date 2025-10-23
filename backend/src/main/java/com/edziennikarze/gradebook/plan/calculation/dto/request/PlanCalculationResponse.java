@@ -23,6 +23,9 @@ public class PlanCalculationResponse {
     private UUID id;
 
     @NotNull
+    private UUID planId;
+
+    @NotNull
     private String name;
 
     @NotNull
@@ -34,6 +37,7 @@ public class PlanCalculationResponse {
     public static PlanCalculationResponse from(PlanCalculation planCalculation, ObjectMapper objectMapper) {
         return PlanCalculationResponse.builder()
                 .id(planCalculation.getId())
+                .planId(planCalculation.getPlanId())
                 .name(planCalculation.getName())
                 .calculatedAt(planCalculation.getCreatedAt())
                 .calculation(planCalculation.getCalculation(objectMapper))

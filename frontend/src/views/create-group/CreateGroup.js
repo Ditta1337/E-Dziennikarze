@@ -33,7 +33,6 @@ const CreateGroup = () => {
             "group_code": values.groupCode,
             "class": values.isClass
         }
-        console.log(payload)
         await post('/group', payload);
     };
 

@@ -57,6 +57,7 @@ class SolutionCallback(CpSolverSolutionCallback):
             response = requests.post(self.url, json=self.schedule_to_json(), headers=headers, timeout=5)
             response.raise_for_status()
             self.last_solution=None
+            self.solution_index += 1
         except requests.exceptions.RequestException as e:
             print("RequestException")
 
@@ -86,8 +87,11 @@ class SolutionCallback(CpSolverSolutionCallback):
                     "room_id": room.uuid
                 })
 
+        print("-------------------------------")
+        print( str(self.solution_index) + "-" + self.plan_name,)
+
         return {
-            "plan_name": str(self.solution_index) + self.plan_name,
+            "name": str(self.solution_index) + " - " + self.plan_name,
             "plan_id": self.plan_id,
             "goals": [{'name':goal.function_name, 'value':goal.value } for goal in self.goals],
             "groups": list(groups.values()),

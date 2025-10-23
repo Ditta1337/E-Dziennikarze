@@ -74,6 +74,7 @@ public class SecurityConfig {
 
                         // User endpoints
                         .pathMatchers(HttpMethod.GET, "/user/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.GET, "/user/all/active/{role}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
                         .pathMatchers(HttpMethod.GET, "/user/{userId}").authenticated()
                         .pathMatchers(HttpMethod.POST, "/user").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.PUT, "/user").authenticated()
@@ -189,6 +190,7 @@ public class SecurityConfig {
                         // Plan calculation endpoints
                         .pathMatchers(HttpMethod.POST, "/plan/calculation").hasAnyAuthority(ADMIN.name())
                         .pathMatchers(HttpMethod.GET, "/plan/calculation/plan/{planId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.GET, "/plan/calculation/summary/{id}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
 
                         // Solver endpoint
                         .pathMatchers(HttpMethod.GET, "/solver/goal/functions").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())

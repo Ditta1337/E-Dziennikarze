@@ -26,6 +26,11 @@ public class UserController {
         return userService.getAllUsers(role);
     }
 
+    @GetMapping("/all/active/{role}")
+    public Flux<UserResponse> getAllUsersActive(@PathVariable Role role) {
+        return userService.getAllActiveUsers(role);
+    }
+
     @GetMapping("/{userId}")
     public Mono<UserResponse> getUser(@PathVariable UUID userId) {
         return userService.getUser(userId);

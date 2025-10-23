@@ -61,6 +61,11 @@ public class UserService implements ReactiveUserDetailsService {
         return users.map(UserResponse::from);
     }
 
+    public Flux<UserResponse> getAllActiveUsers(Role role) {
+        Flux<User> users = userRepository.findAllByRoleAndActiveTrue(role);
+        return users.map(UserResponse::from);
+    }
+
     public Mono<UserResponse> getUser(UUID userId) {
         return userRepository.findById(userId)
                 .map(UserResponse::from);

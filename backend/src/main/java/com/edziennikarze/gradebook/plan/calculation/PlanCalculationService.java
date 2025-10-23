@@ -2,6 +2,7 @@ package com.edziennikarze.gradebook.plan.calculation;
 
 import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
 import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculation;
+import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculationsSummary;
 import com.edziennikarze.gradebook.plan.calculation.dto.request.*;
 import com.edziennikarze.gradebook.plan.configuration.PlanConfigurationRepository;
 import com.edziennikarze.gradebook.property.PropertyService;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PlanCalculationService {
+public class  PlanCalculationService {
 
     private final PlanCalculationRepository planCalculationRepository;
 
@@ -40,15 +41,19 @@ public class PlanCalculationService {
     );
 
     public Mono<PlanCalculationResponse> savePlanCalculation(Mono<PlanCalculationRequest> planCalculationRequestMono) {
-        return planCalculationRequestMono.flatMap(planCalculationRequest -> {
-            planConfigurationRepository.updateCalculatedStatus(planCalculationRequest.getPlanId(), true);
-            return mapToPlanCalculation(planCalculationRequest);
-        });
+        return planCalculationRequestMono.flatMap(planCalculationRequest ->
+                planConfigurationRepository.updateCalculatedStatus(planCalculationRequest.getPlanId(), true)
+                        .then(mapToPlanCalculation(planCalculationRequest))
+        );
     }
 
-    public Flux<PlanCalculationResponse> getAllPlanCalculationsForPlan(UUID planId) {
-        return planCalculationRepository.findAllById(planId)
+    public Mono<PlanCalculationResponse> getAllPlanCalculationsForPlan(UUID id) {
+        return planCalculationRepository.findById(id)
                 .map(planCalculation -> PlanCalculationResponse.from(planCalculation, objectMapper));
+    }
+
+    public Flux<PlanCalculationsSummary> getPlanCalculationsSummary(UUID planId) {
+        return planCalculationRepository.findAllSummaryByPlanId(planId);
     }
 
     private Mono<PlanCalculationResponse> mapToPlanCalculation(PlanCalculationRequest request) {
@@ -57,6 +62,8 @@ public class PlanCalculationService {
                     List<PlannedLesson> plannedLessons = generatePlannedLessons(request, properties);
 
                     PlanCalculation planCalculation = new PlanCalculation();
+                    planCalculation.setName(request.getName());
+                    planCalculation.setPlanId(request.getPlanId());
                     planCalculation.setCalculation(plannedLessons, objectMapper);
 
                     return planCalculationRepository.save(planCalculation);

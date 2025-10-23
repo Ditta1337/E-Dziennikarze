@@ -19,6 +19,8 @@ import GradeRouter from "./role-based-routers/GradeRouter";
 import CalendarGenerationConfigList
     from "./views/office-worker/calendar-generation-config-list/CalendarGenerationConfigList";
 import { AdminRole, TeacherRole, StudentRole, GuardianRole, OfficeWorkerRole, PrincipalRole } from './views/admin/roles.js';
+import GeneratedPlansList from "./views/office-worker/generated-plans-list/GeneratedPlansList";
+import GeneratedPlanCalendar from "./views/office-worker/generated-plan-calendar/GeneratedPlanCalendar";
 
 function App() {
     return (
@@ -55,7 +57,8 @@ function App() {
                     <Route path="/calendar/generation/config/list" element={<Card><CalendarGenerationConfigList /></Card>} />
                     <Route path="/calendar/generation/config/:id" element={<Card><CalendarGenerationConfig /></Card>} />
                     <Route path="/websocket-test" element={<Card><WebsocketTest /></Card>} />
-
+                    <Route path="/calendar/generated/list/:planId" element={<Card><GeneratedPlansList /></Card>} />
+                    <Route path="/calendar/generated/plan/:id" element={<Card><GeneratedPlanCalendar /></Card>} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />
