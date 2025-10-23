@@ -1,13 +1,17 @@
 package com.edziennikarze.gradebook.plan.calculation;
 
+import com.edziennikarze.gradebook.group.groupsubject.GroupSubjectRepository;
+import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubject;
 import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
 import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculation;
 import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculationsSummary;
 import com.edziennikarze.gradebook.plan.calculation.dto.request.*;
 import com.edziennikarze.gradebook.plan.configuration.PlanConfigurationRepository;
 import com.edziennikarze.gradebook.property.PropertyService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -22,11 +26,14 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class  PlanCalculationService {
+@Slf4j
+public class PlanCalculationService {
 
     private final PlanCalculationRepository planCalculationRepository;
 
     private final PlanConfigurationRepository planConfigurationRepository;
+
+    private final GroupSubjectRepository groupSubjectRepository;
 
     private final PropertyService propertyService;
 
@@ -41,9 +48,17 @@ public class  PlanCalculationService {
     );
 
     public Mono<PlanCalculationResponse> savePlanCalculation(Mono<PlanCalculationRequest> planCalculationRequestMono) {
-        return planCalculationRequestMono.flatMap(planCalculationRequest ->
-                planConfigurationRepository.updateCalculatedStatus(planCalculationRequest.getPlanId(), true)
-                        .then(mapToPlanCalculation(planCalculationRequest))
+        return planCalculationRequestMono.flatMap(planCalculationRequest -> {
+                    String json;
+                    try {
+                        json = objectMapper.writeValueAsString(planCalculationRequest);
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.out.println("Received plan calculation request: " + json);
+                    return planConfigurationRepository.updateCalculatedStatus(planCalculationRequest.getPlanId(), true)
+                            .then(mapToPlanCalculation(planCalculationRequest));
+                }
         );
     }
 
@@ -58,17 +73,35 @@ public class  PlanCalculationService {
 
     private Mono<PlanCalculationResponse> mapToPlanCalculation(PlanCalculationRequest request) {
         return propertyService.getPropertiesAsMap(LESSON_PROPERTIES_NAMES)
-                .flatMap(properties -> {
-                    List<PlannedLesson> plannedLessons = generatePlannedLessons(request, properties);
+                .flatMap(properties ->
+                        mapGroupSubjectIdsToSubjectIds(request)
+                                .flatMap(req -> {
+                                    List<PlannedLesson> plannedLessons = generatePlannedLessons(req, properties);
 
-                    PlanCalculation planCalculation = new PlanCalculation();
-                    planCalculation.setName(request.getName());
-                    planCalculation.setPlanId(request.getPlanId());
-                    planCalculation.setCalculation(plannedLessons, objectMapper);
+                                    PlanCalculation planCalculation = new PlanCalculation();
+                                    planCalculation.setName(req.getName());
+                                    planCalculation.setPlanId(req.getPlanId());
+                                    planCalculation.setCalculation(plannedLessons, objectMapper);
 
-                    return planCalculationRepository.save(planCalculation);
-                })
-                .map(savedPlan -> PlanCalculationResponse.from(savedPlan, objectMapper));
+                                    return planCalculationRepository.save(planCalculation);
+                                })
+                                .map(savedPlan -> PlanCalculationResponse.from(savedPlan, objectMapper))
+                );
+    }
+
+    private Mono<PlanCalculationRequest> mapGroupSubjectIdsToSubjectIds(PlanCalculationRequest request) {
+        Flux<Void> allUpdateOperations = Flux.fromIterable(request.getGroups())
+                .flatMap(group ->
+                        Flux.fromIterable(group.getSchedule())
+                                .flatMap(schedule ->
+                                        groupSubjectRepository.findById(schedule.getSubjectId())
+                                                .map(GroupSubject::getSubjectId)
+                                                .doOnNext(schedule::setSubjectId)
+                                                .then()
+                                )
+                );
+
+        return allUpdateOperations.then(Mono.just(request));
     }
 
     private List<PlannedLesson> generatePlannedLessons(PlanCalculationRequest request, Map<String, Object> properties) {
@@ -103,7 +136,15 @@ public class  PlanCalculationService {
         int shortBreak = (int) properties.get("shortBreakDurationMinutes");
         int longBreak = (int) properties.get("longBreakDurationMinutes");
         int longBreakAfter = (int) properties.get("longBreakAfterLessons");
-        int totalMinutes = (lessonNumber - 1) * lessonMinutes + (lessonNumber - 1) / longBreakAfter * longBreak + (lessonNumber - 1 - (lessonNumber - 1) / longBreakAfter) * shortBreak;
+        int totalMinutes = 0;
+        for (int i = 0; i < lessonNumber - 1; i++) {
+            totalMinutes += lessonMinutes;
+            if (i == longBreakAfter) {
+                totalMinutes += longBreak;
+            } else {
+                totalMinutes += shortBreak;
+            }
+        }
 
         return dayStart.plusMinutes(totalMinutes);
     }

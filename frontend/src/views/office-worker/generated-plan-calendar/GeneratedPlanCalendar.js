@@ -7,7 +7,7 @@ import GeneratedPlanBrowsableCalendar
 import GroupTeacherStudentChooser
     from "../../../components/generated-plan/group-teacher-student-chooser/GroupTeacherStudentChooser";
 import {StudentRole, TeacherRole} from "../../admin/roles";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 const fetchGeneratedPlan = async (id) => {
     return get(`plan/calculation/plan/${id}`)
@@ -44,6 +44,7 @@ const fetchRooms = async () => {
 const GeneratedPlanCalendar = () => {
     const {id} = useParams()
     const [groupsToDisplay, setGroupsToDisplay] = useState([])
+    const [teacherToDisplay, setTeacherToDisplay] = useState(null)
 
     return <Box className="generated-plan-calendar">
         <Box className="chooser">
@@ -54,6 +55,7 @@ const GeneratedPlanCalendar = () => {
                 fetchTeachers={fetchTeachers}
                 fetchStudentsGroups={fetchStudentsGroups}
                 setGroupsToDisplay={setGroupsToDisplay}
+                setTeacherToDisplay={setTeacherToDisplay}
             />
         </Box>
         <Box className="browsable-calendar">
@@ -62,7 +64,9 @@ const GeneratedPlanCalendar = () => {
                                             fetchGroups={fetchGroups}
                                             fetchSubjets={fetchSubjects}
                                             fetchRooms={fetchRooms}
-                                            groupsToDisplay={groupsToDisplay}/>
+                                            groupsToDisplay={groupsToDisplay}
+                                            teacherToDisplay={teacherToDisplay}
+            />
         </Box>
     </Box>
 }

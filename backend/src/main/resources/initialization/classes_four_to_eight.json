@@ -107,28 +107,28 @@
     {
       "name": "4_a",
       "class_level": 4,
-      "subject_ids": [1, 2, 3, 4, 5, 8, 12, 14, 15, 16],
+      "subject_ids": [1, 2, 3, 4, 5, 8, 14, 15, 16],
       "number_of_students": 15,
       "type": "CLASS"
     },
     {
       "name": "4_b",
       "class_level": 4,
-      "subject_ids": [1, 2, 3, 4, 5, 8, 12, 14, 15, 16],
+      "subject_ids": [1, 2, 3, 4, 5, 8, 14, 15, 16],
       "number_of_students": 13,
       "type": "CLASS"
     },
     {
       "name": "4_ang_rozszerzony",
       "class_level": 4,
-      "subject_ids": [7],
+      "subject_ids": [7, 12],
       "number_of_students": 14,
       "type": "LANGUAGE"
     },
     {
       "name": "4_ang_podstawowy",
       "class_level": 4,
-      "subject_ids": [6],
+      "subject_ids": [6, 12],
       "number_of_students": 14,
       "type": "LANGUAGE"
     },
@@ -142,28 +142,28 @@
     {
       "name": "5_a",
       "class_level": 5,
-      "subject_ids": [1, 2, 3, 4, 5, 8, 12, 14, 15, 16],
+      "subject_ids": [1, 2, 3, 4, 5, 8, 14, 15, 16],
       "number_of_students": 13,
       "type": "CLASS"
     },
     {
       "name": "5_b",
       "class_level": 5,
-      "subject_ids": [1, 2, 3, 4, 5, 8, 12, 14, 15, 16],
+      "subject_ids": [1, 2, 3, 4, 5, 8, 14, 15, 16],
       "number_of_students": 14,
       "type": "CLASS"
     },
     {
       "name": "5_ang_rozszerzony",
       "class_level": 5,
-      "subject_ids": [7],
+      "subject_ids": [7, 12],
       "number_of_students": 14,
       "type": "LANGUAGE"
     },
     {
       "name": "5_ang_podstawowy",
       "class_level": 5,
-      "subject_ids": [6],
+      "subject_ids": [6, 12],
       "number_of_students": 13,
       "type": "LANGUAGE"
     },
@@ -177,28 +177,28 @@
     {
       "name": "6_a",
       "class_level": 6,
-      "subject_ids": [1, 2, 3, 4, 5, 8, 12, 14, 15, 16],
+      "subject_ids": [1, 2, 3, 4, 5, 8, 14, 15, 16],
       "number_of_students": 15,
       "type": "CLASS"
     },
     {
       "name": "6_b",
       "class_level": 6,
-      "subject_ids": [1, 2, 3, 4, 5, 8, 12, 14, 15, 16],
+      "subject_ids": [1, 2, 3, 4, 5, 8, 14, 15, 16],
       "number_of_students": 15,
       "type": "CLASS"
     },
     {
       "name": "6_ang_rozszerzony",
       "class_level": 6,
-      "subject_ids": [7],
+      "subject_ids": [7, 12],
       "number_of_students": 15,
       "type": "LANGUAGE"
     },
     {
       "name": "6_ang_podstawowy",
       "class_level": 6,
-      "subject_ids": [6],
+      "subject_ids": [6, 12],
       "number_of_students": 15,
       "type": "LANGUAGE"
     },
@@ -212,28 +212,28 @@
     {
       "name": "7_a",
       "class_level": 7,
-      "subject_ids": [1, 2, 4, 5, 8, 9, 10, 11, 12, 14, 15, 16],
+      "subject_ids": [1, 2, 4, 5, 8, 9, 10, 11, 14, 15, 16],
       "number_of_students": 12,
       "type": "CLASS"
     },
     {
       "name": "7_b",
       "class_level": 7,
-      "subject_ids": [1, 2, 4, 5, 8, 9, 10, 11, 12, 14, 15, 16],
+      "subject_ids": [1, 2, 4, 5, 8, 9, 10, 11, 14, 15, 16],
       "number_of_students": 13,
       "type": "CLASS"
     },
     {
       "name": "7_ang_rozszerzony",
       "class_level": 7,
-      "subject_ids": [7],
+      "subject_ids": [7, 12],
       "number_of_students": 13,
       "type": "LANGUAGE"
     },
     {
       "name": "7_ang_podstawowy",
       "class_level": 7,
-      "subject_ids": [6],
+      "subject_ids": [6, 12],
       "number_of_students": 12,
       "type": "LANGUAGE"
     },
@@ -247,28 +247,28 @@
     {
       "name": "8_a",
       "class_level": 8,
-      "subject_ids": [1, 2, 4, 5, 8, 9, 10, 11, 12, 14, 15, 16, 17],
+      "subject_ids": [1, 2, 4, 5, 8, 9, 10, 11, 14, 15, 16, 17],
       "number_of_students": 14,
       "type": "CLASS"
     },
     {
       "name": "8_b",
       "class_level": 8,
-      "subject_ids": [1, 2, 4, 5, 8, 9, 10, 11, 12, 14, 15, 16, 17],
+      "subject_ids": [1, 2, 4, 5, 8, 9, 10, 11, 14, 15, 16, 17],
       "number_of_students": 14,
       "type": "CLASS"
     },
     {
       "name": "8_ang_rozszerzony",
       "class_level": 8,
-      "subject_ids": [7],
+      "subject_ids": [7, 12],
       "number_of_students": 14,
       "type": "LANGUAGE"
     },
     {
       "name": "8_ang_podstawowy",
       "class_level": 8,
-      "subject_ids": [6],
+      "subject_ids": [6, 12],
       "number_of_students": 14,
       "type": "LANGUAGE"
     },

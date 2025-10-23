@@ -1,8 +1,7 @@
 package com.edziennikarze.gradebook.plan;
 
-import com.edziennikarze.gradebook.plan.dto.Plan;
-import com.edziennikarze.gradebook.plan.dto.PlanTeacher;
-import com.edziennikarze.gradebook.plan.dto.PlanUnavailability;
+import com.edziennikarze.gradebook.group.groupsubject.GroupSubjectRepository;
+import com.edziennikarze.gradebook.plan.dto.*;
 import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailability;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroupRepository;
@@ -13,6 +12,7 @@ import com.edziennikarze.gradebook.user.UserRepository;
 import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailabilityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalTime;
@@ -25,9 +25,11 @@ public class PlanService {
 
     private final UserRepository userRepository;
 
-    private final StudentGroupRepository studentGroupRepository;
+    private final GroupSubjectRepository groupSubjectRepository;
 
     private final TeacherUnavailabilityRepository teacherUnavailabilityRepository;
+
+    private final StudentGroupRepository studentGroupRepository;
 
     private final PropertyService propertyService;
 
@@ -49,6 +51,7 @@ public class PlanService {
 
     public Mono<Plan> initializePlan(Mono<Plan> planMono) {
         Mono<Plan> enrichedPlan = planMono
+                .flatMap(this::mapSubjectIdsToGroupSubjectIds)
                 .flatMap(this::enrichPlanWithProperties)
                 .flatMap(this::enrichPlanWithRooms)
                 .flatMap(this::enrichPlanWithUniqueGroupCombinations)
@@ -60,6 +63,22 @@ public class PlanService {
                         solverService.calculatePlan(plan)
                                 .then(Mono.just(plan))
                 );
+    }
+
+    public Mono<Plan> mapSubjectIdsToGroupSubjectIds(Plan plan) {
+
+        Flux<Void> allUpdateOperations = Flux.fromIterable(plan.getGroups())
+                .flatMap(group ->
+                        Flux.fromIterable(group.getSubjects())
+                                .flatMap(subject ->
+                                        groupSubjectRepository.findByGroupIdAndSubjectId(group.getGroupId(), subject.getSubjectId())
+                                                .map(StudentGroup::getId)
+                                                .doOnNext(subject::setSubjectId)
+                                                .then()
+                                )
+                );
+
+        return allUpdateOperations.then(Mono.just(plan));
     }
 
     public Mono<Plan> enrichPlanWithProperties(Plan plan) {

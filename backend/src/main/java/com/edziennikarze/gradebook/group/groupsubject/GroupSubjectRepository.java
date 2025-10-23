@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubject;
 import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubjectResponse;
+import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
@@ -22,6 +23,8 @@ public interface GroupSubjectRepository extends ReactiveCrudRepository<GroupSubj
     Flux<GroupSubject> findAllByGroupIdIn(@NotNull List<UUID> groupIds);
 
     Flux<GroupSubject> findAllBySubjectId(@NotNull UUID subjectId);
+
+    Mono<StudentGroup> findByGroupIdAndSubjectId(@NotNull UUID groupId, @NotNull UUID subjectId);
 
     Mono<Void> deleteAllByTeacherId(@NotNull UUID teacherId);
 

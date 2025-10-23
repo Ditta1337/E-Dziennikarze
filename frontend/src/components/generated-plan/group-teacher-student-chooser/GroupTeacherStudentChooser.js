@@ -6,22 +6,22 @@ import {useEffect, useState} from "react"
 const createTeacherWithGroups = (teachers, groupSubjectData) => {
     const uniqueTeachers = Array.from(new Map(
         teachers.map(t => [t.id, t])
-    ).values());
+    ).values())
 
     return uniqueTeachers.map(teacher => {
         const groupIds = groupSubjectData
             .filter(gs => gs.teacher_id === teacher.id)
-            .map(gs => gs.group_id);
+            .map(gs => gs.group_id)
 
-        const uniqueGroupIds = [...new Set(groupIds)];
+        const uniqueGroupIds = [...new Set(groupIds)]
 
         return {
             teacher_id: teacher.id,
             name: `${teacher.name} ${teacher.surname}`,
             groups: uniqueGroupIds
-        };
-    });
-};
+        }
+    })
+}
 
 const createGroupIdToGroupCode = (groups, groupSubjectData) => {
     const groupMap = Object.fromEntries(groups.map(g => [g.id, g.group_code]))
@@ -34,6 +34,13 @@ const createGroupIdToGroupCode = (groups, groupSubjectData) => {
         }))
 }
 
+const createStudentIdToName = (students) => {
+    return students.map(student => ({
+        id: student.id,
+        name: `${student.name} ${student.surname}`
+    }))
+}
+
 const mapStudentsGroupsToIdArray = (groups) => {
     return groups.map(group => (group.id))
 }
@@ -44,13 +51,14 @@ const GroupTeacherStudentChooser = ({
                                         fetchGroups,
                                         fetchTeachers,
                                         fetchStudentsGroups,
-                                        setGroupsToDisplay
+                                        setGroupsToDisplay,
+                                        setTeacherToDisplay
                                     }) => {
     const [chosenPerspective, setChosenPerspective] = useState(null)
     const [chosenEntity, setChosenEntity] = useState(null)
-    const [groupData, setGroupData] = useState([]);
-    const [teacherData, setTeacherData] = useState([]);
-    const [studentData, setStudentData] = useState([]);
+    const [groupData, setGroupData] = useState([])
+    const [teacherData, setTeacherData] = useState([])
+    const [studentData, setStudentData] = useState([])
 
     const updateGroupTeacherData = async () => {
         try {
@@ -67,7 +75,7 @@ const GroupTeacherStudentChooser = ({
     const updateStudentData = async () => {
         try {
             const result = await fetchStudents()
-            setStudentData(result.data)
+            setStudentData(createStudentIdToName(result.data))
         } catch (e) {
             console.log(e)
         }
@@ -84,25 +92,25 @@ const GroupTeacherStudentChooser = ({
 
     const getSpecificEntityOptions = () => {
         if (chosenPerspective === options.GroupPerspective) {
-            return groupData;
+            return groupData
         } else if (chosenPerspective === options.TeacherPerspective) {
-            return teacherData;
+            return teacherData
         } else if (chosenPerspective === options.StudentPerspective) {
-            return studentData;
+            return studentData
         }
-        return [];
+        return []
     }
 
     const getSpecificEntityOptionLabel = (option) => {
-        if (!option) return "";
+        if (!option) return ""
         if (chosenPerspective === options.GroupPerspective) {
-            return option.group_code || "";
+            return option.group_code || ""
         } else if (chosenPerspective === options.TeacherPerspective) {
-            return option.name || "";
+            return option.name || ""
         } else if (chosenPerspective === options.StudentPerspective) {
-            return option.name || "";
+            return option.name || ""
         }
-        return "";
+        return ""
     }
 
     const handleChosenPerspectiveChange = (event, value) => {
@@ -118,11 +126,14 @@ const GroupTeacherStudentChooser = ({
             return
         }
         if (chosenPerspective === options.GroupPerspective) {
+            setTeacherToDisplay(null)
             setGroupsToDisplay([value.group_id])
         } else if (chosenPerspective === options.TeacherPerspective) {
-            setGroupsToDisplay(value.groups)
+            setGroupsToDisplay([])
+            setTeacherToDisplay(value.teacher_id)
         } else if (chosenPerspective === options.StudentPerspective) {
             const studentGroups = await getStudentGroups(value.id)
+            setTeacherToDisplay(null)
             setGroupsToDisplay(studentGroups)
         } else {
             setGroupsToDisplay([])

@@ -99,18 +99,18 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
         try {
             log.info("Users table is empty. Initializing all database tables with sample data.");
             initializeUsers();
-            initializeStudentGuardians();
-            initializeGroups();
-            initializeGroups();
-            initializeSubjects();
-            initializeStudentGroups();
-            initializeTeacherUnavailabilities();
-            initializeSubjectTaught();
-            initializeGroupSubjects();
-            initializeRooms();
-            initializePlannedLessons();
-            initializeAssignedLessons();
-            initializeAttendances();
+//            initializeStudentGuardians();
+//            initializeGroups();
+//            initializeGroups();
+//            initializeSubjects();
+//            initializeStudentGroups();
+//            initializeTeacherUnavailabilities();
+//            initializeSubjectTaught();
+//            initializeGroupSubjects();
+//            initializeRooms();
+//            initializePlannedLessons();
+//            initializeAssignedLessons();
+//            initializeAttendances();
             seeder.seed("classes_four_to_eight.json");
             log.info("Data initialization completed successfully.");
         } catch (Exception e) {

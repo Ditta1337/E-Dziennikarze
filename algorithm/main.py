@@ -27,7 +27,7 @@ async def get_and_log_schedule_config(request: Request) -> ScheduleConfig:
     return ScheduleConfig.model_validate_json(body_str)
 
 @app.post("/solve")
-async def solve_endpoint(background_tasks: BackgroundTasks, schedule_config: ScheduleConfig):
+async def solve_endpoint(background_tasks: BackgroundTasks, schedule_config: ScheduleConfig = Depends(get_and_log_schedule_config)):
     global solver_status, solver_error
     solver_status = SolverStatus.CALCULATING
     solver_error = None

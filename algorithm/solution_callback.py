@@ -53,8 +53,9 @@ class SolutionCallback(CpSolverSolutionCallback):
         }
 
         try:
-            self.print_schedule()
-            response = requests.post(self.url, json=self.schedule_to_json(), headers=headers, timeout=5)
+            # self.print_schedule()
+            print(self.schedule_to_json())
+            response = requests.post(self.url, json=self.schedule_to_json(), headers=headers, timeout=500000)
             response.raise_for_status()
             self.last_solution=None
             self.solution_index += 1

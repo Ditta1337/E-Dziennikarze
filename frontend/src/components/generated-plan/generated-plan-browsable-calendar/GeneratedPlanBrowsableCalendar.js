@@ -42,9 +42,9 @@ const enrichGeneratedPlan = (generatedPlan, groups, teachers, subjects, rooms) =
     }
 }
 
-const defaultMinMaxHours = [new Date(1970, 0, 5, 8, 0), new Date(1970, 0, 5, 15, 0)]
+const defaultMinMaxHours = [new Date(1970, 0, 5, 6, 0), new Date(1970, 0, 5, 15, 0)]
 
-const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay, fetchGroups, fetchTeachers, fetchSubjets, fetchRooms}) => {
+const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay, teacherToDisplay, fetchGroups, fetchTeachers, fetchSubjets, fetchRooms}) => {
     const [generatedPlanData, setGeneratedPlanData] = useState()
     const [events, setEvents] = useState([])
 
@@ -71,8 +71,8 @@ const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay
     }
 
 
-    const createEvents = () => {
-        if (!generatedPlanData?.calculation) return []
+    const createEventsForGroups = () => {
+        if (!generatedPlanData?.calculation || groupsToDisplay.size === 0) return []
 
         const filteredLessons = generatedPlanData.calculation.filter(lesson =>
             groupsToDisplay.includes(lesson.group_id)
@@ -89,13 +89,41 @@ const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay
         setEvents(events)
     }
 
+    const createEventsForTeacher = () => {
+        if (!generatedPlanData?.calculation || teacherToDisplay === null) return []
+
+        const filteredLessons = generatedPlanData.calculation.filter(lesson =>
+            lesson.teacher_id === teacherToDisplay
+        )
+
+        const events = filteredLessons.map(lesson => ({
+            id: lesson.id,
+            title: `${lesson.subject_name} (${lesson.group_name})`,
+            start: makeDateTimeFromWeekday(lesson.week_day, lesson.start_time),
+            end: makeDateTimeFromWeekday(lesson.week_day, lesson.end_time),
+            resource: lesson,
+        }))
+
+        setEvents(events)
+    }
+
     useEffect(() => {
         updateGeneratedPlan()
     }, []);
 
     useEffect(() => {
-        createEvents()
+        createEventsForGroups()
     }, [generatedPlanData, groupsToDisplay]);
+
+    useEffect(() => {
+        createEventsForTeacher()
+    }, [generatedPlanData, teacherToDisplay]);
+
+    useEffect(() => {
+        console.log(events)
+        console.log(teacherToDisplay)
+        console.log(groupsToDisplay)
+    }, [events]);
 
     return <Box className="generated-plan-browsable-calendar">
         <DnDCalendar
@@ -103,6 +131,8 @@ const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay
             defaultView={Views.WORK_WEEK}
             views={{work_week: true}}
             date={defaultMinMaxHours[0]}
+            min={defaultMinMaxHours[0]}
+            max={defaultMinMaxHours[1]}
             events={events}
             formats={{
                 timeGutterFormat: AppLocale.timeFormat,
