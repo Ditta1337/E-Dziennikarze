@@ -82,13 +82,11 @@ public final class ObjectsBuilder {
                 .build();
     }
 
-    public static GroupSubject buildGroupSubject(UUID teacherId, UUID groupId, UUID subjectId, int lessonsPerWeek, int maxLessonsPerDay, boolean active) {
+    public static GroupSubject buildGroupSubject(UUID teacherId, UUID groupId, UUID subjectId, boolean active) {
         return GroupSubject.builder()
                 .teacherId(teacherId)
                 .groupId(groupId)
                 .subjectId(subjectId)
-                .maxLessonsPerDay(maxLessonsPerDay)
-                .lessonsPerWeek(lessonsPerWeek)
                 .active(active)
                 .build();
     }

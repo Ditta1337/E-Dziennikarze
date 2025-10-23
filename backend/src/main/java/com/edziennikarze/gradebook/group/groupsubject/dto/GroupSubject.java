@@ -31,9 +31,5 @@ public class GroupSubject {
     @NotNull
     private UUID teacherId;
 
-    private int lessonsPerWeek;
-
-    private int maxLessonsPerDay;
-
     private boolean active;
 }

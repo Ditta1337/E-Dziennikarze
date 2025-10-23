@@ -36,8 +36,6 @@ public interface GroupSubjectRepository extends ReactiveCrudRepository<GroupSubj
                 gs.teacher_id AS teacher_id,
                 u.name AS teacher_name,
                 u.surname AS teacher_surname,
-                gs.lessons_per_week AS lessons_per_week,
-                gs.max_lessons_per_day AS max_lessons_per_day,
                 gs.active AS active
             FROM group_subjects gs
             INNER JOIN subjects s ON s.id = gs.subject_id
@@ -54,8 +52,6 @@ public interface GroupSubjectRepository extends ReactiveCrudRepository<GroupSubj
                 gs.teacher_id,
                 u.name,
                 u.surname,
-                gs.lessons_per_week,
-                gs.max_lessons_per_day,
                 gs.active
             """)
     Flux<GroupSubjectResponse> findAllByActiveTrue();

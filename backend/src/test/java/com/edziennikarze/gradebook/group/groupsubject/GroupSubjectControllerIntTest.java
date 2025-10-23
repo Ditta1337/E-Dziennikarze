@@ -213,7 +213,7 @@ class GroupSubjectControllerIntTest {
         UUID secondTeacherId = teachers.getLast()
                 .getId();
 
-        groupsToSaveSubject = List.of(buildGroupSubject(firstTeacherId, groupAId, firstSubjectId, 3, 5, true), buildGroupSubject(firstTeacherId, groupBId, firstSubjectId, 3, 5, true),
-                buildGroupSubject(secondTeacherId, groupAId, firstSubjectId, 3, 5, true), buildGroupSubject(secondTeacherId, groupBId, secondSubjectId, 3, 5, true));
+        groupsToSaveSubject = List.of(buildGroupSubject(firstTeacherId, groupAId, firstSubjectId, true), buildGroupSubject(firstTeacherId, groupBId, firstSubjectId, true),
+                buildGroupSubject(secondTeacherId, groupAId, firstSubjectId, true), buildGroupSubject(secondTeacherId, groupBId, secondSubjectId, true));
     }
 }

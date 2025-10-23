@@ -36,9 +36,5 @@ public class GroupSubjectResponse {
     @NotNull
     private String teacherSurname;
 
-    private int lessonsPerWeek;
-
-    private int maxLessonsPerDay;
-
     private boolean active;
 }

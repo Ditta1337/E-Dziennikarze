@@ -7,8 +7,6 @@ CREATE TABLE group_subjects
     teacher_id          uuid    NOT NULL,
     subject_id          uuid    NOT NULL,
     group_id            uuid    NOT NULL,
-    lessons_per_week    int     NOT NULL,
-    max_lessons_per_day int     NOT NULL,
     active              boolean NOT NULL
 );
 

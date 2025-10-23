@@ -1,0 +1,381 @@
+{
+  "subjects": [
+    {
+      "id": 1,
+      "name": "Matematyka",
+      "classes": [4, 5, 6, 7, 8],
+      "number_of_teachers": 5
+    },
+    {
+      "id": 2,
+      "name": "Polski",
+      "classes": [4, 5, 6, 7, 8],
+      "number_of_teachers": 5
+    },
+    {
+      "id": 3,
+      "name": "Przyroda",
+      "classes": [4, 5, 6],
+      "number_of_teachers": 3
+    },
+    {
+      "id": 4,
+      "name": "Historia",
+      "classes": [4, 5, 6, 7, 8],
+      "number_of_teachers": 4
+    },
+    {
+      "id": 5,
+      "name": "Geografia",
+      "classes": [4, 5, 6, 7, 8],
+      "number_of_teachers": 4
+    },
+    {
+      "id": 6,
+      "name": "Angielski_podstawowy",
+      "classes": [4, 5, 6, 7, 8],
+      "number_of_teachers": 4
+    },
+    {
+      "id": 7,
+      "name": "Angielski_rozszerzony",
+      "classes": [4, 5, 6, 7, 8],
+      "number_of_teachers": 4
+    },
+    {
+      "id": 8,
+      "name": "Niemiecki",
+      "classes": [4, 5, 6, 7, 8],
+      "number_of_teachers": 3
+    },
+    {
+      "id": 9,
+      "name": "Fizyka",
+      "classes": [7, 8],
+      "number_of_teachers": 2
+    },
+    {
+      "id": 10,
+      "name": "Chemia",
+      "classes": [7, 8],
+      "number_of_teachers": 2
+    },
+    {
+      "id": 11,
+      "name": "Biologia",
+      "classes": [7, 8],
+      "number_of_teachers": 2
+    },
+    {
+      "id": 12,
+      "name": "Informatyka",
+      "classes": [4, 5, 6, 7, 8],
+      "number_of_teachers": 3
+    },
+    {
+      "id": 13,
+      "name": "Wychowanie_fizyczne",
+      "classes": [4, 5, 6, 7, 8],
+      "number_of_teachers": 4
+    },
+    {
+      "id": 14,
+      "name": "Muzyka",
+      "classes": [4, 5, 6, 7, 8],
+      "number_of_teachers": 2
+    },
+    {
+      "id": 15,
+      "name": "Plastyka",
+      "classes": [4, 5, 6, 7, 8],
+      "number_of_teachers": 2
+    },
+    {
+      "id": 16,
+      "name": "Etyka",
+      "classes": [4, 5, 6, 7, 8],
+      "number_of_teachers": 2
+    },
+    {
+      "id": 17,
+      "name": "Edukacja dla bezpieczeństwa",
+      "classes": [8],
+      "number_of_teachers": 1
+    }
+  ],
+  "groups": [
+    {
+      "name": "4_a",
+      "class_level": 4,
+      "subject_ids": [1, 2, 3, 4, 5, 8, 12, 14, 15, 16],
+      "number_of_students": 15,
+      "type": "CLASS"
+    },
+    {
+      "name": "4_b",
+      "class_level": 4,
+      "subject_ids": [1, 2, 3, 4, 5, 8, 12, 14, 15, 16],
+      "number_of_students": 13,
+      "type": "CLASS"
+    },
+    {
+      "name": "4_ang_rozszerzony",
+      "class_level": 4,
+      "subject_ids": [7],
+      "number_of_students": 14,
+      "type": "LANGUAGE"
+    },
+    {
+      "name": "4_ang_podstawowy",
+      "class_level": 4,
+      "subject_ids": [6],
+      "number_of_students": 14,
+      "type": "LANGUAGE"
+    },
+    {
+      "name": "4_wf",
+      "class_level": 4,
+      "subject_ids": [13],
+      "number_of_students": 28,
+      "type": "COMBINED"
+    },
+    {
+      "name": "5_a",
+      "class_level": 5,
+      "subject_ids": [1, 2, 3, 4, 5, 8, 12, 14, 15, 16],
+      "number_of_students": 13,
+      "type": "CLASS"
+    },
+    {
+      "name": "5_b",
+      "class_level": 5,
+      "subject_ids": [1, 2, 3, 4, 5, 8, 12, 14, 15, 16],
+      "number_of_students": 14,
+      "type": "CLASS"
+    },
+    {
+      "name": "5_ang_rozszerzony",
+      "class_level": 5,
+      "subject_ids": [7],
+      "number_of_students": 14,
+      "type": "LANGUAGE"
+    },
+    {
+      "name": "5_ang_podstawowy",
+      "class_level": 5,
+      "subject_ids": [6],
+      "number_of_students": 13,
+      "type": "LANGUAGE"
+    },
+    {
+      "name": "5_wf",
+      "class_level": 5,
+      "subject_ids": [13],
+      "number_of_students": 27,
+      "type": "COMBINED"
+    },
+    {
+      "name": "6_a",
+      "class_level": 6,
+      "subject_ids": [1, 2, 3, 4, 5, 8, 12, 14, 15, 16],
+      "number_of_students": 15,
+      "type": "CLASS"
+    },
+    {
+      "name": "6_b",
+      "class_level": 6,
+      "subject_ids": [1, 2, 3, 4, 5, 8, 12, 14, 15, 16],
+      "number_of_students": 15,
+      "type": "CLASS"
+    },
+    {
+      "name": "6_ang_rozszerzony",
+      "class_level": 6,
+      "subject_ids": [7],
+      "number_of_students": 15,
+      "type": "LANGUAGE"
+    },
+    {
+      "name": "6_ang_podstawowy",
+      "class_level": 6,
+      "subject_ids": [6],
+      "number_of_students": 15,
+      "type": "LANGUAGE"
+    },
+    {
+      "name": "6_wf",
+      "class_level": 6,
+      "subject_ids": [13],
+      "number_of_students": 30,
+      "type": "COMBINED"
+    },
+    {
+      "name": "7_a",
+      "class_level": 7,
+      "subject_ids": [1, 2, 4, 5, 8, 9, 10, 11, 12, 14, 15, 16],
+      "number_of_students": 12,
+      "type": "CLASS"
+    },
+    {
+      "name": "7_b",
+      "class_level": 7,
+      "subject_ids": [1, 2, 4, 5, 8, 9, 10, 11, 12, 14, 15, 16],
+      "number_of_students": 13,
+      "type": "CLASS"
+    },
+    {
+      "name": "7_ang_rozszerzony",
+      "class_level": 7,
+      "subject_ids": [7],
+      "number_of_students": 13,
+      "type": "LANGUAGE"
+    },
+    {
+      "name": "7_ang_podstawowy",
+      "class_level": 7,
+      "subject_ids": [6],
+      "number_of_students": 12,
+      "type": "LANGUAGE"
+    },
+    {
+      "name": "7_wf",
+      "class_level": 7,
+      "subject_ids": [13],
+      "number_of_students": 25,
+      "type": "COMBINED"
+    },
+    {
+      "name": "8_a",
+      "class_level": 8,
+      "subject_ids": [1, 2, 4, 5, 8, 9, 10, 11, 12, 14, 15, 16, 17],
+      "number_of_students": 14,
+      "type": "CLASS"
+    },
+    {
+      "name": "8_b",
+      "class_level": 8,
+      "subject_ids": [1, 2, 4, 5, 8, 9, 10, 11, 12, 14, 15, 16, 17],
+      "number_of_students": 14,
+      "type": "CLASS"
+    },
+    {
+      "name": "8_ang_rozszerzony",
+      "class_level": 8,
+      "subject_ids": [7],
+      "number_of_students": 14,
+      "type": "LANGUAGE"
+    },
+    {
+      "name": "8_ang_podstawowy",
+      "class_level": 8,
+      "subject_ids": [6],
+      "number_of_students": 14,
+      "type": "LANGUAGE"
+    },
+    {
+      "name": "8_wf",
+      "class_level": 8,
+      "subject_ids": [13],
+      "number_of_students": 28,
+      "type": "COMBINED"
+    }
+  ],
+  "rooms": [
+    {
+      "name": "1_fizyczna",
+      "capacity": 20
+    },
+    {
+      "name": "2_chemiczna",
+      "capacity": 20
+    },
+    {
+      "name": "3_biologiczna",
+      "capacity": 20
+    },
+    {
+      "name": "4_informatyczna",
+      "capacity": 25
+    },
+    {
+      "name": "5_muzyczna",
+      "capacity": 30
+    },
+    {
+      "name": "7_sala_gimnastyczna",
+      "capacity": 30
+    },
+    {
+      "name": "8_sala_gimnastyczna",
+      "capacity": 25
+    },
+    {
+      "name": "9",
+      "capacity": 15
+    },
+    {
+      "name": "10",
+      "capacity": 30
+    },
+    {
+      "name": "11",
+      "capacity": 20
+    },
+    {
+      "name": "12",
+      "capacity": 25
+    },
+    {
+      "name": "13",
+      "capacity": 20
+    },
+    {
+      "name": "14",
+      "capacity": 15
+    },
+    {
+      "name": "15",
+      "capacity": 20
+    },
+    {
+      "name": "16",
+      "capacity": 25
+    },
+    {
+      "name": "17",
+      "capacity": 30
+    },
+    {
+      "name": "18",
+      "capacity": 20
+    },
+    {
+      "name": "19",
+      "capacity": 15
+    },
+    {
+      "name": "20",
+      "capacity": 25
+    },
+    {
+      "name": "21",
+      "capacity": 30
+    },
+    {
+      "name": "22",
+      "capacity": 20
+    },
+    {
+      "name": "23",
+      "capacity": 15
+    },
+    {
+      "name": "24",
+      "capacity": 25
+    },
+    {
+      "name": "25",
+      "capacity": 30
+    }
+  ]
+}

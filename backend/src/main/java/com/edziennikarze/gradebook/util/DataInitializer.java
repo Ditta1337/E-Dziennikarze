@@ -16,6 +16,7 @@ import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailabil
 import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailabilityRepository;
 import com.edziennikarze.gradebook.room.Room;
 import com.edziennikarze.gradebook.room.RoomRepository;
+import com.edziennikarze.gradebook.seeder.Seeder;
 import com.edziennikarze.gradebook.subject.Subject;
 import com.edziennikarze.gradebook.subject.SubjectRepository;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaught;
@@ -62,6 +63,7 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
     private final PlannedLessonRepository plannedLessonRepository;
     private final AssignedLessonRepository assignedLessonRepository;
     private final AttendanceRepository attendanceRepository;
+    private final Seeder seeder;
     //</editor-fold>
 
     //<editor-fold desc="In-memory lists for relationships">
@@ -109,6 +111,7 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
             initializePlannedLessons();
             initializeAssignedLessons();
             initializeAttendances();
+            seeder.seed("classes_four_to_eight.json");
             log.info("Data initialization completed successfully.");
         } catch (Exception e) {
             log.error("Data initialization failed.", e);
@@ -228,12 +231,12 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
         log.info("Initializing Group-Subjects relationships...");
         groupSubjectRepository.deleteAll().block();
         List<GroupSubject> groupsToSaveSubject = List.of(
-                buildGroupSubject(teachers.get(0).getId(), groups.get(0).getId(), subjects.get(0).getId(), 3, 5, true), // t1 -> 1A Matematyka
-                buildGroupSubject(teachers.get(0).getId(), groups.get(2).getId(), subjects.get(0).getId(), 3, 5, true), // t1 -> 2A Matematyka
-                buildGroupSubject(teachers.get(1).getId(), groups.get(0).getId(), subjects.get(1).getId(), 3, 5, true), // t2 -> 1A Biologia
-                buildGroupSubject(teachers.get(2).getId(), groups.get(2).getId(), subjects.get(2).getId(), 3, 5, true), // t3 -> 2A Niemiecki
-                buildGroupSubject(teachers.get(3).getId(), groups.get(1).getId(), subjects.get(3).getId(), 3, 5, true), // t4 -> 1A_ANG Angielski
-                buildGroupSubject(teachers.get(4).getId(), groups.get(3).getId(), subjects.get(4).getId(), 3, 5, true)  // t5 -> 2B Informatyka
+                buildGroupSubject(teachers.get(0).getId(), groups.get(0).getId(), subjects.get(0).getId(), true), // t1 -> 1A Matematyka
+                buildGroupSubject(teachers.get(0).getId(), groups.get(2).getId(), subjects.get(0).getId(), true), // t1 -> 2A Matematyka
+                buildGroupSubject(teachers.get(1).getId(), groups.get(0).getId(), subjects.get(1).getId(), true), // t2 -> 1A Biologia
+                buildGroupSubject(teachers.get(2).getId(), groups.get(2).getId(), subjects.get(2).getId(), true), // t3 -> 2A Niemiecki
+                buildGroupSubject(teachers.get(3).getId(), groups.get(1).getId(), subjects.get(3).getId(), true), // t4 -> 1A_ANG Angielski
+                buildGroupSubject(teachers.get(4).getId(), groups.get(3).getId(), subjects.get(4).getId(), true)  // t5 -> 2B Informatyka
         );
         this.groupSubjects = groupSubjectRepository.saveAll(groupsToSaveSubject).collectList().block();
     }
@@ -284,7 +287,6 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
     private void initializeAttendances() {
         log.info("Initializing Attendances...");
         attendanceRepository.deleteAll().block();
-        // TODO: Implement attendance initialization logic
         this.attendances = attendanceRepository.saveAll(List.of()).collectList().block();
     }
 }
