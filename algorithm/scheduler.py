@@ -1,6 +1,8 @@
 from logging import raiseExceptions
 from ortools.sat.python import cp_model
 import os
+
+from pydantic_core.core_schema import model_field
 from entities import DataParser
 from schemas import ScheduleConfig, SubjectPriority
 from entities import Goal, GoalObjective
@@ -39,6 +41,10 @@ class Scheduler():
             self.plan_name,
             self.data_parser
         )
+        self.required_lessons = sum(s.lessons for s in self.subjects)
+        print("required_lessons: ", self.required_lessons )
+
+
 
     def _create_vars(self):
         for subject in self.subjects:
@@ -56,6 +62,7 @@ class Scheduler():
     def build(self):
         self.no_gaps_for_students()
         self.no_more_than_one_lesson_per_teacher()
+        self.no_more_than_one_lesson_per_room()
         self.ensure_subjects_lessons()
         self.lesson_limit_per_day()
         self.no_gaps_between_same_subjects()
@@ -79,7 +86,6 @@ class Scheduler():
 
         if status == cp_model.INFEASIBLE:
             raise InfeasableModelException("Infeasable model")
-            print("INFEASIBLE")
         elif status == cp_model.MODEL_INVALID:
             print("MODEL_INVALID")
 
@@ -88,10 +94,16 @@ class Scheduler():
             self.model.add(sum(goal.variables) <= int(goal.value))
         else:
             self.model.add(sum(goal.variables) >= int(goal.value))
+        self.warm_start_from_last_solution()
 
+    
     def warm_start_from_last_solution(self):
-        for var, val in self.solution_callback.last_solution.items():
+        if not self.solution_callback.last_solution:
+            return
+        for var_idx, val in self.solution_callback.last_solution.items():
+            var = self.vars[var_idx]
             self.model.add_hint(var, val)
+
 
     # ====================== Constraints ======================
     def no_gaps_for_students(self):
@@ -147,7 +159,19 @@ class Scheduler():
                     ]
                     self.model.add(sum(possible) <= 1)
 
+    def no_more_than_one_lesson_per_room(self):
+        for room in self.rooms:
+                for day in range(self.teaching_days):
+                    for lesson in range(self.max_lessons_per_day):
+                        possible = [
+                            self.vars[subject.id, room.id, day, lesson]
+                            for subject in self.subjects
+                            if (subject.id, room.id, day, lesson) in self.vars
+                        ]
+                        self.model.add(sum(possible) <= 1)
+
     def ensure_subjects_lessons(self):
+        total=0
         for group in self.groups:
             for subject in group.subjects:
                 possible = [
@@ -158,6 +182,10 @@ class Scheduler():
                     if (subject.id, room.id, day, lesson) in self.vars
                 ]
                 self.model.add(sum(possible) == subject.lessons)
+                print(len(possible), subject.lessons)
+                total+=subject.lessons
+        print("total", total)
+
 
     def lesson_limit_per_day(self):
         for group in self.groups:
