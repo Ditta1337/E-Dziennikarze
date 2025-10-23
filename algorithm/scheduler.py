@@ -1,3 +1,4 @@
+from logging import raiseExceptions
 from ortools.sat.python import cp_model
 import os
 from entities import DataParser
@@ -5,6 +6,7 @@ from schemas import ScheduleConfig, SubjectPriority
 from entities import Goal, GoalObjective
 from entities.data_parser import DataParser
 from solution_callback import SolutionCallback
+from exceptions.infeasable_model_exception import InfeasableModelException
 
 NUM_WORKERS = 8
 
@@ -76,6 +78,7 @@ class Scheduler():
         self.solution_callback.send_last_solution()
 
         if status == cp_model.INFEASIBLE:
+            raise InfeasableModelException("Infeasable model")
             print("INFEASIBLE")
         elif status == cp_model.MODEL_INVALID:
             print("MODEL_INVALID")

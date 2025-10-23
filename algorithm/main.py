@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Request, Depends, HTTPException,BackgroundTasks 
 import json
 import uvicorn
+from exceptions.infeasable_model_exception import InfeasableModelException
 from schemas import ScheduleConfig
 from scheduler import Scheduler
 from solver_status import SolverStatus
@@ -25,23 +26,28 @@ async def get_and_log_schedule_config(request: Request) -> ScheduleConfig:
     print("------------------------")
     return ScheduleConfig.model_validate_json(body_str)
 
-@app.post("/solve_szywoj")
-async def solve_dev(schedule_config: ScheduleConfig):
-    'for debugging'
-    solver_status=SolverStatus.CALCULATING
-    scheduler = Scheduler(schedule_config)
-    scheduler.build()
-    scheduler.solve()
-    solver_status=SolverStatus.IDLE
-
-
 @app.post("/solve")
-async def solve_endpoint(schedule_config: ScheduleConfig = Depends(get_and_log_schedule_config)):
-    solver_status=SolverStatus.CALCULATING
+async def solve_endpoint(background_tasks: BackgroundTasks, schedule_config: ScheduleConfig):
+    global solver_status, solver_error
+    solver_status = SolverStatus.CALCULATING
+    solver_error = None
+
     scheduler = Scheduler(schedule_config)
-    scheduler.build()
-    scheduler.solve()
-    solver_status=SolverStatus.IDLE
+
+    def run_solver():
+        global solver_status, solver_error
+        try:
+            scheduler.build()
+            scheduler.solve()
+        except InfeasableModelException as e:
+            solver_error = str(e)
+        finally:
+            solver_status = SolverStatus.IDLE
+
+    background_tasks.add_task(run_solver)
+    return {"message": "Solver started in background"}
+
+
 
 @app.get("/status")
 async def status():
