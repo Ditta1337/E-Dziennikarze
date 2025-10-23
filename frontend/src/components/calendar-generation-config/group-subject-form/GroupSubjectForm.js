@@ -50,7 +50,9 @@ const GroupSubjectForm = ({
                 })
             }
         }
-        return Array.from(map.values())
+        return Array.from(map.values()).sort((a, b) =>
+            a.group_code.localeCompare(b.group_code)
+        )
     }, [groupSubjectData])
 
     const subjectsForGroup = useCallback(
@@ -65,7 +67,9 @@ const GroupSubjectForm = ({
                     })
                 }
             }
-            return Array.from(map.values())
+            return Array.from(map.values()).sort((a, b) =>
+                a.name.localeCompare(b.name)
+            )
         },
         [groupSubjectData]
     )
