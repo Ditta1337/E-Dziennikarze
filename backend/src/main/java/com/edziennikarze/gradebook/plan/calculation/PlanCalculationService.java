@@ -8,7 +8,6 @@ import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculationsSummary;
 import com.edziennikarze.gradebook.plan.calculation.dto.request.*;
 import com.edziennikarze.gradebook.plan.configuration.PlanConfigurationRepository;
 import com.edziennikarze.gradebook.property.PropertyService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,17 +47,8 @@ public class PlanCalculationService {
     );
 
     public Mono<PlanCalculationResponse> savePlanCalculation(Mono<PlanCalculationRequest> planCalculationRequestMono) {
-        return planCalculationRequestMono.flatMap(planCalculationRequest -> {
-                    String json;
-                    try {
-                        json = objectMapper.writeValueAsString(planCalculationRequest);
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
-                    System.out.println("Received plan calculation request: " + json);
-                    return planConfigurationRepository.updateCalculatedStatus(planCalculationRequest.getPlanId(), true)
-                            .then(mapToPlanCalculation(planCalculationRequest));
-                }
+        return planCalculationRequestMono.flatMap(planCalculationRequest -> planConfigurationRepository.updateCalculatedStatus(planCalculationRequest.getPlanId(), true)
+                .then(mapToPlanCalculation(planCalculationRequest))
         );
     }
 
@@ -90,9 +80,9 @@ public class PlanCalculationService {
     }
 
     private Mono<PlanCalculationRequest> mapGroupSubjectIdsToSubjectIds(PlanCalculationRequest request) {
-        Flux<Void> allUpdateOperations = Flux.fromIterable(request.getGroups())
-                .flatMap(group ->
-                        Flux.fromIterable(group.getSchedule())
+        Flux<Void> allUpdateOperations = Flux.fromIterable(request.getTeachers())
+                .flatMap(teacher ->
+                        Flux.fromIterable(teacher.getSchedule())
                                 .flatMap(schedule ->
                                         groupSubjectRepository.findById(schedule.getSubjectId())
                                                 .map(GroupSubject::getSubjectId)
