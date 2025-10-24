@@ -84,6 +84,7 @@ const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay
             start: makeDateTimeFromWeekday(lesson.week_day, lesson.start_time),
             end: makeDateTimeFromWeekday(lesson.week_day, lesson.end_time),
             resource: lesson,
+            subject_id: lesson.subject_id
         }))
 
         setEvents(events)
@@ -121,8 +122,6 @@ const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay
 
     useEffect(() => {
         console.log(events)
-        console.log(teacherToDisplay)
-        console.log(groupsToDisplay)
     }, [events]);
 
     return <Box className="generated-plan-browsable-calendar">

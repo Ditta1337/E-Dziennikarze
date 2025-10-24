@@ -4,6 +4,8 @@ import os
 import time
 from dotenv import load_dotenv
 from entities import DataParser
+load_dotenv()
+
 
 class SolutionCallback(CpSolverSolutionCallback):
     SOLUTION_SEND_INTERVAL = 10
@@ -58,13 +60,13 @@ class SolutionCallback(CpSolverSolutionCallback):
 
         try:
             response = requests.post(self.url, json=self.schedule_to_json(), headers=headers, timeout=500000)
-            print(self.schedule_to_json())
-            print(sum(value for value in self.last_solution.values()))
+            #print(self.schedule_to_json())
+            #print(sum(value for value in self.last_solution.values()))
             response.raise_for_status()
             self.solution_index += 1
             self.last_solution = None
-        except requests.exceptions.RequestException:
-            print("request error")
+        except requests.exceptions.RequestException as e:
+            print("request error ", e)
 
     def schedule_to_json(self):
         groups = {group.id: {"group_id": group.uuid, "schedule": []} for group in self.groups}

@@ -137,7 +137,7 @@ public class PlanCalculationService {
         int longBreak = (int) properties.get("longBreakDurationMinutes");
         int longBreakAfter = (int) properties.get("longBreakAfterLessons");
         int totalMinutes = 0;
-        for (int i = 0; i < lessonNumber - 1; i++) {
+        for (int i = 0; i < lessonNumber; i++) {
             totalMinutes += lessonMinutes;
             if (i == longBreakAfter) {
                 totalMinutes += longBreak;

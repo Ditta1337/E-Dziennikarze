@@ -42,7 +42,6 @@ class Scheduler():
             self.data_parser
         )
         self.required_lessons = sum(s.lessons for s in self.subjects)
-        print("required_lessons: ", self.required_lessons )
 
 
 
@@ -171,7 +170,6 @@ class Scheduler():
                         self.model.add(sum(possible) <= 1)
 
     def ensure_subjects_lessons(self):
-        total=0
         for group in self.groups:
             for subject in group.subjects:
                 possible = [
@@ -182,9 +180,6 @@ class Scheduler():
                     if (subject.id, room.id, day, lesson) in self.vars
                 ]
                 self.model.add(sum(possible) == subject.lessons)
-                print(len(possible), subject.lessons)
-                total+=subject.lessons
-        print("total", total)
 
 
     def lesson_limit_per_day(self):
