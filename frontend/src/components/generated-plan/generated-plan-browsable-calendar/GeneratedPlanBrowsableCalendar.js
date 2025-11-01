@@ -6,6 +6,7 @@ import {AppLocale} from "../../../config/localization";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "./GeneratedPlanBrowsableCalendar.scss"
 import makeDateTimeFromWeekday from "../../../util/calendar/makeDateTimeFromWeekday";
+import GeneratedPlanCalendarEvent from "../generated-plan-calendar-event/GeneratedPlanCalendarEvent";
 
 const DnDCalendar = withDragAndDrop(Calendar)
 
@@ -56,6 +57,8 @@ const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay
             const subjectsResult = await fetchSubjets()
             const roomsResult = await fetchRooms()
 
+            console.log("Subjects:", subjectsResult.data)
+
             const enrichedPlan = enrichGeneratedPlan(
                 generatedPlanResult.data,
                 groupsResult.data,
@@ -80,11 +83,12 @@ const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay
 
         const events = filteredLessons.map(lesson => ({
             id: lesson.id,
-            title: `${lesson.subject_name} (${lesson.teacher_name})`,
+            title: `${lesson.subject_name}`,
             start: makeDateTimeFromWeekday(lesson.week_day, lesson.start_time),
             end: makeDateTimeFromWeekday(lesson.week_day, lesson.end_time),
             resource: lesson,
-            subject_id: lesson.subject_id
+            teacher: lesson.teacher_name,
+            room: lesson.room
         }))
 
         setEvents(events)
@@ -99,10 +103,12 @@ const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay
 
         const events = filteredLessons.map(lesson => ({
             id: lesson.id,
-            title: `${lesson.subject_name} (${lesson.group_name})`,
+            title: `${lesson.subject_name}`,
             start: makeDateTimeFromWeekday(lesson.week_day, lesson.start_time),
             end: makeDateTimeFromWeekday(lesson.week_day, lesson.end_time),
             resource: lesson,
+            teacher: lesson.teacher_name,
+            room: lesson.room
         }))
 
         setEvents(events)
@@ -124,6 +130,10 @@ const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay
         console.log(events)
     }, [events]);
 
+    useEffect(() => {
+        console.log(generatedPlanData)
+    }, [generatedPlanData]);
+
     return <Box className="generated-plan-browsable-calendar">
         <DnDCalendar
             localizer={localizer}
@@ -133,6 +143,9 @@ const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay
             min={defaultMinMaxHours[0]}
             max={defaultMinMaxHours[1]}
             events={events}
+            components={{
+                event: GeneratedPlanCalendarEvent,
+            }}
             formats={{
                 timeGutterFormat: AppLocale.timeFormat,
                 eventTimeRangeFormat: ({start, end}, culture, localizer) =>
