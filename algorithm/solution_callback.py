@@ -125,12 +125,13 @@ class SolutionCallback(CpSolverSolutionCallback):
         goal_values=[]
         for goal in self.goals:
             self.__getattribute__(goal.function_name)
-            goal_values.append({"name":goal.function_name, "value":self.__getattribute__(goal.function_name)})
+            title,val =self.__getattribute__(goal.function_name)
+            goal_values.append({"name":goal.function_name, "title":title, "value":val})
         return goal_values
 
     
     def goal_room_preferences(self):
-        goal_value={"dispreferred":0,"preferred":0,"no_preference":0}
+        goal_value={"dispreferred":0,"preferred":0,"neutral":0}
 
         for (subject_id, room_id, _, _), assigned in self.last_solution.items():
             if assigned:
@@ -160,7 +161,7 @@ class SolutionCallback(CpSolverSolutionCallback):
                         for day in self.teaching_days]
 
             goal_value[(max(schedule)- min (schedule))//2]
-        return goal_value
+        return "Roznice pomiedzy najdluzszym i najktrotzsym dniem", {f"{2*i}-{2*i+1}": val for i, val in enumerate(goal_value)}
 
     def goal_subject_time_preferences(self):
         goal_value = {}
@@ -209,7 +210,7 @@ class SolutionCallback(CpSolverSolutionCallback):
         max_penalty = max(goal_value.keys(), default=0)
         penalty_array = [goal_value.get(i, 0) for i in range(max_penalty + 1)]
 
-        return penalty_array
+        return "Liczba godzin odleglych od skrajnych lekcji", {f"{i}": val for i, val in enumerate(penalty_array)}
 
     def goal_early_start(self):
         goal_value=[0 for _ in range(self.latest_starting_lesson)]
@@ -224,4 +225,4 @@ class SolutionCallback(CpSolverSolutionCallback):
             for num_lessons in schedule:
                 parial_penalty = self.latest_starting_lesson - num_lessons
                 goal_value[parial_penalty]+=1
-        return goal_value
+        return "Liczba wczesnych brakujacych lekcji", {f"{i}": val for i, val in enumerate(goal_value)}
