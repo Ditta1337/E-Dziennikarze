@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router";
 import {Button} from "@mui/material";
 
-function EditUserConfiguration({id}) {
+function EditUserConfiguration({id, calculated}) {
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -10,7 +10,7 @@ function EditUserConfiguration({id}) {
 
     return (
         <Button variant="contained" size="small" onClick={handleClick}>
-            EDYTUJ
+            {calculated ? 'PRZEGLĄDAJ' : 'EDYTUJ'}
         </Button>
     )
 

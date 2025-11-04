@@ -71,6 +71,7 @@ const CalendarGenerationConfig = () => {
             const result = await postConfigurationCopy(id, newConfigurationName)
             navigate(`/calendar/generation/config/${result.data.id}`)
             handleCloseCopy()
+            displaySnackbarMessage(`Pomyślnie skopiowano konfigurację ${configurationData.name} do nowej konfiguracji ${newConfigurationName}`, false)
         } catch (e) {
             console.error(e)
             displaySnackbarMessage("Wystąpił błąd podczas kopiowania konfiguracji.")
@@ -80,7 +81,8 @@ const CalendarGenerationConfig = () => {
 
     const handlePlanGeneration = async () => {
         try{
-            const result = await postEnqueuePlan(configurationData.configuration)
+            await postEnqueuePlan(configurationData.configuration)
+            navigate(`/calendar/generated/list/${id}`)
         } catch (e) {
             console.error(e)
             displaySnackbarMessage("Wystąpił błąd podczas generacji planu lekcji.")
@@ -124,6 +126,10 @@ const CalendarGenerationConfig = () => {
         loadConfigData()
     }, [id])
 
+    useEffect(() => {
+        console.log(configurationData)
+    }, [configurationData]);
+
     const copyConfigurationPopoverOpen = Boolean(anchorEl)
     const popoverId = copyConfigurationPopoverOpen ? "function-info-popover" : undefined
 
@@ -144,8 +150,19 @@ const CalendarGenerationConfig = () => {
             </Box>
             <Box className="save-generate">
                 <Button onClick={handleConfigurationSave}
-                        variant="contained" className="save">Zapisz</Button>
-                <Button onClick={handlePlanGeneration} variant="contained" className="generate">Generuj</Button>
+                        variant="contained"
+                        className="save"
+                        disabled={configurationData?.calculated || false}
+                >
+                    Zapisz
+                </Button>
+                <Button onClick={handlePlanGeneration}
+                        variant="contained"
+                        className="generate"
+                        disabled={configurationData?.calculated || false}
+                >
+                    Generuj
+                </Button>
             </Box>
 
             <Popover

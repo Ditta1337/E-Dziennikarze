@@ -1,6 +1,7 @@
 package com.edziennikarze.gradebook.plan.configuration;
 
 import com.edziennikarze.gradebook.auth.util.LoggedInUserService;
+import com.edziennikarze.gradebook.exception.MarshallException;
 import com.edziennikarze.gradebook.group.groupsubject.GroupSubjectRepository;
 import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubjectResponse;
 import com.edziennikarze.gradebook.plan.configuration.dto.PlanConfiguration;
@@ -9,6 +10,7 @@ import com.edziennikarze.gradebook.plan.configuration.dto.PlanConfigurationSumma
 import com.edziennikarze.gradebook.plan.dto.*;
 import com.edziennikarze.gradebook.solver.SolverService;
 import com.edziennikarze.gradebook.solver.dto.GoalFunction;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -158,9 +160,20 @@ public class PlanConfigurationService {
     private Mono<PlanConfigurationResponse> copyPlanConfiguration(PlanConfiguration planConfiguration, Mono<String> nameMono) {
         return nameMono.flatMap(name -> loggedInUserService.getLoggedInUser()
                 .flatMap(user -> {
-                    PlanConfiguration copiedPlanConfiguration = PlanConfiguration.from(planConfiguration, name, user.getId());
+                    String copiedConfiguration = copyConfigurationWithNewName(planConfiguration, name);
+                    PlanConfiguration copiedPlanConfiguration = PlanConfiguration.from(copiedConfiguration, name, user.getId());
                     return updateCopiedPlanConfigurationWithActualPlanId(copiedPlanConfiguration);
                 }).flatMap(copiedPlanConfiguration -> Mono.just(PlanConfigurationResponse.from(copiedPlanConfiguration, objectMapper))));
+    }
+
+    private String copyConfigurationWithNewName(PlanConfiguration planConfiguration, String name) {
+        Plan configurationCopyObject = planConfiguration.getConfiguration(objectMapper);
+        configurationCopyObject.setName(name);
+        try {
+            return objectMapper.writeValueAsString(configurationCopyObject);
+        } catch (JsonProcessingException e) {
+            throw new MarshallException("Failed to convert Plan to JSON string");
+        }
     }
 
     private List<PlanGoal> createPlanGoals(List<GoalFunction> goalFunctions) {

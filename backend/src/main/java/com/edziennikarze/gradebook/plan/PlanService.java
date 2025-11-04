@@ -1,6 +1,9 @@
 package com.edziennikarze.gradebook.plan;
 
+import com.edziennikarze.gradebook.exception.ConfigurationAlreadyCalculatedException;
 import com.edziennikarze.gradebook.group.groupsubject.GroupSubjectRepository;
+import com.edziennikarze.gradebook.plan.configuration.PlanConfigurationRepository;
+import com.edziennikarze.gradebook.plan.configuration.dto.PlanConfiguration;
 import com.edziennikarze.gradebook.plan.dto.*;
 import com.edziennikarze.gradebook.plan.teacherunavailability.TeacherUnavailability;
 import com.edziennikarze.gradebook.group.studentgroup.StudentGroup;
@@ -35,6 +38,8 @@ public class PlanService {
 
     private final SolverService solverService;
 
+    private final PlanConfigurationRepository planConfigurationRepository;
+
     private static final List<String> PLAN_PROPERTIES = List.of(
             "latestStartingLesson",
             "lessonsPerDay"
@@ -50,18 +55,25 @@ public class PlanService {
     );
 
     public Mono<Plan> initializePlan(Mono<Plan> planMono) {
-        Mono<Plan> enrichedPlan = planMono
+        return planMono
+                .flatMap(plan -> configurationIsCalculated(Mono.just(plan))
+                        .flatMap(isCalculated -> {
+                            if (isCalculated) {
+                                return Mono.error(new ConfigurationAlreadyCalculatedException("Configuration is already calculated"));
+                            }
+
+                            return Mono.just(plan);
+                        })
+                )
                 .flatMap(this::mapSubjectIdsToGroupSubjectIds)
                 .flatMap(this::enrichPlanWithProperties)
                 .flatMap(this::enrichPlanWithRooms)
                 .flatMap(this::enrichPlanWithUniqueGroupCombinations)
                 .flatMap(this::enrichPlanWithTeachers)
-                .flatMap(this::enrichPlanWithTeacherUnavailabilities);
-
-        return enrichedPlan
+                .flatMap(this::enrichPlanWithTeacherUnavailabilities)
                 .flatMap(plan ->
                         solverService.calculatePlan(plan)
-                                .then(Mono.just(plan))
+                                .thenReturn(plan)
                 );
     }
 
@@ -101,6 +113,11 @@ public class PlanService {
 
         plan.setRooms(new ArrayList<>(roomIds));
         return Mono.just(plan);
+    }
+
+    private Mono<Boolean> configurationIsCalculated(Mono<Plan> planMono) {
+        return planMono.flatMap(plan -> planConfigurationRepository.findById(plan.getPlanId())
+                .map(PlanConfiguration::isCalculated));
     }
 
     private Mono<Plan> enrichPlanWithUniqueGroupCombinations(Plan plan) {

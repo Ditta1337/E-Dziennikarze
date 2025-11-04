@@ -54,12 +54,12 @@ public class PlanConfiguration {
         }
     }
 
-    public static PlanConfiguration from(PlanConfiguration planConfiguration, String name, UUID officeWorkerId) {
+    public static PlanConfiguration from(String configuration, String name, UUID officeWorkerId) {
         return PlanConfiguration.builder()
                 .name(name)
                 .officeWorkerId(officeWorkerId)
                 .calculated(false)
-                .configuration(planConfiguration.getConfiguration())
+                .configuration(configuration)
                 .build();
     }
 

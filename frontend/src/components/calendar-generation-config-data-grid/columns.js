@@ -4,10 +4,11 @@ import ViewGeneratedPlansButton from "./buttons/ViewGeneratedPlansButton";
 const columns = [
     {
         field: 'edit',
-        headerName: 'EDYTUJ',
-        renderCell: (params) => <EditUserConfiguration id={params.row.id}/>,
+        headerName: 'EDYTUJ / PRZEGLĄDAJ',
+        renderCell: (params) => <EditUserConfiguration id={params.row.id} calculated={params.row.calculated}/>,
         sortable: false,
         filterable: false,
+        width: 170
     },
     {
         field: 'name',

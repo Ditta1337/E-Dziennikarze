@@ -29,23 +29,28 @@ const GoalFunctionList = ({configurationData, setConfigurationData, fetchGoalFun
 
     const fillContainersFromConfigData = () => {
         if (!goalFunctions || !configurationData?.configuration) {
-            setContainers({ACTIVE: [], INACTIVE: []})
-            return;
+            setContainers({ ACTIVE: [], INACTIVE: [] })
+            return
         }
-        const activeGoalNames = configurationData.configuration.goals.map(goal => goal.name)
-        const activeGoals = goalFunctions.filter(goalFunction => activeGoalNames.includes(goalFunction.function_name))
-        const inactiveGoals = goalFunctions.filter(goalFunction => !activeGoalNames.includes(goalFunction.function_name))
+        const configGoals = configurationData.configuration.goals
+        const activeGoalNames = configGoals.map(goal => goal.name)
+        const activeGoals = configGoals
+            .map(cfgGoal => goalFunctions.find(gf => gf.function_name === cfgGoal.name))
+            .filter(Boolean)
+        const inactiveGoals = goalFunctions.filter(
+            gf => !activeGoalNames.includes(gf.function_name)
+        )
         const activeDurations = Object.fromEntries(
-            configurationData.configuration.goals.map(goal => [goal.name, goal.time])
+            configGoals.map(goal => [goal.name, goal.time])
         )
         const inactiveDurations = Object.fromEntries(
             inactiveGoals.map(goal => [goal.function_name, 0])
         )
-        const allDurations = {...activeDurations, ...inactiveDurations}
-
+        const allDurations = { ...activeDurations, ...inactiveDurations }
         setFunctionDuration(allDurations)
-        setContainers({ACTIVE: activeGoals, INACTIVE: inactiveGoals,})
+        setContainers({ ACTIVE: activeGoals, INACTIVE: inactiveGoals })
     }
+
 
     const findContainer = (id) => {
         if (!id) return null
@@ -75,49 +80,49 @@ const GoalFunctionList = ({configurationData, setConfigurationData, fetchGoalFun
     }
 
     const handleDragEnd = (event) => {
-        const {active, over} = event;
-        setActiveId(null);
-        if (!over) return;
+        const {active, over} = event
+        setActiveId(null)
+        if (!over) return
 
-        const activeContainer = findContainer(active.id);
-        const overContainer = findContainer(over.id) || over.id;
+        const activeContainer = findContainer(active.id)
+        const overContainer = findContainer(over.id) || over.id
 
-        if (!activeContainer || !overContainer) return;
+        if (!activeContainer || !overContainer) return
 
         if (activeContainer === "ACTIVE" && overContainer === "INACTIVE") {
             if (containers.ACTIVE.length <= 1) {
-                return;
+                return
             }
         }
 
         if (activeContainer === overContainer) {
             setContainers((prev) => {
-                const items = [...prev[activeContainer]];
+                const items = [...prev[activeContainer]]
                 console.log(items)
-                const oldIndex = items.findIndex((g) => g.function_name === active.id);
+                const oldIndex = items.findIndex((g) => g.function_name === active.id)
                 console.log(oldIndex)
-                const newIndex = items.findIndex((g) => g.function_name === over.id);
+                const newIndex = items.findIndex((g) => g.function_name === over.id)
                 console.log(newIndex)
                 return {
                     ...prev,
                     [activeContainer]: arrayMove(items, oldIndex, newIndex),
-                };
-            });
+                }
+            })
         } else {
             setContainers((prev) => {
-                const activeItems = [...prev[activeContainer]];
-                const overItems = [...prev[overContainer]];
-                const oldIndex = activeItems.findIndex((g) => g.function_name === active.id);
-                const [movedItem] = activeItems.splice(oldIndex, 1);
-                overItems.push(movedItem);
+                const activeItems = [...prev[activeContainer]]
+                const overItems = [...prev[overContainer]]
+                const oldIndex = activeItems.findIndex((g) => g.function_name === active.id)
+                const [movedItem] = activeItems.splice(oldIndex, 1)
+                overItems.push(movedItem)
                 return {
                     ...prev,
                     [activeContainer]: activeItems,
                     [overContainer]: overItems,
-                };
-            });
+                }
+            })
         }
-    };
+    }
 
     const activeGoal = getActiveGoal()
 
@@ -127,35 +132,35 @@ const GoalFunctionList = ({configurationData, setConfigurationData, fetchGoalFun
 
     useEffect(() => {
         fillContainersFromConfigData()
-    }, [goalFunctions]);
+    }, [goalFunctions])
 
     useEffect(() => {
-        if (!containers || !functionDuration) return;
+        if (!containers || !functionDuration) return
 
         const activeGoals = containers.ACTIVE.map(goal => ({
             name: goal.function_name,
             time: functionDuration[goal.function_name] || 0,
-        }));
+        }))
 
         setConfigurationData(prev => {
-            const prevGoals = prev?.configuration?.goals || [];
+            const prevGoals = prev?.configuration?.goals || []
             const isEqual = prevGoals.length === activeGoals.length &&
-                prevGoals.every((g, i) => g.name === activeGoals[i].name && g.time === activeGoals[i].time);
+                prevGoals.every((g, i) => g.name === activeGoals[i].name && g.time === activeGoals[i].time)
 
-            if (isEqual) return prev;
+            if (isEqual) return prev
             return {
                 ...prev,
                 configuration: {
                     ...prev.configuration,
                     goals: activeGoals,
                 }
-            };
-        });
-    }, [containers, functionDuration, setConfigurationData]);
+            }
+        })
+    }, [containers, functionDuration, setConfigurationData])
 
 
     if (!goalFunctions || !functionDuration || !containers) {
-        return <CircularProgress/>;
+        return <CircularProgress/>
     }
 
     return (

@@ -98,6 +98,16 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(ConfigurationAlreadyCalculatedException.class)
+    public ResponseEntity<ErrorResponse> handleConfigurationAlreadyCalculated(ConfigurationAlreadyCalculatedException ex,ServerWebExchange exchange) {
+        log.error(ex.getMessage(), ex);
+        return createErrorResponse(
+                HttpStatus.CONFLICT,
+                ex.getMessage(),
+                exchange.getRequest().getPath().value()
+        );
+    }
+
     @ExceptionHandler({R2dbcException.class, DataAccessException.class})
     public ResponseEntity<ErrorResponse> handleDatabaseExceptions(Exception ex, ServerWebExchange exchange) {
         log.error(ex.getMessage(), ex);

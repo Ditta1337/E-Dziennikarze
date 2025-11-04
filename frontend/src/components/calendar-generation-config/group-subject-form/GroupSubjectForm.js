@@ -439,6 +439,7 @@ const GroupSubjectForm = ({
                             <Button
                                 variant="contained"
                                 type="submit"
+                                disabled={configurationData?.calculated || false}
                             >
                                 Zatwierdź
                             </Button>
@@ -446,6 +447,7 @@ const GroupSubjectForm = ({
                                 variant="outlined"
                                 onClick={() => resetForm()}
                                 sx={{ml: 2}}
+                                disabled={configurationData?.calculated || false}
                             >
                                 Resetuj
                             </Button>
