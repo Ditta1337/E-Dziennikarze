@@ -212,27 +212,24 @@ class SolutionCallback(CpSolverSolutionCallback):
 
         return "Liczba godzin odleglych od skrajnych lekcji", {f"{i}": val for i, val in enumerate(penalty_array)}
 
-    def goal_early_start2(self):
-        goal_value=[0 for _ in range(self.latest_starting_lesson)]
-        for cimbination in self.unique_groups_combinations:
+    def goal_early_start(self):
+        goal_value=[0 for _ in range(self.latest_starting_lesson+1)]
+        for combination in self.unique_groups_combinations:
             schedule=[sum(self.value(self.last_calculated_solution[subject.id, room.id, day, lesson])
-                                     for group in cimbination
+                                     for group in combination
                                      for subject in group.subjects
                                      for room in subject.room_preference.allowed
                                      for lesson in range(self.latest_starting_lesson)
                                      )
                         for day in range(self.teaching_days)]
             for num_lessons in schedule:
-                partial_penalty = self.latest_starting_lesson - num_lessons
+                partial_penalty = self.latest_starting_lesson - num_lessons 
+                print(partial_penalty, goal_value)
                 goal_value[partial_penalty]+=1
+
         return "Liczba wczesnych brakujacych lekcji", {f"{i}": val for i, val in enumerate(goal_value)}
     
-    def goal_early_start(self):
-        """
-        Liczy brakujące wczesne lekcje dla grup.
-        Zabezpiecza indeksy, aby uniknąć IndexError.
-        """
-        # jeśli latest_starting_lesson jest błędny, zwróć pusty wynik
+    def goal_early_start2(self):
         if not isinstance(self.latest_starting_lesson, int) or self.latest_starting_lesson <= 0:
             return "Liczba wczesnych brakujących lekcji", {}
 
