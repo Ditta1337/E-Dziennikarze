@@ -130,38 +130,45 @@ class SolutionCallback(CpSolverSolutionCallback):
             goal_values.append({"name":goal.function_name, "title":title, "value":val})
         return goal_values
 
-    
     def goal_room_preferences(self):
-        goal_value={"dispreferred":0,"preferred":0,"neutral":0}
+        goal_value = {"dispreferred": 0, "preferred": 0, "neutral": 0}
 
         for (subject_id, room_id, _, _), assigned in self.last_solution.items():
-            if assigned:
-                subject = self.data_parser.get_subject_by_id(subject_id)
-                room = self.data_parser.get_room_by_id(room_id)
-                
-                if room in subject.room_preference.dispreferred:
-                    goal_value["dispreferred"]+=1
+            if not assigned:
+                continue
+            subject = self.data_parser.get_subject_by_id(subject_id)
+            room = self.data_parser.get_room_by_id(room_id)
 
-                elif room in subject.room_preference.preferred:
-                    goal_value["preferred"]+=1
-
-                else:
-                    goal_value["neutral"]+=1
+            if room in subject.room_preference.dispreferred:
+                goal_value["dispreferred"] += 1
+            elif room in subject.room_preference.preferred:
+                goal_value["preferred"] += 1
+            else:
+                goal_value["neutral"] += 1
 
         return "Liczba dopasowanych pokoi", goal_value
 
     def goal_balance_day_length(self):
-        goal_value=[0 for _ in range(self.max_lessons_per_day//2)]
-        for cimbination in self.unique_groups_combinations:
-            schedule=[sum(self.value(self.last_calculated_solution[subject.id, room.id, day, lesson])
-                                     for group in cimbination
-                                     for subject in group.subjects
-                                     for room in subject.room_preference.allowed
-                                     for lesson in range(self.max_lessons_per_day)
-                                     )
-                        for day in range(self.teaching_days)]
+        goal_value = [0 for _ in range(self.max_lessons_per_day // 2)]
 
-            goal_value[(max(schedule)- min (schedule))//2]
+        for combination in self.unique_groups_combinations:
+            schedule = [
+                sum(
+                    self.last_calculated_solution.get((subject.id, room.id, day, lesson), 0)
+                    for group in combination
+                    for subject in group.subjects
+                    for room in subject.room_preference.allowed
+                    for lesson in range(self.max_lessons_per_day)
+                )
+                for day in range(self.teaching_days)
+            ]
+
+            if schedule:
+                diff = max(schedule) - min(schedule)
+                idx = diff // 2
+                if 0 <= idx < len(goal_value):
+                    goal_value[idx] += 1
+
         return "Roznice pomiedzy najdluzszym i najktrotzsym dniem", {f"{2*i}-{2*i+1}": val for i, val in enumerate(goal_value)}
 
     def goal_subject_time_preferences(self):
@@ -214,18 +221,21 @@ class SolutionCallback(CpSolverSolutionCallback):
         return "Liczba godzin odleglych od skrajnych lekcji", {f"{i}": val for i, val in enumerate(penalty_array)}
 
     def goal_early_start(self):
-        goal_value=[0 for _ in range(self.latest_starting_lesson+1)]
+        goal_value = [0 for _ in range(self.latest_starting_lesson + 1)]
         for combination in self.unique_groups_combinations:
-            schedule=[sum(self.value(self.last_calculated_solution[subject.id, room.id, day, lesson])
-                                     for group in combination
-                                     for subject in group.subjects
-                                     for room in subject.room_preference.allowed
-                                     for lesson in range(self.latest_starting_lesson)
-                                     )
-                        for day in range(self.teaching_days)]
+            schedule = [
+                sum(
+                    self.last_calculated_solution.get((subject.id, room.id, day, lesson), 0)
+                    for group in combination
+                    for subject in group.subjects
+                    for room in subject.room_preference.allowed
+                    for lesson in range(self.latest_starting_lesson)
+                )
+                for day in range(self.teaching_days)
+            ]
             for num_lessons in schedule:
-                partial_penalty = self.latest_starting_lesson - num_lessons 
-                print(partial_penalty, goal_value)
-                goal_value[partial_penalty]+=1
+                partial_penalty = self.latest_starting_lesson - num_lessons
+                if 0 <= partial_penalty < len(goal_value):
+                    goal_value[partial_penalty] += 1
 
         return "Liczba wczesnych brakujacych lekcji", {f"{i}": val for i, val in enumerate(goal_value)}
