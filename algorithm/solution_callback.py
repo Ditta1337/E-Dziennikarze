@@ -63,6 +63,7 @@ class SolutionCallback(CpSolverSolutionCallback):
         try:
             #response = requests.post(self.url, json=self.schedule_to_json(), headers=headers, timeout=500000)
             print(self.schedule_to_json())
+            print("here ^")
             #print(sum(value for value in self.last_solution.values()))
             #response.raise_for_status()
             self.solution_index += 1
@@ -228,32 +229,3 @@ class SolutionCallback(CpSolverSolutionCallback):
                 goal_value[partial_penalty]+=1
 
         return "Liczba wczesnych brakujacych lekcji", {f"{i}": val for i, val in enumerate(goal_value)}
-    
-    def goal_early_start2(self):
-        if not isinstance(self.latest_starting_lesson, int) or self.latest_starting_lesson <= 0:
-            return "Liczba wczesnych brakujących lekcji", {}
-
-        goal_value = [0 for _ in range(self.latest_starting_lesson)]
-        sol = self.last_calculated_solution or self.last_solution or {}
-
-        for combination in self.unique_groups_combinations:
-            schedule = [
-                sum(
-                    sol.get((subject.id, room.id, day, lesson), 0)
-                    for group in combination
-                    for subject in group.subjects
-                    for room in subject.room_preference.allowed
-                    for lesson in range(self.latest_starting_lesson)
-                )
-                for day in range(self.teaching_days)
-            ]
-
-            for num_lessons in schedule:
-                partial_penalty = max(0, self.latest_starting_lesson - int(num_lessons))
-                # zabezpieczenie: jeśli partial_penalty >= długość tablicy, przypisz do ostatniego indeksu
-                idx = min(len(goal_value) - 1, partial_penalty)
-                goal_value[idx] += 1
-
-        return "Liczba wczesnych brakujących lekcji", {
-            f"{i}": val for i, val in enumerate(goal_value)
-        }
