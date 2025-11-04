@@ -36,7 +36,8 @@ class Scheduler():
         self._create_vars()
         self.solution_callback = SolutionCallback(
             self.vars, self.goals, self.groups, self.teachers,
-            self.subjects, self.rooms, self.teaching_days, self.max_lessons_per_day,
+            self.subjects, self.rooms,self.unique_groups_combinations, self.teaching_days, self.max_lessons_per_day,
+            self.latest_starting_lesson,
             self.plan_id,
             self.plan_name,
             self.data_parser

@@ -10,8 +10,8 @@ load_dotenv()
 class SolutionCallback(CpSolverSolutionCallback):
     SOLUTION_SEND_INTERVAL = 10
 
-    def __init__(self, schedule, goals, groups, teachers, subjects, rooms,
-                 teaching_days, max_lessons_per_day, plan_id, plan_name, data_parser):
+    def __init__(self, schedule, goals, groups, teachers, subjects, rooms,unique_groups_combinations, 
+                 teaching_days, max_lessons_per_day,latest_starting_lesson,  plan_id, plan_name, data_parser):
         super().__init__()
         self.schedule = schedule
         self.goals = goals
@@ -24,6 +24,8 @@ class SolutionCallback(CpSolverSolutionCallback):
         self.data_parser = data_parser
         self.plan_id = plan_id
         self.plan_name = plan_name
+        self.latest_starting_lesson=latest_starting_lesson
+        self.unique_groups_combinations = unique_groups_combinations
 
         self.url = os.getenv("CALLBACK_URL")
         self.api_key = os.getenv("GRADEBOOK_API_KEY")
@@ -97,7 +99,7 @@ class SolutionCallback(CpSolverSolutionCallback):
         return {
             "name": f"{self.solution_index} - {self.plan_name}",
             "plan_id": self.plan_id,
-            "goals": [{'name': goal.function_name, 'value': goal.value} for goal in self.goals],
+            "goals": self.parse_goals(),
             "groups": list(groups.values()),
             "teachers": list(teachers.values())
         }
@@ -118,3 +120,108 @@ class SolutionCallback(CpSolverSolutionCallback):
                             #timetable[day][lesson] = f"X"
                 for day_idx, lessons in enumerate(timetable):
                     print(f"Dzień {day_idx + 1}: {lessons}")
+    
+    def parse_goals(self):
+        goal_values=[]
+        for goal in self.goals:
+            self.__getattribute__(goal.function_name)
+            goal_values.append({"name":goal.function_name, "value":self.__getattribute__(goal.function_name)})
+        return goal_values
+
+    
+    def goal_room_preferences(self):
+        goal_value={"dispreferred":0,"preferred":0,"no_preference":0}
+
+        for (subject_id, room_id, _, _), assigned in self.last_solution.items():
+            if assigned:
+                subject = self.data_parser.get_subject_by_id(subject_id)
+                room = self.data_parser.get_room_by_id(room_id)
+                
+                if room in subject.room_preference.dispreferred:
+                    goal_value["dispreferred"]+=1
+
+                elif room in subject.room_preference.preferred:
+                    goal_value["preferred"]+=1
+
+                else:
+                    goal_value["no_preference"]+=1
+
+        return goal_value
+
+    def goal_balance_day_length(self):
+        goal_value=[0 for _ in range(self.max_lessons_per_day//2)]
+        for cimbination in self.unique_groups_combinations:
+            schedule=[sum(self.value(self.last_calculated_solution[subject.id, room.id, day, lesson])
+                                     for group in cimbination
+                                     for subject in group.subjects
+                                     for room in subject.room_preference.allowed
+                                     for lesson in self.max_lessons_per_day
+                                     )
+                        for day in self.teaching_days]
+
+            goal_value[(max(schedule)- min (schedule))//2]
+        return goal_value
+
+    def goal_subject_time_preferences(self):
+        goal_value = {}
+
+        for combination in self.unique_groups_combinations:
+            for group in combination:
+                for subject in group.subjects:
+                    total_penalty = 0
+
+                    for day in range(self.teaching_days):
+                        for lesson in range(self.max_lessons_per_day):
+                            assigned = any(
+                                self.last_solution.get((subject.id, room.id, day, lesson), 0)
+                                for room in subject.room_preference.allowed
+                            )
+                            if not assigned:
+                                continue
+
+                            if subject.priority.name == "EARLY":
+                                total_penalty += lesson
+
+                            elif subject.priority.name == "LATE":
+                                lessons_after = 0
+                                for lesson_after in range(lesson + 1, self.max_lessons_per_day):
+                                    if any(
+                                        self.last_solution.get((subject.id, room.id, day, lesson_after), 0)
+                                        for room in subject.room_preference.allowed
+                                    ):
+                                        lessons_after += 1
+                                total_penalty += lessons_after
+
+                            elif subject.priority.name == "EDGE":
+                                early_penalty = lesson
+                                lessons_after = 0
+                                for lesson_after in range(lesson + 1, self.max_lessons_per_day):
+                                    if any(
+                                        self.last_solution.get((subject.id, room.id, day, lesson_after), 0)
+                                        for room in subject.room_preference.allowed
+                                    ):
+                                        lessons_after += 1
+                                late_penalty = lessons_after
+                                total_penalty += min(early_penalty, late_penalty)
+
+                    goal_value[total_penalty] = goal_value.get(total_penalty, 0) + 1
+
+        max_penalty = max(goal_value.keys(), default=0)
+        penalty_array = [goal_value.get(i, 0) for i in range(max_penalty + 1)]
+
+        return penalty_array
+
+    def goal_early_start(self):
+        goal_value=[0 for _ in range(self.latest_starting_lesson)]
+        for cimbination in self.unique_groups_combinations:
+            schedule=[sum(self.value(self.last_calculated_solution[subject.id, room.id, day, lesson])
+                                     for group in cimbination
+                                     for subject in group.subjects
+                                     for room in subject.room_preference.allowed
+                                     for lesson in self.max_lessons_per_day
+                                     )
+                        for day in self.teaching_days]
+            for num_lessons in schedule:
+                parial_penalty = self.latest_starting_lesson - num_lessons
+                goal_value[parial_penalty]+=1
+        return goal_value
