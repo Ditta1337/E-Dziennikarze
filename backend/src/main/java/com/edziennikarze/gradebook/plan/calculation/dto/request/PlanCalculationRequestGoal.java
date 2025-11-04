@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,5 +17,7 @@ public class PlanCalculationRequestGoal {
     @NotNull
     private String name;
 
-    private float value;
+    private String title;
+
+    private Map<String, Integer> value;
 }
