@@ -26,6 +26,28 @@ async def get_and_log_schedule_config(request: Request) -> ScheduleConfig:
     print("------------------------")
     return ScheduleConfig.model_validate_json(body_str)
 
+@app.post("/solve2")
+async def solve_endpoint2(background_tasks: BackgroundTasks, schedule_config: ScheduleConfig ):
+    global solver_status, solver_error
+    solver_status = SolverStatus.CALCULATING
+    solver_error = None
+
+    scheduler = Scheduler(schedule_config)
+
+    def run_solver():
+        global solver_status, solver_error
+        try:
+            scheduler.build()
+            scheduler.solve()
+        except InfeasableModelException as e:
+            solver_error = str(e)
+        finally:
+            solver_status = SolverStatus.IDLE
+
+    background_tasks.add_task(run_solver)
+    return {"message": "Solver started in background"}
+
+
 @app.post("/solve")
 async def solve_endpoint(background_tasks: BackgroundTasks, schedule_config: ScheduleConfig = Depends(get_and_log_schedule_config)):
     global solver_status, solver_error

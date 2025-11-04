@@ -61,10 +61,10 @@ class SolutionCallback(CpSolverSolutionCallback):
         }
 
         try:
-            response = requests.post(self.url, json=self.schedule_to_json(), headers=headers, timeout=500000)
-            #print(self.schedule_to_json())
+            #response = requests.post(self.url, json=self.schedule_to_json(), headers=headers, timeout=500000)
+            print(self.schedule_to_json())
             #print(sum(value for value in self.last_solution.values()))
-            response.raise_for_status()
+            #response.raise_for_status()
             self.solution_index += 1
             self.last_solution = None
         except requests.exceptions.RequestException as e:
@@ -125,7 +125,7 @@ class SolutionCallback(CpSolverSolutionCallback):
         goal_values=[]
         for goal in self.goals:
             self.__getattribute__(goal.function_name)
-            title,val =self.__getattribute__(goal.function_name)
+            title,val =self.__getattribute__(goal.function_name)()
             goal_values.append({"name":goal.function_name, "title":title, "value":val})
         return goal_values
 
@@ -145,9 +145,9 @@ class SolutionCallback(CpSolverSolutionCallback):
                     goal_value["preferred"]+=1
 
                 else:
-                    goal_value["no_preference"]+=1
+                    goal_value["neutral"]+=1
 
-        return goal_value
+        return "Liczba dopasowanych pokoi", goal_value
 
     def goal_balance_day_length(self):
         goal_value=[0 for _ in range(self.max_lessons_per_day//2)]
@@ -156,9 +156,9 @@ class SolutionCallback(CpSolverSolutionCallback):
                                      for group in cimbination
                                      for subject in group.subjects
                                      for room in subject.room_preference.allowed
-                                     for lesson in self.max_lessons_per_day
+                                     for lesson in range(self.max_lessons_per_day)
                                      )
-                        for day in self.teaching_days]
+                        for day in range(self.teaching_days)]
 
             goal_value[(max(schedule)- min (schedule))//2]
         return "Roznice pomiedzy najdluzszym i najktrotzsym dniem", {f"{2*i}-{2*i+1}": val for i, val in enumerate(goal_value)}
@@ -212,17 +212,51 @@ class SolutionCallback(CpSolverSolutionCallback):
 
         return "Liczba godzin odleglych od skrajnych lekcji", {f"{i}": val for i, val in enumerate(penalty_array)}
 
-    def goal_early_start(self):
+    def goal_early_start2(self):
         goal_value=[0 for _ in range(self.latest_starting_lesson)]
         for cimbination in self.unique_groups_combinations:
             schedule=[sum(self.value(self.last_calculated_solution[subject.id, room.id, day, lesson])
                                      for group in cimbination
                                      for subject in group.subjects
                                      for room in subject.room_preference.allowed
-                                     for lesson in self.max_lessons_per_day
+                                     for lesson in range(self.latest_starting_lesson)
                                      )
-                        for day in self.teaching_days]
+                        for day in range(self.teaching_days)]
             for num_lessons in schedule:
-                parial_penalty = self.latest_starting_lesson - num_lessons
-                goal_value[parial_penalty]+=1
+                partial_penalty = self.latest_starting_lesson - num_lessons
+                goal_value[partial_penalty]+=1
         return "Liczba wczesnych brakujacych lekcji", {f"{i}": val for i, val in enumerate(goal_value)}
+    
+    def goal_early_start(self):
+        """
+        Liczy brakujące wczesne lekcje dla grup.
+        Zabezpiecza indeksy, aby uniknąć IndexError.
+        """
+        # jeśli latest_starting_lesson jest błędny, zwróć pusty wynik
+        if not isinstance(self.latest_starting_lesson, int) or self.latest_starting_lesson <= 0:
+            return "Liczba wczesnych brakujących lekcji", {}
+
+        goal_value = [0 for _ in range(self.latest_starting_lesson)]
+        sol = self.last_calculated_solution or self.last_solution or {}
+
+        for combination in self.unique_groups_combinations:
+            schedule = [
+                sum(
+                    sol.get((subject.id, room.id, day, lesson), 0)
+                    for group in combination
+                    for subject in group.subjects
+                    for room in subject.room_preference.allowed
+                    for lesson in range(self.latest_starting_lesson)
+                )
+                for day in range(self.teaching_days)
+            ]
+
+            for num_lessons in schedule:
+                partial_penalty = max(0, self.latest_starting_lesson - int(num_lessons))
+                # zabezpieczenie: jeśli partial_penalty >= długość tablicy, przypisz do ostatniego indeksu
+                idx = min(len(goal_value) - 1, partial_penalty)
+                goal_value[idx] += 1
+
+        return "Liczba wczesnych brakujących lekcji", {
+            f"{i}": val for i, val in enumerate(goal_value)
+        }
