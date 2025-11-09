@@ -32,6 +32,9 @@ public class PlanCalculationResponse {
     private LocalDateTime calculatedAt;
 
     @NotNull
+    private List<PlanCalculationRequestGoal> goals;
+
+    @NotNull
     private List<PlannedLesson> calculation;
 
     public static PlanCalculationResponse from(PlanCalculation planCalculation, ObjectMapper objectMapper) {

@@ -19,7 +19,8 @@ public interface PlanCalculationRepository extends ReactiveCrudRepository<PlanCa
             SELECT
                 pc.id as id,
                 pc.name as plan_name,
-                pc.created_at as created_at
+                pc.created_at as created_at,
+                pc.goals as goals
             FROM plan_calculations pc
             WHERE pc.plan_id = :planId
             """)

@@ -5,6 +5,7 @@ import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubject;
 import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
 import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculation;
 import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculationsSummary;
+import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculationsSummaryResponse;
 import com.edziennikarze.gradebook.plan.calculation.dto.request.*;
 import com.edziennikarze.gradebook.plan.configuration.PlanConfigurationRepository;
 import com.edziennikarze.gradebook.property.PropertyService;
@@ -57,8 +58,9 @@ public class PlanCalculationService {
                 .map(planCalculation -> PlanCalculationResponse.from(planCalculation, objectMapper));
     }
 
-    public Flux<PlanCalculationsSummary> getPlanCalculationsSummary(UUID planId) {
-        return planCalculationRepository.findAllSummaryByPlanId(planId);
+    public Flux<PlanCalculationsSummaryResponse> getPlanCalculationsSummary(UUID planId) {
+        return planCalculationRepository.findAllSummaryByPlanId(planId)
+                .map(summary -> PlanCalculationsSummaryResponse.from(summary, objectMapper));
     }
 
     private Mono<PlanCalculationResponse> mapToPlanCalculation(PlanCalculationRequest request) {
@@ -72,6 +74,8 @@ public class PlanCalculationService {
                                     planCalculation.setName(req.getName());
                                     planCalculation.setPlanId(req.getPlanId());
                                     planCalculation.setCalculation(plannedLessons, objectMapper);
+                                    planCalculation.setGoals(req.getGoals(), objectMapper);
+
 
                                     return planCalculationRepository.save(planCalculation);
                                 })

@@ -62,8 +62,8 @@ class SolutionCallback(CpSolverSolutionCallback):
 
         try:
             response = requests.post(self.url, json=self.schedule_to_json(), headers=headers, timeout=500000)
-            print(self.schedule_to_json())
-            print("here ^")
+            #print(self.schedule_to_json())
+            #print("here ^")
             #print(sum(value for value in self.last_solution.values()))
             response.raise_for_status()
             self.solution_index += 1
@@ -131,7 +131,7 @@ class SolutionCallback(CpSolverSolutionCallback):
         return goal_values
 
     def goal_room_preferences(self):
-        goal_value = {"dispreferred": 0, "preferred": 0, "neutral": 0}
+        goal_value = {"Nie wskazane": 0, "Preferowane": 0, "Dozwolone": 0}
 
         for (subject_id, room_id, _, _), assigned in self.last_solution.items():
             if not assigned:
@@ -140,11 +140,11 @@ class SolutionCallback(CpSolverSolutionCallback):
             room = self.data_parser.get_room_by_id(room_id)
 
             if room in subject.room_preference.dispreferred:
-                goal_value["dispreferred"] += 1
+                goal_value["Nie wskazane"] += 1
             elif room in subject.room_preference.preferred:
-                goal_value["preferred"] += 1
+                goal_value["Preferowane"] += 1
             else:
-                goal_value["neutral"] += 1
+                goal_value["Dozwolone"] += 1
 
         return "Liczba dopasowanych pokoi", goal_value
 
@@ -185,11 +185,18 @@ class SolutionCallback(CpSolverSolutionCallback):
                                 self.last_solution.get((subject.id, room.id, day, lesson), 0)
                                 for room in subject.room_preference.allowed
                             )
-                            if not assigned:
+                            if not assigned or subject.priority.name == "ANY":
                                 continue
 
                             if subject.priority.name == "EARLY":
-                                total_penalty += lesson
+                                lessons_before= 0
+                                for lesson_before in range(lesson):
+                                    if any(
+                                        self.last_solution.get((subject.id, room.id, day, lesson_before), 0)
+                                        for room in subject.room_preference.allowed
+                                    ):
+                                        lessons_before+= 1
+                                total_penalty += lessons_before
 
                             elif subject.priority.name == "LATE":
                                 lessons_after = 0
@@ -202,23 +209,29 @@ class SolutionCallback(CpSolverSolutionCallback):
                                 total_penalty += lessons_after
 
                             elif subject.priority.name == "EDGE":
-                                early_penalty = lesson
                                 lessons_after = 0
+                                lessons_before= 0
+                                for lesson_before in range(lesson):
+                                    if any(
+                                        self.last_solution.get((subject.id, room.id, day, lesson_before), 0)
+                                        for room in subject.room_preference.allowed
+                                    ):
+                                        lessons_before+= 1
+                                total_penalty += lessons_before
+
                                 for lesson_after in range(lesson + 1, self.max_lessons_per_day):
                                     if any(
                                         self.last_solution.get((subject.id, room.id, day, lesson_after), 0)
                                         for room in subject.room_preference.allowed
                                     ):
                                         lessons_after += 1
-                                late_penalty = lessons_after
-                                total_penalty += min(early_penalty, late_penalty)
+ 
+                                total_penalty += min(lessons_after, lessons_before)
+
 
                     goal_value[total_penalty] = goal_value.get(total_penalty, 0) + 1
 
-        max_penalty = max(goal_value.keys(), default=0)
-        penalty_array = [goal_value.get(i, 0) for i in range(max_penalty + 1)]
-
-        return "Liczba godzin odleglych od skrajnych lekcji", {f"{i}": val for i, val in enumerate(penalty_array)}
+        return "Liczba godzin odleglych od skrajnych lekcji", goal_value
 
     def goal_early_start(self):
         goal_value = [0 for _ in range(self.latest_starting_lesson + 1)]
@@ -234,8 +247,9 @@ class SolutionCallback(CpSolverSolutionCallback):
                 for day in range(self.teaching_days)
             ]
             for num_lessons in schedule:
-                partial_penalty = self.latest_starting_lesson - num_lessons
-                if 0 <= partial_penalty < len(goal_value):
-                    goal_value[partial_penalty] += 1
+                for i in range(num_lessons):
+                    partial_penalty = self.latest_starting_lesson - i
+                    if 0 <= partial_penalty < len(goal_value):
+                        goal_value[partial_penalty] += 1
 
-        return "Liczba wczesnych brakujacych lekcji", {f"{i}": val for i, val in enumerate(goal_value)}
+        return "Liczba wczesnych brakujacych lekcji", {f"{self.latest_starting_lesson-i}": val for i, val in enumerate(goal_value[1:])}

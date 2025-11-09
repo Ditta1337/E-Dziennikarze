@@ -3,6 +3,7 @@ package com.edziennikarze.gradebook.plan.calculation.dto;
 import com.edziennikarze.gradebook.exception.MarshallException;
 import com.edziennikarze.gradebook.exception.UnmarshallException;
 import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
+import com.edziennikarze.gradebook.plan.calculation.dto.request.PlanCalculationRequestGoal;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,10 +35,29 @@ public class PlanCalculation {
     @NotNull
     private String name;
 
+    @NotNull
+    private String goals;
+
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private String calculation;
+
+    public void setGoals(List<PlanCalculationRequestGoal> goals, ObjectMapper objectMapper) {
+        try {
+            this.goals = objectMapper.writeValueAsString(goals);
+        } catch (JsonProcessingException e) {
+            throw new MarshallException("Failed to convert goals to JSON string");
+        }
+    }
+
+    public List<PlanCalculationRequestGoal> getGoals(ObjectMapper objectMapper) {
+        try {
+            return objectMapper.readValue(goals, new TypeReference<List<PlanCalculationRequestGoal>>() {});
+        } catch (JsonProcessingException e) {
+            throw new UnmarshallException("Failed to convert JSON string to goals list");
+        }
+    }
 
     public void setCalculation(List<PlannedLesson> plannedLessons, ObjectMapper objectMapper) {
         try {

@@ -21,9 +21,9 @@ async def get_and_log_schedule_config(request: Request) -> ScheduleConfig:
     body_bytes = await request.body()
     body_str = body_bytes.decode()
 
-    print("--- RAW REQUEST BODY ---")
-    print(body_str)
-    print("------------------------")
+    #print("--- RAW REQUEST BODY ---")
+    #print(body_str)
+    #print("------------------------")
     return ScheduleConfig.model_validate_json(body_str)
 
 @app.post("/solve2")

@@ -1,6 +1,6 @@
 package com.edziennikarze.gradebook.plan.calculation;
 
-import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculationsSummary;
+import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculationsSummaryResponse;
 import com.edziennikarze.gradebook.plan.calculation.dto.request.PlanCalculationRequest;
 import com.edziennikarze.gradebook.plan.calculation.dto.request.PlanCalculationResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class PlanCalculationController {
     }
 
     @GetMapping("/summary/{planId}")
-    public Flux<PlanCalculationsSummary> getPlanCalculationsSummary(@PathVariable UUID planId) {
+    public Flux<PlanCalculationsSummaryResponse> getPlanCalculationsSummary(@PathVariable UUID planId) {
         return planCalculationService.getPlanCalculationsSummary(planId);
     }
 }
