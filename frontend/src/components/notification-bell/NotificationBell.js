@@ -16,8 +16,9 @@ import {
 } from '@mui/material';
 import './NotificationBell.scss';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import {get, patch, websocketClient} from '../../api';
+import {get, patch} from '../../api';
 import {useStore} from "../../store";
+import useWebSocket from "../../websocket/useWebSocket";
 
 const NotificationBell = () => {
     const userId = useStore((state) => state.user.userId);
@@ -28,6 +29,8 @@ const NotificationBell = () => {
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
+    const { on, off } = useWebSocket('/ws/notification');
+
     useEffect(() => {
         fetchUnreadNotifications();
 
@@ -35,29 +38,27 @@ const NotificationBell = () => {
             setNotifications(prev => [message, ...prev]);
         };
 
-        const handleConnect = () => console.log("WebSocket connected.");
-        const handleDisconnect = () => console.log("WebSocket disconnected.");
+        const handleConnect = () => console.log("Notification WebSocket connected.");
+        const handleDisconnect = () => console.log("Notification WebSocket disconnected.");
         const handleError = (error) => {
-            console.error("WebSocket error:", error);
+            console.error("Notification WebSocket error:", error);
             setSnackbarMessage("Błąd połączenia z serwerem powiadomień");
             setSnackbarSeverity("error");
             setSnackbarOpen(true);
         }
 
-        websocketClient.connect('/ws/notification');
-        websocketClient.on('message', handleNewNotification);
-        websocketClient.on('open', handleConnect);
-        websocketClient.on('close', handleDisconnect);
-        websocketClient.on('error', handleError);
+        on('message', handleNewNotification);
+        on('open', handleConnect);
+        on('close', handleDisconnect);
+        on('error', handleError);
 
         return () => {
-            websocketClient.off('message', handleNewNotification);
-            websocketClient.off('open', handleConnect);
-            websocketClient.off('close', handleDisconnect);
-            websocketClient.off('error', handleError);
-            websocketClient.disconnect();
+            off('message', handleNewNotification);
+            off('open', handleConnect);
+            off('close', handleDisconnect);
+            off('error', handleError);
         };
-    }, []);
+    }, [on, off]);
 
     const fetchUnreadNotifications = async () => {
         try {

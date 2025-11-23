@@ -73,8 +73,8 @@ public class SecurityConfig {
                         .pathMatchers("/auth/**").permitAll()
 
                         // User endpoints
-                        .pathMatchers(HttpMethod.GET, "/user/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
-                        .pathMatchers(HttpMethod.GET, "/user/all/active/{role}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.GET, "/user/all").authenticated()
+                        .pathMatchers(HttpMethod.GET, "/user/all/active/{role}").authenticated()
                         .pathMatchers(HttpMethod.GET, "/user/{userId}").authenticated()
                         .pathMatchers(HttpMethod.POST, "/user").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())
                         .pathMatchers(HttpMethod.PUT, "/user").authenticated()
@@ -175,6 +175,7 @@ public class SecurityConfig {
                         // WebSocket endpoints
                         .pathMatchers("/ws/echo").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name(), PRINCIPAL.name())
                         .pathMatchers("/ws/notification").authenticated()
+                        .pathMatchers("/ws/chat").authenticated()
 
                         // Plan endpoints
                         .pathMatchers(HttpMethod.POST, "/plan/enqueue").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
@@ -194,6 +195,11 @@ public class SecurityConfig {
 
                         // Solver endpoint
                         .pathMatchers(HttpMethod.GET, "/solver/goal/functions").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+
+                        // Message endpoints
+                        .pathMatchers(HttpMethod.GET, "/message/history/{senderId}/{receiverId}").authenticated()
+                        .pathMatchers(HttpMethod.GET, "/message/file/{fileId:.+}").authenticated()
+                        .pathMatchers(HttpMethod.POST, "/message/file").authenticated()
 
                         .anyExchange().denyAll()
                 )

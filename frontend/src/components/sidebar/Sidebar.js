@@ -19,11 +19,11 @@ import {
     AddUser,
     ListUsers,
     TeacherUnavailabilites,
-    WebsocketTest,
     Grades, CalendarConfigurationList,
     CreateGroup,
     ManageRooms,
-    EditGroups
+    EditGroups,
+    Chat
 } from "./paths";
 import './Sidebar.scss';
 import {
@@ -44,17 +44,17 @@ const Sidebar = ({open, toggle}) => {
     const getRoutesByRole = (role) => {
         switch (role) {
             case AdminRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, WebsocketTest, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList];
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, Chat];
             case TeacherRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, TeacherUnavailabilites, WebsocketTest];
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, TeacherUnavailabilites, Chat];
             case StudentRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, Grades];
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, Grades, Chat];
             case GuardianRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, Grades];
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, Grades, Chat];
             case OfficeWorkerRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList];
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, Chat];
             case PrincipalRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, WebsocketTest, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList];
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, Chat];
         }
     }
 

@@ -13,9 +13,9 @@ import EditGroups from "./views/edit-groups/EditGroups";
 import CreateRoom from "./views/manage-rooms/ManageRooms";
 import CalendarRouter from "./role-based-routers/CalendarRouter";
 import UnavailableCalendarRouter from "./role-based-routers/UnavailableCalendarRouter";
-import WebsocketTest from "./views/websocket-test/WebsocketTest";
 import CalendarGenerationConfig from "./views/office-worker/calendar-generation-config/CalendarGenerationConfig";
 import GradeRouter from "./role-based-routers/GradeRouter";
+import Chat from "./views/chat/Chat";
 import CalendarGenerationConfigList
     from "./views/office-worker/calendar-generation-config-list/CalendarGenerationConfigList";
 import { AdminRole, TeacherRole, StudentRole, GuardianRole, OfficeWorkerRole, PrincipalRole } from './views/admin/roles.js';
@@ -32,7 +32,7 @@ function App() {
                     <Route path="/profile" element={<Card><Profile /></Card>} />
                     <Route path="/gradebook" element={<Card><Gradebook /></Card>} />
                     <Route path="/calendar" element={<Card><CalendarRouter /></Card>} />
-                    <Route path="/websocket-test" element={<Card><WebsocketTest /></Card>} />
+                    <Route path="/chat" element={<Card><Chat /></Card>} />
                 </Route>
 
                 <Route element={<ProtectedRoute allowedRoles={[AdminRole]} />}>
@@ -56,7 +56,6 @@ function App() {
                     <Route path="/calendar/generation/config" element={<Card><CalendarGenerationConfig /></Card>} />
                     <Route path="/calendar/generation/config/list" element={<Card><CalendarGenerationConfigList /></Card>} />
                     <Route path="/calendar/generation/config/:id" element={<Card><CalendarGenerationConfig /></Card>} />
-                    <Route path="/websocket-test" element={<Card><WebsocketTest /></Card>} />
                     <Route path="/calendar/generated/list/:planId" element={<Card><GeneratedPlansList /></Card>} />
                     <Route path="/calendar/generated/plan/:id" element={<Card><GeneratedPlanCalendar /></Card>} />
                 </Route>
