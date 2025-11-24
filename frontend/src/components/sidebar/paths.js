@@ -11,6 +11,7 @@ import CalculateIcon from '@mui/icons-material/Calculate';
 import GroupsIcon from '@mui/icons-material/Groups';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import SettingsIcon from '@mui/icons-material/Settings';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 export const ProfilePath = {text: "Profil", icon: <AccountCircleIcon/>, path: "/profile"}
@@ -26,4 +27,5 @@ export const ManualCalendarList = {text: "Tworzenie planów", icon: <EditCalenda
 export const CreateGroup = {text: "Utwórz grupę", icon: <GroupsIcon/>, path: "/create/group"}
 export const EditGroups = {text: "Edytuj grupy", icon: <GroupAddIcon/>, path: "/edit/group"}
 export const ManageRooms = {text: "Zarządzaj salami", icon: <MeetingRoomIcon/>, path: "/manage/rooms"}
+export const PropertyEditor = {text: "Właściwości dziennika", icon: <SettingsIcon />, path: "/property/editor/"}
 export const Chat = {text: "Chat", icon: <MessageIcon/>, path: "/chat"}

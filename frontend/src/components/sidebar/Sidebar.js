@@ -23,6 +23,7 @@ import {
     CreateGroup,
     ManageRooms,
     EditGroups,
+    PropertyEditor,
     ManualCalendarList,
     Chat
 } from "./paths";
@@ -45,7 +46,7 @@ const Sidebar = ({open, toggle}) => {
     const getRoutesByRole = (role) => {
         switch (role) {
             case AdminRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat];
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
             case TeacherRole:
                 return [HomePath, CalendarPath, GradebookPath, ProfilePath, TeacherUnavailabilites, Chat];
             case StudentRole:
@@ -53,9 +54,9 @@ const Sidebar = ({open, toggle}) => {
             case GuardianRole:
                 return [HomePath, CalendarPath, GradebookPath, ProfilePath, Grades, Chat];
             case OfficeWorkerRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat];
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
             case PrincipalRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat];
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
         }
     }
 

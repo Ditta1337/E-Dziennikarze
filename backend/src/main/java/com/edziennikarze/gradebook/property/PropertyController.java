@@ -24,7 +24,7 @@ public class PropertyController {
     }
 
     @PutMapping
-    public Mono<Property> updateProperty(Mono<Property> propertyMono) {
+    public Mono<Property> updateProperty(@RequestBody Mono<Property> propertyMono) {
         return propertyService.updateProperty(propertyMono);
     }
 }
