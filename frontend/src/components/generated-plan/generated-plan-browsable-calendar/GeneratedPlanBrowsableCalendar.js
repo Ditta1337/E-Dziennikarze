@@ -7,6 +7,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "./GeneratedPlanBrowsableCalendar.scss"
 import makeDateTimeFromWeekday from "../../../util/calendar/makeDateTimeFromWeekday";
 import GeneratedPlanCalendarEvent from "../generated-plan-calendar-event/GeneratedPlanCalendarEvent";
+import fetchPropertyByName from "../../../util/property/fetchPropertyByName";
 
 const DnDCalendar = withDragAndDrop(Calendar)
 
@@ -45,39 +46,50 @@ const enrichGeneratedPlan = (generatedPlan, groups, teachers, subjects, rooms) =
 
 const defaultMinMaxHours = [new Date(1970, 0, 5, 6, 0), new Date(1970, 0, 5, 15, 0)]
 
-const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay, teacherToDisplay, fetchGroups, fetchTeachers, fetchSubjets, fetchRooms}) => {
-    const [generatedPlanData, setGeneratedPlanData] = useState()
+const GeneratedPlanBrowsableCalendar = ({generatedPlanData, groupsToDisplay, teacherToDisplay, fetchGroups, fetchTeachers, fetchSubjets, fetchRooms, displaySnackbarMessage}) => {
     const [events, setEvents] = useState([])
+    const [enrichedPlanData, setEnrichedPlanData] = useState([])
+    const [minMaxHours, setMinMaxHours] = useState(defaultMinMaxHours)
 
     const updateGeneratedPlan = async () => {
+        if(!generatedPlanData) return
         try {
-            const generatedPlanResult = await fetchGeneratedPlan(id)
             const groupsResult = await fetchGroups()
             const teachersResult = await fetchTeachers()
             const subjectsResult = await fetchSubjets()
             const roomsResult = await fetchRooms()
 
-            console.log("Subjects:", subjectsResult.data)
-
             const enrichedPlan = enrichGeneratedPlan(
-                generatedPlanResult.data,
+                generatedPlanData,
                 groupsResult.data,
                 teachersResult.data,
                 subjectsResult.data,
                 roomsResult.data
             )
 
-            setGeneratedPlanData(enrichedPlan)
+            setEnrichedPlanData(enrichedPlan)
         } catch (e) {
-            console.log(e)
+            displaySnackbarMessage("Wystąpił problem podczas pobierania wygenerowanego planu!")
+        }
+    }
+
+    const updateMinMaxHours = async () => {
+        try{
+            const startHoursResult = await fetchPropertyByName("schoolDayStartTime")
+            const endHoursResult = await fetchPropertyByName("schoolDayEndTime")
+            const startHours = makeDateTimeFromWeekday("MONDAY", startHoursResult.data.value)
+            const endHours = makeDateTimeFromWeekday("MONDAY", endHoursResult.data.value)
+            setMinMaxHours([startHours, endHours])
+        } catch(e) {
+            displaySnackbarMessage("Wystąpił błąd podczas pobierania danych o rozpoczęciu i zakończeniu dnia.")
         }
     }
 
 
     const createEventsForGroups = () => {
-        if (!generatedPlanData?.calculation || groupsToDisplay.size === 0) return []
+        if (!enrichedPlanData?.calculation || groupsToDisplay.size === 0) return []
 
-        const filteredLessons = generatedPlanData.calculation.filter(lesson =>
+        const filteredLessons = enrichedPlanData.calculation.filter(lesson =>
             groupsToDisplay.includes(lesson.group_id)
         )
 
@@ -95,9 +107,9 @@ const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay
     }
 
     const createEventsForTeacher = () => {
-        if (!generatedPlanData?.calculation || teacherToDisplay === null) return []
+        if (!enrichedPlanData?.calculation || teacherToDisplay === null) return []
 
-        const filteredLessons = generatedPlanData.calculation.filter(lesson =>
+        const filteredLessons = enrichedPlanData.calculation.filter(lesson =>
             lesson.teacher_id === teacherToDisplay
         )
 
@@ -116,23 +128,23 @@ const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay
 
     useEffect(() => {
         updateGeneratedPlan()
-    }, []);
+    }, [generatedPlanData]);
 
     useEffect(() => {
         createEventsForGroups()
-    }, [generatedPlanData, groupsToDisplay]);
+    }, [enrichedPlanData, groupsToDisplay]);
 
     useEffect(() => {
         createEventsForTeacher()
-    }, [generatedPlanData, teacherToDisplay]);
+    }, [enrichedPlanData, teacherToDisplay]);
 
     useEffect(() => {
         console.log(events)
     }, [events]);
 
     useEffect(() => {
-        console.log(generatedPlanData)
-    }, [generatedPlanData]);
+        updateMinMaxHours()
+    }, [])
 
     return <Box className="generated-plan-browsable-calendar">
         <DnDCalendar
@@ -140,8 +152,8 @@ const GeneratedPlanBrowsableCalendar = ({id, fetchGeneratedPlan, groupsToDisplay
             defaultView={Views.WORK_WEEK}
             views={{work_week: true}}
             date={defaultMinMaxHours[0]}
-            min={defaultMinMaxHours[0]}
-            max={defaultMinMaxHours[1]}
+            min={minMaxHours[0]}
+            max={minMaxHours[1]}
             events={events}
             components={{
                 event: GeneratedPlanCalendarEvent,

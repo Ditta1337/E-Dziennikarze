@@ -1,0 +1,24 @@
+.lesson-constructor{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+
+  .dynamic-group-teacher-chooser{
+    width: 300px;
+  }
+
+  .rooom-chooser{
+    width: 300px;
+  }
+
+  .constructed-event{
+    height: 80px;
+    width: 160px;
+    border-style: solid;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

@@ -1,0 +1,44 @@
+.manual-calendar-editor {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .title{
+    padding: 20px;
+    font-size: x-large;
+    font-weight: bold;
+  }
+
+  .chooser-actions-container {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    .go-to-generation-action{
+      position: absolute;
+      left: 40px;
+    }
+
+    .save-generate-error-actions {
+      position: absolute;
+      right: 40px;
+      display: flex;
+      gap: 12px;
+    }
+
+  }
+
+  .calendar-container {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+}
+
+

@@ -1,12 +1,31 @@
-.generated-plan-calendar{
+.generated-plan-calendar {
   width: 100%;
-  .chooser{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .title{
+    padding: 20px;
+    font-size: x-large;
+    font-weight: bold;
+  }
+
+  .chooser {
+    width: 100%;
     padding: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    position: relative;
+
+    .button-popover-wrapper {
+      position: absolute;
+      right: 40px;
+    }
   }
-  .browsable-calendar{
+
+  .browsable-calendar {
     background-color: white;
     height: 90vh;
     width: 100%;

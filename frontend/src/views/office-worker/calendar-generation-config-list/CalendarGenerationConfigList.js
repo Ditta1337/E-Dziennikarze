@@ -2,11 +2,12 @@ import {useEffect, useState} from "react";
 import {get, post} from "../../../api"
 import CalendarGenerationConfigDataGrid
     from "../../../components/calendar-generation-config-data-grid/CalendarGenerationConfigDataGrid";
-import {Box, Button, Popover, TextField} from "@mui/material";
+import {Box} from "@mui/material";
 import "./CalendarGenerationConfigList.scss"
 import {format} from "date-fns";
 import {AppLocale} from "../../../config/localization";
 import {useNavigate} from "react-router";
+import ButtonTextInputPopover from "../../../components/button-text-input-popover/ButtonTextInputPopover";
 
 const formatConfigSummary = (configSummary) => {
     return configSummary.map(item => ({
@@ -30,8 +31,6 @@ const postConfigurationCreation = async (name) => {
 const CalendarGenerationConfigList = () => {
     const navigate = useNavigate();
     const [calendarGenerationConfigSummary, setCalendarGenerationConfigSummary] = useState(null)
-    const [newConfigurationName, setNewConfigurationName] = useState(null)
-    const [anchorEl, setAnchorEl] = useState(null)
 
     const fetchCalendarGenerationConfigSummary = async () => {
         try {
@@ -42,15 +41,7 @@ const CalendarGenerationConfigList = () => {
         }
     }
 
-    const handleOpenCreation = (event) => {
-        setAnchorEl(event.currentTarget)
-    }
-
-    const handleCloseCreation = () => {
-        setAnchorEl(null)
-    }
-
-    const handleConfigurationCreation = async () => {
+    const handleConfigurationCreation = async (newConfigurationName) => {
         if (newConfigurationName === null) return //TODO add handling for no name given (snackbar or some shit)
         try {
             const result = await postConfigurationCreation(newConfigurationName)
@@ -65,62 +56,20 @@ const CalendarGenerationConfigList = () => {
         fetchCalendarGenerationConfigSummary()
     }, []);
 
-    const createConfigurationPopoverOpen = Boolean(anchorEl)
-    const id = createConfigurationPopoverOpen ? "function-info-popover" : undefined
-
     return <Box className="config-list-container">
         <Box className="config-creation-container">
-            <Button variant="contained" size="medium" onClick={handleOpenCreation}>
-                + Dodaj Konfigurację
-            </Button>
+            <ButtonTextInputPopover
+                popoverOpenButtonText="Dodaj Konfigurację"
+                popoverInnerButtonText="Dodaj"
+                popoverTextFieldLabel="Nazwa Konfiguracji"
+                handlePopoverButtonClick={handleConfigurationCreation}
+            />
         </Box>
 
         <Box className="config-summary-container">
             {calendarGenerationConfigSummary == null ? <p>Ładowanie</p> :
                 <CalendarGenerationConfigDataGrid rows={calendarGenerationConfigSummary}/>}
         </Box>
-
-        <Popover
-            id={id}
-            open={createConfigurationPopoverOpen}
-            anchorEl={anchorEl}
-            onClose={handleCloseCreation}
-            anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "center",
-            }}
-            transformOrigin={{
-                vertical: "top",
-                horizontal: "center",
-            }}
-            PaperProps={{
-                style: {
-                    padding: "0.75rem",
-                    maxWidth: 250,
-                    backgroundColor: "#f9fafc",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center"
-
-                },
-            }}
-        >
-            <TextField
-                className="configuration-name-input"
-                label="Nazwa Konfiguracji"
-                variant="outlined"
-                value={newConfigurationName}
-                onChange={(e) => {
-                    setNewConfigurationName(e.target.value)
-                    console.log(e.target.value)
-                }}
-            />
-            <Button className="configuration-name-button" variant="contained" size="small"
-                    onClick={handleConfigurationCreation}>
-                Dodaj
-            </Button>
-        </Popover>
-
     </Box>
 }
 

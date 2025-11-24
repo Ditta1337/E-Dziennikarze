@@ -17,7 +17,7 @@ const columns = [
     },
     {
         field: 'person',
-        headerName: 'Twórca',
+        headerName: 'Autor',
         width: 300
     },
     {

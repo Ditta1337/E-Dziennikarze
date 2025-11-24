@@ -1,10 +1,11 @@
 import GoalFunctionList from "../../../components/calendar-generation-config/goal-function-list/GoalFunctionList"
-import {Alert, Box, Button, Popover, Snackbar, TextField, Typography} from "@mui/material"
+import {Alert, Box, Button, Snackbar, Typography} from "@mui/material"
 import "./CalendarGenerationConfig.scss"
 import React, {useEffect, useState} from "react"
 import {get, put, post} from "../../../api"
 import GroupSubjectForm from "../../../components/calendar-generation-config/group-subject-form/GroupSubjectForm"
 import {useNavigate, useParams} from "react-router"
+import ButtonTextInputPopover from "../../../components/button-text-input-popover/ButtonTextInputPopover";
 
 const fetchGoalFunctions = async () => {
     return get("solver/goal/functions")
@@ -37,7 +38,6 @@ const CalendarGenerationConfig = () => {
     const navigate = useNavigate()
     const {id} = useParams()
     const [configurationData, setConfigurationData] = useState(null)
-    const [newConfigurationName, setNewConfigurationName] = useState(null)
     const [anchorEl, setAnchorEl] = useState(null)
 
     const [snackbarOpen, setSnackbarOpen] = useState(false)
@@ -62,7 +62,7 @@ const CalendarGenerationConfig = () => {
         setAnchorEl(null)
     }
 
-    const handleConfigurationCopy = async () => {
+    const handleConfigurationCopy = async (newConfigurationName) => {
         if (newConfigurationName === null) {
             displaySnackbarMessage("Wpisz nazwę konfiguracji!")
             return
@@ -131,13 +131,17 @@ const CalendarGenerationConfig = () => {
     }, [configurationData]);
 
     const copyConfigurationPopoverOpen = Boolean(anchorEl)
-    const popoverId = copyConfigurationPopoverOpen ? "function-info-popover" : undefined
 
     return <>
         <Box className="calendar-generation-config">
             <Typography className="title">{configurationData ? configurationData.name : "Ładowanie..."}</Typography>
             <Box className="copy-button-title-container">
-                <Button className="copy" variant="contained" onClick={handleOpenCopy}>Kopiuj konfigurację</Button>
+                <ButtonTextInputPopover
+                    popoverOpenButtonText="Kopiuj konfigurację"
+                    popoverInnerButtonText="Kopiuj"
+                    popoverTextFieldLabel="Nazwa Konfiguracji"
+                    handlePopoverButtonClick={handleConfigurationCopy}
+                />
             </Box>
             <Box className="config-input">
                 <Box className="groups-subjects">
@@ -164,46 +168,6 @@ const CalendarGenerationConfig = () => {
                     Generuj
                 </Button>
             </Box>
-
-            <Popover
-                id={popoverId}
-                open={copyConfigurationPopoverOpen}
-                anchorEl={anchorEl}
-                onClose={handleCloseCopy}
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                }}
-                transformOrigin={{
-                    vertical: "top",
-                    horizontal: "center",
-                }}
-                PaperProps={{
-                    style: {
-                        padding: "0.75rem",
-                        maxWidth: 250,
-                        backgroundColor: "#f9fafc",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center"
-
-                    },
-                }}
-            >
-                <TextField
-                    className="configuration-name-input"
-                    label="Nazwa Konfiguracji"
-                    variant="outlined"
-                    value={newConfigurationName}
-                    onChange={(e) => {
-                        setNewConfigurationName(e.target.value)
-                    }}
-                />
-                <Button className="configuration-name-button" variant="contained" size="small"
-                        onClick={handleConfigurationCopy}>
-                    Kopiuj
-                </Button>
-            </Popover>
 
             <Snackbar
                 open={snackbarOpen}

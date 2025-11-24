@@ -8,7 +8,7 @@ import com.edziennikarze.gradebook.config.TestSecurityConfig;
 import com.edziennikarze.gradebook.group.Group;
 import com.edziennikarze.gradebook.group.GroupRepository;
 import com.edziennikarze.gradebook.lesson.assigned.util.AssignedLessonTestDatabaseCleaner;
-import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
+import com.edziennikarze.gradebook.lesson.planned.dto.PlannedLesson;
 import com.edziennikarze.gradebook.lesson.planned.PlannedLessonRepository;
 import com.edziennikarze.gradebook.room.Room;
 import com.edziennikarze.gradebook.room.RoomRepository;

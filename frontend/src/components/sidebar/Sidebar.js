@@ -23,6 +23,7 @@ import {
     CreateGroup,
     ManageRooms,
     EditGroups,
+    ManualCalendarList,
     Chat
 } from "./paths";
 import './Sidebar.scss';
@@ -44,7 +45,7 @@ const Sidebar = ({open, toggle}) => {
     const getRoutesByRole = (role) => {
         switch (role) {
             case AdminRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, Chat];
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat];
             case TeacherRole:
                 return [HomePath, CalendarPath, GradebookPath, ProfilePath, TeacherUnavailabilites, Chat];
             case StudentRole:
@@ -52,9 +53,9 @@ const Sidebar = ({open, toggle}) => {
             case GuardianRole:
                 return [HomePath, CalendarPath, GradebookPath, ProfilePath, Grades, Chat];
             case OfficeWorkerRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, Chat];
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat];
             case PrincipalRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, Chat];
+                return [HomePath, CalendarPath, GradebookPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat];
         }
     }
 

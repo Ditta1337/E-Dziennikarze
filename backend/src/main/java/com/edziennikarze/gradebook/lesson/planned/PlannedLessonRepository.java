@@ -3,6 +3,7 @@ package com.edziennikarze.gradebook.lesson.planned;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import com.edziennikarze.gradebook.lesson.planned.dto.PlannedLesson;
 import jakarta.validation.constraints.NotNull;
 
 import com.edziennikarze.gradebook.lesson.Lesson;

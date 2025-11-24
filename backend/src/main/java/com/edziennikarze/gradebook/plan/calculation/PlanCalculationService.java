@@ -2,7 +2,7 @@ package com.edziennikarze.gradebook.plan.calculation;
 
 import com.edziennikarze.gradebook.group.groupsubject.GroupSubjectRepository;
 import com.edziennikarze.gradebook.group.groupsubject.dto.GroupSubject;
-import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
+import com.edziennikarze.gradebook.lesson.planned.dto.PlannedLesson;
 import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculation;
 import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculationsSummary;
 import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculationsSummaryResponse;

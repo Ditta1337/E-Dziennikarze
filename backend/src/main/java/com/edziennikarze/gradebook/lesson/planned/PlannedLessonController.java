@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.lesson.planned;
 
+import com.edziennikarze.gradebook.lesson.planned.dto.PlannedLesson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;

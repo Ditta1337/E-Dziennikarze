@@ -11,6 +11,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
+import com.edziennikarze.gradebook.lesson.planned.dto.PlannedLesson;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,0 +1,21 @@
+.manual-plan-list{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  .manual-plan-create-container{
+    margin-left: auto;
+    padding-right: 40px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+
+  .manual-plan-summary-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+}

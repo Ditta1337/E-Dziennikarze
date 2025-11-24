@@ -44,14 +44,10 @@
   }
 
   .copy-button-title-container{
-    width: 100%;
-    display: flex;
+    margin-left: auto;
     padding-right: 40px;
     padding-top: 20px;
-    .copy{
-      max-width: fit-content;
-      margin-left: auto;
-    }
+    padding-bottom: 40px;
   }
 
 }

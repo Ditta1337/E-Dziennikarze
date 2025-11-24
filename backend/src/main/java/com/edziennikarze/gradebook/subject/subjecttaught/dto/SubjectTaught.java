@@ -1,4 +1,4 @@
-package com.edziennikarze.gradebook.subject.subjecttaught;
+package com.edziennikarze.gradebook.subject.subjecttaught.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

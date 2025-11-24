@@ -193,6 +193,13 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/plan/calculation/plan/{planId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
                         .pathMatchers(HttpMethod.GET, "/plan/calculation/summary/{id}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
 
+                        // Manual plan endpoints
+                        .pathMatchers(HttpMethod.POST, "/plan/manual/copy/calculation/{id}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.GET, "/plan/manual/{id}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.PUT, "/plan/manual/{id}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.GET, "/plan/manual/summary").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.POST, "/plan/manual").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+
                         // Solver endpoint
                         .pathMatchers(HttpMethod.GET, "/solver/goal/functions").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
 

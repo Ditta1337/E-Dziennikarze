@@ -36,7 +36,7 @@ const UnavailableEventEditor = ({event, isOpen, onClose, onEdit, onDelete}) => {
 
     return (
         <Modal className="unavailable-event-editor" isOpen={isOpen} onClose={onClose}>
-            <div className="editor-container">
+            <Box className="editor-container">
                 <Typography variant="h6" className="editor-title">
                     Edytuj niedostępność
                 </Typography>
@@ -58,7 +58,7 @@ const UnavailableEventEditor = ({event, isOpen, onClose, onEdit, onDelete}) => {
                     </Box>
                 </LocalizationProvider>
 
-                <div className="editor-actions">
+                <Box className="editor-actions">
                     <Button variant="outlined" color="inherit" onClick={onClose}>
                         Anuluj
                     </Button>
@@ -68,8 +68,8 @@ const UnavailableEventEditor = ({event, isOpen, onClose, onEdit, onDelete}) => {
                     <Button variant="contained" className="button-delete" onClick={() => handleDelete()}>
                         Usuń
                     </Button>
-                </div>
-            </div>
+                </Box>
+            </Box>
         </Modal>
     );
 };

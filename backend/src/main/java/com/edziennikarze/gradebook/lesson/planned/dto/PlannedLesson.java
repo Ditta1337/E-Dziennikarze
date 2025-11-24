@@ -1,4 +1,4 @@
-package com.edziennikarze.gradebook.lesson.planned;
+package com.edziennikarze.gradebook.lesson.planned.dto;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -47,4 +47,19 @@ public class PlannedLesson {
 
     @NotNull
     private UUID teacherId;
+
+    public static PlannedLesson from(PlannedLessonResponse response) {
+        return PlannedLesson.builder()
+                .id(response.getId())
+                .subjectId(response.getSubjectId())
+                .startTime(response.getStartTime())
+                .endTime(response.getEndTime())
+                .active(response.isActive())
+                .weekDay(response.getWeekDay())
+                .roomId(response.getRoomId())
+                .groupId(response.getGroupId())
+                .teacherId(response.getTeacherId())
+                .build();
+    }
+
 }

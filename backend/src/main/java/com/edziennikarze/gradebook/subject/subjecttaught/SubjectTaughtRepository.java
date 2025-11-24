@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.subject.subjecttaught;
 
+import com.edziennikarze.gradebook.subject.subjecttaught.dto.SubjectTaught;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 

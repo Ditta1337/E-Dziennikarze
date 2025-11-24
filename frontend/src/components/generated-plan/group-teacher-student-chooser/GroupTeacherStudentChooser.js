@@ -108,7 +108,7 @@ const GroupTeacherStudentChooser = ({
         } else if (chosenPerspective === options.TeacherPerspective) {
             return option.name || ""
         } else if (chosenPerspective === options.StudentPerspective) {
-            return option.name || ""
+            return option.name + " " + option.surname || ""
         }
         return ""
     }

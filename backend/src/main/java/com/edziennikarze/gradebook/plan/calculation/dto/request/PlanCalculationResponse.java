@@ -1,6 +1,6 @@
 package com.edziennikarze.gradebook.plan.calculation.dto.request;
 
-import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
+import com.edziennikarze.gradebook.lesson.planned.dto.PlannedLesson;
 import com.edziennikarze.gradebook.plan.calculation.dto.PlanCalculation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotNull;

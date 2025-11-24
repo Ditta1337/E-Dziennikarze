@@ -4,6 +4,7 @@ import com.edziennikarze.gradebook.config.PostgresTestContainerConfig;
 import com.edziennikarze.gradebook.config.TestSecurityConfig;
 import com.edziennikarze.gradebook.subject.Subject;
 import com.edziennikarze.gradebook.subject.SubjectRepository;
+import com.edziennikarze.gradebook.subject.subjecttaught.dto.SubjectTaught;
 import com.edziennikarze.gradebook.subject.utils.SubjectTestDatabaseCleaner;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.dto.User;

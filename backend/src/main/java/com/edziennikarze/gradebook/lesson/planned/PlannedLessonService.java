@@ -2,6 +2,7 @@ package com.edziennikarze.gradebook.lesson.planned;
 
 import java.util.UUID;
 
+import com.edziennikarze.gradebook.lesson.planned.dto.PlannedLesson;
 import org.springframework.stereotype.Service;
 
 import com.edziennikarze.gradebook.exception.ResourceNotFoundException;

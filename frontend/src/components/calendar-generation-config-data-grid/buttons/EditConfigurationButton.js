@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router";
 import {Button} from "@mui/material";
 
-function EditUserConfiguration({id, calculated}) {
+const EditUserConfiguration = ({id, calculated}) => {
     const navigate = useNavigate();
 
     const handleClick = () => {

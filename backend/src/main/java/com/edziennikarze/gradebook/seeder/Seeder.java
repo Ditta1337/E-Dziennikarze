@@ -11,7 +11,7 @@ import com.edziennikarze.gradebook.room.Room;
 import com.edziennikarze.gradebook.room.RoomRepository;
 import com.edziennikarze.gradebook.subject.Subject;
 import com.edziennikarze.gradebook.subject.SubjectRepository;
-import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaught;
+import com.edziennikarze.gradebook.subject.subjecttaught.dto.SubjectTaught;
 import com.edziennikarze.gradebook.subject.subjecttaught.SubjectTaughtRepository;
 import com.edziennikarze.gradebook.user.Role;
 import com.edziennikarze.gradebook.user.UserRepository;

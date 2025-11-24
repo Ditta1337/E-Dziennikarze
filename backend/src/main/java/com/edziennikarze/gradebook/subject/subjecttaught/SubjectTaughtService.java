@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.subject.subjecttaught;
 
+import com.edziennikarze.gradebook.subject.subjecttaught.dto.SubjectTaught;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;

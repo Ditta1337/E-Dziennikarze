@@ -1,0 +1,70 @@
+.create-edit-lesson-modal {
+
+  gap: 20px;
+
+  .editor-title {
+    text-align: center;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .lesson-edit {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .group-chooser,
+    .teacher-chooser,
+    .subject-chooser,
+    .room-chooser {
+      flex: 2 2 150px;
+      min-width: 150px;
+      max-width: 250px;
+    }
+
+  }
+
+  .buttons{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 1rem;
+
+    button {
+      min-width: 100px;
+      font-weight: 500;
+      text-transform: none;
+      border-radius: 8px;
+    }
+
+    .button-delete {
+      background-color: #d32f2f;
+
+      &:hover {
+        background-color: #b71c1c;
+      }
+    }
+
+    .button-edit {
+      background-color: #3f51b5;
+
+      &:hover {
+        background-color: #252f6b;
+      }
+    }
+
+    .MuiButton-outlined {
+      color: #555;
+      border-color: #ccc;
+
+      &:hover {
+        border-color: #999;
+      }
+    }
+
+  }
+
+}

@@ -2,7 +2,7 @@ package com.edziennikarze.gradebook.plan.calculation.dto;
 
 import com.edziennikarze.gradebook.exception.MarshallException;
 import com.edziennikarze.gradebook.exception.UnmarshallException;
-import com.edziennikarze.gradebook.lesson.planned.PlannedLesson;
+import com.edziennikarze.gradebook.lesson.planned.dto.PlannedLesson;
 import com.edziennikarze.gradebook.plan.calculation.dto.request.PlanCalculationRequestGoal;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -69,7 +69,8 @@ public class PlanCalculation {
 
     public List<PlannedLesson> getCalculation(ObjectMapper objectMapper) {
         try {
-            return objectMapper.readValue(calculation, new TypeReference<List<PlannedLesson>>() {});
+            return objectMapper.readValue(calculation, new TypeReference<>() {
+            });
         } catch (JsonProcessingException e) {
             throw new UnmarshallException("Failed to convert JSON string to PlannedLessons object");
         }
