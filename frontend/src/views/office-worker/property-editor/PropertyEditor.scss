@@ -1,0 +1,94 @@
+.property-editor {
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  width: 100%;
+
+  .MuiTypography-root {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .property-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .property-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid lightgrey;
+    border-radius: 8px;
+    background-color: #fafafa;
+    min-height: 60px;
+    width: 100%;
+
+    .field-name {
+      font-weight: bold;
+      width: 200px;
+      margin-right: 16px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+
+    .field-value {
+      flex: 1;
+      display: flex;
+      align-items: center;
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 4px 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      img {
+        max-width: 150px;
+        max-height: 150px;
+        object-fit: contain;
+        border: 1px solid lightgrey;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .actions {
+    margin-top: 24px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    button {
+      flex: 1 1 200px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .property-item {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .field-name {
+        width: 100%;
+        text-align: left;
+        margin-right: 0;
+        margin-bottom: 4px;
+      }
+
+      .field-value {
+        width: 100%;
+      }
+    }
+  }
+}

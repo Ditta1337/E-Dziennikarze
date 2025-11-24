@@ -7,6 +7,7 @@ CREATE TABLE plan_calculations
     name        varchar(50) NOT NULL,
     plan_id     uuid        NOT NULL,
     created_at  timestamptz NOT NULL             DEFAULT now(),
+    goals       text        NOT NULL,
     calculation text        NOT NULL
 );
 

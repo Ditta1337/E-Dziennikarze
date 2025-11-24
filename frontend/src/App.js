@@ -21,6 +21,7 @@ import CalendarGenerationConfigList
 import { AdminRole, TeacherRole, StudentRole, GuardianRole, OfficeWorkerRole, PrincipalRole } from './views/admin/roles.js';
 import GeneratedPlansList from "./views/office-worker/generated-plans-list/GeneratedPlansList";
 import GeneratedPlanCalendar from "./views/office-worker/generated-plan-calendar/GeneratedPlanCalendar";
+import PropertyEditor from "./views/office-worker/property-editor/PropertyEditor"
 import ManualPlanCalendarEditor from "./views/office-worker/manual-plan-calendar-editor/ManualPlanCalendarEditor";
 import ManualPlansList from "./views/office-worker/manual-plans-list/ManualPlansList";
 
@@ -60,6 +61,7 @@ function App() {
                     <Route path="/calendar/generation/config/:id" element={<Card><CalendarGenerationConfig /></Card>} />
                     <Route path="/calendar/generated/list/:planId" element={<Card><GeneratedPlansList /></Card>} />
                     <Route path="/calendar/generated/plan/:id" element={<Card><GeneratedPlanCalendar /></Card>} />
+                    <Route path="/property/editor" element={<Card><PropertyEditor /></Card>} />
                     <Route path="/calendar/manual/plan/:id" element={<Card><ManualPlanCalendarEditor /></Card>} />
                     <Route path="/calendar/manual/list" element={<Card><ManualPlansList /></Card>} />
                 </Route>
