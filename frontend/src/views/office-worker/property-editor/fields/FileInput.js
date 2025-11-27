@@ -3,12 +3,14 @@ import './FileInput.scss';
 
 const FileInput = ({ value, onChange, readOnly }) => {
     return readOnly ? (
-        <img 
+        <img
+            className="file-input-img"
             src={value} 
             alt="School Logo" 
         />
     ) : (
         <input
+            className="file-input"
             type="file"
             accept="image/*"
             onChange={(e) => {

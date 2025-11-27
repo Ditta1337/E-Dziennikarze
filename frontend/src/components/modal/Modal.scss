@@ -4,6 +4,7 @@
     justify-content: center;
 
     .modal-content {
+        max-height: 90vh;
         position: relative;
         overflow: visible !important;
         display: flex;
@@ -14,6 +15,7 @@
         max-width: 80%;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        overflow-y: auto !important;
 
         .modal-close {
             margin-left: auto;
