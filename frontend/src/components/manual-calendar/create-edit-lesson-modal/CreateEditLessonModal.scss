@@ -67,4 +67,14 @@
 
   }
 
+  .button-edit.Mui-disabled {
+    background-color: #9fa8da !important;
+    color: #ccc !important;
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+    &:hover {
+      background-color: #9fa8da !important;
+    }
+  }
+
 }

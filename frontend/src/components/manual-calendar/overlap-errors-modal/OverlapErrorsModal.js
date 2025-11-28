@@ -12,7 +12,7 @@ const OverlapErrorsModal = ({message, isOpen, onClose}) => {
     >
         {message.map((mess, i) => (
             <Typography className="error-message">
-                {`${i}: ${mess}`}
+                {`${i+1}: ${mess}`}
                 <br/>
                 <br/>
             </Typography>

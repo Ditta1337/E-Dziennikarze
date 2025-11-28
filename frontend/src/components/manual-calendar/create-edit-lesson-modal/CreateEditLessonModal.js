@@ -174,7 +174,7 @@ const CreateEditLessonModal = ({
             <Button variant="outlined" color="inherit" onClick={handleClose}>
                 Anuluj
             </Button>
-            <Button className="button-edit" variant="contained" onClick={handleEdit}>
+            <Button className="button-edit" variant="contained" onClick={handleEdit} disabled={!chosenGroup || !chosenTeacher || !chosenSubject || !chosenRoom}>
                 {isCreated ? "Stwórz" : "Edytuj"}
             </Button>
             {isCreated ? null :
