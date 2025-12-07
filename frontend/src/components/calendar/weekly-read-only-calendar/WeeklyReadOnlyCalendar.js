@@ -60,7 +60,7 @@ const makeCalendarEventsFromFetchedResponse = (response) => {
     }))
 }
 
-const WeeklyReadOnlyCalendar = ({ fetchLessons, onSelectEvent }) => {
+const WeeklyReadOnlyCalendar = ({ userId, fetchLessons, onSelectEvent }) => {
     const [calendarEvents, setCalendarEvents] = useState(null);
     const [currentWeekStart, setCurrentWeekStart] = useState(startOfWeek(new Date(), {weekStartsOn: 1}))
     const [minMaxHours, setMinMaxHours] = useState(defaultMinMaxHours)
@@ -69,7 +69,7 @@ const WeeklyReadOnlyCalendar = ({ fetchLessons, onSelectEvent }) => {
 
     const updateLessons = async (monday, friday) => {
         try {
-            const response = await fetchLessons(format(monday, AppLocale.dateFormat), format(friday, AppLocale.dateFormat))
+            const response = await fetchLessons(userId, format(monday, AppLocale.dateFormat), format(friday, AppLocale.dateFormat))
             const calendarEvents = makeCalendarEventsFromFetchedResponse(response.data)
             setCalendarEvents(calendarEvents)
         } catch (e) {
@@ -112,9 +112,11 @@ const WeeklyReadOnlyCalendar = ({ fetchLessons, onSelectEvent }) => {
     };
 
     useEffect(() => {
-        const [monday, friday] = findMondayToFriday(new Date())
-        updateLessons(monday, friday)
-    }, []);
+        if(!!userId) {
+            const [monday, friday] = findMondayToFriday(new Date())
+            updateLessons(monday, friday)
+        }
+    }, [userId]);
 
     return (
         <Box className="calendar-container">

@@ -6,19 +6,20 @@ import AttendanceModal from "../../components/attendance-modal/AttendanceModal";
 import WeeklyReadOnlyCalendar from "../../components/calendar/weekly-read-only-calendar/WeeklyReadOnlyCalendar";
 import GradeListModal from "../../components/grade-list/grade-list-modal/GradeListModal";
 
+const fetchLessons = (userId, startDate, endDate) => {
+    return get(`/lesson/all/teacher/${userId}/from/${startDate}/to/${endDate}`)
+}
+
 const TeacherCalendar = () => {
     const userId = useStore((state) => state.user.userId)
     const [selectedEvent, setSelectedEvent] = useState(null)
     const [checkAttendanceModalOpen, setCheckAttendanceModalOpen] = useState(false)
     const [gradesModalOpen, setGradesModalOpen] = useState(false)
 
-    const fetchLessons = (startDate, endDate) => {
-        return get(`/lesson/all/teacher/${userId}/from/${startDate}/to/${endDate}`)
-    }
-
     return (
         <>
             <WeeklyReadOnlyCalendar
+                userId={userId}
                 fetchLessons={fetchLessons}
                 onSelectEvent={setSelectedEvent}
             />

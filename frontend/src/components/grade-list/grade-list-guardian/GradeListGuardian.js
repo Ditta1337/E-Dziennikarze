@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
     Box,
     Typography,
@@ -10,10 +10,11 @@ import {
     Select,
     MenuItem
 } from '@mui/material';
-import { get } from '../../../api';
-import { useStore } from "../../../store";
+import {get} from '../../../api';
+import {useStore} from "../../../store";
 import './GradeListGuardian.scss';
 import GradeListReadonly from "../grade-list-readonly/GradeListReadonly";
+import GuardiansStudentChooser from "../guardians-student-chooser/GuardiansStudentChooser";
 
 function GradeListGuardian() {
     const guardianId = useStore((state) => state.user.userId);
@@ -69,26 +70,16 @@ function GradeListGuardian() {
             <Typography className="title">Oceny Ucznia</Typography>
 
             {loading ? (
-                <CircularProgress />
+                <CircularProgress/>
             ) : students.length > 0 ? (
                 <>
-                    <FormControl className="user-input">
-                        <InputLabel id="student-select-label">Wybierz ucznia</InputLabel>
-                        <Select
-                            labelId="student-select-label"
-                            value={selectedStudentId}
-                            label="Wybierz ucznia"
-                            onChange={handleStudentChange}
-                        >
-                            {students.map((student) => (
-                                <MenuItem key={student.id} value={student.id}>
-                                    {`${student.name} ${student.surname}`}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+                    <GuardiansStudentChooser
+                        selectedStudentId={selectedStudentId}
+                        handleStudentChange={handleStudentChange}
+                        students={students}
+                    />
 
-                    {selectedStudentId && <GradeListReadonly studentId={selectedStudentId} title="" />}
+                    {selectedStudentId && <GradeListReadonly studentId={selectedStudentId} title=""/>}
                 </>
             ) : (
                 <Typography>Nie przypisano do Ciebie żadnych uczniów.</Typography>
@@ -98,9 +89,9 @@ function GradeListGuardian() {
                 open={snackbarOpen}
                 autoHideDuration={6000}
                 onClose={handleSnackbarClose}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
             >
-                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{width: '100%'}}>
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
