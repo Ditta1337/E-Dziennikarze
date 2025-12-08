@@ -149,6 +149,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/attendance/lesson/{lessonId}").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name())
                         .pathMatchers(HttpMethod.POST, "/attendance").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name())
                         .pathMatchers(HttpMethod.PUT, "/attendance").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name())
+                        .pathMatchers(HttpMethod.POST, "/attendance/many").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), TEACHER.name())
 
                         // Grade endpoints
                         .pathMatchers(HttpMethod.POST, "/grade").hasAnyAuthority(ADMIN.name(), TEACHER.name(), PRINCIPAL.name())

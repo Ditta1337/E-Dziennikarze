@@ -43,4 +43,9 @@ public class AttendanceController {
     public Mono<Attendance> updateAttendance(@RequestBody Mono<Attendance> attendanceMono) {
         return attendanceService.updateAttendance(attendanceMono);
     }
+
+    @PostMapping("/many")
+    public Flux<Attendance> updateAttendances(@RequestBody Flux<Attendance> attendanceFlux) {
+        return attendanceService.updateAttendances(attendanceFlux);
+    }
 }

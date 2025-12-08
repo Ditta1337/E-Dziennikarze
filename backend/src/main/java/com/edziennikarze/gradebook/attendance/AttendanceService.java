@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
 import java.util.UUID;
 
 import static com.edziennikarze.gradebook.user.Role.*;
@@ -86,6 +87,24 @@ public class AttendanceService {
                             .then(attendanceRepository.save(existingAttendance));
                 }));
     }
+
+    public Flux<Attendance> updateAttendances(Flux<Attendance> attendanceFlux) {
+        return attendanceFlux.flatMap(att -> {
+            if (att.getId() == null) {
+                return createAttendance(Mono.just(att));
+            }
+
+            return attendanceRepository.existsById(att.getId())
+                    .flatMap(exists -> {
+                        if (exists) {
+                            return updateAttendance(Mono.just(att));
+                        } else {
+                            return attendanceRepository.save(att);
+                        }
+                    });
+        });
+    }
+
 
     private Mono<Attendance> sendNotification(Attendance attendance, String message) {
         return subjectRepository.findById(attendance.getSubjectId())
