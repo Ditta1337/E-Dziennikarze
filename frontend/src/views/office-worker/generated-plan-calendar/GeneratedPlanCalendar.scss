@@ -21,7 +21,9 @@
 
     .button-popover-wrapper {
       position: absolute;
+      display: flex;
       right: 40px;
+      gap: 12px;
     }
   }
 

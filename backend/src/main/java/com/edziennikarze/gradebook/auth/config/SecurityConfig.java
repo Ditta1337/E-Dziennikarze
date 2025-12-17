@@ -126,6 +126,8 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.POST, "/assigned-lesson").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
                         .pathMatchers(HttpMethod.GET, "/assigned-lesson/all", "/assigned-lesson/all/cancelled").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
                         .pathMatchers(HttpMethod.PUT, "/assigned-lesson").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.POST, "/assigned-lesson/fill/manual").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
+                        .pathMatchers(HttpMethod.POST, "/assigned-lesson/fill/generated").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name(), PRINCIPAL.name())
 
                         // Group endpoints
                         .pathMatchers(HttpMethod.GET, "/group/all", "/group/all/classes", "/group/all/{startingYear}").authenticated()

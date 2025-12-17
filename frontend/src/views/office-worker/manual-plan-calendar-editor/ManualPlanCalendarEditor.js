@@ -1,5 +1,5 @@
 import {useNavigate, useParams} from "react-router"
-import {get, put} from "../../../api"
+import {get, put, post} from "../../../api"
 import React, {useEffect, useState} from "react"
 import {Alert, Box, Button, CircularProgress, IconButton, Snackbar, Typography} from "@mui/material"
 import GroupTeacherChooser from "../../../components/manual-calendar/group-teacher-chooser/GroupTeacherChooser"
@@ -12,6 +12,7 @@ import {AppLocale} from "../../../config/localization"
 import CreateEditLessonModal
     from "../../../components/manual-calendar/create-edit-lesson-modal/CreateEditLessonModal"
 import OverlapErrorsModal from "../../../components/manual-calendar/overlap-errors-modal/OverlapErrorsModal";
+import CalendarFillModal from "../../../components/calendar-fill-modal/CalendarFillModal";
 
 const fetchManualPlan = async (id) => {
     return get(`/plan/manual/${id}`)
@@ -19,6 +20,14 @@ const fetchManualPlan = async (id) => {
 
 const saveManualPlan = async(id, manualPlan) => {
     return put(`/plan/manual/${id}`, manualPlan)
+}
+
+const fillCalender = async (from, to, id) => {
+    return post(`/assigned-lesson/fill/manual`, {
+        from: format(from, AppLocale.dateFormat),
+        to: format(to, AppLocale.dateFormat),
+        id: id
+    })
 }
 
 const makeLessonFromEvent = (event) => {
@@ -48,6 +57,7 @@ const ManualPlanCalendarEditor = () => {
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [creatingEvent, setCreatingEvent] = useState(false)
     const [errorsModalOpen, setErrorsModalOpen] = useState(false)
+    const [calendarFillModalOpen, setCalendarFillModalOpen] = useState(false)
 
     const [snackbarOpen, setSnackbarOpen] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState("")
@@ -131,6 +141,16 @@ const ManualPlanCalendarEditor = () => {
         navigate(`/calendar/generated/plan/${manualPlanData.plan_calculation_id}`)
     }
 
+    const onFillerModalConfirm = async (from, to) => {
+        try{
+            await fillCalender(from, to, id)
+            displaySnackbarMessage("Pomyślnie wypełniono kalendarz.", true)
+        } catch (e){
+            displaySnackbarMessage("Wystąpił błąd podczas wypełniania kalendarza.")
+        }
+        setCalendarFillModalOpen(false)
+    }
+
     useEffect(() => {
         updateManualPlanData()
     }, [])
@@ -172,8 +192,8 @@ const ManualPlanCalendarEditor = () => {
                     <Button variant="contained" onClick={handlePlanSave}>
                         Zapisz
                     </Button>
-                    <Button variant="contained">
-                        Generuj
+                    <Button variant="contained" onClick={() => setCalendarFillModalOpen(true)}>
+                        Wypełnij kalendarz
                     </Button>
                 </Box>
             </Box>
@@ -209,6 +229,12 @@ const ManualPlanCalendarEditor = () => {
                 isOpen={errorsModalOpen}
                 onClose={() => setErrorsModalOpen(false)}
                 message={manualPlanData.errors}
+            />
+
+            <CalendarFillModal
+                isOpen={calendarFillModalOpen}
+                onClose={() => setCalendarFillModalOpen(false)}
+                onClick={onFillerModalConfirm}
             />
 
             <Snackbar

@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from "react-router";
 import {get, post} from "../../../api"
 import "./GeneratedPlanCalendar.scss"
-import {Alert, Box, Snackbar, Typography} from "@mui/material";
+import {Alert, Box, Button, Snackbar, Typography} from "@mui/material";
 import GeneratedPlanBrowsableCalendar
     from "../../../components/generated-plan/generated-plan-browsable-calendar/GeneratedPlanBrowsableCalendar";
 import GroupTeacherStudentChooser
@@ -9,6 +9,9 @@ import GroupTeacherStudentChooser
 import {StudentRole, TeacherRole} from "../../admin/roles";
 import React, {useEffect, useState} from "react";
 import ButtonTextInputPopover from "../../../components/button-text-input-popover/ButtonTextInputPopover";
+import CalendarFillModal from "../../../components/calendar-fill-modal/CalendarFillModal";
+import {format} from "date-fns";
+import {AppLocale} from "../../../config/localization";
 
 const fetchGeneratedPlan = async (id) => {
     return get(`plan/calculation/plan/${id}`)
@@ -48,12 +51,21 @@ const copyGeneratedPlanToManualEdit = async (id, name) => {
     });
 }
 
+const fillCalender = async (id, from, to) => {
+    return post(`/assigned-lesson/fill/generated`, {
+        from: format(from, AppLocale.dateFormat),
+        to: format(to, AppLocale.dateFormat),
+        id: id
+    })
+}
+
 const GeneratedPlanCalendar = () => {
     const {id} = useParams()
     const navigate = useNavigate();
     const [groupsToDisplay, setGroupsToDisplay] = useState([])
     const [teacherToDisplay, setTeacherToDisplay] = useState(null)
     const [generatedPlanData, setGeneratedPlanData] = useState(null)
+    const [calendarFillModalOpen, setCalendarFillModalOpen] = useState(false)
 
     const [snackbarOpen, setSnackbarOpen] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState("")
@@ -95,6 +107,16 @@ const GeneratedPlanCalendar = () => {
         setSnackbarOpen(false)
     }
 
+    const onFillerModalConfirm = async (from, to) => {
+        try{
+            fillCalender(id, from, to)
+            displaySnackbarMessage("Pomyślnie wypełniono kalendarz.", false)
+        } catch (e){
+            displaySnackbarMessage("Wystąpił błąd podczas wypełniania kalendarza.")
+        }
+        setCalendarFillModalOpen(false)
+    }
+
     useEffect(() => {
         updateGeneratedPlanData()
     }, []);
@@ -122,6 +144,9 @@ const GeneratedPlanCalendar = () => {
                     popoverTextFieldLabel="Nazwa manualnej edycji"
                     handlePopoverButtonClick={handleManualEdit}
                 />
+                <Button variant="contained" onClick={() => setCalendarFillModalOpen(true)}>
+                    Wypełnij kalendarz
+                </Button>
             </Box>
         </Box>
 
@@ -137,6 +162,12 @@ const GeneratedPlanCalendar = () => {
                 displaySnackbarMessage={displaySnackbarMessage}
             />
         </Box>
+
+        <CalendarFillModal
+            isOpen={calendarFillModalOpen}
+            onClose={() => setCalendarFillModalOpen(false)}
+            onClick={onFillerModalConfirm}
+        />
 
         <Snackbar
             open={snackbarOpen}

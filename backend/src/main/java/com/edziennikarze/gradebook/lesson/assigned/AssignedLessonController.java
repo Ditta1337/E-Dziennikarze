@@ -1,5 +1,6 @@
 package com.edziennikarze.gradebook.lesson.assigned;
 
+import com.edziennikarze.gradebook.lesson.assigned.dto.FillCalendarRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -30,5 +31,15 @@ public class AssignedLessonController {
     @PutMapping
     public Mono<AssignedLesson> updateAssignedLesson(@RequestBody Mono<AssignedLesson> assignedLessonMono) {
         return assignedLessonService.updateAssignedLesson(assignedLessonMono);
+    }
+
+    @PostMapping("/fill/manual")
+    public Mono<Void> fillManual(@RequestBody Mono<FillCalendarRequest> fillCalendarRequestMono) {
+        return assignedLessonService.fillManual(fillCalendarRequestMono);
+    }
+
+    @PostMapping("/fill/generated")
+    public Mono<Void> fillGenerated(@RequestBody Mono<FillCalendarRequest> fillCalendarRequestMono) {
+        return assignedLessonService.fillGenerated(fillCalendarRequestMono);
     }
 }
