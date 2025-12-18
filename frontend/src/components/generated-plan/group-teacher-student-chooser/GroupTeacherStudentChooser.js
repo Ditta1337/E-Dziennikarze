@@ -52,7 +52,8 @@ const GroupTeacherStudentChooser = ({
                                         fetchTeachers,
                                         fetchStudentsGroups,
                                         setGroupsToDisplay,
-                                        setTeacherToDisplay
+                                        setTeacherToDisplay,
+                                        setStudentToDisplay = () => {}
                                     }) => {
     const [chosenPerspective, setChosenPerspective] = useState(null)
     const [chosenEntity, setChosenEntity] = useState(null)
@@ -127,6 +128,7 @@ const GroupTeacherStudentChooser = ({
         }
         if (chosenPerspective === options.GroupPerspective) {
             setTeacherToDisplay(null)
+            setStudentToDisplay(null)
             setGroupsToDisplay([value.group_id])
         } else if (chosenPerspective === options.TeacherPerspective) {
             setGroupsToDisplay([])
@@ -135,6 +137,7 @@ const GroupTeacherStudentChooser = ({
             const studentGroups = await getStudentGroups(value.id)
             setTeacherToDisplay(null)
             setGroupsToDisplay(studentGroups)
+            setStudentToDisplay(value.id)
         } else {
             setGroupsToDisplay([])
         }

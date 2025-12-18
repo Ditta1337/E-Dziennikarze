@@ -30,7 +30,7 @@ public class LessonService {
         return plannedLessonRepository.findAllByTeacherIdBetweenDates(teacherId, from, to);
     }
 
-    private Flux<Lesson> getAllLessonsByGroupIdBetweenDates(UUID groupId, LocalDate from, LocalDate to) {
+    public Flux<Lesson> getAllLessonsByGroupIdBetweenDates(UUID groupId, LocalDate from, LocalDate to) {
         return plannedLessonRepository.findAllByGroupIdBetweenDates(groupId, from, to);
     }
 }

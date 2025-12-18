@@ -26,4 +26,9 @@ public class LessonController {
     public Flux<Lesson> getAllTeacherLessonsBetweenDates(@PathVariable UUID teacherId, @PathVariable LocalDate dateFrom, @PathVariable LocalDate dateTo) {
         return lessonService.getAllLessonsByTeacherIdBetweenDates(teacherId, dateFrom, dateTo);
     }
+
+    @GetMapping("/all/group/{groupId}/from/{dateFrom}/to/{dateTo}")
+    public Flux<Lesson> getAllGroupLessonsBetweenDates(@PathVariable UUID groupId, @PathVariable LocalDate dateFrom, @PathVariable LocalDate dateTo) {
+        return lessonService.getAllLessonsByGroupIdBetweenDates(groupId, dateFrom, dateTo);
+    }
 }

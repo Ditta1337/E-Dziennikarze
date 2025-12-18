@@ -19,7 +19,7 @@ const TeacherCalendar = () => {
     return (
         <>
             <WeeklyReadOnlyCalendar
-                userId={userId}
+                fetchingId={userId}
                 fetchLessons={fetchLessons}
                 onSelectEvent={setSelectedEvent}
             />

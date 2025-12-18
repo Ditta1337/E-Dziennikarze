@@ -91,7 +91,7 @@ const GuardianCalendar = () => {
             students={students}
         />
         <WeeklyReadOnlyCalendar
-            userId={selectedStudentId}
+            fetchingId={selectedStudentId}
             onSelectEvent={setSelectedEvent}
             fetchLessons={fetchLessons}
         />
