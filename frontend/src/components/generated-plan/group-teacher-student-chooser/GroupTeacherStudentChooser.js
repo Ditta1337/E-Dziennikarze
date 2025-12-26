@@ -53,7 +53,8 @@ const GroupTeacherStudentChooser = ({
                                         fetchStudentsGroups,
                                         setGroupsToDisplay,
                                         setTeacherToDisplay,
-                                        setStudentToDisplay = () => {}
+                                        setStudentToDisplay = () => {},
+                                        disabled = false
                                     }) => {
     const [chosenPerspective, setChosenPerspective] = useState(null)
     const [chosenEntity, setChosenEntity] = useState(null)
@@ -160,6 +161,7 @@ const GroupTeacherStudentChooser = ({
                     label="Perspektywa"
                 />
             )}
+            disabled={disabled}
         />
         <Autocomplete
             className="specific-entity"
@@ -170,7 +172,7 @@ const GroupTeacherStudentChooser = ({
             renderInput={(params) => (
                 <TextField {...params} label="Wybierz konkretną instancję"/>
             )}
-            disabled={!chosenPerspective}
+            disabled={disabled || !chosenPerspective}
         />
     </Box>
 }

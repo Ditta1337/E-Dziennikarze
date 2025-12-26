@@ -1,4 +1,4 @@
-import WeeklyReadOnlyCalendar from "../../components/calendar/weekly-read-only-calendar/WeeklyReadOnlyCalendar"
+import WeeklyCalendar from "../../components/calendar/weekly-read-only-calendar/WeeklyCalendar"
 import {get} from "../../api"
 import {useStore} from "../../store"
 import StudentLessonDetails from "../../components/calendar/lesson-details/student/StudentLessonDetails"
@@ -13,7 +13,7 @@ const StudentCalendar = () => {
 
     return (
         <>
-            <WeeklyReadOnlyCalendar
+            <WeeklyCalendar
                 fetchingId={userId}
                 fetchLessons={fetchLessons}
                 onSelectEvent={setSelectedEvent}

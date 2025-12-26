@@ -1,78 +1,46 @@
-import Modal from "../../modal/Modal"
-import {Autocomplete, Box, Button, TextField, Typography} from "@mui/material"
-import options from "../group-teacher-chooser/GroupTeacherOptions"
-import {useEffect, useState} from "react"
-import "./CreateEditLessonModal.scss"
+import Modal from "../../../modal/Modal";
+import {Autocomplete, Box, Button, TextField, Typography} from "@mui/material";
+import options from "../../../manual-calendar/group-teacher-chooser/GroupTeacherOptions";
+import {useEffect, useState} from "react";
 
-const CreateEditLessonModal = ({
-                                   event,
-                                   perspective,
-                                   groupData,
-                                   teacherData,
-                                   subjectData,
-                                   roomData,
-                                   isOpen,
-                                   onClose,
-                                   isCreated,
-                                   saveEvent,
-                                   deleteEvent
-                               }) => {
+const CreateEditDeleteLessonModal = ({
+                                         event,
+                                         groupData,
+                                         perspective,
+                                         teacherData,
+                                         subjectData,
+                                         roomData,
+                                         isOpen,
+                                         onClose,
+                                         isCreated,
+                                         saveEvent,
+                                         deleteEvent
+                                     }) => {
     const [chosenGroup, setChosenGroup] = useState(null)
     const [chosenTeacher, setChosenTeacher] = useState(null)
     const [chosenSubject, setChosenSubject] = useState(null)
     const [chosenRoom, setChosenRoom] = useState(null)
-    const [filteredTeachers, setFilteredTeachers] = useState(teacherData)
-    const [filteredSubjects, setFilteredSubjects] = useState(subjectData)
 
     const setPredefinedFields = () => {
-        if (!perspective) return
-        if (perspective.chosenPerspective === options.GroupPerspective) {
-            setChosenGroup(perspective)
-            if (!event) return
-            setChosenTeacher(teacherData.find(teacher => teacher.id === event.teacherId))
-            setChosenSubject(subjectData.find(subject => subject.id === event.subjectId))
-            setChosenRoom(roomData.find(room => room.id === event.roomId))
-        }
-        if (perspective.chosenPerspective === options.TeacherPerspective) {
-            setChosenTeacher(perspective)
-            if (!event) return
-            setChosenGroup(groupData.find(group => group.id === event.groupId))
-            setChosenSubject(subjectData.find(subject => subject.id === event.subjectId))
-            setChosenRoom(roomData.find(room => room.id === event.roomId))
-        }
-    }
-
-    const constraintTeachersSubjects = () => {
-        if (!teacherData || !subjectData) return
-        if (!!chosenTeacher && !!chosenSubject || !chosenTeacher && !chosenSubject) {
-            setFilteredTeachers(teacherData)
-            setFilteredSubjects(subjectData)
-        }
-        if (chosenTeacher) {
-            const teacherSubjectIds = chosenTeacher.subjects_taught.map(subject => subject.subject_id)
-            setFilteredSubjects(subjectData.filter(subject => teacherSubjectIds.includes(subject.id)))
-        }
-        if (chosenSubject) {
-            setFilteredTeachers(teacherData.filter(teacher => teacher.subjects_taught.some(subject => subject.subject_id === chosenSubject.id)))
-        }
+        if (!event) return
+        console.log(event)
+        setChosenGroup(groupData.find(group => group.id === event.groupId))
+        setChosenTeacher(teacherData.find(teacher => teacher.id === event.teacherId))
+        setChosenSubject(subjectData.find(subject => subject.id === event.subjectId))
+        setChosenRoom(roomData.find(room => room.room_code === event.room))
     }
 
     const clearFields = () => {
-        if (perspective.chosenPerspective === options.TeacherPerspective) {
-            setChosenGroup(null)
-            setChosenSubject(null)
-            setChosenRoom(null)
-        }
-        if (perspective.chosenPerspective === options.GroupPerspective) {
-            setChosenTeacher(null)
-            setChosenSubject(null)
-            setChosenRoom(null)
-        }
+        setChosenGroup(null)
+        setChosenTeacher(null)
+        setChosenSubject(null)
+        setChosenRoom(null)
     }
 
     const handleEdit = () => {
         const modifiedEvent = {
             ...event,
+            title: chosenSubject.name,
             groupId: chosenGroup.id,
             groupCode: chosenGroup.group_code,
             teacherId: chosenTeacher.id,
@@ -81,6 +49,8 @@ const CreateEditLessonModal = ({
             subject: chosenSubject.name,
             roomId: chosenRoom.id,
             room: chosenRoom.room_code,
+            cancelled: false,
+            modified: false
         }
         saveEvent(modifiedEvent)
         handleClose()
@@ -99,10 +69,6 @@ const CreateEditLessonModal = ({
     useEffect(() => {
         setPredefinedFields()
     }, [event])
-
-    useEffect(() => {
-        constraintTeachersSubjects()
-    }, [chosenTeacher, chosenSubject, teacherData, subjectData]);
 
     if (!event) return null
 
@@ -126,11 +92,11 @@ const CreateEditLessonModal = ({
                 renderInput={(params) => (
                     <TextField {...params} label="Grupa"/>
                 )}
-                disabled={!!perspective && perspective.chosenPerspective === options.GroupPerspective}
+                disabled={!isCreated && (!!perspective && perspective === options.GroupPerspective)}
             />
             <Autocomplete
                 className="teacher-chooser"
-                options={filteredTeachers}
+                options={teacherData}
                 getOptionLabel={teacher => teacher.name + " " + teacher.surname}
                 value={chosenTeacher}
                 onChange={(event, value) => {
@@ -139,11 +105,11 @@ const CreateEditLessonModal = ({
                 renderInput={(params) => (
                     <TextField {...params} label="Nauczyciel"/>
                 )}
-                disabled={!!perspective && perspective.chosenPerspective === options.TeacherPerspective}
+                disabled={!isCreated && (!!perspective && perspective === options.TeacherPerspective)}
             />
             <Autocomplete
                 className="subject-chooser"
-                options={filteredSubjects}
+                options={subjectData}
                 getOptionLabel={subject => subject.name}
                 value={chosenSubject}
                 onChange={(event, value) => {
@@ -170,17 +136,17 @@ const CreateEditLessonModal = ({
             <Button variant="outlined" color="inherit" onClick={handleClose}>
                 Anuluj
             </Button>
-            <Button className="button-edit" variant="contained" onClick={handleEdit} disabled={!chosenGroup || !chosenTeacher || !chosenSubject || !chosenRoom}>
+            <Button className="button-edit" variant="contained" onClick={handleEdit}
+                    disabled={!chosenGroup || !chosenTeacher || !chosenSubject || !chosenRoom}>
                 {isCreated ? "Stwórz" : "Edytuj"}
             </Button>
             {isCreated ? null :
                 <Button className="button-delete" variant="contained" onClick={handleDelete}>
-                    Usuń
+                    Odwołaj
                 </Button>
             }
         </Box>
     </Modal>
-
 }
 
-export default CreateEditLessonModal
+export default CreateEditDeleteLessonModal

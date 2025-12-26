@@ -114,6 +114,9 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/lesson/all/student/{studentId}/from/{dateFrom}/to/{dateTo}").authenticated()
                         .pathMatchers(HttpMethod.GET, "/lesson/all/teacher/{teacherId}/from/{dateFrom}/to/{dateTo}").authenticated()
                         .pathMatchers(HttpMethod.GET, "/lesson/all/group/{groupId}/from/{dateFrom}/to/{dateTo}").authenticated()
+                        .pathMatchers(HttpMethod.POST, "/lesson").authenticated()
+                        .pathMatchers(HttpMethod.PUT, "/lesson").authenticated()
+                        .pathMatchers(HttpMethod.POST, "/lesson/delete").authenticated()
 
                         // Planned-Lesson endpoints
                         .pathMatchers(HttpMethod.GET, "/planned-lesson/all").hasAnyAuthority(ADMIN.name(), OFFICE_WORKER.name())

@@ -3,7 +3,7 @@ import {useStore} from "../../store";
 import {get} from "../../api";
 import TeacherLessonDetails from "../../components/calendar/lesson-details/teacher/TeacherLessonDetails";
 import AttendanceModal from "../../components/attendance-modal/AttendanceModal";
-import WeeklyReadOnlyCalendar from "../../components/calendar/weekly-read-only-calendar/WeeklyReadOnlyCalendar";
+import WeeklyCalendar from "../../components/calendar/weekly-read-only-calendar/WeeklyCalendar";
 import GradeListModal from "../../components/grade-list/grade-list-modal/GradeListModal";
 
 const fetchLessons = (userId, startDate, endDate) => {
@@ -18,7 +18,7 @@ const TeacherCalendar = () => {
 
     return (
         <>
-            <WeeklyReadOnlyCalendar
+            <WeeklyCalendar
                 fetchingId={userId}
                 fetchLessons={fetchLessons}
                 onSelectEvent={setSelectedEvent}

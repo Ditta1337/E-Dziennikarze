@@ -1,11 +1,11 @@
 package com.edziennikarze.gradebook.lesson;
 
+import com.edziennikarze.gradebook.lesson.dto.DeleteRequest;
+import com.edziennikarze.gradebook.lesson.dto.Lesson;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -30,5 +30,20 @@ public class LessonController {
     @GetMapping("/all/group/{groupId}/from/{dateFrom}/to/{dateTo}")
     public Flux<Lesson> getAllGroupLessonsBetweenDates(@PathVariable UUID groupId, @PathVariable LocalDate dateFrom, @PathVariable LocalDate dateTo) {
         return lessonService.getAllLessonsByGroupIdBetweenDates(groupId, dateFrom, dateTo);
+    }
+
+    @PostMapping("/delete")
+    public Mono<Void> deleteLessons(@RequestBody Mono<DeleteRequest> toDelete) {
+        return lessonService.deleteLessons(toDelete);
+    }
+
+    @PostMapping
+    public Flux<Lesson> createLessons(@RequestBody Flux<Lesson> lessonFlux) {
+        return lessonService.createLessons(lessonFlux);
+    }
+
+    @PutMapping
+    public Flux<Lesson> updateLessons(@RequestBody Flux<Lesson> lessonFlux) {
+        return lessonService.updateLessons(lessonFlux);
     }
 }

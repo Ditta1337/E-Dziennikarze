@@ -1,4 +1,4 @@
-package com.edziennikarze.gradebook.lesson;
+package com.edziennikarze.gradebook.lesson.dto;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -7,17 +7,19 @@ import java.util.UUID;
 
 import jakarta.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Lesson {
 
-    @NotNull
     private UUID assignedLessonId;
 
-    @NotNull
     private UUID plannedLessonId;
 
     @NotNull
@@ -47,6 +49,9 @@ public class Lesson {
 
     @NotNull
     private DayOfWeek weekDay;
+
+    @NotNull
+    private UUID roomId;
 
     @NotNull
     private String room;

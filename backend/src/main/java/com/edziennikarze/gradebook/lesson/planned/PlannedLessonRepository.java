@@ -6,7 +6,7 @@ import java.util.UUID;
 import com.edziennikarze.gradebook.lesson.planned.dto.PlannedLesson;
 import jakarta.validation.constraints.NotNull;
 
-import com.edziennikarze.gradebook.lesson.Lesson;
+import com.edziennikarze.gradebook.lesson.dto.Lesson;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
@@ -35,6 +35,7 @@ public interface PlannedLessonRepository extends ReactiveCrudRepository<PlannedL
                 p.start_time AS start_time,
                 p.end_time AS end_time,
                 p.week_day AS week_day,
+                r.id AS room_id,
                 r.room_code AS room,
                 p.teacher_id AS teacher_id
             FROM planned_lessons p
@@ -62,6 +63,7 @@ public interface PlannedLessonRepository extends ReactiveCrudRepository<PlannedL
                 p.start_time AS start_time,
                 p.end_time AS end_time,
                 p.week_day AS week_day,
+                r.id as room_id,
                 r.room_code AS room,
                 p.teacher_id AS teacher_id
             FROM planned_lessons p

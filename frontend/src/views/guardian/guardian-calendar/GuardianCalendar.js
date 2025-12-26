@@ -4,7 +4,7 @@ import React, {useCallback, useEffect, useState} from "react"
 import GuardiansStudentChooser from "../../../components/grade-list/guardians-student-chooser/GuardiansStudentChooser";
 import {Alert, Box, CircularProgress, Snackbar} from "@mui/material";
 import "./GuardianCalendar.scss"
-import WeeklyReadOnlyCalendar from "../../../components/calendar/weekly-read-only-calendar/WeeklyReadOnlyCalendar";
+import WeeklyCalendar from "../../../components/calendar/weekly-read-only-calendar/WeeklyCalendar";
 import StudentLessonDetails from "../../../components/calendar/lesson-details/student/StudentLessonDetails";
 
 const fetchStudentsForGuardian = async (guardianId) => {
@@ -90,7 +90,7 @@ const GuardianCalendar = () => {
             handleStudentChange={handleStudentChange}
             students={students}
         />
-        <WeeklyReadOnlyCalendar
+        <WeeklyCalendar
             fetchingId={selectedStudentId}
             onSelectEvent={setSelectedEvent}
             fetchLessons={fetchLessons}
