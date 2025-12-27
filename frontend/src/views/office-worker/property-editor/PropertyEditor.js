@@ -55,19 +55,21 @@ const PropertyEditor = () => {
                 {({ handleSubmit, setFieldValue }) => (
                     <Form>
                         <Box className="property-grid">
-                            {properties.map(prop => (
-                                <Box key={prop.id} className="property-item">
-                                    <Box className="field-name">
-                                        {fieldLabels[prop.name] || prop.name}
+                            {properties
+                                .filter(prop => prop.name !== "lessonsPerDay")
+                                .map(prop => (
+                                    <Box key={prop.id} className="property-item">
+                                        <Box className="field-name">
+                                            {fieldLabels[prop.name] || prop.name}
+                                        </Box>
+                                        <Box className="field-value">
+                                            <PropertyField
+                                                prop={prop}
+                                                isEditing={isEditing}
+                                                setFieldValue={setFieldValue}
+                                            />
+                                        </Box>
                                     </Box>
-                                    <Box className="field-value">
-                                        <PropertyField 
-                                            prop={prop} 
-                                            isEditing={isEditing} 
-                                            setFieldValue={setFieldValue} 
-                                        />
-                                    </Box>
-                                </Box>
                             ))}
                         </Box>
 

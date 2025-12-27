@@ -60,7 +60,9 @@ class Scheduler():
                             )
 
     def build(self):
-        self.no_gaps_for_students()
+        self.no_gaps_before_latest_start()
+        self.no_gaps_after_latest_start()
+        self.no_more_than_one_lesson_per_group()
         self.no_more_than_one_lesson_per_teacher()
         self.no_more_than_one_lesson_per_room()
         self.ensure_subjects_lessons()
@@ -106,10 +108,10 @@ class Scheduler():
 
 
     # ====================== Constraints ======================
-    def no_gaps_for_students(self):
+    def no_gaps_before_latest_start(self):
         for combination in self.unique_groups_combinations:
             for day in range(self.teaching_days):
-                for lesson in range(self.latest_starting_lesson):
+                for lesson in range(self.latest_starting_lesson - 1):
                     prev_subj = [
                         self.vars[subject.id, room.id, day, lesson]
                         for group in combination
@@ -124,10 +126,12 @@ class Scheduler():
                         for room in subject.room_preference.allowed
                         if (subject.id, room.id, day, lesson + 1) in self.vars
                     ]
-                    self.model.add(sum(prev_subj)<=1)
-                    self.model.add(sum(next_subj)<=1)
                     self.model.add(sum(prev_subj) <= sum(next_subj))
-                for lesson in range(self.latest_starting_lesson, self.max_lessons_per_day):
+
+    def no_gaps_after_latest_start(self):
+        for combination in self.unique_groups_combinations:
+            for day in range(self.teaching_days):
+                for lesson in range(self.latest_starting_lesson, self.max_lessons_per_day - 1):
                     prev_subj = [
                         self.vars[subject.id, room.id, day, lesson]
                         for group in combination
@@ -142,10 +146,20 @@ class Scheduler():
                         for room in subject.room_preference.allowed
                         if (subject.id, room.id, day, lesson + 1) in self.vars
                     ]
-                    self.model.add(sum(prev_subj)<=1)
-                    self.model.add(sum(next_subj)<=1)
                     self.model.add(sum(prev_subj) >= sum(next_subj))
 
+    def no_more_than_one_lesson_per_group(self):
+        for combination in self.unique_groups_combinations:
+            for day in range(self.teaching_days):
+                for lesson in range(self.max_lessons_per_day):
+                    possible = [
+                        self.vars[subject.id, room.id, day, lesson]
+                        for group in combination
+                        for subject in group.subjects
+                        for room in subject.room_preference.allowed
+                        if (subject.id, room.id, day, lesson) in self.vars
+                    ]
+                    self.model.add(sum(possible) <= 1)
 
     def no_more_than_one_lesson_per_teacher(self):
         for teacher in self.teachers:
