@@ -77,7 +77,7 @@ function LogIn() {
                 setRefresh(refresh_token);
                 setUser(userData);
 
-                navigate("/gradebook");
+                navigate("/calendar");
 
             } catch (error) {
                 console.error("Login failed:", error);

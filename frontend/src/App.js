@@ -3,7 +3,6 @@ import LogIn from "./views/log-in/LogIn";
 import NotFound from "./views/not-found/NotFound";
 import Card from "./components/card/Card";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute";
-import Gradebook from "./views/gradebook/Gradebook";
 import Profile from "./views/profile/Profile";
 import AddUser from "./views/admin/add-user/AddUser";
 import ListUsers from "./views/admin/list-users/ListUsers";
@@ -33,7 +32,6 @@ function App() {
 
                 <Route element={<ProtectedRoute />}>
                     <Route path="/profile" element={<Card><Profile /></Card>} />
-                    <Route path="/gradebook" element={<Card><Gradebook /></Card>} />
                     <Route path="/calendar" element={<Card><CalendarRouter /></Card>} />
                     <Route path="/chat" element={<Card><Chat /></Card>} />
                 </Route>

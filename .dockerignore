@@ -1,0 +1,10 @@
+.git
+.gradle
+node_modules
+build
+dist
+target
+postgres/
+uploads/
+__pycache__
+.env

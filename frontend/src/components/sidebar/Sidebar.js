@@ -14,7 +14,6 @@ import {useStore} from "../../store";
 import {
     HomePath,
     CalendarPath,
-    GradebookPath,
     ProfilePath,
     AddUser,
     ListUsers,
@@ -46,17 +45,17 @@ const Sidebar = ({open, toggle}) => {
     const getRoutesByRole = (role) => {
         switch (role) {
             case AdminRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
+                return [HomePath, CalendarPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
             case TeacherRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, TeacherUnavailabilites, Chat];
+                return [HomePath, CalendarPath, ProfilePath, TeacherUnavailabilites, Chat];
             case StudentRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, Grades, Chat];
+                return [HomePath, CalendarPath, ProfilePath, Grades, Chat];
             case GuardianRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, Grades, Chat];
+                return [HomePath, CalendarPath, ProfilePath, Grades, Chat];
             case OfficeWorkerRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
+                return [HomePath, CalendarPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
             case PrincipalRole:
-                return [HomePath, CalendarPath, GradebookPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
+                return [HomePath, CalendarPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
         }
     }
 

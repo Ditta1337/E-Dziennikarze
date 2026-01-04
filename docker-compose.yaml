@@ -4,11 +4,69 @@ services:
   postgres:
     image: postgres:16
     container_name: gradebook-db
+    env_file: .env
     environment:
-      - POSTGRES_USER=gradebookuser
-      - POSTGRES_PASSWORD=gradebookpassword
-      - POSTGRES_DB=gradebookdb
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     ports:
       - "5432:5432"
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - gradebook-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: gradebook-backend
+    env_file: .env
+    environment:
+      - SPRING_R2DBC_URL=r2dbc:pool:postgresql://postgres:5432/${DB_NAME}
+      - SPRING_FLYWAY_URL=jdbc:postgresql://postgres:5432/${DB_NAME}
+      - SOLVER_URL=http://algorithm:8000
+      - FILE_STORAGE_PATH=/app/uploads
+    ports:
+      - "8443:8443"
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+      algorithm:
+        condition: service_started
+    networks:
+      - gradebook-net
+
+  algorithm:
+    build: ./algorithm
+    container_name: gradebook-algorithm
+    env_file: .env
+    environment:
+      # Nadpisujemy URL, aby algorytm widział backend w sieci Dockera
+      - CALLBACK_URL=http://backend:8443/plan/calculation
+    ports:
+      - "8000:8000"
+    networks:
+      - gradebook-net
+
+  frontend:
+    build: ./frontend
+    container_name: gradebook-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - gradebook-net
+
+volumes:
+  postgres_data:
+
+networks:
+  gradebook-net:
+    driver: bridge

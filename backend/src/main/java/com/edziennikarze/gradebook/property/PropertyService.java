@@ -49,37 +49,32 @@ public class PropertyService {
     }
 
     private Property mapValue(Property property) {
-
-        Object value;
-        Object rawValue = property.getValue() != null
-                ? property.getValue()
-                : property.getDefaultValue();
-
-        String valueToParse = rawValue == null ? null : String.valueOf(rawValue);
+        Object rawValue = property.getValue() != null ? property.getValue() : property.getDefaultValue();
 
         try {
-            value = switch (property.getType()) {
-                case STRING -> valueToParse;
-                case INTEGER -> Integer.parseInt(valueToParse);
-                case BOOLEAN -> Boolean.parseBoolean(valueToParse);
-                case DOUBLE -> Double.parseDouble(valueToParse);
-                case TIME -> LocalTime.parse(valueToParse);
+            Object value = switch (property.getType()) {
+                case STRING -> rawValue != null ? String.valueOf(rawValue) : "";
+                case INTEGER -> rawValue instanceof Number n ? n.intValue() : Integer.parseInt(String.valueOf(rawValue));
+                case DOUBLE -> rawValue instanceof Number n ? n.doubleValue() : Double.parseDouble(String.valueOf(rawValue));
+                case BOOLEAN -> rawValue instanceof Boolean b ? b : Boolean.parseBoolean(String.valueOf(rawValue));
+                case TIME -> rawValue instanceof LocalTime t ? t : LocalTime.parse(String.valueOf(rawValue));
             };
+
+            return Property.builder()
+                    .id(property.getId())
+                    .name(property.getName())
+                    .type(property.getType())
+                    .defaultValue(property.getDefaultValue())
+                    .value(value)
+                    .build();
+
         } catch (Exception e) {
             throw new ParseException(
                     "Cannot parse property " + property.getName()
-                            + " with value " + valueToParse
+                            + " with value " + rawValue
                             + " to type " + property.getType()
             );
         }
-
-        return Property.builder()
-                .id(property.getId())
-                .name(property.getName())
-                .type(property.getType())
-                .defaultValue(property.getDefaultValue())
-                .value(value)
-                .build();
     }
 
 
