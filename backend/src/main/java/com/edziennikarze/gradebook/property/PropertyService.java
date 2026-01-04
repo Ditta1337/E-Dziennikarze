@@ -49,52 +49,27 @@ public class PropertyService {
     }
 
     private Property mapValue(Property property) {
-        Object rawValue = property.getValue() != null ? property.getValue() : property.getDefaultValue();
+
         Object value;
+        Object rawValue = property.getValue() != null
+                ? property.getValue()
+                : property.getDefaultValue();
+
+        String valueToParse = rawValue == null ? null : String.valueOf(rawValue);
 
         try {
-            switch (property.getType()) {
-                case STRING:
-                    if (rawValue == null) {
-                        value = "";
-                    } else {
-                        value = String.valueOf(rawValue);
-                    }
-                    break;
-                case INTEGER:
-                    if (rawValue instanceof Number) {
-                        value = ((Number) rawValue).intValue();
-                    } else {
-                        value = Integer.parseInt(rawValue.toString());
-                    }
-                    break;
-                case BOOLEAN:
-                    if (rawValue instanceof Boolean) {
-                        value = rawValue;
-                    } else {
-                        value = Boolean.parseBoolean(rawValue.toString());
-                    }
-                    break;
-                case DOUBLE:
-                    if (rawValue instanceof Number) {
-                        value = ((Number) rawValue).doubleValue();
-                    } else {
-                        value = Double.parseDouble(rawValue.toString());
-                    }
-                    break;
-                case TIME:
-                    if (rawValue instanceof java.time.LocalTime) {
-                        value = rawValue;
-                    } else {
-                        value = java.time.LocalTime.parse(rawValue.toString());
-                    }
-                    break;
-                default:
-                    value = rawValue;
-            }
+            value = switch (property.getType()) {
+                case STRING -> valueToParse;
+                case INTEGER -> Integer.parseInt(valueToParse);
+                case BOOLEAN -> Boolean.parseBoolean(valueToParse);
+                case DOUBLE -> Double.parseDouble(valueToParse);
+                case TIME -> LocalTime.parse(valueToParse);
+            };
         } catch (Exception e) {
-            throw new RuntimeException(
-                    "Cannot parse property " + property.getName() + " with value " + rawValue + " to type " + property.getType(), e
+            throw new ParseException(
+                    "Cannot parse property " + property.getName()
+                            + " with value " + valueToParse
+                            + " to type " + property.getType()
             );
         }
 
@@ -104,7 +79,6 @@ public class PropertyService {
                 .type(property.getType())
                 .defaultValue(property.getDefaultValue())
                 .value(value)
-                .saveToFetch(property.isSaveToFetch())
                 .build();
     }
 
