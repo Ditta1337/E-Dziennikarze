@@ -5,11 +5,11 @@ class Unavailability:
         self._lesson = lesson
 
     @property
-    def day(self):
+    def lesson(self):
         return self._lesson
 
     @property
-    def lesson(self):
+    def day(self):
         return self._day
 
     def __str__(self):
