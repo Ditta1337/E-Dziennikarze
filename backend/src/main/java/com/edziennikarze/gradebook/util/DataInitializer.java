@@ -99,19 +99,19 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
         try {
             log.info("Users table is empty. Initializing all database tables with sample data.");
             initializeUsers();
-            initializeStudentGuardians();
-            initializeGroups();
-            initializeGroups();
-            initializeSubjects();
-            initializeStudentGroups();
-            initializeTeacherUnavailabilities();
-            initializeSubjectTaught();
-            initializeGroupSubjects();
-            initializeRooms();
-            initializePlannedLessons();
-            initializeAssignedLessons();
-            initializeAttendances();
-//            seeder.seed("classes_four_to_eight.json");
+//            initializeStudentGuardians();
+//            initializeGroups();
+//            initializeGroups();
+//            initializeSubjects();
+//            initializeStudentGroups();
+//            initializeTeacherUnavailabilities();
+//            initializeSubjectTaught();
+//            initializeGroupSubjects();
+//            initializeRooms();
+//            initializePlannedLessons();
+//            initializeAssignedLessons();
+//            initializeAttendances();
+            seeder.seed("classes_four_to_eight.json");
             log.info("Data initialization completed successfully.");
         } catch (Exception e) {
             log.error("Data initialization failed.", e);
@@ -121,26 +121,27 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
     private void initializeUsers() {
         log.info("Initializing Users...");
         List<User> usersToSave = Stream.of(
-                        List.of(buildUser("admin@gmail.com", Role.ADMIN, true, false)),
-                        List.of(
-                                buildUser("s1@gmail.com", Role.STUDENT, true, false),
-                                buildUser("s2@gmail.com", Role.STUDENT, true, false),
-                                buildUser("s3@gmail.com", Role.STUDENT, true, false),
-                                buildUser("s4@gmail.com", Role.STUDENT, true, false),
-                                buildUser("s5@gmail.com", Role.STUDENT, true, false),
-                                buildUser("s6@gmail.com", Role.STUDENT, true, false)),
-                        List.of(
-                                buildUser("s1g1@gmail.com", Role.GUARDIAN, true, false),
-                                buildUser("s1g2@gmail.com", Role.GUARDIAN, true, false),
-                                buildUser("s2g1@gmail.com", Role.GUARDIAN, true, false)),
-                        List.of(buildUser("ow1@gmail.com", Role.OFFICE_WORKER, true, false)),
-                        List.of(buildUser("p1@gmail.com", Role.PRINCIPAL, true, false)),
-                        List.of(
-                                buildUser("t1@gmail.com", Role.TEACHER, true, true),
-                                buildUser("t2@gmail.com", Role.TEACHER, true, true),
-                                buildUser("t3@gmail.com", Role.TEACHER, true, true),
-                                buildUser("t4@gmail.com", Role.TEACHER, true, true),
-                                buildUser("t5@gmail.com", Role.TEACHER, true, true)))
+                        List.of(buildUser("admin@gmail.com", Role.ADMIN, true, false))
+//                        List.of(
+//                                buildUser("s1@gmail.com", Role.STUDENT, true, false),
+//                                buildUser("s2@gmail.com", Role.STUDENT, true, false),
+//                                buildUser("s3@gmail.com", Role.STUDENT, true, false),
+//                                buildUser("s4@gmail.com", Role.STUDENT, true, false),
+//                                buildUser("s5@gmail.com", Role.STUDENT, true, false),
+//                                buildUser("s6@gmail.com", Role.STUDENT, true, false)),
+//                        List.of(
+//                                buildUser("s1g1@gmail.com", Role.GUARDIAN, true, false),
+//                                buildUser("s1g2@gmail.com", Role.GUARDIAN, true, false),
+//                                buildUser("s2g1@gmail.com", Role.GUARDIAN, true, false)),
+//                        List.of(buildUser("ow1@gmail.com", Role.OFFICE_WORKER, true, false)),
+//                        List.of(buildUser("p1@gmail.com", Role.PRINCIPAL, true, false)),
+//                        List.of(
+//                                buildUser("t1@gmail.com", Role.TEACHER, true, true),
+//                                buildUser("t2@gmail.com", Role.TEACHER, true, true),
+//                                buildUser("t3@gmail.com", Role.TEACHER, true, true),
+//                                buildUser("t4@gmail.com", Role.TEACHER, true, true),
+//                                buildUser("t5@gmail.com", Role.TEACHER, true, true)))
+                )
                 .flatMap(List::stream)
                 .toList();
 
