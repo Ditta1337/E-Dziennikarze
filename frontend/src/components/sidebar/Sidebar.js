@@ -12,7 +12,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {useLocation, useNavigate} from 'react-router';
 import {useStore} from "../../store";
 import {
-    HomePath,
     CalendarPath,
     ProfilePath,
     AddUser,
@@ -45,17 +44,17 @@ const Sidebar = ({open, toggle}) => {
     const getRoutesByRole = (role) => {
         switch (role) {
             case AdminRole:
-                return [HomePath, CalendarPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
+                return [CalendarPath, ProfilePath, AddUser, ListUsers, TeacherUnavailabilites, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
             case TeacherRole:
-                return [HomePath, CalendarPath, ProfilePath, TeacherUnavailabilites, Chat];
+                return [CalendarPath, ProfilePath, TeacherUnavailabilites, Chat];
             case StudentRole:
-                return [HomePath, CalendarPath, ProfilePath, Grades, Chat];
+                return [CalendarPath, ProfilePath, Grades, Chat];
             case GuardianRole:
-                return [HomePath, CalendarPath, ProfilePath, Grades, Chat];
+                return [CalendarPath, ProfilePath, Grades, Chat];
             case OfficeWorkerRole:
-                return [HomePath, CalendarPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
+                return [CalendarPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
             case PrincipalRole:
-                return [HomePath, CalendarPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
+                return [CalendarPath, ProfilePath, CreateGroup, EditGroups, ManageRooms, CalendarConfigurationList, ManualCalendarList, Chat, PropertyEditor];
         }
     }
 

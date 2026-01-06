@@ -15,7 +15,6 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 export const ProfilePath = {text: "Profil", icon: <AccountCircleIcon/>, path: "/profile"}
 export const CalendarPath = {text: "Kalendarz", icon: <CalendarMonthIcon/>, path: "/calendar"}
-export const HomePath = {text: "Strona główna", icon: <HomeIcon/>, path: "/"}
 export const AddUser = {text: "Dodaj użytkownika", icon: <PersonAddAltIcon/>, path: "/admin/add-user"}
 export const ListUsers = {text: "Lista użytkowników", icon: <PeopleOutlineIcon/>, path: "/admin/list-users"}
 export const TeacherUnavailabilites = {text: "Uzupełnij niedostępność", icon: <EventBusyIcon/>, path: "/teacher/unavailable"}
