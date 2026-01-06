@@ -56,7 +56,7 @@ const PropertyEditor = () => {
                     <Form>
                         <Box className="property-grid">
                             {properties
-                                .filter(prop => prop.name !== "lessonsPerDay")
+                                .filter(prop => prop.name !== "maxLessonsPerDay")
                                 .map(prop => (
                                     <Box key={prop.id} className="property-item">
                                         <Box className="field-name">

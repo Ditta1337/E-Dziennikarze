@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useMemo, useState} from "react"
-import {Autocomplete, Box, Button, Chip, TextField} from "@mui/material"
+import {Autocomplete, Box, Button, Chip, Stack, TextField} from "@mui/material"
 import {Formik, Form} from "formik"
 import * as Yup from "yup"
 import "./GroupSubjectForm.scss"
@@ -267,45 +267,62 @@ const GroupSubjectForm = ({
                             />
                         </Box>
 
-                        <Autocomplete
-                            className="possible-rooms"
-                            multiple
-                            options={rooms}
-                            getOptionLabel={(option) => option.room_code || ""}
-                            value={values.rooms}
-                            onChange={(event, newValue) => {
-                                setFieldValue("rooms", newValue || [])
-                                setFieldValue(
-                                    "preferredRooms",
-                                    (values.preferredRooms || []).filter((r) =>
-                                        (newValue || []).some((nr) => nr.id === r.id)
+                        <Stack spacing={1}>
+                            <Autocomplete
+                                className="possible-rooms"
+                                multiple
+                                options={rooms}
+                                getOptionLabel={(option) => option.room_code || ""}
+                                value={values.rooms}
+                                onChange={(event, newValue) => {
+                                    setFieldValue("rooms", newValue || [])
+                                    setFieldValue(
+                                        "preferredRooms",
+                                        (values.preferredRooms || []).filter((r) =>
+                                            (newValue || []).some((nr) => nr.id === r.id)
+                                        )
                                     )
-                                )
-                                setFieldValue(
-                                    "unpreferredRooms",
-                                    (values.unpreferredRooms || []).filter((r) =>
-                                        (newValue || []).some((nr) => nr.id === r.id)
+                                    setFieldValue(
+                                        "unpreferredRooms",
+                                        (values.unpreferredRooms || []).filter((r) =>
+                                            (newValue || []).some((nr) => nr.id === r.id)
+                                        )
                                     )
-                                )
-                            }}
-                            onBlur={() => {
-                                setFieldTouched("rooms", true, true)
-                            }}
-                            renderTags={(value, getTagProps) =>
-                                value.map((room, index) => (
-                                    <Chip label={room.room_code} {...getTagProps({index})} key={room.id}/>
-                                ))
-                            }
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label="Możliwe pokoje"
-                                    error={Boolean(touched.rooms && errors.rooms)}
-                                    helperText={touched.rooms && errors.rooms ? errors.rooms : ""}
-                                />
-                            )}
-                            disabled={!values.subject}
-                        />
+                                }}
+                                onBlur={() => {
+                                    setFieldTouched("rooms", true, true)
+                                }}
+                                renderTags={(value, getTagProps) =>
+                                    value.map((room, index) => (
+                                        <Chip
+                                            key={room.id}
+                                            label={room.room_code}
+                                            {...getTagProps({ index })}
+                                        />
+                                    ))
+                                }
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Możliwe pokoje"
+                                        error={Boolean(touched.rooms && errors.rooms)}
+                                        helperText={touched.rooms && errors.rooms ? errors.rooms : ""}
+                                    />
+                                )}
+                                disabled={!values.subject}
+                            />
+
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                disabled={!values.subject}
+                                onClick={() => {
+                                    setFieldValue("rooms", rooms)
+                                }}
+                            >
+                                Dodaj wszystkie pokoje
+                            </Button>
+                        </Stack>
 
                         <Box className="prefered-not-prefered-rooms">
                             <Autocomplete
