@@ -54,7 +54,7 @@ const GuardianCalendar = () => {
     }, [guardianId])
 
     const handleStudentChange = (event) => {
-        console.log(event.target.value)
+        setSelectedStudentId(event.target.value)
     }
 
     const displaySnackbarMessage = (message, isErrorMessage = true) => {

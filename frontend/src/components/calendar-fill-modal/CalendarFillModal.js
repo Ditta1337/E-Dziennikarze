@@ -2,15 +2,15 @@ import Modal from "../modal/Modal";
 import {DateField} from "@mui/x-date-pickers";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {Box, Button, Typography} from "@mui/material";
+import {Box, Button, CircularProgress, Typography} from "@mui/material";
 import {useState} from "react";
 import "./CalendarFillModal.scss"
 
-const CalendarFillModal = ({isOpen, onClose, onClick}) => {
+const CalendarFillModal = ({isOpen, onClose, onClick, fillingCalendar}) => {
     const [from, setFrom] = useState(null)
     const [to, setTo] = useState(null)
 
-    return<Modal className="calendar-fill-modal" isOpen={isOpen} onClose={onClose}>
+    return <Modal className="calendar-fill-modal" isOpen={isOpen} onClose={onClose}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Box className="editor-container">
                 <Typography className="editor-title">
@@ -31,13 +31,16 @@ const CalendarFillModal = ({isOpen, onClose, onClick}) => {
                 </Box>
 
                 <Box className="editor-actions">
-                    <Button
-                        variant="contained"
-                        className="button-fill"
-                        onClick={() => onClick(from, to)}
-                    >
-                        Wypełnij
-                    </Button>
+                    {fillingCalendar ? <CircularProgress size="small"/>
+                        :
+                        <Button
+                            variant="contained"
+                            className="button-fill"
+                            onClick={() => onClick(from, to)}
+                        >
+                            Wypełnij
+                        </Button>
+                    }
                 </Box>
             </Box>
         </LocalizationProvider>

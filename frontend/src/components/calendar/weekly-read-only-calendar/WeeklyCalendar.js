@@ -19,7 +19,7 @@ const localizer = dateFnsLocalizer({
     locales: AppLocale.locales,
 })
 
-const defaultMinMaxHours = [new Date(1970, 0, 1, 8, 0), new Date(1970, 0, 1, 15, 0)]
+const defaultMinMaxHours = [new Date(1970, 0, 1, 7, 0), new Date(1970, 0, 1, 15, 0)]
 
 const errorSnackBarMessage = "Wystąpił błąd podczas ładowania planu lekcji"
 

@@ -57,7 +57,9 @@ const ManualPlanCalendarEditor = () => {
     const [editModalOpen, setEditModalOpen] = useState(false)
     const [creatingEvent, setCreatingEvent] = useState(false)
     const [errorsModalOpen, setErrorsModalOpen] = useState(false)
+
     const [calendarFillModalOpen, setCalendarFillModalOpen] = useState(false)
+    const [fillingCalendar, setFillingCalendar] = useState(false)
 
     const [snackbarOpen, setSnackbarOpen] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState("")
@@ -143,8 +145,10 @@ const ManualPlanCalendarEditor = () => {
 
     const onFillerModalConfirm = async (from, to) => {
         try{
+            setFillingCalendar(true)
             await fillCalender(from, to, id)
-            displaySnackbarMessage("Pomyślnie wypełniono kalendarz.", true)
+            setFillingCalendar(false)
+            displaySnackbarMessage("Pomyślnie wypełniono kalendarz.", false)
         } catch (e){
             displaySnackbarMessage("Wystąpił błąd podczas wypełniania kalendarza.")
         }
@@ -235,6 +239,7 @@ const ManualPlanCalendarEditor = () => {
                 isOpen={calendarFillModalOpen}
                 onClose={() => setCalendarFillModalOpen(false)}
                 onClick={onFillerModalConfirm}
+                fillingCalendar={fillingCalendar}
             />
 
             <Snackbar

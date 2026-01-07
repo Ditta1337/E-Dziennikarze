@@ -5,11 +5,7 @@ const GeneratedPlanCalendarEvent = ({event}) => {
     const lesson = event.resource;
 
     return <Box className="event">
-        <Typography variant="caption">{event.title}</Typography>
-        <Box className="teacher-room">
-            <Typography variant="caption">{lesson.teacher_name}</Typography>
-            <Typography variant="caption">{lesson.room_code}</Typography>
-        </Box>
+        <Typography variant="caption">{event.title}: {lesson.teacher_name}, {lesson.room_code} </Typography>
     </Box>
 }
 
