@@ -47,7 +47,6 @@ services:
     container_name: gradebook-algorithm
     env_file: .env
     environment:
-      # Nadpisujemy URL, aby algorytm widział backend w sieci Dockera
       - CALLBACK_URL=http://backend:8443/plan/calculation
     ports:
       - "8000:8000"
