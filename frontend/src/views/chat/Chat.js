@@ -375,26 +375,30 @@ function Chat() {
             </Snackbar>
 
             <Modal isOpen={editModalOpen} onClose={() => setEditModalOpen(false)} className="chat-modal">
-                <Typography variant="h6" gutterBottom>Edytuj wiadomość</Typography>
-                <TextField
-                    fullWidth multiline rows={3}
-                    value={editContent}
-                    onChange={(e) => setEditContent(e.target.value)}
-                    variant="outlined" sx={{ my: 2 }}
-                />
-                <Box display="flex" justifyContent="flex-end" gap={1}>
-                    <Button onClick={() => setEditModalOpen(false)}>Anuluj</Button>
-                    <Button variant="contained" onClick={confirmEdit}>Zapisz</Button>
-                </Box>
+                <div className="modal-content">
+                    <Typography variant="h6" gutterBottom>Edytuj wiadomość</Typography>
+                    <TextField
+                        fullWidth multiline rows={3}
+                        value={editContent}
+                        onChange={(e) => setEditContent(e.target.value)}
+                        variant="outlined" sx={{ my: 2 }}
+                    />
+                    <Box display="flex" justifyContent="flex-end" gap={1}>
+                        <Button onClick={() => setEditModalOpen(false)}>Anuluj</Button>
+                        <Button variant="contained" onClick={confirmEdit}>Zapisz</Button>
+                    </Box>
+                </div>
             </Modal>
 
             <Modal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} className="chat-modal">
-                <Typography variant="h6" gutterBottom>Usuń wiadomość</Typography>
-                <Typography sx={{ my: 2 }}>Czy na pewno chcesz usunąć tę wiadomość?</Typography>
-                <Box display="flex" justifyContent="flex-end" gap={1}>
-                    <Button onClick={() => setDeleteModalOpen(false)}>Anuluj</Button>
-                    <Button variant="contained" color="error" onClick={confirmDelete}>Usuń</Button>
-                </Box>
+                <div className="modal-content">
+                    <Typography variant="h6" gutterBottom>Usuń wiadomość</Typography>
+                    <Typography sx={{ my: 2 }}>Czy na pewno chcesz usunąć tę wiadomość?</Typography>
+                    <Box display="flex" justifyContent="flex-end" gap={1}>
+                        <Button onClick={() => setDeleteModalOpen(false)}>Anuluj</Button>
+                        <Button variant="contained" color="error" onClick={confirmDelete}>Usuń</Button>
+                    </Box>
+                </div>
             </Modal>
         </Box>
     );
