@@ -215,7 +215,19 @@ function Chat() {
 
     const confirmEdit = () => {
         if (!messageToAction || !editContent.trim()) return;
-        send({ action: "EDIT", message: { ...messageToAction, content: editContent } });
+        const payload = {
+            action: "EDIT",
+            message: {
+                id: messageToAction.id,
+                content: editContent,
+                sender_id: messageToAction.senderId,
+                receiver_id: messageToAction.receiverId,
+                type: messageToAction.type,
+                created_at: messageToAction.created_at
+            }
+        };
+
+        send(payload);
         setEditModalOpen(false);
         setMessageToAction(null);
     };
